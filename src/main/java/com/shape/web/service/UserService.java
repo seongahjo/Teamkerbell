@@ -130,6 +130,7 @@ public class UserService {
                 .add(Restrictions.eq("isshow",true))
                 .add(Restrictions.eq("contentid",0))
                 .addOrder(Order.asc("date"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return la;
@@ -143,6 +144,7 @@ public class UserService {
                 .add(Restrictions.eq("isshow",true))
                 .add(Restrictions.ne("contentid",0))
                 .addOrder(Order.desc("date"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return la;

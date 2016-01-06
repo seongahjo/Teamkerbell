@@ -209,6 +209,8 @@ public class ProcessController {
         alarm.setProject(project);
         List<User> lu=pjs.getUsers(project);
         for(User u:lu) {
+            alarm.setAlarmidx(null);
+            logger.info(u.getUseridx()+" make");
             alarm.setUser(u);
             as.save(alarm);
         }
@@ -287,7 +289,7 @@ public class ProcessController {
         schedule.setTime(ppstime);
         schedule.setPlace(place);
         schedule.setState(2);
-        ss.updateAm(2,2,date);
+        ss.updateAm(scheduleIdx,2,date);
         ss.save(schedule);
     }
 

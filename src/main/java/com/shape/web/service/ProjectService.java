@@ -56,16 +56,16 @@ public class ProjectService {
         return lm;
     }
 
-    public List<Schedule> getSchedules(Integer userIdx) {
+    public List<Schedule> getSchedules(Integer projectIdx) {
         Session session = sessionFactory.openSession();
-        User user=(User)session.get(User.class,userIdx);
+       Project project=(Project)session.get(Project.class,projectIdx);
         List<Schedule> ls= new ArrayList<Schedule>();
 
-        for(Project p : user.getProjects()){
-            for(Schedule s : p.getSchedules()){
+
+            for(Schedule s : project.getSchedules()){
                 ls.add(s);
             }
-        }
+
 /*
         List<Schedule> ls = session.createCriteria(Schedule.class)
                 .createAlias("project", "project")

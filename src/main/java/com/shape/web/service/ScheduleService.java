@@ -56,9 +56,9 @@ public class ScheduleService {
         Set<Appointment> lap=schedule.getAppointments();
         if(lap!=null) {
             for (Appointment ap : lap) {
-                if (ap.getDate() == date) {
+                if (ap.getDate().equals(date)) {
                     ap.setState(state);
-                    session.merge(schedule);
+                    session.merge(ap);
                 }
             }
             session.close();
