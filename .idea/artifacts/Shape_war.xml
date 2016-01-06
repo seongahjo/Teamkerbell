@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Shape:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="web-1.0.0-BUILD-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Shape:war exploded" />
+    </root>
+  </artifact>
+</component>

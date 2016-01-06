@@ -1,0 +1,42 @@
+@charset "utf-8";
+.help-block {
+            display: inline-block;
+            margin: 0 0 0 10px;
+        }
+.jq_checkbox {
+      display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url(green.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.jq_checkbox:hover,
+.jq_checkbox_hover {
+    background-position: -44px 0;
+}
+
+.jq_checkbox:active,
+.jq_checkbox_active,
+.jq_checkbox_active:hover {
+    background-position: -22px 0;
+}
+
+.jq_checkbox_half,
+.jq_checkbox_half:hover {
+    background-position: -64px 0;
+}
+
+.jq_checkbox[disabled],
+.jq_checkbox_disabled,
+.jq_checkbox_disabled:hover,
+.jq_checkbox_disabled:active {
+    cursor: default;
+    background-position: 0 0;
+}
+

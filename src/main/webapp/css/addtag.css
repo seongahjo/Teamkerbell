@@ -1,0 +1,97 @@
+input#tagInput {
+			border:1px solid #666;
+			-webkit-box-shadow: inset 0px 0px 3px #999;
+			-moz-box-shadow: inset 0px 0px 3px #999;
+			box-shadow: inset 0px 0px 3px #999;
+			width:240px;
+			padding:3px;
+			font-size:12px;
+		}
+		input#tagAddButton {
+			border:1px solid #693;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			-webkit-box-shadow: inset 0px 0px 3px #fff;
+			-moz-box-shadow: inset 0px 0px 3px #fff;
+			box-shadow: inset 0px 0px 3px #fff;
+			background-color:#693;
+			color:#fff;
+			font-size:12px;
+			padding:3px 6px;
+			cursor:pointer;
+		}
+		input#tagAddButton:hover {
+			background-color:#7a4;
+			-webkit-box-shadow: inset 0px 1px 3px #fff;
+			-moz-box-shadow: inset 0px 1px 3px #fff;
+			box-shadow: inset 0px 1px 3px #fff;
+		}
+		input#tagResetButton {
+			border:1px solid #c90;
+			background-color:#c90;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			-webkit-box-shadow: inset 0px 0px 3px #fff;
+			-moz-box-shadow: inset 0px 0px 3px #fff;
+			box-shadow: inset 0px 0px 3px #fff;
+			color:#fff;
+			font-size:12px;
+			padding:3px 6px;
+			cursor:pointer;
+		}
+		input#tagResetButton:hover {
+			background-color:#da1;
+			-webkit-box-shadow: inset 0px 1px 3px #fff;
+			-moz-box-shadow: inset 0px 1px 3px #fff;
+			box-shadow: inset 0px 1px 3px #fff;
+		}
+		ul#tagList {
+			padding:0px;
+			margin:10px 0;
+			width:350px;
+			list-style-type:none;
+		}
+		ul#tagList:after {
+			display:block;
+			clear:both;
+			height:0;
+			content:"";
+		}
+		ul#tagList li {
+			position:relative;
+			float:left;
+			background-color:#666;
+			color:#fff;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			padding:3px 3px 3px 6px;
+			margin-right:5px;
+			margin-bottom:5px;
+			font-size:12px;
+		}
+		ul#tagList li input.delete {
+			background-color:transparent;
+			border-width:0px;
+			font-size:10px;
+			color:#ccc;
+			cursor:pointer;
+		}
+		ul#tagList li input.delete:hover {
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			background-color:#333;
+			color:#fff;
+		}
+		p#log{
+			background-color:#eee;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			border:1px solid #ccc;
+			width:320px;
+			padding:10px;
+		}
