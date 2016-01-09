@@ -321,7 +321,7 @@
                                     <tbody>
                                         <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
                                             <tr>
-                                            <td class="mailbox-name"><a href="#" style="font-weight:bold">${list.name}</a>
+                                            <td class="mailbox-name"><a href="chat?projectIdx=${list.projectidx}" style="font-weight:bold">${list.name}</a>
                                             </td>
 
                                             <td class="mailbox-subject">

@@ -353,12 +353,18 @@
                                         <td>${list.time}</td>
                                         <td>
                                             <c:forEach var="ap" items="${list.appointments}">
-                                                <c:if test="${ap.state!=2}">
-                                                ${ap.date} : ${ap.user.name}
-                                                    <br>
-                                                </c:if>
+                                                <c:choose>
+                                                    <c:when test="${ap.state=='1' }">
+                                                        ${ap.date} : ${ap.user.name}
+                                                        <br>
+                                                    </c:when>
+                                                    <c:when test="${ap.state=='3' }">
+                                                        <strong>${ap.date} : ${ap.user.name}</strong>
+                                                        <br>
+                                                    </c:when>
+                                                </c:choose>
                                             </c:forEach>
-                                            </td>
+                                        </td>
                                     </tr>
                                 </c:forEach>
 
@@ -569,7 +575,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Firm up the details</h4>
             </div>
-            <form >
+            <form>
                 <div class="modal-body">
 
                     <div class="form-group">

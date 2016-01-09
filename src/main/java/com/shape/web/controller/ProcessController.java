@@ -272,7 +272,7 @@ public class ProcessController {
         Schedule schedule = ss.get(scheduleIdx);
 
         List<String> ls = new ArrayList<String>();
-        List<Appointment> la = ss.getAppointments(schedule);
+        List<Appointment> la = ss.getAppointments(schedule,1);
         for (Appointment ap : la) {
             ls.add(ap.getDate().toString());
         }
@@ -302,12 +302,15 @@ public class ProcessController {
     public void finishMeeting(@RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("ids") List<String> ids) {
         Schedule schedule = ss.get(scheduleIdx);
         schedule.setState(3);
-        List<Appointment> appointments = ss.getAppointments(schedule);
+        logger.info("TEST START");
+        Set<Appointment> appointments = schedule.getAppointments();
+        logger.info(ids+ "WHAT");
         for (int i = 0; i < ids.size(); i++) {
             for (Appointment a : appointments) {
+                logger.info("WHAT?");
                 if (a.getUser().getId().equals(ids.get(i))) {
+                    logger.info("SAVE GOOD!");
                     a.setState(3);
-                    aps.save(a);
                     ss.save(schedule);
                     break;
                 }

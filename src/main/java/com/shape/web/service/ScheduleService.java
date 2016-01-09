@@ -72,18 +72,19 @@ public class ScheduleService {
         session.close();
     }
 
-    public List<Appointment> getAppointments(Schedule schedule) {
+    public List<Appointment> getAppointments(Schedule schedule,Integer state) {
         Session session = sessionFactory.openSession();
         List<Appointment> la = session.createCriteria(Appointment.class)
                 .createAlias("schedule", "schedule")
                 .add(Restrictions.eq("schedule.scheduleidx", schedule.getScheduleidx()))
-                .add(Restrictions.eq("state",1))
+                .add(Restrictions.eq("state",state))
                 .addOrder(Order.asc("appointmentidx"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return la;
-
     }
+
+
 }
 
