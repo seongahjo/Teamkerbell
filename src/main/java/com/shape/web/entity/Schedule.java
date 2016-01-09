@@ -36,7 +36,7 @@ public class Schedule {
 
     @Column(name = "STATE")
     private Integer state;
-// 0 register
+    // 0 register
     // 1 finish
     // 2 completion
 

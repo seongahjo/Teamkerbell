@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.shape.web.entity.*;
 import com.shape.web.service.*;
 import org.slf4j.Logger;
@@ -73,15 +74,17 @@ public class ProcessController {
     public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
         Integer userIdx = (Integer) session.getAttribute("userIdx");
         Project project = new Project(name, userIdx, "");
-        us.addProject(userIdx,project);
+        us.addProject(userIdx, project);
         return "redirect:/projectmanager";
     }
+
     @RequestMapping(value = "/deleteroom", method = RequestMethod.GET)    //프로젝트 삭제
-    public String deleteRoom(@RequestParam(value = "projectIdx") Integer projectIdx,HttpSession session) {
+    public String deleteRoom(@RequestParam(value = "projectIdx") Integer projectIdx, HttpSession session) {
         Integer userIdx = (Integer) session.getAttribute("userIdx");
         us.deleteProject(projectIdx);
         return "redirect:/projectmanager";
     }
+
     @RequestMapping(value = "/searchUser", method = RequestMethod.GET)
     @ResponseBody
     public HashMap searchUser(@RequestParam(value = "userId") String userId, HttpSession session) {
@@ -91,9 +94,9 @@ public class ProcessController {
         User user = us.getById(userId);
         logger.info(project.getName());
         List<Project> sp = us.getProjects(user); // 유저가 참가중인 프로젝트
-        for(Project p: sp){
-           if(p.getProjectidx()==project.getProjectidx())
-               return null;
+        for (Project p : sp) {
+            if (p.getProjectidx() == project.getProjectidx())
+                return null;
         }
         HashMap<String, String> Value = new HashMap<String, String>();
         Value.put("userId", user.getId());
@@ -114,7 +117,7 @@ public class ProcessController {
         Project project = pjs.get(projectIdx);
 
         Alarm alarm = new Alarm(0, null, null, new Date());
-       alarm.setUser(user);
+        alarm.setUser(user);
         alarm.setActor(actor);
         alarm.setProject(project);
         as.save(alarm);
@@ -132,7 +135,7 @@ public class ProcessController {
     //Calendar 데이터받기
     @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Map<String, Object> GetDate(@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, HttpSession session)  {
+    public Map<String, Object> GetDate(@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, HttpSession session) {
         Integer project_id = (Integer) session.getAttribute("room");
         Map<String, Object> map = new HashMap<String, Object>();
         List data = new ArrayList();
@@ -145,7 +148,7 @@ public class ProcessController {
             for (File f : dir.listFiles()) {
                 FileDB fd = fs.getByOriginalname(f.getName());
                 if (fd != null) {
-                    temp.add("<a href='download?filename="+fd.getStoredname()+"'>"+fd.getOriginalname()+"</a>");
+                    temp.add("<a href='download?filename=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
                     temp.add(fd.getUser().getName());
                     temp.add(fd.getDate().toString());
                     data.add(temp);
@@ -205,12 +208,12 @@ public class ProcessController {
         Project project = pjs.get(projectIdx);
         schedule.setProject(project);
         ss.save(schedule);
-        Alarm alarm=new Alarm(1,null,null,new Date());
+        Alarm alarm = new Alarm(1, null, null, new Date());
         alarm.setProject(project);
-        List<User> lu=pjs.getUsers(project);
-        for(User u:lu) {
+        List<User> lu = pjs.getUsers(project);
+        for (User u : lu) {
             alarm.setAlarmidx(null);
-            logger.info(u.getUseridx()+" make");
+            logger.info(u.getUseridx() + " make");
             alarm.setUser(u);
             as.save(alarm);
         }
@@ -269,7 +272,7 @@ public class ProcessController {
         Schedule schedule = ss.get(scheduleIdx);
 
         List<String> ls = new ArrayList<String>();
-        List<Appointment> la= ss.getAppointments(schedule);
+        List<Appointment> la = ss.getAppointments(schedule);
         for (Appointment ap : la) {
             ls.add(ap.getDate().toString());
         }
@@ -289,8 +292,9 @@ public class ProcessController {
         schedule.setTime(ppstime);
         schedule.setPlace(place);
         schedule.setState(2);
-        ss.updateAm(scheduleIdx,2,date);
         ss.save(schedule);
+        logger.info("makeMeeting = ",date);
+        ss.updateAm(scheduleIdx, 2, date);
     }
 
     @RequestMapping(value = "/finishMeeting", method = RequestMethod.GET)
@@ -328,7 +332,7 @@ public class ProcessController {
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
     @ResponseBody
     public Map getEvent(@RequestParam("projectIdx") Integer projectIdx) {
-        Project project= pjs.get(projectIdx);
+        Project project = pjs.get(projectIdx);
         SimpleDateFormat transFormat = new SimpleDateFormat("MM-dd-yyyy");
         List<Schedule> ls = pjs.getSchedules(projectIdx);
         Map<String, String> event = new HashMap<String, String>();
@@ -342,4 +346,6 @@ public class ProcessController {
         }
         return event;
     }
+
+
 }

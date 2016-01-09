@@ -14,7 +14,8 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -104,29 +105,13 @@
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">${alarm.size()}</span>
+                            <span class="label label-warning" id="alarm_size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm_size_display">You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto">
-                                    <c:forEach var="list" items="${alarm}">
-                                        <li id="alarm-${list.alarmidx}">
-                                            <a href="#">
-                                                <i class="fa fa-users text-aqua"></i><strong>${list.actor.id}</strong>
-                                                has invited you
-                                                to <strong>${list.project.name}</strong>
-                                                <div style="float:right;">
-                                                    <button type="button" class="btn btn-primary btn-xs"
-                                                            onclick="accept('${list.alarmidx}')">Ok
-                                                    </button>
-                                                    <button type="button" class="btn btn-default btn-xs"
-                                                            onclick="decline('${list.alarmidx}')">Cancel
-                                                    </button>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </c:forEach>
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm">
+
 
                                 </ul>
                             </li>
@@ -612,6 +597,26 @@
             }
         });
     });
+
+
+    /*  <c:forEach var="list" items="${alarm}">
+     <li id="alarm-${list.alarmidx}">
+     <a href="#">
+     <i class="fa fa-users text-aqua"></i><strong>${list.actor.id}</strong>
+     has invited you
+     to <strong>${list.project.name}</strong>
+     <div style="float:right;">
+     <button type="button" class="btn btn-primary btn-xs"
+     onclick="accept('${list.alarmidx}')">Ok
+     </button>
+     <button type="button" class="btn btn-default btn-xs"
+     onclick="decline('${list.alarmidx}')">Cancel
+     </button>
+     </div>
+     </a>
+     </li>
+    </c:forEach>*/
+
 </script>
 </body>
 </html>

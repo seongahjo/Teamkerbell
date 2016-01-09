@@ -80,7 +80,7 @@ public class HomeController {
         List<Alarm> tlla = us.getTimeline(user); // 타임라인 리스트를 반환
         List<Todolist> lt = us.getTodolist(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = us.getScheudles(user); // 스케쥴 리스트를 반환
-        List<Alarm> la = us.getAlarms(user); // 알람 리스트를 반환
+        List<Alarm> la = us.getAlarms(user.getUseridx()); // 알람 리스트를 반환
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
         mv.addObject("timeline", tlla);
@@ -105,7 +105,7 @@ public class HomeController {
             if (file.mkdirs())
                 logger.info("폴더 새로 생성");
         }
-        List<Alarm> la = us.getAlarms(user); // 알람 리스트를 반환
+        List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
         List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
         List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
@@ -129,7 +129,8 @@ public class HomeController {
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
         List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
         List<User> lu = pjs.getUsers(project); // 유저 객체 반환
-        List<Alarm> la = us.getAlarms(user); // 알람 리스트를 반환
+        List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
+
         ModelAndView mv = new ModelAndView("/calendar");
         mv.addObject("user", user);
         mv.addObject("schedules", ls);

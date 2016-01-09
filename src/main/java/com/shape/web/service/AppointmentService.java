@@ -37,6 +37,10 @@ public class AppointmentService {
         session.close();
         return Appointment;
     }
+
+
+
+
     public Appointment make(Appointment appointment, Integer userIdx,Integer scheduleIdx,Date date){
         Session session=sessionFactory.openSession();
         Schedule schedule = ss.get(scheduleIdx);

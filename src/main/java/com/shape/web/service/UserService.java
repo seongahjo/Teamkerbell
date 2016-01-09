@@ -122,11 +122,11 @@ public class UserService {
         session.close();
         return lp;
     }
-    public List<Alarm> getAlarms(User user){
+    public List<Alarm> getAlarms(Integer userIdx){
         Session session=sessionFactory.openSession();
         List<Alarm> la=session.createCriteria(Alarm.class)
                 .createAlias("user","user")
-                .add(Restrictions.eq("user.useridx",user.getUseridx()))
+                .add(Restrictions.eq("user.useridx",userIdx))
                 .add(Restrictions.eq("isshow",true))
                 .add(Restrictions.eq("contentid",0))
                 .addOrder(Order.asc("date"))

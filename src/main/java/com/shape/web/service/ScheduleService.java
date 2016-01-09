@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +25,8 @@ public class ScheduleService {
 
     @Resource
     private SessionFactory sessionFactory;
+
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleService.class);
 
 
     public Schedule get(Integer id) {
@@ -50,19 +53,22 @@ public class ScheduleService {
         session.close();
     }
 
-    public void updateAm(Integer id, Integer state, Date date) {
+    public void updateAm(Integer id, Integer state,  @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         Session session = sessionFactory.openSession();
         Schedule schedule = (Schedule) session.get(Schedule.class, id);
-        Set<Appointment> lap=schedule.getAppointments();
+        List<Appointment> lap= session.createCriteria(Appointment.class)
+                .createAlias("schedule","schedule")
+                .add(Restrictions.eq("date",date))
+                .add(Restrictions.eq("schedule.scheduleidx",id))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
         if(lap!=null) {
             for (Appointment ap : lap) {
-                if (ap.getDate().equals(date)) {
-                    ap.setState(state);
-                    session.merge(ap);
-                }
+                ap.setState(2);
+                session.saveOrUpdate(ap);
             }
-            session.close();
         }
+        session.close();
     }
 
     public List<Appointment> getAppointments(Schedule schedule) {

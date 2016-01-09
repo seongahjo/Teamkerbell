@@ -59,26 +59,13 @@ public class ProjectService {
     public List<Schedule> getSchedules(Integer projectIdx) {
         Session session = sessionFactory.openSession();
        Project project=(Project)session.get(Project.class,projectIdx);
-        List<Schedule> ls= new ArrayList<Schedule>();
-
-
-            for(Schedule s : project.getSchedules()){
-                ls.add(s);
-            }
-
-/*
+       // List<Schedule> ls= new ArrayList<Schedule>();
         List<Schedule> ls = session.createCriteria(Schedule.class)
                 .createAlias("project", "project")
                 .add(Restrictions.eq("project.projectidx", project.getProjectidx()))
-                .createAlias("appointments", "appointments", JoinType.LEFT_OUTER_JOIN)
-                .setProjection(Projections.projectionList()
-                        .add(Projections.groupProperty("scheduleidx"))
-                        .add(Projections.property("content").as("content"))
-                        .add(Projections.property("state").as("state"))
-                        .add(Projections.property("startdate").as("startdate"))
-                )
-                .addOrder(Order.desc("scheduleidx"))
-                .list();*/
+                .addOrder(Order.asc("state"))
+                .addOrder(Order.asc("startdate"))
+                .list();
         session.close();
         return ls;
     }
