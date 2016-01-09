@@ -50,10 +50,11 @@
 <div class="wrapper">
 
     <!-- Main Header -->
+
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="../dashboard/${user.id}" class="logo">
+        <a href="dashboard/${user.id}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>T</b>eam</span>
             <!-- logo for regular state and mobile devices -->
@@ -69,130 +70,70 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <li class="dropdown messages-menu">
-                        <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">4</span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li class="header">You have 4 messages</li>
-                            <li>
-                                <!-- inner menu: contains the messages -->
-                                <ul class="menu">
-                                    <li><!-- start message -->
-                                        <a href="#">
-                                            <div class="pull-left">
-                                                <!-- User Image -->
-                                                <img src="../img/default.jpg" class="img-circle" alt="User Image">
-                                            </div>
-                                            <!-- Message title and timestamp -->
-                                            <h4>
-                                                Support Team
-                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                            </h4>
-                                            <!-- The message -->
-                                            <p>Why not buy a new awesome theme?</p>
-                                        </a>
-                                    </li>
-                                    <!-- end message -->
-                                </ul>
-                                <!-- /.menu -->
-                            </li>
-                            <li class="footer"><a href="#">See All Messages</a></li>
-                        </ul>
-                    </li>
-                    <!-- /.messages-menu -->
 
+
+                    <!-- Notifications Menu -->
+                    <!-- Notifications Menu -->
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">10</span>
+                            <span class="label label-warning">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have 10 notifications</li>
+                            <li class="header">You have ${alarm.size()} notifications</li>
                             <li>
-                                <!-- Inner Menu: contains the notifications -->
-                                <ul class="menu">
-                                    <li><!-- start notification -->
-                                        <a href="#">
-                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                        </a>
-                                    </li>
-                                    <!-- end notification -->
-                                </ul>
-                            </li>
-                            <li class="footer"><a href="#">View all</a></li>
-                        </ul>
-                    </li>
-                    <!-- Tasks Menu -->
-                    <li class="dropdown tasks-menu">
-                        <!-- Menu Toggle Button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-flag-o"></i>
-                            <span class="label label-danger">9</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 9 tasks</li>
-                            <li>
-                                <!-- Inner menu: contains the tasks -->
-                                <ul class="menu">
-                                    <li><!-- Task item -->
-                                        <a href="#">
-                                            <!-- Task title and progress text -->
-                                            <h3>
-                                                Design some buttons
-                                                <small class="pull-right">20%</small>
-                                            </h3>
-                                            <!-- The progress bar -->
-                                            <div class="progress xs">
-                                                <!-- Change the css width attribute to simulate progress -->
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
-                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                     aria-valuemax="100">
-                                                    <span class="sr-only">20% Complete</span>
+                                <ul class="menu" style="max-height:400px;overflow-y:auto">
+                                    <c:forEach var="list" items="${alarm}">
+                                        <li id="alarm-${list.alarmidx}">
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i><strong>${list.actor.id}</strong>
+                                                has invited you
+                                                to <strong>${list.project.name}</strong>
+                                                <div style="float:right;">
+                                                    <button type="button" class="btn btn-primary btn-xs"
+                                                            onclick="accept('${list.alarmidx}')">Ok
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs"
+                                                            onclick="decline('${list.alarmidx}')">Cancel
+                                                    </button>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <!-- end task item -->
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+
                                 </ul>
                             </li>
-                            <li class="footer">
-                                <a href="#">View all tasks</a>
-                            </li>
+                            <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
+
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="${user.img}" class="user-image" alt="">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image">
+                                <img src="${user.img}" class="img-circle" alt="User Image">
 
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
+                                    <div class="col-xs-6 text-center" style="border-right:1px solid;">
+                                        <a href="projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
                                     </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
+                                    <div class="col-xs-6 text-center">
+                                        <a href="userInfo"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
                                     </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
+
                                 </div>
                                 <!-- /.row -->
                             </li>
@@ -202,7 +143,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="../" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -214,8 +155,7 @@
                 </ul>
             </div>
         </nav>
-    </header>
-    <!-- Left side column. contains the logo and sidebar -->
+    </header>    <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
 
         <!-- sidebar: style can be found in sidebar.less -->
@@ -247,12 +187,16 @@
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right" style="color:#ffffff"></i></a>
+                    <a href="#"><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right"
+                                                            style="color:#ffffff"></i></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="../chat?projectIdx=${list.idx}" class="side-nav-button">name : ${list.name}</a>
-                            </c:forEach></li>
+                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
+                            </c:forEach>
+                            <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -263,173 +207,160 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-     
-           
- <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Invoice
-        <small>#007612</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li class="active">Invoice</li>
-      </ol>
-    </section>
 
-    <div class="pad margin no-print">
-      <div class="callout callout-info" style="margin-bottom: 0!important;">
-        <h4><i class="fa fa-info"></i> Note:</h4>
-        This page has been enhanced for printing. Click the print button at the bottom of this page
-      </div>
-    </div>
 
-    <!-- Main content -->
-    <section class="invoice">
-      <!-- title row -->
-      <div class="row">
-        <div class="col-xs-12">
-          <h2 class="page-header">
-            <i class="fa fa-globe"></i> Computer Architecture
-            <small class="pull-right">Date : 2016/12/2</small>
-          </h2>
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- info row -->
-      <div class="row invoice-info">
-        <div class="col-sm-4 invoice-col">
-          <address>
-            <strong>Role</strong><br>
-            Make PPT<br>
-            Prepare Presentation<br>
-            Create Article<br>
-            Development Back-end<br>
-			Development front-end
-          </address>
-        </div>
-        <!-- /.col -->
-        <div class="col-sm-4 invoice-col" style="border-right:solid 1px #ddd">
-          <address>
-            <strong>Director</strong><br>
-            MinJi<br>
-            Jia<br>
-            Junhyoung<br>
-            SeongAh<br>
-			Sieun
-          </address>
-        </div>
-        <!-- /.col -->
-        <div class="col-sm-4 invoice-col">
-          <strong>All Members</strong><br>
-          Sieun<br>
-          MinJi<br>
-		  Solip<br>
-		  SeongAh<br>
-		  Junseop<br>
-		  JiaYou<br>
-        </div>
-     
-      </div>
-      <!-- /.row -->
-<br>
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Invoice
+                <small>#007612</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Examples</a></li>
+                <li class="active">Invoice</li>
+            </ol>
+        </section>
 
-      <!-- Table row -->
-      <div class="row">
-        <div class="col-xs-12 table-responsive">
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th>Date</th>
-			  <th>Place</th>
-			  <th>Participant</th>
-			  <th>Non-participant</th>
-              <th>Progress</th>                       
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>2015/3/15</td>
-              <td>CGV</td>
-              <td>Sieun,MinJi</td>
-			  <td>SangA</td>
-              <td> To not do anything</td>
-            </tr>
-            <tr>
-              <td>2015/2/14</td>
-              <td>EnoGallery</td>
-              <td>EunA,MinJi,SeongAh</td>
-			  <td>SangA,Solji</td>
-              <td>Summary of teaching materials</td>
-            </tr>
-            <tr>
-               <td>2015/1/10</td>
-              <td>Group Study room5</td>
-              <td>Sora,Jimin,Ayoun</td>
-			  <td>SangA</td>
-              <td>After analysis, Design and Development</td>
-            </tr>
-            <tr>
-              <td>2014/12/15</td>
-              <td>Square of contemplation</td>
-              <td>Sia,Sonna,MinA</td>
-			  <td>SangA</td>
-              <td>Do an Assignment </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-<br>    
-	<div class="row">
-                    
-    <canvas id="areaChart" style="height:0px"></canvas>
-              
-
-        <!-- /.col (LEFT) -->
-        <div class="col-md-8">
-
-          <!-- BAR CHART -->
-          <div class="box box-success" id="areaChart">
-            <div class="box-header with-border">
-              <h3 class="box-title">Contribution Chart</h3>
-			  <div class="pull-right">
-			  <button type="button" class="btn btn-block" style="width:5%;height:3%;float:left;border-radius:1px;background-color:#D2D6DE"></button>
-			  <strong style="float:left;">: Participation </strong>
-			  <button type="button" class="btn btn-block" style=";width:5%;height:3%;float:left;border-radius:1px;background-color:#00A65A"></button>
-			  <strong>: TO Do Contribution</strong>
-			  </div>
+        <div class="pad margin no-print">
+            <div class="callout callout-info" style="margin-bottom: 0!important;">
+                <h4><i class="fa fa-info"></i> Note:</h4>
+                This page has been enhanced for printing. Click the print button at the bottom of this page
             </div>
-            <div class="box-body">
-              <div class="chart">
-                <canvas id="barChart" style="height:230px"></canvas>
-              </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="fa fa-globe"></i> Computer Architecture
+                        <small class="pull-right">Date : </small>
+                    </h2>
+                </div>
+                <!-- /.col -->
             </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+            <!-- info row -->
+            <div class="row invoice-info">
+                <div class="col-sm-8 invoice-col">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Director</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="list" items="${todolist}">
+                            <tr>
+                            <td>${list.content}</td>
+                            <td>${list.user.name}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
 
-        </div>
+                <div class="col-sm-4 invoice-col">
+                     <strong>All Members</strong><br>
+                    <c:forEach var="list" items="${users}">
+                    ${list.name}<br>
+                    </c:forEach>
 
-	</div>
-	  
+                </div>
+
+            </div>
+            <!-- /.row -->
+            <br>
+
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-xs-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Place</th>
+                            <th>Participant</th>
+                            <th>Non-participant</th>
+                            <th>Progress</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="list" items="${schedules}">
+                            <c:if test="${list.state==3}">
+                            <tr>
+                                <td>${list.startdate}</td>
+                                <td>${list.place}</td>
+                                <td></td>
+                                <td></td>
+                                <td>${list.content}</td>
+                            </tr>
+                            </c:if>
+                        </c:forEach>
+                        <tr>
+                            <td>2015/3/15</td>
+                            <td>CGV</td>
+                            <td>Sieun,MinJi</td>
+                            <td>SangA</td>
+                            <td> To not do anything</td>
+                        </tr>
+                         </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <br>
+            <div class="row">
+
+                <canvas id="areaChart" style="height:0px"></canvas>
 
 
-      <!-- this row will not appear when printing -->
-      <div class="row no-print">
-        <div class="col-xs-12">
-          <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>        
-          <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-            <i class="fa fa-download"></i> Generate PDF
-          </button>
-        </div>
-      </div>
-    </section>
-    <!-- /.content -->
-    <div class="clearfix"></div>
+                <!-- /.col (LEFT) -->
+                <div class="col-md-8">
+
+                    <!-- BAR CHART -->
+                    <div class="box box-success" id="areaChart">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Contribution Chart</h3>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-block"
+                                        style="width:5%;height:3%;float:left;border-radius:1px;background-color:#D2D6DE"></button>
+                                <strong style="float:left;">: Participation </strong>
+                                <button type="button" class="btn btn-block"
+                                        style=";width:5%;height:3%;float:left;border-radius:1px;background-color:#00A65A"></button>
+                                <strong>: TO Do Contribution</strong>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="chart">
+                                <canvas id="barChart" style="height:230px"></canvas>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+                </div>
+
+            </div>
+
+
+            <!-- this row will not appear when printing -->
+            <div class="row no-print">
+                <div class="col-xs-12">
+                    <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i>
+                        Print</a>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> Generate PDF
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+        <div class="clearfix"></div>
 
     </div>
     <!-- /.content-wrapper -->
@@ -524,7 +455,7 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 
-    <div class="control-sidebar-bg"></div>
+<div class="control-sidebar-bg"></div>
 
 
 <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -538,26 +469,27 @@
             <form action="#">
                 <div class="modal-body">
                     <div class="form-group">
-                  <div class="form-group has-success">
-                  <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> Input the Project name</label>
-                  <input type="text" class="form-control" id="inputSuccess" placeholder="Project name...">
-                </div>
-                <div class="has-feedback">
-                    <input type="text" class="form-control input-sm" placeholder="Search Project">
-                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                </div>
-				
-				          <!-- at fist, not in here, after searching there will be -->
-          <div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%">
-            <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="${user.img}"   alt="User profile picture">
-              <h3 class="profile-username text-center">sieun</h3>
-              <p class="text-muted text-center">kim sieun</p>
-              <a href="#" class="btn btn-primary btn-block"><b>InVite</b></a>
-            </div>
-          </div>
-					</div>
-					
+                        <div class="form-group has-success">
+                            <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> Input the
+                                Project name</label>
+                            <input type="text" class="form-control" id="inputSuccess" placeholder="Project name...">
+                        </div>
+                        <div class="has-feedback">
+                            <input type="text" class="form-control input-sm" placeholder="Search Project">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+
+                        <!-- at fist, not in here, after searching there will be -->
+                        <div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%">
+                            <div class="box-body box-profile">
+                                <img class="profile-user-img img-responsive img-circle" src="${user.img}"
+                                     alt="User profile picture">
+                                <h3 class="profile-username text-center">sieun</h3>
+                                <p class="text-muted text-center">kim sieun</p>
+                                <a href="#" class="btn btn-primary btn-block"><b>InVite</b></a>
+                            </div>
+                        </div>
+                    </div>
 
 
                 </div>
@@ -580,121 +512,120 @@
 <script src="js/prettydate.min.js"></script>
 <!-- ChartJS 1.0.1 -->
 <script src="js/Chart.min.js"></script>
+<script src="js/date.js"></script>
 <script>
- $(function () {
-   
-    // Get context with jQuery - using jQuery's .get() method.
-    var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
-    // This will get the first returned node in the jQuery collection.
-    var areaChart = new Chart(areaChartCanvas);
+    $(function () {
 
-    var areaChartData = {
-      labels: ["Sieun", "SeongAh", "MinJi", "SolA", "Junyounh", "JAne", "Soli"],
-	  ykeys: ['item1', 'item2'],
-      datasets: [
-        {
-          label: "Electronics",
-          fillColor: "rgba(210, 214, 222, 1)",
-          strokeColor: "rgba(210, 214, 222, 1)",
-          pointColor: "rgba(210, 214, 222, 1)",
-          pointStrokeColor: "#c1c7d1",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "rgba(220,220,220,1)",
-          data: [100, 50, 100, 81, 56, 100, 40]
-        },
-        {
-          label: "Digital Goods",
-          fillColor: "rgba(60,141,188,0.9)",
-          strokeColor: "rgba(60,141,188,0.8)",
-          pointColor: "#3b8bba",
-          pointStrokeColor: "rgba(60,141,188,1)",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "rgba(60,141,188,1)",
-          data: [28, 100, 40, 19, 100, 27, 90]
-        }
-      ]
-    };
+        // Get context with jQuery - using jQuery's .get() method.
+        var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
+        // This will get the first returned node in the jQuery collection.
+        var areaChart = new Chart(areaChartCanvas);
 
-    var areaChartOptions = {
-      //Boolean - If we should show the scale at all
-      showScale: true,
-      //Boolean - Whether grid lines are shown across the chart
-      scaleShowGridLines: false,
-      //String - Colour of the grid lines
-      scaleGridLineColor: "rgba(0,0,0,.05)",
-      //Number - Width of the grid lines
-      scaleGridLineWidth: 1,
-      //Boolean - Whether to show horizontal lines (except X axis)
-      scaleShowHorizontalLines: true,
-      //Boolean - Whether to show vertical lines (except Y axis)
-      scaleShowVerticalLines: true,
-      //Boolean - Whether the line is curved between points
-      bezierCurve: true,
-      //Number - Tension of the bezier curve between points
-      bezierCurveTension: 0.3,
-      //Boolean - Whether to show a dot for each point
-      pointDot: false,
-      //Number - Radius of each point dot in pixels
-      pointDotRadius: 4,
-      //Number - Pixel width of point dot stroke
-      pointDotStrokeWidth: 1,
-      //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-      pointHitDetectionRadius: 20,
-      //Boolean - Whether to show a stroke for datasets
-      datasetStroke: true,
-      //Number - Pixel width of dataset stroke
-      datasetStrokeWidth: 2,
-      //Boolean - Whether to fill the dataset with a color
-      datasetFill: true,
-      //String - A legend template
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-      //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-      maintainAspectRatio: true,
-      //Boolean - whether to make the chart responsive to window resizing
-      responsive: true
-    };
+        var areaChartData = {
+            labels: ["Sieun", "SeongAh", "MinJi", "SolA", "Junyounh", "JAne", "Soli"],
+            ykeys: ['item1', 'item2'],
+            datasets: [
+                {
+                    label: "Electronics",
+                    fillColor: "rgba(210, 214, 222, 1)",
+                    strokeColor: "rgba(210, 214, 222, 1)",
+                    pointColor: "rgba(210, 214, 222, 1)",
+                    pointStrokeColor: "#c1c7d1",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: [100, 50, 100, 81, 56, 100, 40]
+                },
+                {
+                    label: "Digital Goods",
+                    fillColor: "rgba(60,141,188,0.9)",
+                    strokeColor: "rgba(60,141,188,0.8)",
+                    pointColor: "#3b8bba",
+                    pointStrokeColor: "rgba(60,141,188,1)",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(60,141,188,1)",
+                    data: [28, 100, 40, 19, 100, 27, 90]
+                }
+            ]
+        };
+
+        var areaChartOptions = {
+            //Boolean - If we should show the scale at all
+            showScale: true,
+            //Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: false,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether to show horizontal lines (except X axis)
+            scaleShowHorizontalLines: true,
+            //Boolean - Whether to show vertical lines (except Y axis)
+            scaleShowVerticalLines: true,
+            //Boolean - Whether the line is curved between points
+            bezierCurve: true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension: 0.3,
+            //Boolean - Whether to show a dot for each point
+            pointDot: false,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius: 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth: 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius: 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke: true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth: 2,
+            //Boolean - Whether to fill the dataset with a color
+            datasetFill: true,
+            //String - A legend template
+            //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true
+        };
 
 
-    //-------------
-    //- BAR CHART -
-    //-------------
-    var barChartCanvas = $("#barChart").get(0).getContext("2d");
-    var barChart = new Chart(barChartCanvas);
-    var barChartData = areaChartData;
-    barChartData.datasets[1].fillColor = "#00a65a";
-    barChartData.datasets[1].strokeColor = "#00a65a";
-    barChartData.datasets[1].pointColor = "#00a65a";
-    var barChartOptions = {
-      //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-      scaleBeginAtZero: true,
-      //Boolean - Whether grid lines are shown across the chart
-      scaleShowGridLines: true,
-      //String - Colour of the grid lines
-      scaleGridLineColor: "rgba(0,0,0,.05)",
-      //Number - Width of the grid lines
-      scaleGridLineWidth: 1,
-      //Boolean - Whether to show horizontal lines (except X axis)
-      scaleShowHorizontalLines: true,
-      //Boolean - Whether to show vertical lines (except Y axis)
-      scaleShowVerticalLines: true,
-      //Boolean - If there is a stroke on each bar
-      barShowStroke: true,
-      //Number - Pixel width of the bar stroke
-      barStrokeWidth: 2,
-      //Number - Spacing between each of the X value sets
-      barValueSpacing: 5,
-      //Number - Spacing between data sets within X values
-      barDatasetSpacing: 1,
-      //String - A legend template
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-      //Boolean - whether to make the chart responsive
-      responsive: true,
-      maintainAspectRatio: true
-    };
+        //-------------
+        //- BAR CHART -
+        //-------------
+        var barChartCanvas = $("#barChart").get(0).getContext("2d");
+        var barChart = new Chart(barChartCanvas);
+        var barChartData = areaChartData;
+        barChartData.datasets[1].fillColor = "#00a65a";
+        barChartData.datasets[1].strokeColor = "#00a65a";
+        barChartData.datasets[1].pointColor = "#00a65a";
+        var barChartOptions = {
+            //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+            scaleBeginAtZero: true,
+            //Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: true,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether to show horizontal lines (except X axis)
+            scaleShowHorizontalLines: true,
+            //Boolean - Whether to show vertical lines (except Y axis)
+            scaleShowVerticalLines: true,
+            //Boolean - If there is a stroke on each bar
+            barShowStroke: true,
+            //Number - Pixel width of the bar stroke
+            barStrokeWidth: 2,
+            //Number - Spacing between each of the X value sets
+            barValueSpacing: 5,
+            //Number - Spacing between data sets within X values
+            barDatasetSpacing: 1,
+            //String - A legend template
+            //Boolean - whether to make the chart responsive
+            responsive: true,
+            maintainAspectRatio: true
+        };
 
-    barChartOptions.datasetFill = false;
-    barChart.Bar(barChartData, barChartOptions);
-  });
+        barChartOptions.datasetFill = false;
+        barChart.Bar(barChartData, barChartOptions);
+    });
 </script>
 
 </body>

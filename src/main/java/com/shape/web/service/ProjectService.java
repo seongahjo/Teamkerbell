@@ -58,11 +58,9 @@ public class ProjectService {
 
     public List<Schedule> getSchedules(Integer projectIdx) {
         Session session = sessionFactory.openSession();
-       Project project=(Project)session.get(Project.class,projectIdx);
-       // List<Schedule> ls= new ArrayList<Schedule>();
         List<Schedule> ls = session.createCriteria(Schedule.class)
                 .createAlias("project", "project")
-                .add(Restrictions.eq("project.projectidx", project.getProjectidx()))
+                .add(Restrictions.eq("project.projectidx", projectIdx))
                 .addOrder(Order.asc("state"))
                 .addOrder(Order.asc("startdate"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
@@ -70,7 +68,17 @@ public class ProjectService {
         session.close();
         return ls;
     }
-
+    public List<Todolist> getTodolists(Integer projectIdx){
+        Session session = sessionFactory.openSession();
+        List<Todolist> lt = session.createCriteria(Todolist.class)
+                .createAlias("project", "project")
+                .add(Restrictions.eq("project.projectidx", projectIdx))
+                .addOrder(Order.asc("todolistidx"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+        session.close();
+        return lt;
+    }
     public List<FileDB> getImgs(Project project) {
         Session session = sessionFactory.openSession();
         List<FileDB> lfd = session.createCriteria(FileDB.class)

@@ -151,4 +151,27 @@ public class HomeController {
         mv.addObject("projects", lpj);
         return mv;
     }
+
+    @RequestMapping(value = "/document", method = RequestMethod.GET)
+    public ModelAndView document(@RequestParam(value = "projectIdx", required = true) int projectIdx,HttpSession session) throws Exception {
+        int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
+        User user = us.get(userIdx); // 유저 객체 반환
+        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
+        Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
+        List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
+        List<User> lu = pjs.getUsers(project); // 유저 객체 반환
+        List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
+        List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
+        ModelAndView mv = new ModelAndView("/document");
+        mv.addObject("user", user);
+        mv.addObject("schedules", ls);
+        mv.addObject("projects", lpj);
+        mv.addObject("project", project);
+        mv.addObject("users", lu);
+        mv.addObject("alarm", la);
+        mv.addObject("todolist", lt);
+
+        return mv;
+    }
+
 }

@@ -58,8 +58,6 @@ public class Todolist {
     }
 
     public void setUser(User user) {
-        if (!user.getTodolists().contains(this))
-            user.getTodolists().add(this);
         this.user = user;
     }
 

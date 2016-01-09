@@ -192,19 +192,18 @@
                             <!-- The user image in the menu -->
                             <li class="user-header">
                                 <img src="${user.img}" class="img-circle" alt="User Image">
+
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
+                                    <div class="col-xs-6 text-center" style="border-right:1px solid;">
+                                        <a href="projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
                                     </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
+                                    <div class="col-xs-6 text-center">
+                                        <a href="userInfo"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
                                     </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
+
                                 </div>
                                 <!-- /.row -->
                             </li>
@@ -214,7 +213,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="../" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -265,7 +264,8 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
+                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name
+                                    : ${list.name}</a>
                             </c:forEach>
                             <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
@@ -319,30 +319,40 @@
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
                                     <tbody>
-                                        <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                            <tr>
-                                            <td class="mailbox-name"><a href="chat?projectIdx=${list.projectidx}" style="font-weight:bold">${list.name}</a>
+                                    <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
+                                        <tr>
+                                            <td class="mailbox-name"><a href="chat?projectIdx=${list.projectidx}"
+                                                                        style="font-weight:bold">${list.name}</a>
                                             </td>
 
                                             <td class="mailbox-subject">
-                                                    <c:forEach var="ls" items="${list.users}">
-                                                        ${ls.name}
-                                                    </c:forEach>
+                                                <c:forEach var="ls" items="${list.users}">
+                                                    ${ls.name}
+                                                </c:forEach>
                                             </td>
 
                                             <td class="mailbox-attachment">
                                                 <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-default btn-flat"><i
-                                                            class="fa fa-comment"></i></button>
-                                                    <button type="button" class="btn btn-default btn-flat"><i
-                                                            class="fa fa-gears"></i></button>
-                                                    <button type="button" class="btn btn-default btn-flat" onclick="leave('${list.projectidx}')"><i
-                                                            class="fa fa-sign-out"></i>Leave Group
-                                                    </button>
+                                                    <a href="document?projectIdx=${list.projectidx}">
+                                                        <button type="button" class="btn btn-default btn-flat"><i
+                                                                class="fa fa-comment"></i>Doc
+                                                        </button>
+                                                    </a>
+                                                    <a href="#">
+                                                        <button type="button" class="btn btn-default btn-flat"><i
+                                                                class="fa fa-gears"></i>Edit
+                                                        </button>
+                                                    </a>
+                                                    <a href="#">
+                                                        <button type="button" class="btn btn-default btn-flat"
+                                                                onclick="leave('${list.projectidx}')"><i
+                                                                class="fa fa-sign-out"></i>Leave
+                                                        </button>
+                                                    </a>
                                                 </div>
                                             </td>
-                                    </tr>
-                                        </c:forEach>
+                                        </tr>
+                                    </c:forEach>
 
                                     </tbody>
                                 </table>
@@ -484,7 +494,8 @@
                         <div class="form-group has-success">
                             <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> Input the
                                 Project name</label>
-                            <input type="text" class="form-control" name="name" id="inputSuccess" placeholder="Project name...">
+                            <input type="text" class="form-control" name="name" id="inputSuccess"
+                                   placeholder="Project name...">
                         </div>
                     </div>
                 </div>
@@ -544,8 +555,8 @@
 
         });
     });
-    function leave(projectIdx){
-        var param="projectIdx="+projectIdx;
+    function leave(projectIdx) {
+        var param = "projectIdx=" + projectIdx;
         console.log("DELTE");
         $.ajax({
             url: "deleteroom",
@@ -554,7 +565,7 @@
             processData: false,
             contentType: false,
             type: 'GET',
-            success: function(){
+            success: function () {
                 location.reload();
             }
         });
