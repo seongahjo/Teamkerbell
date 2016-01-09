@@ -62,6 +62,7 @@ public class ScheduleService {
                 .add(Restrictions.eq("schedule.scheduleidx",id))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
+
         if(lap!=null) {
             for (Appointment ap : lap) {
                 ap.setState(2);
