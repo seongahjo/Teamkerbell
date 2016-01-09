@@ -65,6 +65,7 @@ public class ProjectService {
                 .add(Restrictions.eq("project.projectidx", project.getProjectidx()))
                 .addOrder(Order.asc("state"))
                 .addOrder(Order.asc("startdate"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return ls;
