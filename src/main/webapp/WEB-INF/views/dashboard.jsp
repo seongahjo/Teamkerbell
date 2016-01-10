@@ -111,7 +111,23 @@
                             <li class="header" id="alarm_size_display">You have ${alarm.size()} notifications</li>
                             <li>
                                 <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm">
-
+                                    <c:forEach var="list" items="${alarm}">
+                                        <li id="alarm-${list.alarmidx}">
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i><strong>${list.actor.id}</strong>
+                                                has invited you
+                                                to <strong>${list.project.name}</strong>
+                                                <div style="float:right;">
+                                                    <button type="button" class="btn btn-primary btn-xs"
+                                                            onclick="accept('${list.alarmidx}')">Ok
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs"
+                                                            onclick="decline('${list.alarmidx}')">Cancel
+                                                    </button>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </c:forEach>
 
                                 </ul>
                             </li>
@@ -598,23 +614,6 @@
     });
 
 
-    /*  <c:forEach var="list" items="${alarm}">
-     <li id="alarm-${list.alarmidx}">
-     <a href="#">
-     <i class="fa fa-users text-aqua"></i><strong>${list.actor.id}</strong>
-     has invited you
-     to <strong>${list.project.name}</strong>
-     <div style="float:right;">
-     <button type="button" class="btn btn-primary btn-xs"
-     onclick="accept('${list.alarmidx}')">Ok
-     </button>
-     <button type="button" class="btn btn-default btn-xs"
-     onclick="decline('${list.alarmidx}')">Cancel
-     </button>
-     </div>
-     </a>
-     </li>
-    </c:forEach>*/
 
 </script>
 </body>
