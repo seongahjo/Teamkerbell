@@ -60,8 +60,8 @@ public class ProcessController {
 
     //회원가입
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String Register(@RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw
-            , @RequestParam(value = "name") String name) {
+    public String Register(@RequestParam(value = "name") String name,@RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw
+           ) {
         if (us.getById(userId) == null) {
             us.add(userId, name, pw, "img/default.jpg");
         } else

@@ -73,15 +73,13 @@ public class UserService {
         session.close();
     }
 
-    public User add(String id, String pw, String name, String img) {
+    public User add(String id, String name,String pw, String img) {
         Session session = sessionFactory.openSession();
-        User user= getById(id);
-        if(user==null) {
-            user=new User();
+         User   user=new User();
+            user.setId(id);
             user.setName(name);
             user.setImg(img);
             user.setPw(pw);
-        }
         session.save(user);
         session.flush();
         session.close();
