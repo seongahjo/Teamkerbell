@@ -19,6 +19,10 @@
     height: auto;
     float:left
 }
+.state-body{
+	max-height:430px;
+    position: relative;  max-height: 430px; padding: 3px; overflow-y:auto;
+}
 
 .user-st-name{
 	margin-top:5px;

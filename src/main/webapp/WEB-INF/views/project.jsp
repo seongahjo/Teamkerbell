@@ -478,7 +478,7 @@
                             </div>
                         </div>
                         <!-- /.box-header -->
-                        <div class="box-body">
+                        <div class="box-body state-body">
                             <ul class="products-list product-list-in-box">
                                 <c:forEach var="list" items="${users}">
                                     <li class="item">
