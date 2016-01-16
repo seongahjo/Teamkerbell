@@ -1023,10 +1023,6 @@
         $.ajax({
             type : "POST",
             url : "upload",
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
             data : formData,
                 success : function(data){
                     if(data.endsWith(".png")|| data.endsWith(".jpg"))
