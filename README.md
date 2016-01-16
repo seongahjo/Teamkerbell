@@ -61,8 +61,10 @@ Teamkerbell
 * Calendario
 * Datatable 등
 
-사용시 주의사항 :
+실행방법 
 =====
- project.jsp내의 소켓 연결 주소를 자신의 서버 주소로 변경 (로컬환경에서 테스트를 할경우에는 상관없음)
+ 1. Mysql 설치 후 'hibernate'라는 이름의 database 생성 ( 혹은 hibernate.cfg.xml 파일에서 경로를 수정 )
+ 2. project.jsp내의 소켓 연결 주소를 자신의 서버 주소로 변경 (로컬환경에서 테스트를 할경우에는 상관없음)
+ 
 
 #####오픈소스 개발툴 IntelliJ를 통해 개발되었습니다. 
