@@ -1,7 +1,7 @@
 ### Teamkerbell
 >학생들을 위한 조별과제 서포트 애플리케이션 
-Youtube : https://www.youtube.com/watch?v=76V_DYsX0VQ 
-SlideShare : http://www.slideshare.net/seongside/teamkerbell
+* Youtube : https://www.youtube.com/watch?v=76V_DYsX0VQ 
+* SlideShare : http://www.slideshare.net/seongside/teamkerbell
 
 #### 주요기능
 
