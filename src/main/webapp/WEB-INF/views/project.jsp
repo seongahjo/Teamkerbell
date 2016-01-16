@@ -898,6 +898,9 @@
         socket.on('refresh', function (memo) {
             $("#memo").val(memo);
         });
+        socket.on('alarm', function () {
+
+        });
         $('#file').hover(function (event) {
             $('#file_over').addClass('front_hover');
         }, function () {
@@ -944,12 +947,23 @@
             contentType: false,
             type: 'GET',
             success: function (data){
-
+                socket.emit('invite',{userIdx:${user.useridx}});
                 $("#InviteUser").modal('hide');
             }
         });
     }
-
+    function search(){
+        var par="userId="+$("#inviteForm #inviteId").val();
+        $.ajax({
+            url: "inviteUser",
+            type: 'POST',
+            dataType: 'json',
+            data:par,
+            success: function (data) {
+                inviteU=data.userId;
+                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="'+data.img+'"alt="User profile picture"> <h3 class="profile-username text-center">'+data.userId+'</h3> <p class="text-muted text-center">'+data.name+'</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+            }
+        });
     /*
     socket 관련함수 끝
      */
@@ -970,21 +984,7 @@
         $("#memo").val($(this).children("option:selected").val());
     });
     //11시 59분에 저장하고 새로고침하는 함수 추가예정
-    function search(){
-        var par="userId="+$("#inviteForm #inviteId").val();
-        $.ajax({
-            url: "searchUser",
-            data: par,
-            dataType: 'json',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function (data) {
-                inviteU=data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="'+data.img+'"alt="User profile picture"> <h3 class="profile-username text-center">'+data.userId+'</h3> <p class="text-muted text-center">'+data.name+'</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
-            }
-        });
+
     }
     $("#inviteId").keydown(function (key) {
         if (key.keyCode == 13) {

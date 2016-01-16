@@ -85,7 +85,7 @@ public class ProcessController {
         return "redirect:/projectmanager";
     }
 
-    @RequestMapping(value = "/searchUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
     @ResponseBody
     public HashMap searchUser(@RequestParam(value = "userId") String userId, HttpSession session) {
         logger.info("Search Member");

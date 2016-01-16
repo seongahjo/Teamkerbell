@@ -173,25 +173,16 @@ ChatlogService cs;*/
                         io.sockets().in(projectIdx).emit("refresh", memo);
                     }
                 }); //save end
-                /*socket.on("invite", new Handler<JsonObject>() {
+
+                socket.on("invite", new Handler<JsonObject>() {
                     public void handle(JsonObject event) {
                         Integer userIdx = event.getInteger("userIdx");
                         ServerUser su = Clients.get(socket.getId());
                         if (su.getUserIdx() == userIdx) {
-                            List<Alarm> la = us.getAlarms(userIdx);
-                            for(Alarm temp: la){
-                                JsonArray array=new JsonArray();
-                                array.add
-                            }
-                            JsonObject jo = new JsonObject();
-                            /*
-                            alarm id, actor id project name
-                             */
-/*
-                            socket.emit("alarm", );
+                            socket.emit("alarm");
                         }
                     }
-                });*/
+                });
             }
 
 
