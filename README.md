@@ -6,7 +6,7 @@ SlideShare : http://www.slideshare.net/seongside/teamkerbell
 #### 주요기능
 
 ####사용한 오픈소스 
-#####BACKEND 
+>#####BACKEND 
 * Spring Framework
 * Vert.x
 * Mod-Socket io
