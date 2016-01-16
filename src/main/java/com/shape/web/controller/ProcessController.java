@@ -108,7 +108,7 @@ public class ProcessController {
 
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
     @ResponseBody
-    public void InviteMember(@RequestParam(value = "userId") String userId, HttpSession session) {
+    public String InviteMember(@RequestParam(value = "userId") String userId, HttpSession session) {
         logger.info("Invite Member");
         Integer userIdx = (Integer) session.getAttribute("userIdx");
         Integer projectIdx = (Integer) session.getAttribute("room");
@@ -121,6 +121,7 @@ public class ProcessController {
         alarm.setActor(actor);
         alarm.setProject(project);
         as.save(alarm);
+        return String.valueOf(userIdx);
     }
 
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)

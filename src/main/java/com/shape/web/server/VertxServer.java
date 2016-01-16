@@ -1,13 +1,13 @@
 package com.shape.web.server;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import com.shape.web.data.ServerUser;
+import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Minute;
-import com.shape.web.service.MinuteService;
+import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.http.HttpServer;
+import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
-
 import com.nhncorp.mods.socket.io.SocketIOServer;
 import com.nhncorp.mods.socket.io.SocketIOSocket;
 import com.nhncorp.mods.socket.io.impl.DefaultSocketIOServer;
 import com.nhncorp.mods.socket.io.spring.DefaultEmbeddableVerticle;
-import com.shape.web.entity.Chatlog;
 import com.shape.web.entity.Project;
-import com.shape.web.service.ChatlogService;
-import com.shape.web.service.ProjectService;
 import com.shape.web.util.FileUtil;
 
 public class VertxServer extends DefaultEmbeddableVerticle {
@@ -35,10 +32,12 @@ public class VertxServer extends DefaultEmbeddableVerticle {
     @Autowired
     ProjectService pjs;
     @Autowired
-    ChatlogService cs;
-    @Autowired
     MinuteService ms;
+    @Autowired
+    UserService us;
 
+    /*@Autowired
+ChatlogService cs;*/
     @Override
     public void start(Vertx vertx) {
         int port = 9999;
@@ -49,12 +48,10 @@ public class VertxServer extends DefaultEmbeddableVerticle {
         io.sockets().onConnection(new Handler<SocketIOSocket>() {//Connection Event
 
             public void handle(final SocketIOSocket socket) {
-
-
                 socket.on("join", new Handler<JsonObject>() { //room
                     public void handle(JsonObject event) {
                         String projectIdx = event.getString("projectIdx");
-                        ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"), event.getString("userName"), event.getString("userImg"));
+                        ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"),event.getString("userId"), event.getString("userName"), event.getString("userImg"));
                         Clients.put(socket.getId(), su); // Socket에 해당하는 Room저장
                         logger.info("방 아이디 : " + projectIdx + " 접속 " + socket.getId());
                         if (Rooms.get(projectIdx) != null) { //방이 존재할경우
@@ -67,7 +64,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                         socket.join(projectIdx);
                         for (ServerUser temp : Clients.values()) {
                             logger.info("LIST : " + temp.getName());
-                            io.sockets().in(projectIdx).emit("adduser", temp.getName());
+                            io.sockets().in(projectIdx).emit("adduser", temp.getId());
                         }
 
                     }
@@ -124,7 +121,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                         String projectIdx = su.getProjectIdx();
                         event.putString("img", su.getImg());
                         event.putString("user", su.getName());
-                        event.putString("msg", "<img src=loadImg?name="+event.getString("msg")+" style=\'width:200px;height:150px\'>");
+                        event.putString("msg", "<img src=loadImg?name=" + event.getString("msg") + " style=\'width:200px;height:150px\'>");
                         io.sockets().in(projectIdx).emit("response", event);
                     }
                 });//img end
@@ -159,9 +156,9 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                         String memo = event.getString("memo");
                         Project pj = pjs.get(Integer.parseInt(projectIdx));
                         pj.setMinute(memo);
-                        Minute minute=ms.getByDate(new Date());
-                        if(minute==null)
-                            minute=new Minute(memo,new Date());
+                        Minute minute = ms.getByDate(new Date());
+                        if (minute == null)
+                            minute = new Minute(memo, new Date());
                         minute.setProject(pj);
                         logger.info("메모장 : " + memo);
                         ms.save(minute);
@@ -176,8 +173,27 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                         io.sockets().in(projectIdx).emit("refresh", memo);
                     }
                 }); //save end
-
+                /*socket.on("invite", new Handler<JsonObject>() {
+                    public void handle(JsonObject event) {
+                        Integer userIdx = event.getInteger("userIdx");
+                        ServerUser su = Clients.get(socket.getId());
+                        if (su.getUserIdx() == userIdx) {
+                            List<Alarm> la = us.getAlarms(userIdx);
+                            for(Alarm temp: la){
+                                JsonArray array=new JsonArray();
+                                array.add
+                            }
+                            JsonObject jo = new JsonObject();
+                            /*
+                            alarm id, actor id project name
+                             */
+/*
+                            socket.emit("alarm", );
+                        }
+                    }
+                });*/
             }
+
 
         });// onConnection end
 

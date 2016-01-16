@@ -3,17 +3,27 @@ package com.shape.web.data;
 public class ServerUser {
     private String projectIdx;
     private Integer userIdx;
+    private String id;
     private String name;
     private String img;
 
     public ServerUser() {
     }
 
-    public ServerUser(String projectIdx, Integer userIdx, String name, String img) {
+    public ServerUser(String projectIdx, Integer userIdx, String id, String name, String img) {
         this.projectIdx = projectIdx;
         this.userIdx = userIdx;
+        this.id = id;
         this.name = name;
         this.img = img;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getProjectIdx() {

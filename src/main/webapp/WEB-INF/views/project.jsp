@@ -903,15 +903,8 @@
         }, function () {
             $('#file_over').removeClass('front_hover');
         });
-    });
-    function write_memo() {
-        if (option == "Today") {
-            socket.emit('writer');
-            $("#selectBox").attr("disabled", true);
-        }
-    }
 
-
+    }); // document function
     function save_memo() {
         socket.emit('save', {memo: $("#memo").val()});
         Tminute = $("#memo").val();
@@ -920,6 +913,14 @@
         $("#memo").prop("disabled", true);
         $("#selectBox").attr("disabled", false);
     }
+
+    function write_memo() {
+        if (option == "Today") {
+            socket.emit('writer');
+            $("#selectBox").attr("disabled", true);
+        }
+    }
+
     $('#memo').keyup(function (event) {
         if (event.keyCode != 8)
             socket.emit('refreshToAll', {memo: $("#memo").val()});
@@ -932,6 +933,26 @@
         $('#chat').scrollTop($('#chat')[0].scrollHeight);
     }
 
+    function invite(){
+        var par="userId="+inviteU;
+        $.ajax({
+            url:"inviteUser",
+            data:par,
+            dataType:'text',
+            async: true,
+            processData: false,
+            contentType: false,
+            type: 'GET',
+            success: function (data){
+
+                $("#InviteUser").modal('hide');
+            }
+        });
+    }
+
+    /*
+    socket 관련함수 끝
+     */
     function test() {
         var file = $("#file")[0].files[0];
         $("#fakeFileTxt").val(file.name);
@@ -971,21 +992,6 @@
         }
     });
 
-    function invite(){
-        var par="userId="+inviteU;
-        $.ajax({
-            url:"inviteUser",
-            data:par,
-            dataType:'text',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function (data) {
-                $("#InviteUser").modal('hide');
-            }
-        });
-    }
 
     function makeTodolist() {
 
