@@ -7,13 +7,13 @@ SlideShare : http://www.slideshare.net/seongside/teamkerbell
 
 ####사용한 오픈소스 
 #####BACKEND 
-*Spring Framework
-*Vert.x
-*Mod-Socket io
-*Apache
-*logback
-*H2lib
-*POI
+* Spring Framework
+* Vert.x
+* Mod-Socket io
+* Apache
+* logback
+* H2lib
+* POI
 
 FRONT END : AdminLTE, Bootstrap, modernizer, prettydate, data.js, Chart.min.js, Calendario, Datatable 등 <br>
 
