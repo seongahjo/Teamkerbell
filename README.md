@@ -4,9 +4,30 @@
 * SlideShare : http://www.slideshare.net/seongside/teamkerbell
 
 #### 주요기능
+>
+* 과제방을 통한 프로젝트별 관리
+* Calendar UI를 통한 날짜별 오프라인 회의 일정 및 파일 확인
+  * 회의의 구체적인 정보, 예를 들면 날짜, 장소, 시간를 확인 가능
+* 오프라인 회의 일정조율 기능
+  * 한 사용자가 날짜범위를 지정하여 사용자들이 가능한 날짜를 선택할 수 있음
+  * 대다수의 사용자가 가능한 날짜를 등록
+* 온라인 회의를 위한 채팅과 내용을 정리하는 회의록 기능
+  * WebSocket을 통한 실시간 채팅 및 회의록 기록 기능을 통해 liveness를 제공
+* To-do list를 통한 Task관리
+* 프로젝트 완료시 진행사항을 문서화하여 제출근거로 제공
+  * 멤버의 무임승차 방지
+  * 교수님 평가 자료로서 활용 가능
+
+#### 발전가능성
+* 수업 별 분류
+* 태그를 통한 문서 관리
+  * 파일 업로드시 문서 내용을 분석하여 자동으로 태그를 생성 
+    * H2lib, POI등 라이브러리를 사용하여 문서를 파싱
+* 각 대학의 차별화된 조별과제 서포트 애플리케이션으로 수정
 
 ####사용한 오픈소스 
->#####BACKEND 
+#####BACKEND 
+>
 * Spring Framework
 * Vert.x
 * Mod-Socket io
@@ -15,7 +36,8 @@
 * H2lib
 * POI 등
 
->#####FRONT END
+#####FRONT END
+>
 * AdminLTE
 * Bootstrap
 * modernizer
