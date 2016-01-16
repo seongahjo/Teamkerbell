@@ -94,7 +94,7 @@ public class FileController {
                 fs.save(fd);
 
                 for (User u : project.getUsers()) {
-                    Alarm alarm = new Alarm(2, originalFileName, "download?date=" + new Date().getTime() + "&projectIdx=" + projectIdx + "&filename=" + storedFileName, new Date());
+                    Alarm alarm = new Alarm(2, originalFileName, "download?name=" + storedFileName, new Date());
                     alarm.setUser(u);
                     alarm.setActor(user);
                     project.addAlarms(alarm);
