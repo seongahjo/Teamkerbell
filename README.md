@@ -1,11 +1,12 @@
-### Teamkerbell
-======
+
+Teamkerbell
+=====
 학생들을 위한 조별과제 서포트 애플리케이션 
 * Youtube : https://www.youtube.com/watch?v=76V_DYsX0VQ 
 * SlideShare : http://www.slideshare.net/seongside/teamkerbell
 
-#### 주요기능
-======
+주요기능
+=====
 * 과제방을 통한 프로젝트별 관리
 
 * Calendar UI를 통한 날짜별 오프라인 회의 일정 및 파일 확인
@@ -24,8 +25,9 @@
   * 팀원의 무임승차 방지
   * 교수님 평가 자료로서 활용 가능
 
-#### 발전가능성
+ 발전가능성
 =====
+
 * 과제방 강좌 별 분류
  * 해당 강좌에 대한 완료된 프로젝트의 파일을 예시파일로서 제공
  
@@ -38,10 +40,9 @@
     
 * 각 대학마다 차별화된 조별과제 서포트 애플리케이션으로 수정하여 강좌에서 활용 가능 
 
-####사용한 오픈소스 
+사용한 오픈소스 
 =====
 #####BACKEND 
-=====
 * Spring Framework
 * Vert.x
 * Mod-Socket io
@@ -51,7 +52,6 @@
 * POI 등
 
 #####FRONT END
-=====
 * AdminLTE
 * Bootstrap
 * modernizer
@@ -61,7 +61,8 @@
 * Calendario
 * Datatable 등
 
-####사용시 주의사항 :
+사용시 주의사항 :
+=====
 > project.jsp내의 소켓 연결 주소를 자신의 서버 주소로 변경 (로컬환경에서 테스트를 할경우에는 상관없음)
 
 #####오픈소스 개발툴 IntelliJ를 통해 개발되었습니다. 
