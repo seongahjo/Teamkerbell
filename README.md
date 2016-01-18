@@ -36,7 +36,7 @@ Teamkerbell
  
 * 태그를 통한 문서 관리
   * 파일 업로드시 문서 내용을 분석하여 자동으로 태그를 생성 
-    * H2lib, POI등 라이브러리를 사용하여 문서를 파싱
+    * H2TLib, POI등 라이브러리를 사용하여 문서를 파싱
     
 * 각 대학마다 차별화된 조별과제 서포트 애플리케이션으로 수정하여 강좌에서 활용할 수 있는 환경제공 
 
@@ -48,7 +48,7 @@ Teamkerbell
 * Mod-Socket io
 * Apache
 * logback
-* H2lib
+* H2TLib
 * POI 등
 
 #####FRONT END
