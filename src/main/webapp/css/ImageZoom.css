@@ -1,0 +1,92 @@
+a.zoom:hover {
+  cursor: -webkit-zoom-in; }
+
+a.zoom > img {
+  -webkit-transition: opacity 0s;
+  transition: opacity 0s; }
+  a.zoom > img.zoomActive {
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 0.2; }
+
+#overlay {
+  background: black;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  z-index: 9999;
+  opacity: 0;
+  -webkit-transition: opacity 0.4s;
+  transition: opacity 0.4s; }
+
+#overlay.show {
+  height: 100%;
+  opacity: 0.7; }
+
+#lightbox {
+  z-index: 999999;
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+  #lightbox img {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-transition-timing-function: cubic-bezier(0, 0.95, 0.79, 1);
+    transition-timing-function: cubic-bezier(0, 0.95, 0.79, 1); }
+    #lightbox img.prev {
+      opacity: 0;
+      left: 0%; }
+    #lightbox img.current {
+      left: 50%; }
+    #lightbox img.next {
+      opacity: 0;
+      left: 100%; }
+    #lightbox img.show {
+      opacity: 1; }
+  #lightbox span {
+    -webkit-transition: opacity 0;
+    transition: opacity 0;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    font-size: 0.8em;
+    text-align: center; }
+    #lightbox span.show {
+      -webkit-transition: opacity 0.3s;
+      transition: opacity 0.3s;
+      opacity: 1; }
+
+@-webkit-keyframes flicker {
+  50% {
+    opacity: 0.5; } }
+
+@-moz-keyframes flicker {
+  50% {
+    opacity: 0.5; } }
+
+@-o-keyframes flicker {
+  50% {
+    opacity: 0.5; } }
+
+@keyframes flicker {
+  50% {
+    opacity: 0.5; } }
+
+.zoom.flicker {
+  -webkit-animation: flicker 10ms infinite;
+  -moz-animation: flicker 10ms infinite;
+  -o-animation: flicker 10ms infinite;
+  animation: flicker 10ms infinite; }
+  .zoom.flicker img {
+    -webkit-transition: none;
+    transition: none; }
