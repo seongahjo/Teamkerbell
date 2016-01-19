@@ -334,7 +334,8 @@
                                 <i class="ion ion-ios-upload"></i>
                             </div>
                         </a>
-                        <a class="small-box-footer"> <i class="fa "></i></a>
+                           <a  onclick="#" class="small-box-footer">File Manager <i
+                                class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
