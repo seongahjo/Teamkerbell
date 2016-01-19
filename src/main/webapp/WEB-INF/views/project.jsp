@@ -45,8 +45,6 @@
     <![endif]-->
 
 	<!--gallery-->
-	
-		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="css/ImageZoom.css" />
 
 	
@@ -797,7 +795,6 @@
 <script src="js/jquery.filepicker.js"></script>
 
 <!-- gallery--><
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="js/ImageZoom.js"></script>
 <script>
     var scheduleStart;
@@ -805,7 +802,7 @@
     var inviteU;
     $(function () {
         //Initialize Select Elements
-        $(".select2").select2();
+        $(".select2").select();
         //Date range picker
         $('#reservation').daterangepicker({},function(start,end){
             scheduleStart = start;
