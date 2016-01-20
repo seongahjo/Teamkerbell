@@ -121,7 +121,7 @@ ChatlogService cs;*/
                         String projectIdx = su.getProjectIdx();
                         event.putString("img", su.getImg());
                         event.putString("user", su.getName());
-                        event.putString("msg", "<img src=loadImg?name=" + event.getString("msg") + " style=\'width:200px;height:150px\'>");
+                        event.putString("msg", "<img src=../loadImg?name=" + event.getString("msg") + " style=\'width:200px;height:150px\'>");
                         io.sockets().in(projectIdx).emit("response", event);
                     }
                 });//img end

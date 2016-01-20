@@ -22,13 +22,13 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/wait1.css">
-    <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
-    <link rel="stylesheet" href="css/wait2.css">
+    <link rel="stylesheet" href="../css/wait1.css">
+    <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="../css/wait2.css">
 
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
+    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
     <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -38,22 +38,22 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" type="text/css" href="css/cal_demo.css"/>
-    <link rel="stylesheet" type="text/css" href="css/top_calendar.css"/>
-    <link rel="stylesheet" type="text/css" href="css/custom_2.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/cal_demo.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/top_calendar.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/custom_2.css"/>
     <!-- daterange picker -->
-    <link rel="stylesheet" href="css/daterangepicker-bs3.css">
-    <link rel="stylesheet" href="css/bootstrap-timepicker.min.css">
-    <link rel="stylesheet" href="css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <!-- daterange picker -->
-    <link rel="stylesheet" href="css/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
 
     <!-- iCheck for checkboxes and radio inputs -->
 
-    <link href="css/check_style.css" rel="stylesheet">
+    <link href="../css/check_style.css" rel="stylesheet">
 
     <!-- Select2 -->
-    <link rel="stylesheet" href="css/select2.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -63,7 +63,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="dashboard/${user.id}" class="logo">
+        <a href="../dashboard/${user.id}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>T</b>eam</span>
             <!-- logo for regular state and mobile devices -->
@@ -123,14 +123,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="${user.img}" class="img-circle" alt="User Image">
+                                <img src="../${user.img}" class="img-circle" alt="User Image">
 
                             </li>
                             <!-- Menu Body -->
@@ -174,7 +174,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>${user.id}</p>
@@ -201,7 +201,7 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}">
-                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name
+                                <a href="../chat/${list.projectidx}" class="side-nav-button">name
                                     : ${list.name}</a>
                             </c:forEach>
                             <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
@@ -664,34 +664,34 @@
 </div>
 
 <!-- jQuery 2.1.4 -->
-<script src="js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/app.min.js"></script>
-<script src="js/modernizr.custom.63321.js"></script>
-<script src="js/prettydate.min.js"></script>
-<script src="js/jquery.calendario.js"></script>
-<script src="js/data.js"></script>
-<script src="js/modernizr.custom.63321.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/modernizr.custom.63321.js"></script>
+<script src="../js/prettydate.min.js"></script>
+<script src="../js/jquery.calendario.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/modernizr.custom.63321.js"></script>
 <!-- date -->
-<script src="js/date.js"></script>
+<script src="../js/date.js"></script>
 <!--Table-->
-<script src="js/jquery.dataTables.min.js"></script>
-<script src="js/dataTables.bootstrap.min.js"></script>
+<script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/dataTables.bootstrap.min.js"></script>
 <!-- date-range-picker -->
-<script src="js/moment.min.js"></script>
-<script src="js/daterangepicker.js"></script>
+<script src="../js/moment.min.js"></script>
+<script src="../js/daterangepicker.js"></script>
 <!-- tag-->
-<script src="js/addtags.js"></script>
+<script src="../js/addtags.js"></script>
 <!-- bootstrap time picker -->
-<script src="js/bootstrap-timepicker.min.js"></script>
+<script src="../js/bootstrap-timepicker.min.js"></script>
 <!-- iCheck 1.0.1 -->
-<script src="js/jquery-checkbox.js" type="text/javascript"></script>
+<script src="../js/jquery-checkbox.js" type="text/javascript"></script>
 <!-- InputMask -->
-<script src="js/jquery.inputmask.js"></script>
+<script src="../js/jquery.inputmask.js"></script>
 <!-- Select -->
-<script src="js/select2.full.min.js"></script>
+<script src="../js/select2.full.min.js"></script>
 <script>
     var Events;
     var param = "projectIdx=" +${project.projectidx};
@@ -716,7 +716,7 @@
         table = $('#example2').DataTable({
             "ajax": {
                 "type": "GET",
-                "url": "selectDate",
+                "url": "../selectDate",
                 "data": function (d) {
                     d.date = clickDate;
                 },
@@ -752,7 +752,7 @@
          if ($cell.hasClass('fc-today')) $cell.trigger('click.calendario');
          });*/
         $.ajax({
-            url: "getEvent",
+            url: "../getEvent",
             data: param,
             dataType: 'json',
             async: true,

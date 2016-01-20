@@ -53,7 +53,7 @@ public class FileController {
     @Autowired
     FileDBService fs;
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
     public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest, HttpSession session) throws Exception {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
@@ -94,10 +94,10 @@ public class FileController {
                 fs.save(fd);
 
                 for (User u : project.getUsers()) {
-                    Alarm alarm = new Alarm(2, originalFileName, "download?name=" + storedFileName, new Date());
+                    Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date());
                     alarm.setUser(u);
                     alarm.setActor(user);
-                    project.addAlarms(alarm);
+                    alarm.setProject(project);
                     as.save(alarm);
                 }
 
@@ -109,8 +109,8 @@ public class FileController {
         return "redirect:/chat?projectIdx=" + projectIdx;
     }
 
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void Download(@RequestParam(value = "filename", required = true) String name, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/file", method = RequestMethod.GET)
+    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InputStream in = null;
         OutputStream os = null;
         String client = "";

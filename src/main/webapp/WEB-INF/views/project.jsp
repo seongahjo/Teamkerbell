@@ -12,30 +12,30 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/wait1.css">
-    <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="../css/wait1.css">
+    <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
     <!--
-     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/../css/bootstrap.min.css" rel="stylesheet">
         <script src="http://codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/../js/bootstrap.min.js"></script>
         -->
 
-    <link rel="stylesheet" href="css/wait2.css">
+    <link rel="stylesheet" href="../css/wait2.css">
 
     <!-- daterange picker -->
-    <link rel="stylesheet" href="css/daterangepicker-bs3.css">
-    <link rel="stylesheet" href="css/bootstrap-timepicker.min.css">
-    <link rel="stylesheet" href="css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
 
     <!-- Select2 -->
-    <link rel="stylesheet" href="css/select2.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -44,10 +44,10 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-	<!--gallery-->
-		<link rel="stylesheet" href="css/ImageZoom.css" />
+    <!--gallery-->
+    <link rel="stylesheet" href="../css/ImageZoom.css"/>
 
-	
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -57,7 +57,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="dashboard/${user.id}" class="logo">
+        <a href="../dashboard/${user.id}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>T</b>eam</span>
             <!-- logo for regular state and mobile devices -->
@@ -74,7 +74,7 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
-                   <!-- <li class="dropdown messages-menu">
+                    <!-- <li class="dropdown messages-menu">
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
@@ -124,11 +124,16 @@
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
-                                                <i class="fa fa-users text-aqua"></i><strong>${list.actor.id}</strong> has invited you
+                                                <i class="fa fa-users text-aqua"></i><strong>${list.actor.id}</strong>
+                                                has invited you
                                                 to <strong>${list.project.name}</strong>
                                                 <div style="float:right;">
-                                                    <button type="button" class="btn btn-primary btn-xs" onclick="accept('${list.alarmidx}')">Ok</button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="decline('${list.alarmidx}')">Cancel</button>
+                                                    <button type="button" class="btn btn-primary btn-xs"
+                                                            onclick="accept('${list.alarmidx}')">Ok
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs"
+                                                            onclick="decline('${list.alarmidx}')">Cancel
+                                                    </button>
                                                 </div>
                                             </a>
                                         </li>
@@ -139,53 +144,53 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-            <!--
-                    <li class="dropdown tasks-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-flag-o"></i>
-                            <span class="label label-danger">9</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 9 tasks</li>
-                            <li>
-                                 <ul class="menu">
+                    <!--
+                            <li class="dropdown tasks-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span class="label label-danger">9</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 9 tasks</li>
                                     <li>
-                                    <a href="#">
-                                            <h3>
-                                                Design some buttons
-                                                <small class="pull-right">20%</small>
-                                            </h3>
-                                            <div class="progress xs">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
-                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                     aria-valuemax="100">
-                                                    <span class="sr-only">20% Complete</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
+                                         <ul class="menu">
+                                            <li>
+                                            <a href="#">
+                                                    <h3>
+                                                        Design some buttons
+                                                        <small class="pull-right">20%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                             role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                             aria-valuemax="100">
+                                                            <span class="sr-only">20% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
 
+                                        </ul>
+                                    </li>
+                                    <li class="footer">
+                                        <a href="#">View all tasks</a>
+                                    </li>
                                 </ul>
-                            </li>
-                            <li class="footer">
-                                <a href="#">View all tasks</a>
-                            </li>
-                        </ul>
-                    </li>-->
+                            </li>-->
                     <!-- User Account Menu -->
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="${user.img}" class="img-circle" alt="User Image">
+                                <img src="../${user.img}" class="img-circle" alt="User Image">
 
                             </li>
                             <!-- Menu Body -->
@@ -229,7 +234,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="${user.img}" class="img-circle main-img" alt="User Image">
+                    <img src="../${user.img}" class="img-circle main-img" alt="User Image">
                 </div>
             </div>
             <div class="user-panel">
@@ -259,7 +264,7 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- ��Ʈ�ѷ����� �Ѱܹ��� ������Ʈ�� list�� ���� -->
-                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
+                                <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
                             </c:forEach>
                             <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
@@ -297,7 +302,7 @@
 
                             <p>Phote album</p>
                         </div>
-                        <div class="icon" onClick="capture()">
+                        <div class="icon">
                             <i class="ion ion-images"></i>
                         </div>
                         <a data-toggle="modal" data-target="#photoModal" class="small-box-footer">More info <i
@@ -334,7 +339,7 @@
                                 <i class="ion ion-ios-upload"></i>
                             </div>
                         </a>
-                           <a  onclick="#" class="small-box-footer">File Manager <i
+                        <a onclick="#" class="small-box-footer">File Manager <i
                                 class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -350,7 +355,7 @@
                         <div class="icon">
                             <i class="ion ion-ios-calendar"></i>
                         </div>
-                        <a href="calendar?projectIdx=${project.projectidx}" class="small-box-footer">More info <i
+                        <a href="../calendar/${project.projectidx}" class="small-box-footer">More info <i
                                 class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -390,7 +395,7 @@
                       </div>
                       <img class="direct-chat-img" src="" alt="message user image">                  
                       <div class="direct-chat-text">
-                          <img src="${user.img}" style="width:200px;height:150px">
+                          <img src="../${user.img}" style="width:200px;height:150px">
                       </div>
                     </div>-->
                                 <!-- /.direct-chat-msg -->
@@ -486,10 +491,11 @@
                             <ul class="products-list product-list-in-box">
                                 <c:forEach var="list" items="${users}">
                                     <li class="item">
-                                        <img src="${list.img}" alt="User Image">
+                                        <img src="../${list.img}" alt="User Image">
                                         <a class="users-list-name user-st-name" href="#">${list.id}</a>
-                                        <i id="user${list.id}on" class="fa fa-circle st-cir text-success pull-right hidden"
-                                           ></i>
+                                        <i id="user${list.id}on"
+                                           class="fa fa-circle st-cir text-success pull-right hidden"
+                                        ></i>
                                         <i id="user${list.id}off"
                                            class="fa fa-circle st-cir text-warning pull-right"></i>
                                     </li>
@@ -609,12 +615,12 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">File Upload</h4>
             </div>
-            <form id="uploadForm"  method="POST" enctype="multipart/form-data">
+            <form id="uploadForm" method="POST" enctype="multipart/form-data">
                 <div class="modal-body file_body">
                     <div class="form-group">
                         <div id="up_field">
                             <input type="hidden" id="idx" name="idx" value="${project.projectidx}"/>
-                            <input type="hidden" name="userIdx" value="${user.useridx}" />
+                            <input type="hidden" name="userIdx" value="${user.useridx}"/>
                             <div class="form-group">
 
 
@@ -649,28 +655,37 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
             </div>
-            <form >
+            <form>
                 <div class="modal-body">
-             
-			 
-			<div class="gallery" style="overflow:auto">
-				<a href="http://c1.staticflickr.com/9/8037/7897220164_3e3aa82d43_h.jpg" title="An elegant profile by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm9.staticflickr.com/8037/7897220164_7950bc48ed_n.jpg" width="106" height="160" alt="An elegant profile">
-				</a>
-				<a href="http://c2.staticflickr.com/6/5478/9531699422_fe130c112c_k.jpg" title="_MG_9696 by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm6.staticflickr.com/5478/9531699422_fdb940c06a_n.jpg" width="160" height="106" alt="_MG_9696">
-				</a>
-				<a href="http://c2.staticflickr.com/4/3697/9531555260_19ad5113a5_k.jpg" title="rose by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm4.staticflickr.com/3697/9531555260_b432af93d2_n.jpg" width="160" height="106" alt="rose">
-				</a>
-				<a href="http://c2.staticflickr.com/6/5450/8970878075_06589570a8_k.jpg" title="Arsenale ruin by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm6.staticflickr.com/5450/8970878075_232a1eb081_n.jpg" width="160" height="160" alt="Arsenale ruin">
-				</a>
-				<a href="https://c1.staticflickr.com/9/8301/7897238688_2b7318b6a7_k.jpg" title="V by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm9.staticflickr.com/8301/7897238688_1d7ae06e36_n.jpg" width="106" height="160" alt="V">
-				</a>
-			</div>
-		
+
+
+                    <div class="gallery" style="overflow:auto">
+                        <a href="http://c1.staticflickr.com/9/8037/7897220164_3e3aa82d43_h.jpg"
+                           title="An elegant profile by Takumi Yoshida, on Flickr" class="zoom">
+                            <img src="https://farm9.staticflickr.com/8037/7897220164_7950bc48ed_n.jpg" width="106"
+                                 height="160" alt="An elegant profile">
+                        </a>
+                        <a href="http://c2.staticflickr.com/6/5478/9531699422_fe130c112c_k.jpg"
+                           title="_MG_9696 by Takumi Yoshida, on Flickr" class="zoom">
+                            <img src="https://farm6.staticflickr.com/5478/9531699422_fdb940c06a_n.jpg" width="160"
+                                 height="106" alt="_MG_9696">
+                        </a>
+                        <a href="http://c2.staticflickr.com/4/3697/9531555260_19ad5113a5_k.jpg"
+                           title="rose by Takumi Yoshida, on Flickr" class="zoom">
+                            <img src="https://farm4.staticflickr.com/3697/9531555260_b432af93d2_n.jpg" width="160"
+                                 height="106" alt="rose">
+                        </a>
+                        <a href="http://c2.staticflickr.com/6/5450/8970878075_06589570a8_k.jpg"
+                           title="Arsenale ruin by Takumi Yoshida, on Flickr" class="zoom">
+                            <img src="https://farm6.staticflickr.com/5450/8970878075_232a1eb081_n.jpg" width="160"
+                                 height="160" alt="Arsenale ruin">
+                        </a>
+                        <a href="https://c1.staticflickr.com/9/8301/7897238688_2b7318b6a7_k.jpg"
+                           title="V by Takumi Yoshida, on Flickr" class="zoom">
+                            <img src="https://farm9.staticflickr.com/8301/7897238688_1d7ae06e36_n.jpg" width="106"
+                                 height="160" alt="V">
+                        </a>
+                    </div>
 
 
                 </div>
@@ -714,7 +729,7 @@
                         <select class="form-control select2" data-placeholder="Select a State"
                                 style="width: 100%;" id="todoselect"> <!-- multiple = "multiple" -->
                             <c:forEach var="list" items="${users}">
-                            <option value="${list.id}">${list.name}</option>
+                                <option value="${list.id}">${list.name}</option>
                             </c:forEach>
                         </select>
                         <br>
@@ -722,7 +737,8 @@
                         <div class="form-group has-success">
                             <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> List what you
                                 have to do</label>
-                            <input type="text" id="todocontent" class="form-control" id="inputSuccess" placeholder="To do ...">
+                            <input type="text" id="todocontent" class="form-control" id="inputSuccess"
+                                   placeholder="To do ...">
                         </div>
                     </div>
                 </div>
@@ -745,23 +761,23 @@
                 <h4 class="modal-title" id="exampleModalLabel">Invite User</h4>
             </div>
 
-                <div class="modal-body">
-                    <div class="form-group">
-<!-- class="sidebar-form" -->
-                        <div id="inviteForm" class="sidebar-form"  >
-                            <div class="input-group">
-                                <input type="text" id="inviteId" class="form-control" placeholder=" User ID Search..." >
+            <div class="modal-body">
+                <div class="form-group">
+                    <!-- class="sidebar-form" -->
+                    <div id="inviteForm" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" id="inviteId" class="form-control" placeholder=" User ID Search...">
              		 <span class="input-group-btn">
                 	<button type="button" class="btn btn-flat" onClick="search()"><i
                             class="fa fa-search"></i>
                     </button>
               		</span>
-                            </div>
+                        </div>
 
 
                         <!-- Profile Image -->
                         <!-- at fist, not in here, after searching there will be -->
-                            <div id="user"></div>
+                        <div id="user"></div>
 
                         <!--  if user's info doesn't exist
                         <div style="text-align:center;">
@@ -778,25 +794,25 @@
     </div>
 </div>
 <!-- jQuery 2.1.4 -->
-<script src="js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/app.min.js"></script>
-<script src="js/date.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/date.js"></script>
 <!-- date-range-picker -->
-<script src="js/moment.min.js"></script>
-<script src="js/bootstrap-timepicker.min.js"></script>
-<script src="js/daterangepicker.js"></script>
+<script src="../js/moment.min.js"></script>
+<script src="../js/bootstrap-timepicker.min.js"></script>
+<script src="../js/daterangepicker.js"></script>
 <!-- Select -->
-<script src="js/select2.full.min.js"></script>
+<script src="../js/select2.full.min.js"></script>
 
-<script src="js/socket.io.js"></script>
-<script src="js/prettydate.min.js"></script>
-<script src="js/jquery.filepicker.js"></script>
+<script src="../js/socket.io.js"></script>
+<script src="../js/prettydate.min.js"></script>
+<script src="../js/jquery.filepicker.js"></script>
 
 <!-- gallery--><
-<script type="text/javascript" src="js/ImageZoom.js"></script>
+<script type="text/javascript" src="../js/ImageZoom.js"></script>
 <script>
     var scheduleStart;
     var scheduleEnd;
@@ -805,7 +821,7 @@
         //Initialize Select Elements
         $(".select2").select();
         //Date range picker
-        $('#reservation').daterangepicker({},function(start,end){
+        $('#reservation').daterangepicker({}, function (start, end) {
             scheduleStart = start;
             scheduleEnd = end;
         });
@@ -845,10 +861,10 @@
         socket.on('response', function (data) {
             console.log(data);
             if (data.user == "${user.id}") {
-                $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
+                $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
             }
             else
-                $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
+                $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
 
             <!--  $('#didiv').scrollTop($('#didiv')[0].scrollHeight);-->
             $('#chat').scrollTop($('#chat')[0].scrollHeight);
@@ -913,36 +929,37 @@
         $('#chat').scrollTop($('#chat')[0].scrollHeight);
     }
 
-    function invite(){
-        var par="userId="+inviteU;
+    function invite() {
+        var par = "userId=" + inviteU;
         $.ajax({
-            url:"inviteUser",
-            data:par,
-            dataType:'text',
+            url: "../inviteUser",
+            data: par,
+            dataType: 'text',
             async: true,
             processData: false,
             contentType: false,
             type: 'GET',
-            success: function (data){
-                socket.emit('invite',{userIdx:${user.useridx}});
+            success: function (data) {
+                socket.emit('invite', {userIdx:${user.useridx}});
                 $("#InviteUser").modal('hide');
             }
         });
     }
-    function search(){
-        var par="userId="+$("#inviteForm #inviteId").val();
+    function search() {
+        var par = "userId=" + $("#inviteForm #inviteId").val();
         $.ajax({
-            url: "inviteUser",
+            url: "../inviteUser",
             type: 'POST',
             dataType: 'json',
-            data:par,
+            data: par,
             success: function (data) {
-                inviteU=data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="'+data.img+'"alt="User profile picture"> <h3 class="profile-username text-center">'+data.userId+'</h3> <p class="text-muted text-center">'+data.name+'</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+                inviteU = data.userId;
+                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src=../"' + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
             }
         });
+    }
     /*
-    socket 관련함수 끝
+     socket 관련함수 끝
      */
     function test() {
         var file = $("#file")[0].files[0];
@@ -958,11 +975,11 @@
         if (option == "Today")
             $("#memo").val(Tminute);
         else
-        $("#memo").val($(this).children("option:selected").val());
+            $("#memo").val($(this).children("option:selected").val());
     });
     //11시 59분에 저장하고 새로고침하는 함수 추가예정
 
-    }
+
     $("#inviteId").keydown(function (key) {
         if (key.keyCode == 13) {
             search();
@@ -972,11 +989,11 @@
 
     function makeTodolist() {
 
-        var param = "projectIdx=${project.projectidx}&userId="+$("#todoselect").children("option:selected").val()
-                +"&startdate=" + scheduleStart.format('YYYY-MM-DD') + "&enddate=" + scheduleEnd.format('YYYY-MM-DD')
+        var param = "projectIdx=${project.projectidx}&userId=" + $("#todoselect").children("option:selected").val()
+                + "&startdate=" + scheduleStart.format('YYYY-MM-DD') + "&enddate=" + scheduleEnd.format('YYYY-MM-DD')
                 + "&content=" + $("#todocontent").val();
         $.ajax({
-            url: "makeTodolist",
+            url: "../makeTodolist",
             data: param,
             dataType: 'text',
             async: true,
@@ -994,24 +1011,27 @@
     function endsWith(str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
-    function upload(){
-        var form=$("#uploadForm")[0];
-        var formData=new FormData(form);
+    function upload() {
+        var form = $("#uploadForm")[0];
+        var formData = new FormData(form);
+        console.log(formData);
         $.ajax({
-            type : "POST",
-            url : "upload",
-            data : formData,
-                success : function(data){
-                    if(data.endsWith(".png")|| data.endsWith(".jpg"))
-                    socket.emit("img",{msg:data,user:"${user.name}",date: new Date().toString('HH:mm')});
-                    $("#uploadModal").modal('hide');
-                }
-    });
+            url: "../file",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.endsWith(".png") || data.endsWith(".jpg"))
+                    socket.emit("img", {msg: data, user: "${user.name}", date: new Date().toString('HH:mm')});
+                $("#uploadModal").modal('hide');
+            }
+        });
     }
-	
-	$(function(){
-				$("a.zoom").imageZoom({scale: 0.75});
-			});
+
+    $(function () {
+        $("a.zoom").imageZoom({scale: 0.75});
+    });
 
 </script>
 </body>

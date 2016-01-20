@@ -149,7 +149,7 @@ public class ProcessController {
             for (File f : dir.listFiles()) {
                 FileDB fd = fs.getByOriginalname(f.getName());
                 if (fd != null) {
-                    temp.add("<a href='download?filename=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
+                    temp.add("<a href='file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
                     temp.add(fd.getUser().getName());
                     temp.add(fd.getDate().toString());
                     data.add(temp);

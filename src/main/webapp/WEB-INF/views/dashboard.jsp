@@ -250,7 +250,7 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="../chat?projectIdx=${list.projectidx}"
+                                <a href="../chat/${list.projectidx}"
                                    class="side-nav-button">name: ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
@@ -310,7 +310,7 @@
                                                 <small class="text-muted pull-right"><i
                                                         class="fa fa-clock-o"></i><span
                                                         prettydate> ${list.date}</span></small>
-                                                <a href="../chat?projectIdx=${list.project.projectidx}"> ${list.project.name}</a>
+                                                <a href="../chat/${list.project.projectidx}"> ${list.project.name}</a>
                                                 에서 일정이 추가되었습니다
                                             </p>
                                         </div>
@@ -326,7 +326,7 @@
                                                 <small class="text-muted pull-right"><i class="fa fa-clock-o"></i><span
                                                         prettydate> ${list.date}</span></small>
                                                     ${list.actor.id}님이 <a
-                                                    href="../chat?projectIdx=${list.project.projectidx}">${list.project.name}</a>에
+                                                    href="../chat/${list.project.projectidx}">${list.project.name}</a>에
                                                 파일
                                                 업로드를 하셨습니다
                                             </p>

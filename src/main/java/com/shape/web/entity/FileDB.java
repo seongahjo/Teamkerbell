@@ -50,8 +50,6 @@ public class FileDB {
     }
 
     public void setUser(User user) {
-        if(!user.getFiledbs().contains(this))
-            user.getFiledbs().add(this);
         this.user = user;
     }
 

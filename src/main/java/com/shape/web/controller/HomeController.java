@@ -91,8 +91,8 @@ public class HomeController {
         return mv;
     }
 
-    @RequestMapping(value = "/chat", method = RequestMethod.GET)
-    public ModelAndView Chat(@RequestParam(value = "projectIdx", required = true) int projectIdx, HttpSession session) throws Exception {
+    @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
+    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) throws Exception {
         int userIdx = (Integer) session.getAttribute("userIdx");
         User user = us.get(userIdx); // 유저 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
@@ -121,8 +121,8 @@ public class HomeController {
 
     }
 
-    @RequestMapping(value = "/calendar", method = RequestMethod.GET)
-    public ModelAndView calendar(@RequestParam(value = "projectIdx", required = true) int projectIdx, HttpSession session) throws Exception {
+    @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
+    public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) throws Exception {
         int userIdx = (Integer) session.getAttribute("userIdx"); // user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
@@ -152,8 +152,8 @@ public class HomeController {
         return mv;
     }
 
-    @RequestMapping(value = "/document", method = RequestMethod.GET)
-    public ModelAndView document(@RequestParam(value = "projectIdx", required = true) int projectIdx,HttpSession session) throws Exception {
+    @RequestMapping(value = "/document/{projectIdx}", method = RequestMethod.GET)
+    public ModelAndView document(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) throws Exception {
         int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
