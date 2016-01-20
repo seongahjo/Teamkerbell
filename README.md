@@ -44,6 +44,7 @@ Teamkerbell
 =====
 #####BACKEND 
 * Spring Framework
+* Hibernate Framework
 * Vert.x
 * Mod-Socket io
 * Apache
