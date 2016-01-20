@@ -400,7 +400,7 @@
                                     </c:choose>
                                     <span class="text">${list.content}</span>
 
-                                    <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                                    <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}</small>
 
                                     <div class="tools">
                                         <i class="fa fa-edit"></i>

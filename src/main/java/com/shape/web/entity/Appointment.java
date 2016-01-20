@@ -12,7 +12,14 @@ import java.util.Date;
 @Entity
 @Table(name = "Appointment")
 public class Appointment {
-
+    /*
+    appointment
+    state
+    0 : 사용자가 등록한 상태
+    1 : 모든 사용자가 선택한 날짜
+    2 : 날짜 확정된 상태 (schedule state가 3일경우 non-participant)
+    3 : 참가한 상태
+     */
     @Id
     @GeneratedValue
     @Column(name = "APPOINTMENTIDX")

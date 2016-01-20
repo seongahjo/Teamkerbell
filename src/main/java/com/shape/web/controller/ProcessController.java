@@ -60,8 +60,8 @@ public class ProcessController {
 
     //회원가입
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String Register(@RequestParam(value = "name") String name,@RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw
-           ) {
+    public String Register(@RequestParam(value = "name") String name, @RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw
+    ) {
         if (us.getById(userId) == null) {
             us.add(userId, name, pw, "img/default.jpg");
         } else
@@ -249,17 +249,20 @@ public class ProcessController {
         while (!startdate.after(enddate)) {
             appointment.setAppointmentidx(null);
             appointment.setDate(startdate);
-            aps.make(appointment, userIdx, scheduleIdx, startdate);
-            if (aps.check(lu.size(), scheduleIdx, startdate))
+            aps.make(appointment, userIdx, scheduleIdx, startdate); //appointment 만듬
+            if (aps.check(lu.size(), scheduleIdx, startdate)) {
                 check = true;
+                break;
+            }
             logger.info(lu.size() + "명 있음");
             Calendar cal = Calendar.getInstance();
             cal.setTime(startdate);
             cal.add(Calendar.DATE, 1);
             startdate = cal.getTime();
         }
+
         if (check) {
-            schedule.setState(1);
+            schedule.setState(1); // Meeting 날짜 확정
             ss.save(schedule);
         }
         logger.info("appointment 만듬");
@@ -273,7 +276,7 @@ public class ProcessController {
         Schedule schedule = ss.get(scheduleIdx);
 
         List<String> ls = new ArrayList<String>();
-        List<Appointment> la = ss.getAppointments(schedule,1);
+        List<Appointment> la = ss.getAppointments(schedule, 1);
         for (Appointment ap : la) {
             ls.add(ap.getDate().toString());
         }
@@ -287,6 +290,7 @@ public class ProcessController {
         SimpleDateFormat format = new SimpleDateFormat("hh:mm");
         java.util.Date d1 = format.parse(time);
         java.sql.Time ppstime = new java.sql.Time(d1.getTime());
+        logger.info("Meeting 만들어짐");
         Schedule schedule = ss.get(scheduleIdx);
         schedule.setStartdate(date);
         schedule.setEnddate(date);
@@ -294,7 +298,6 @@ public class ProcessController {
         schedule.setPlace(place);
         schedule.setState(2);
         ss.save(schedule);
-        logger.info("makeMeeting = ",date);
         ss.updateAm(scheduleIdx, 2, date);
     }
 
@@ -303,15 +306,12 @@ public class ProcessController {
     public void finishMeeting(@RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("ids") List<String> ids) {
         Schedule schedule = ss.get(scheduleIdx);
         schedule.setState(3);
-        logger.info("TEST START");
         Set<Appointment> appointments = schedule.getAppointments();
-        logger.info(ids+ "WHAT");
+        logger.info("Meeting 종료");
         for (int i = 0; i < ids.size(); i++) {
             for (Appointment a : appointments) {
-                logger.info("WHAT?");
                 if (a.getUser().getId().equals(ids.get(i))) {
-                    logger.info("SAVE GOOD!");
-                    a.setState(3);
+                    a.setState(3); // 참가 확정
                     ss.save(schedule);
                     break;
                 }

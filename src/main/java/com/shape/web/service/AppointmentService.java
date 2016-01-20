@@ -6,6 +6,7 @@ import com.shape.web.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,31 +28,30 @@ public class AppointmentService {
     ScheduleService ss;
 
     public Appointment get(Integer id) {
-        Session session=sessionFactory.openSession();
-        return (Appointment)session.get(Appointment.class,id);
+        Session session = sessionFactory.openSession();
+        return (Appointment) session.get(Appointment.class, id);
     }
+
     public Appointment save(Appointment Appointment) {
-        Session session=sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         session.saveOrUpdate(Appointment);
         session.flush();
         session.close();
         return Appointment;
     }
 
-
-
-
-    public Appointment make(Appointment appointment, Integer userIdx,Integer scheduleIdx,Date date){
-        Session session=sessionFactory.openSession();
+    public Appointment make(Appointment appointment, Integer userIdx, Integer scheduleIdx, Date date) {
+        Session session = sessionFactory.openSession();
         Schedule schedule = ss.get(scheduleIdx);
-        Appointment temp= (Appointment)session.createCriteria(Appointment.class)
-                .createAlias("schedule","schedule")
-                .createAlias("user","user")
-                .add(Restrictions.eq("date",date))
-                .add(Restrictions.eq("user.useridx",userIdx))
-                .add(Restrictions.eq("schedule.scheduleidx",scheduleIdx))
+        Appointment temp = (Appointment) session.createCriteria(Appointment.class)
+                .createAlias("schedule", "schedule")
+                .createAlias("user", "user")
+                .add(Restrictions.eq("date", date))
+                .add(Restrictions.eq("user.useridx", userIdx))
+                .add(Restrictions.eq("schedule.scheduleidx", scheduleIdx))
                 .uniqueResult();
-        if(temp==null) {
+
+        if (temp == null) {
             session.saveOrUpdate(appointment);
             session.flush();
             session.close();
@@ -59,16 +59,24 @@ public class AppointmentService {
         return appointment;
     }
 
-    public boolean check(Integer size,Integer scheduleIdx,Date date){
-        Session session=sessionFactory.openSession();
-       List<Appointment> lap= session.createCriteria(Appointment.class)
-               .createAlias("schedule","schedule")
+    public boolean check(Integer size, Integer scheduleIdx, Date date) {
+        Session session = sessionFactory.openSession();
+        List<Appointment> lap = session.createCriteria(Appointment.class)
+                .createAlias("schedule", "schedule")
+                .add(Restrictions.eq("date", date))
+                .add(Restrictions.eq("schedule.scheduleidx", scheduleIdx))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+
+      /*  Integer num=(Integer)session.createCriteria(Appointment.class)
+                .createAlias("schedule","schedule")
+                .add(Restrictions.eq("schedule.scheduleidx",scheduleIdx))
                 .add(Restrictions.eq("date",date))
-               .add(Restrictions.eq("schedule.scheduleidx",scheduleIdx))
-               .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-               .list();
-        if(lap.size()==size){
-            for(Appointment ap:lap){
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
+    */
+        if (lap.size() == size) {
+            for (Appointment ap : lap) {
                 ap.setState(1);
                 session.saveOrUpdate(ap);
             }

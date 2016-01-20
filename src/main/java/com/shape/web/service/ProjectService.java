@@ -1,6 +1,7 @@
 package com.shape.web.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +62,7 @@ public class ProjectService {
         Session session = sessionFactory.openSession();
         List<Schedule> ls = session.createCriteria(Schedule.class)
                 .createAlias("project", "project")
+                .add(Restrictions.ge("enddate",new Date()))
                 .add(Restrictions.eq("project.projectidx", projectIdx))
                 .addOrder(Order.asc("state"))
                 .addOrder(Order.asc("startdate"))

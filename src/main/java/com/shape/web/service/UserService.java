@@ -1,6 +1,7 @@
 package com.shape.web.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -33,11 +34,14 @@ public class UserService {
         List<Todolist> lt = session.createCriteria(Todolist.class)
                 .createAlias("user","user")
                 .add(Restrictions.eq("user.useridx",user.getUseridx()))
+                .add(Restrictions.ge("enddate",new Date()))
                 .addOrder(Order.desc("todolistidx"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return lt;
     }
+
     public User getById(String id) {
         Session session = sessionFactory.openSession();
         User u=(User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
@@ -103,6 +107,7 @@ public class UserService {
             .createAlias("project","project")
                 .createAlias("project.users","users")
                 .add(Restrictions.eq("users.useridx",user.getUseridx()))
+                .add(Restrictions.ge("enddate",new Date()))
                 .addOrder(Order.desc("scheduleidx"))
                 .list();
         session.close();
@@ -120,6 +125,7 @@ public class UserService {
         session.close();
         return lp;
     }
+
     public List<Alarm> getAlarms(Integer userIdx){
         Session session=sessionFactory.openSession();
         List<Alarm> la=session.createCriteria(Alarm.class)
