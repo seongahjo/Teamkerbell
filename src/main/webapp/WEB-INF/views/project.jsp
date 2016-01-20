@@ -197,10 +197,10 @@
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="userInfo"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
                                     </div>
 
                                 </div>
@@ -254,7 +254,7 @@
                 <li class="treeview active">
                     <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="#"><i class="fa fa-key"></i> Change user Info</a></li>
+                        <li class="active"><a href="userInfo/${user.id}"><i class="fa fa-key"></i> Change user Info</a></li>
                         <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
                     </ul>
                 </li>
@@ -266,7 +266,7 @@
                             <c:forEach var="list" items="${projects}"> <!-- ��Ʈ�ѷ����� �Ѱܹ��� ������Ʈ�� list�� ���� -->
                                 <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
                             </c:forEach>
-                            <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
                 </li>

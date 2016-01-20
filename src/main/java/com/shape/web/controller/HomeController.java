@@ -66,9 +66,15 @@ public class HomeController {
         return mv;
     }
 
-    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-    public ModelAndView UserInfo() {
+    @RequestMapping(value = "/userInfo/{userId}", method = RequestMethod.GET)
+    public ModelAndView UserInfo(@PathVariable("userId") String userId) {
+        User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
+        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환
+
         ModelAndView mv = new ModelAndView("/userInfo");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
+        mv.addObject("user", user);
+        mv.addObject("projects", lpj);
+
         return mv;
     }
 

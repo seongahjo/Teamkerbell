@@ -149,6 +149,7 @@ public class UserService {
                 .add(Restrictions.ne("contentid",0))
                 .addOrder(Order.desc("date"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .setMaxResults(15)
                 .list();
         session.close();
         return la;
