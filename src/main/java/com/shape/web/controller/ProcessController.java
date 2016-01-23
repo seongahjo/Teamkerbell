@@ -350,6 +350,14 @@ public class ProcessController {
         }
         return event;
     }
-
+    @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
+    @ResponseBody
+    public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
+        Alarm alarm = us.getOneAlarm(userIdx);
+        logger.info("HAHAHO",alarm.getDate());
+        Map<String, String> data = new HashMap<String, String>();
+         logger.info("OK WHATS");
+        return data;
+    }
 
 }

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import com.shape.web.entity.*;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -138,6 +139,23 @@ public class UserService {
                 .list();
         session.close();
         return la;
+    }
+
+    public Alarm getOneAlarm(Integer userIdx){
+        Session session=sessionFactory.openSession();
+        Alarm alarm=(Alarm)session.createCriteria(Alarm.class)
+                .createAlias("user","user")
+                .add(Restrictions.eq("user.useridx",userIdx))
+                .add(Restrictions.eq("isshow",true))
+                .add(Restrictions.eq("contentid",0))
+                .addOrder(Order.asc("date"))
+                .setMaxResults(1)
+                .uniqueResult();
+
+        // only 하나만 받는방법..을생각해보자
+        // HQL 쓴다
+        session.close();
+        return alarm;
     }
 
     public List<Alarm> getTimeline(User user){

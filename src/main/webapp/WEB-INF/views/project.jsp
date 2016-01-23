@@ -910,7 +910,16 @@
             $("#memo").val(memo);
         });
         socket.on('alarm', function () {
-
+                var par="userIdx="+${user.useridx};
+                $.ajax({
+                    url: "../updateAlarm",
+                    data: par,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
         });
         $('#file').hover(function (event) {
             $('#file_over').addClass('front_hover');
