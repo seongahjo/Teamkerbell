@@ -663,13 +663,25 @@
                 
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" alt="First slide">
+                    <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" alt="First slide" style="width:550px;height:305.547px">
                   </div>
                   <div class="item">
-                    <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" alt="Second slide">
+                    <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" alt="Second slide" style="width:550px;height:305.547px">
                   </div>
                   <div class="item">
-                    <img src="http://placehold.it/900x500/f39c12/ffffff&text=I+Love+Bootstrap" alt="Third slide">
+                    <img src="http://placehold.it/900x500/f39c12/ffffff&text=I+Love+Bootstrap" alt="Third slide" style="width:550px;height:305.547px">
+                  </div>      
+                  <div class="item">
+                   <img src="http://placehold.it/150x100" alt="Fifth slide" style="width:550px;height:305.547px">
+                  </div>
+                   <div class="item">
+                   <img src="http://placehold.it/150x100" alt="Seventh slide" style="width:550px;height:305.547px">
+                  </div>
+                   <div class="item">
+                    <img src="http://placehold.it/150x100" alt="Eighth slide" style="width:550px;height:305.547px">
+                  </div>
+                   <div class="item">
+                    <img src="http://placehold.it/150x100" alt="Ninth slide" style="width:550px;height:305.547px">
                   </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -679,34 +691,19 @@
                   <span class="fa fa-angle-right"></span>
                 </a>
               </div>
+               <div class="timeline-item">
+                <div class="timeline-body">
+                  <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" class="margin" style="width:150px;height:100px" alt="First slide">
+                  <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" class="margin" style="width:150px;height:100px" alt="Second slide">
+                  <img src="http://placehold.it/900x500/f39c12/ffffff&text=I+Love+Bootstrap" class="margin" style="width:150px;height:100px"alt="Third slide">
+                  <img src="http://placehold.it/150x100" alt="Fifth slide" class="margin" style="width:150px;height:100px">
+                  <img src="http://placehold.it/150x100" alt="Seventh slide" class="margin" style="width:150px;height:100px">
+                  <img src="http://placehold.it/150x100" alt="Eighth slide" class="margin" style="width:150px;height:100px">
+                  <img src="http://placehold.it/150x100" alt="Ninth slide" class="margin" style="width:150px;height:100px">
+                </div>
+              </div>
             </div>
-                    <div class="gallery" style="overflow:auto">
-                        <a href="http://c1.staticflickr.com/9/8037/7897220164_3e3aa82d43_h.jpg"
-                           title="An elegant profile by Takumi Yoshida, on Flickr" class="zoom">
-                            <img src="https://farm9.staticflickr.com/8037/7897220164_7950bc48ed_n.jpg" width="106"
-                                 height="160" alt="An elegant profile">
-                        </a>
-                        <a href="http://c2.staticflickr.com/6/5478/9531699422_fe130c112c_k.jpg"
-                           title="_MG_9696 by Takumi Yoshida, on Flickr" class="zoom">
-                            <img src="https://farm6.staticflickr.com/5478/9531699422_fdb940c06a_n.jpg" width="160"
-                                 height="106" alt="_MG_9696">
-                        </a>
-                        <a href="http://c2.staticflickr.com/4/3697/9531555260_19ad5113a5_k.jpg"
-                           title="rose by Takumi Yoshida, on Flickr" class="zoom">
-                            <img src="https://farm4.staticflickr.com/3697/9531555260_b432af93d2_n.jpg" width="160"
-                                 height="106" alt="rose">
-                        </a>
-                        <a href="http://c2.staticflickr.com/6/5450/8970878075_06589570a8_k.jpg"
-                           title="Arsenale ruin by Takumi Yoshida, on Flickr" class="zoom">
-                            <img src="https://farm6.staticflickr.com/5450/8970878075_232a1eb081_n.jpg" width="160"
-                                 height="160" alt="Arsenale ruin">
-                        </a>
-                        <a href="https://c1.staticflickr.com/9/8301/7897238688_2b7318b6a7_k.jpg"
-                           title="V by Takumi Yoshida, on Flickr" class="zoom">
-                            <img src="https://farm9.staticflickr.com/8301/7897238688_1d7ae06e36_n.jpg" width="106"
-                                 height="160" alt="V">
-                        </a>
-                    </div>
+                    
 
 
                 </div>
