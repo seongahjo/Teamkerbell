@@ -198,4 +198,15 @@ public class HomeController {
         return mv;
     }
     
+    @RequestMapping(value = "/courseInfo/{userId}", method = RequestMethod.GET)
+    public ModelAndView CourseInfo(@PathVariable("userId") String userId, HttpSession session) {
+        User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
+
+        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환   
+        ModelAndView mv = new ModelAndView("/courseInfo");
+        mv.addObject("user", user);
+        mv.addObject("projects", lpj);
+        return mv;
+    }
+    
 }

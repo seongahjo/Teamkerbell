@@ -202,7 +202,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href=../courseInfo><i class="fa fa-university"></i><span> Info of Courses</span></a>
+                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Info of Courses</span></a>
                     
                 </li>
             </ul>

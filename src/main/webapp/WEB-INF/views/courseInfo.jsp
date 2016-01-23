@@ -26,8 +26,7 @@
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
 	 <link rel="stylesheet" href="../css/bootstrap.min.css">
-	<!--Files-->
-    <link href="../css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
+
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -222,10 +221,11 @@
         <!-- Main content -->
         <section class="content">
 
+<div class="row">
 
-
-
-</section>
+</div>
+        </section>
+        <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
 
@@ -252,6 +252,7 @@
 <script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
+
 
 </body>
 </html>
