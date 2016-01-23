@@ -198,7 +198,7 @@
                 <div class="pull-left image">
                     <img src="../${user.img}" class="img-circle" alt="User Image">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
