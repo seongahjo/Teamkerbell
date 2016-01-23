@@ -339,7 +339,7 @@
                                 <i class="ion ion-ios-upload"></i>
                             </div>
                         </a>
-                        <a onclick="#" class="small-box-footer">File Manager <i
+                        <a href="../filemanager/${project.projectidx}" class="small-box-footer">File Manager <i
                                 class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -663,7 +663,7 @@
                 
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" alt="First slide" style="width:550px;height:305.547px">
+                    <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" alt="First slide">
                   </div>
                   <div class="item">
                     <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" alt="Second slide" style="width:550px;height:305.547px">
@@ -910,16 +910,7 @@
             $("#memo").val(memo);
         });
         socket.on('alarm', function () {
-                var par="userIdx="+${user.useridx};
-                $.ajax({
-                    url: "../updateAlarm",
-                    data: par,
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        console.log(data);
-                    }
-                });
+
         });
         $('#file').hover(function (event) {
             $('#file_over').addClass('front_hover');
