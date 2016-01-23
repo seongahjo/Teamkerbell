@@ -27,6 +27,7 @@
 
 	 <link rel="stylesheet" href="../css/bootstrap.min.css">
 	<!--tags-->
+	<link href="../css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
 	<!-- end tags-->
 	<!--Files-->
     <link href="../css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
@@ -183,15 +184,13 @@
                 <!-- Optionally, you can add icons to the links -->
 
                 <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                    <a href="#"><i class="fa fa-user"></i><span> MyProfile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
                     </ul>
                 </li>
-
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-usb"></i><span>Projectrooms</span></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Projectrooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
@@ -201,6 +200,10 @@
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-university"></i><span> Info of Courses</span></a>
+                    
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
@@ -221,28 +224,19 @@
 
         <!-- Main content -->
         <section class="content">
-<div class="row">
-<div class="col-md-10">
-       <p><strong>File manager</strong></p>
-<!--  bs-example // tag -->
-              
-              
-              
-              
-              
-              
-              
-              
-              
-  </div>
-
-</div>
-<!--end first row-->
 
 <div class="row">
 <div class="col-md-10">
+
                     <div class="box">
                         <div class="box-header">
+                          <p><strong>File manager</strong></p>
+ <div class="bs-example">
+                <div class="form-group" >
+				 <i class="fa fa-search fa-2x pull-right" style="float:left;padding-right:26%"></i> 
+                  <input type="text" class="form-control" style="width:70%;float:left" id="tokenfield-typeahead" value="red,green,blue" placeholder="Type something and hit enter for tags" />            
+			   </div>
+              </div>   
                          
                         </div>
                         <!-- /.box-header -->
@@ -425,6 +419,10 @@
 <!--Table-->
 <script src="../js/jquery.dataTables.min.js"></script>
 <script src="../js/dataTables.bootstrap.min.js"></script>
+<!-- tag -->
+ <script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
+   <script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
+   <script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
 <script>
 $(function () {
     $("#example1").DataTable();
