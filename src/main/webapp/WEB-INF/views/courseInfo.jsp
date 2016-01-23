@@ -26,9 +26,6 @@
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
 	 <link rel="stylesheet" href="../css/bootstrap.min.css">
-	<!--tags-->
-	<link href="../css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-	<!-- end tags-->
 	<!--Files-->
     <link href="../css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
 
@@ -225,170 +222,10 @@
         <!-- Main content -->
         <section class="content">
 
-<div class="row">
-<div class="col-md-10">
 
-                    <div class="box">
-                        <div class="box-header">
-                          <p><strong>File manager</strong></p>
- <div class="bs-example">
-                <div class="form-group" >
-				 <i class="fa fa-search fa-2x pull-right" style="float:left;padding-right:26%"></i> 
-                  <input type="text" class="form-control" style="width:70%;float:left" id="tokenfield-typeahead" value="red,green,blue" placeholder="Type something and hit enter for tags" />            
-			   </div>
-              </div>   
-                         
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Uploader</th>
-                                    <th>Date</th>
-									<th>Main Contents</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>file1.txt</td>
-                                    <td>sieun</td>
-                                    <td>2016/12/15</td>
-									<td>red,pizza,bbq</td>
-                                </tr>
-                                <tr>
-                                    <td>image1.txt</td>
-                                    <td>jun</td>
-                                    <td>2016/12/15</td>
-									<td>blue,Apink,bbq</td>
-                                </tr>
-                                <tr>
-                                    <td>hangle6.txt</td>
-                                    <td>hoho</td>
-                                    <td>2015/11/15</td>
-									<td>Twice,pink,dol</td>
-                                </tr>
-                                <tr>
-                                    <td>siniJ6.txt</td>
-                                    <td>hoho</td>
-                                    <td>2015/11/15</td>
-									<td>Change,KFC,CGV</td>
-                                </tr>
-                                <tr>
-                                    <td>siniJ7.txt</td>
-                                    <td>hoho</td>
-                                    <td>2015/11/15</td>
-									<td>Subprogram,Nuts,big</td>
-                                </tr>
-                                <tr>
-                                    <td>siniJ8.txt</td>
-                                    <td>hoho</td>
-                                    <td>2015/11/15</td>
-									<td>care,zare,bbq</td>
-                                </tr>
-                                <tr>
-                                    <td>siniJ10.txt</td>
-                                    <td>hoho</td>
-                                    <td>2015/11/15</td>
-									<td>red,Speed,wifi</td>
-                                </tr>
 
-                                <tr>
-                                    <td>jolrim10.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>olleh,5G,kt</td>
-                                </tr>
-                                <tr>
-                                    <td>jolrim3.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>Skt,4G,Tmembership</td>
-                                </tr>
-                                <tr>
-                                    <td>nanem.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>LG,4G,UPlus</td>
-                                </tr>
-                                <tr>
-                                    <td>nanem3.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>sin,gang,bbq</td>
-                                </tr>
-                                <tr>
-                                    <td>jarr13.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>samsung,sec,persnet</td>
-                                </tr>
-                                <tr>
-                                    <td>html3.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>game,star,Ok</td>
-                                </tr>
-                                <tr>
-                                    <td>apple1.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>Passion,pizza,bbq</td>
-                                </tr>
-                                <tr>
-                                    <td>apple5.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>kalocut,pizza,bbq</td>
-                                </tr>
-                                <tr>
-                                    <td>banana3.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>sudden,pizza,attack</td>
-                                </tr>
-                                <tr>
-                                    <td>banana8.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>gun,fight,map</td>
-                                </tr>
-                                <tr>
-                                    <td>banana10.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>auction,gmarket,11st</td>
-                                </tr>
-                                <tr>
-                                    <td>delete.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>skinfood,color,nique</td>
-                                </tr>
-                                <tr>
-                                    <td>project.txt</td>
-                                    <td>hzz</td>
-                                    <td>2015/11/15</td>
-									<td>melon,mnet,milk</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Uploader</th>
-                                    <th>Date</th>
-									<th>Main Contents</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-</div>
-</div>
-        </section>
-        <!-- /.content -->
+
+</section>
     </div>
     <!-- /.content-wrapper -->
 
@@ -416,25 +253,5 @@
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
 
-<!--Table-->
-<script src="../js/jquery.dataTables.min.js"></script>
-<script src="../js/dataTables.bootstrap.min.js"></script>
-<!-- tag -->
- <script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
-   <script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
-   <script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
-<script>
-$(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
-  });
-</script>
 </body>
 </html>

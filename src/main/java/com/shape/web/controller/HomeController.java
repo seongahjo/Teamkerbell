@@ -190,4 +190,12 @@ public class HomeController {
         mv.addObject("projects", lpj);
         return mv;
     }
+    
+    
+    @RequestMapping(value = "/courseInfo", method = RequestMethod.GET)
+    public ModelAndView CourseInfo() {
+        ModelAndView mv = new ModelAndView("/courseInfo");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
+        return mv;
+    }
+    
 }
