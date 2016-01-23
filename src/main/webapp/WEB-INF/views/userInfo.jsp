@@ -139,40 +139,7 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-                    <!--
-                            <li class="dropdown tasks-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-flag-o"></i>
-                                    <span class="label label-danger">9</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="header">You have 9 tasks</li>
-                                    <li>
-                                         <ul class="menu">
-                                            <li>
-                                            <a href="#">
-                                                    <h3>
-                                                        Design some buttons
-                                                        <small class="pull-right">20%</small>
-                                                    </h3>
-                                                    <div class="progress xs">
-                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%"
-                                                             role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                             aria-valuemax="100">
-                                                            <span class="sr-only">20% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="footer">
-                                        <a href="#">View all tasks</a>
-                                    </li>
-                                </ul>
-                            </li>-->
-                    <!-- User Account Menu -->
+                 
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
@@ -321,9 +288,9 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputFile">Change image</label>
-                                    <input type="file" id="exampleInputFile">
+                                    <input type="file" onchange="previewImage(this,'preimage')">
                                 </div>
-
+								<div id='preimage' style="width:100px;height:100px"></div>
 
                             </div>
                             <!-- /.box-body -->
@@ -487,19 +454,52 @@
         </div>
     </div>
 </div>
-<!-- jQuery 2.1.4 -->
+<!-- jQuery 2.1.4 http://ohming.tistory.com/250-->
 <script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
 <script src="../js/prettydate.min.js"></script>
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
 <script>
+function previewImage(targetObj,preimage){
 
+var preview = document.getElementById('preimage'); //divid
+
+
+var files = targetObj.files;
+for(var i = 0; i< files.length; i++)
+	{
+	var file= files[i];
+	var imageType=/image.*/;//spread if image
+	if(!file.type.match(imageType))
+		continue;
+	
+	var prevImg = document.getElementById("prev_"+preimage); //delete if preview image is existed
+	if(prevImg){
+		preview.removeChild(prevImg);
+	}
+	//Chrome, impossible to insert image to div , so make child Element
+	var img=document.createElement("img");
+	img.id="prev_"+preimage;
+	img.classList.add("obj");
+	img.file=file;
+	img.style.width='100px'; //fix the width of idv
+	img.style.height='100px';
+	
+	preview.appendChild(img);
+	
+	if(window.FileReader){
+		var reader =new FileReader();
+		reader.onloadend =(function(aImg){
+			return function(e){
+				aImg.src=e.target.result;				
+			};			
+		})(img);
+		reader.readAsDataURL(file);	
+	}
+	}
+}
 </script>
 </body>
 </html>

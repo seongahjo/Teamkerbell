@@ -42,3 +42,9 @@ color:#0000ff;
 .fa-user-plus:hover{
 color:#400040;	
 }
+.preview {
+    max-width: 200px;
+    max-height: 200px;
+    margin-right: 10px;
+    border: 1px solid #999;
+}
