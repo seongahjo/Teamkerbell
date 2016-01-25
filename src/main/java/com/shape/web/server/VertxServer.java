@@ -51,7 +51,7 @@ ChatlogService cs;*/
                 socket.on("join", new Handler<JsonObject>() { //room
                     public void handle(JsonObject event) {
                         String projectIdx = event.getString("projectIdx");
-                        ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"),event.getString("userId"), event.getString("userName"), event.getString("userImg"));
+                        ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"),event.getString("userId"), event.getString("userName"), event.getString("userImg"),socket.getId());
                         Clients.put(socket.getId(), su); // Socket에 해당하는 Room저장
                         logger.info("방 아이디 : " + projectIdx + " 접속 " + socket.getId());
                         if (Rooms.get(projectIdx) != null) { //방이 존재할경우
@@ -63,8 +63,7 @@ ChatlogService cs;*/
                         }
                         socket.join(projectIdx);
                         for (ServerUser temp : Clients.values()) {
-                            logger.info("LIST : " + temp.getName());
-                            io.sockets().in(projectIdx).emit("adduser", temp.getId());
+                            io.sockets().in(temp.getProjectIdx()).emit("adduser", temp.getId());
                         }
 
                     }
@@ -81,7 +80,7 @@ ChatlogService cs;*/
                             socket.leave(projectIdx);
                             Clients.remove(socket.getId());
                             for (ServerUser temp : Clients.values()) { //새로고침 방지
-                                if (temp.getName().equals(su.getName())) {
+                                if (temp.getName().equals(su.getName()) && temp.getProjectIdx()==su.getProjectIdx()) {
                                     flag = false;
                                 }
                             }
@@ -176,12 +175,14 @@ ChatlogService cs;*/
 
                 socket.on("invite", new Handler<JsonObject>() {
                     public void handle(JsonObject event) {
-                        Integer userIdx = event.getInteger("userIdx");
-                        ServerUser su = Clients.get(socket.getId());
-                        if (su.getUserIdx() == userIdx) {
-                            socket.emit("alarm");
+                        Integer userIdx = Integer.parseInt(event.getString("userIdx"));
+                            for(ServerUser temp : Clients.values()){
+                                if(temp.getUserIdx()==userIdx){
+                                    io.sockets().socket(temp.getSocketId(),false).emit("alarm");
+                                }
+                            }
+
                         }
-                    }
                 });
             }
 

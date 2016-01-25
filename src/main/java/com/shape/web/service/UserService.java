@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -143,17 +144,19 @@ public class UserService {
 
     public Alarm getOneAlarm(Integer userIdx){
         Session session=sessionFactory.openSession();
-        Alarm alarm=(Alarm)session.createCriteria(Alarm.class)
+       /* Alarm alarm=(Alarm)session.createCriteria(Alarm.class)
                 .createAlias("user","user")
                 .add(Restrictions.eq("user.useridx",userIdx))
                 .add(Restrictions.eq("isshow",true))
                 .add(Restrictions.eq("contentid",0))
                 .addOrder(Order.asc("date"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .setMaxResults(1)
-                .uniqueResult();
-
-        // only 하나만 받는방법..을생각해보자
-        // HQL 쓴다
+                .uniqueResult();*/
+        Query query= session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  with User.useridx = :useridx order by Alarm.date desc where  Alarm.contentid=0 and Alarm.isshow=true");
+       query.setParameter("useridx",userIdx, StandardBasicTypes.INTEGER);
+        query.setMaxResults(1);
+        Alarm alarm = (Alarm)query.uniqueResult();
         session.close();
         return alarm;
     }

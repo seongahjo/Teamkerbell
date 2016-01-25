@@ -6,16 +6,18 @@ public class ServerUser {
     private String id;
     private String name;
     private String img;
+    private String socketId;
 
     public ServerUser() {
     }
 
-    public ServerUser(String projectIdx, Integer userIdx, String id, String name, String img) {
+    public ServerUser(String projectIdx, Integer userIdx, String id, String name, String img, String socketId) {
         this.projectIdx = projectIdx;
         this.userIdx = userIdx;
         this.id = id;
         this.name = name;
         this.img = img;
+        this.socketId = socketId;
     }
 
     public String getId() {
@@ -56,5 +58,13 @@ public class ServerUser {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getSocketId() {
+        return socketId;
+    }
+
+    public void setSocketId(String socketId) {
+        this.socketId = socketId;
     }
 }

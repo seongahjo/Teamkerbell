@@ -115,12 +115,12 @@
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">${alarm.size()}</span>
+                            <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content" >You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -824,7 +824,7 @@
 <script src="../js/daterangepicker.js"></script>
 <!-- Select -->
 <script src="../js/select2.full.min.js"></script>
-
+<script src="../js/alarm.js"></script>
 <script src="../js/socket.io.js"></script>
 <script src="../js/prettydate.min.js"></script>
 <script src="../js/jquery.filepicker.js"></script>
@@ -868,7 +868,7 @@
     var Tminute = "${project.minute}";
     var socket;
     $(document).ready(function () {
-        socket = io.connect("http://localhost:9999");
+        socket = io.connect("http://192.168.10.105:9999");
         socket.emit('join', {
             projectIdx: "${project.projectidx}",
             userIdx:${user.useridx},
@@ -909,7 +909,8 @@
         socket.on('refresh', function (memo) {
             $("#memo").val(memo);
         });
-        socket.on('alarm', function () {
+        socket.on('alarm', function (data) {
+            console.log('alarm');
                 var par="userIdx="+${user.useridx};
                 $.ajax({
                     url: "../updateAlarm",
@@ -917,7 +918,21 @@
                     dataType: 'json',
                     type: 'GET',
                     success: function (data) {
-                        console.log(data);
+                        var size=parseInt($("#alarm-size").text())+1;
+                        $("#alarm-size").text(size);
+                        $("#alarm-content").text('You have '+size+'notifications');
+                        $("#alarm-list").prepend('<li id="alarm-"'+data.alarmidx+'><a href="#">'+
+                                                '<i class="fa fa-users text-aqua"></i><strong>'+data.actorid+'</strong>'+
+                                                'has invited you to <strong>'+data.projectname+'</strong>'+
+                                                '<div style="float:right;">'+
+                                                   ' <button type="button" class="btn btn-primary btn-xs"'+
+                                                            'onclick=accept("'+data.alarmidx+'")>Ok</button>'+
+                                                    '<button type="button" class="btn btn-default btn-xs"'+
+                                                            'onclick=decline("'+data.alarmidx+'")>Cancel'+
+                                                    '</button>'+
+                                                '</div>'+
+                                            '</a>'+
+                                        '</li>');
                     }
                 });
         });
@@ -967,7 +982,8 @@
             contentType: false,
             type: 'GET',
             success: function (data) {
-                socket.emit('invite', {userIdx:${user.useridx}});
+                socket.emit('invite', {userIdx:data});
+                console.log(data+"Invite");
                 $("#InviteUser").modal('hide');
             }
         });
@@ -981,7 +997,7 @@
             data: par,
             success: function (data) {
                 inviteU = data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src=../"' + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="'+"../"+ data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
             }
         });
     }

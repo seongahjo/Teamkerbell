@@ -121,7 +121,8 @@ public class ProcessController {
         alarm.setActor(actor);
         alarm.setProject(project);
         as.save(alarm);
-        return String.valueOf(userIdx);
+
+        return String.valueOf(user.getUseridx());
     }
 
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
@@ -354,9 +355,14 @@ public class ProcessController {
     @ResponseBody
     public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
         Alarm alarm = us.getOneAlarm(userIdx);
-        logger.info("HAHAHO",alarm.getDate());
+        if(alarm!=null) {
+            logger.info("HAHAHO "+ alarm.getDate());
+            logger.info("OK WHATS");
+        }
         Map<String, String> data = new HashMap<String, String>();
-         logger.info("OK WHATS");
+        data.put("alarmidx",String.valueOf(alarm.getAlarmidx()));
+        data.put("projectname",alarm.getProject().getName());
+        data.put("actorid",alarm.getActor().getId());
         return data;
     }
 
