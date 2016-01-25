@@ -875,7 +875,7 @@
             contentType: false,
             type: 'GET',
             success: function (data) {
-                socket.emit('invite', {userIdx:${user.useridx}});
+                socket.emit('invite', {userIdx:data});
                 $("#InviteUser").modal('hide');
             }
         });
