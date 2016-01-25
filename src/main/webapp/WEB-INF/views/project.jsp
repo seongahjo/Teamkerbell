@@ -79,12 +79,12 @@
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">${alarm.size()}</span>
+                            <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -813,7 +813,21 @@
             $("#memo").val(memo);
         });
         socket.on('alarm', function () {
-
+             var size=parseInt($("#alarm-size").text())+1;
+                        $("#alarm-size").text(size);
+                        $("#alarm-content").text('You have '+size+'notifications');
+                        $("#alarm-list").prepend('<li id="alarm-"'+data.alarmidx+'><a href="#">'+
+                                                '<i class="fa fa-users text-aqua"></i><strong>'+data.actorid+'</strong>'+
+                                                'has invited you to <strong>'+data.projectname+'</strong>'+
+                                                '<div style="float:right;">'+
+                                                   ' <button type="button" class="btn btn-primary btn-xs"'+
+                                                            'onclick=accept("'+data.alarmidx+'")>Ok</button>'+
+                                                    '<button type="button" class="btn btn-default btn-xs"'+
+                                                            'onclick=decline("'+data.alarmidx+'")>Cancel'+
+                                                    '</button>'+
+                                                '</div>'+
+                                            '</a>'+
+                                        '</li>');
         });
         $('#file').hover(function (event) {
             $('#file_over').addClass('front_hover');
