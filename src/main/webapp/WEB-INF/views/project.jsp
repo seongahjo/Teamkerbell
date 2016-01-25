@@ -339,7 +339,7 @@
                                 <i class="ion ion-ios-upload"></i>
                             </div>
                         </a>
-                        <a onclick="#" class="small-box-footer">File Manager <i
+                        <a href="../filemanager/${project.projectidx}" class="small-box-footer">File Manager <i
                                 class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
