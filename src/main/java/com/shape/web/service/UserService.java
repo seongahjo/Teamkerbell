@@ -19,24 +19,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService  {
     @Resource
     private SessionFactory sessionFactory;
 
-    public User save(User user){
-        Session session=sessionFactory.openSession();
+    public User save(User user) {
+        Session session = sessionFactory.openSession();
         session.merge(user);
         session.flush();
         session.close();
         return user;
     }
 
-    public List<Todolist> getTodolist(User user){
-        Session session=sessionFactory.openSession();
+    public List<Todolist> getTodolist(User user) {
+        Session session = sessionFactory.openSession();
         List<Todolist> lt = session.createCriteria(Todolist.class)
-                .createAlias("user","user")
-                .add(Restrictions.eq("user.useridx",user.getUseridx()))
-                .add(Restrictions.ge("enddate",new Date()))
+                .createAlias("user", "user")
+                .add(Restrictions.eq("user.useridx", user.getUseridx()))
+                .add(Restrictions.ge("enddate", new Date()))
                 .addOrder(Order.desc("todolistidx"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
@@ -46,21 +46,22 @@ public class UserService {
 
     public User getById(String id) {
         Session session = sessionFactory.openSession();
-        User u=(User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
+        User u = (User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
         session.close();
         return u;
     }
 
     public User get(Integer useridx) {
         Session session = sessionFactory.openSession();
-        User u=(User) session.get(User.class, useridx);
+        User u = (User) session.get(User.class, useridx);
         session.close();
         return u;
 
     }
-    public void addProject(Integer userIdx,Project project){
-        Session session=sessionFactory.openSession();
-        User user=(User)session.get(User.class,userIdx);
+
+    public void addProject(Integer userIdx, Project project) {
+        Session session = sessionFactory.openSession();
+        User user = (User) session.get(User.class, userIdx);
         user.addProject(project);
         session.update(user);
         session.flush();
@@ -69,8 +70,8 @@ public class UserService {
 
     public void deleteProject(Integer projectIdx) {
         Session session = sessionFactory.openSession();
-        Project project=(Project)session.get(Project.class,projectIdx);
-        for(User u :project.getUsers()){
+        Project project = (Project) session.get(Project.class, projectIdx);
+        for (User u : project.getUsers()) {
             u.getProjects().remove(project);
             session.merge(u);
         }
@@ -79,18 +80,19 @@ public class UserService {
         session.close();
     }
 
-    public User add(String id, String name,String pw, String img) {
+    public User add(String id, String name, String pw, String img) {
         Session session = sessionFactory.openSession();
-         User   user=new User();
-            user.setId(id);
-            user.setName(name);
-            user.setImg(img);
-            user.setPw(pw);
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setImg(img);
+        user.setPw(pw);
         session.save(user);
         session.flush();
         session.close();
         return user;
     }
+
     public User edit(Integer useridx, String id, String pw, String name, String img) {
         User user = get(useridx);
         Session session = sessionFactory.openSession();
@@ -103,13 +105,13 @@ public class UserService {
         return user;
     }
 
-    public List<Schedule> getScheudles(User user){
-        Session session=sessionFactory.openSession();
+    public List<Schedule> getScheudles(User user) {
+        Session session = sessionFactory.openSession();
         List<Schedule> ls = session.createCriteria(Schedule.class)
-            .createAlias("project","project")
-                .createAlias("project.users","users")
-                .add(Restrictions.eq("users.useridx",user.getUseridx()))
-                .add(Restrictions.ge("enddate",new Date()))
+                .createAlias("project", "project")
+                .createAlias("project.users", "users")
+                .add(Restrictions.eq("users.useridx", user.getUseridx()))
+                .add(Restrictions.ge("enddate", new Date()))
                 .addOrder(Order.desc("scheduleidx"))
                 .list();
         session.close();
@@ -117,10 +119,10 @@ public class UserService {
     }
 
     public List<Project> getProjects(User user){
-        Session session=sessionFactory.openSession();
-        List<Project> lp=session.createCriteria(Project.class)
-                .createAlias("users","users")
-                .add(Restrictions.eq("users.useridx",user.getUseridx()))
+        Session session = sessionFactory.openSession();
+        List<Project> lp = session.createCriteria(Project.class)
+                .createAlias("users", "users")
+                .add(Restrictions.eq("users.useridx", user.getUseridx()))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .addOrder(Order.asc("projectidx"))
                 .list();
@@ -128,13 +130,13 @@ public class UserService {
         return lp;
     }
 
-    public List<Alarm> getAlarms(Integer userIdx){
-        Session session=sessionFactory.openSession();
-        List<Alarm> la=session.createCriteria(Alarm.class)
-                .createAlias("user","user")
-                .add(Restrictions.eq("user.useridx",userIdx))
-                .add(Restrictions.eq("isshow",true))
-                .add(Restrictions.eq("contentid",0))
+    public List<Alarm> getAlarms(Integer userIdx) {
+        Session session = sessionFactory.openSession();
+        List<Alarm> la = session.createCriteria(Alarm.class)
+                .createAlias("user", "user")
+                .add(Restrictions.eq("user.useridx", userIdx))
+                .add(Restrictions.eq("isshow", true))
+                .add(Restrictions.eq("contentid", 0))
                 .addOrder(Order.asc("date"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
@@ -142,8 +144,8 @@ public class UserService {
         return la;
     }
 
-    public Alarm getOneAlarm(Integer userIdx){
-        Session session=sessionFactory.openSession();
+    public Alarm getOneAlarm(Integer userIdx) {
+        Session session = sessionFactory.openSession();
        /* Alarm alarm=(Alarm)session.createCriteria(Alarm.class)
                 .createAlias("user","user")
                 .add(Restrictions.eq("user.useridx",userIdx))
@@ -153,17 +155,17 @@ public class UserService {
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .setMaxResults(1)
                 .uniqueResult();*/
-        Query query= session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  with User.useridx = :useridx order by Alarm.date desc where  Alarm.contentid=0 and Alarm.isshow=true");
-       query.setParameter("useridx",userIdx, StandardBasicTypes.INTEGER);
+        Query query = session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  with User.useridx = :useridx where  Alarm.contentid=0 and Alarm.isshow=true order by Alarm.date desc");
+        query.setParameter("useridx", userIdx, StandardBasicTypes.INTEGER);
         query.setMaxResults(1);
-        Alarm alarm = (Alarm)query.uniqueResult();
+        Alarm alarm = (Alarm) query.uniqueResult();
         session.close();
         return alarm;
     }
 
-    public List<Alarm> getTimeline(User user){
-        Session session=sessionFactory.openSession();
-        List<Alarm> la=session.createCriteria(Alarm.class)
+    public List<Alarm> getTimeline(User user) {
+        Session session = sessionFactory.openSession();
+       /* List<Alarm> la=session.createCriteria(Alarm.class)
                 .createAlias("user","user")
                 .add(Restrictions.eq("user.useridx",user.getUseridx()))
                 .add(Restrictions.eq("isshow",true))
@@ -171,7 +173,11 @@ public class UserService {
                 .addOrder(Order.desc("date"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .setMaxResults(15)
-                .list();
+                .list();*/
+        Query query = session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  where User.useridx = :useridx  and Alarm.isshow = true and Alarm.contentid!=0 order by Alarm.date desc");
+        query.setParameter("useridx", user.getUseridx(), StandardBasicTypes.INTEGER);
+        query.setMaxResults(15);
+        List<Alarm> la = query.list();
         session.close();
         return la;
     }

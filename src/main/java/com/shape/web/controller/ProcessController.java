@@ -42,6 +42,7 @@ public class ProcessController {
     @Autowired
     AppointmentService aps;
 
+
     /*
     Spring Security로 대체할 예정
      */
@@ -60,13 +61,11 @@ public class ProcessController {
 
     //회원가입
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String Register(@RequestParam(value = "name") String name, @RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw
-    ) {
-        if (us.getById(userId) == null) {
+    public String Register(@RequestParam(value = "name") String name, @RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw) {
+        if (us.getById(userId) == null)
             us.add(userId, name, pw, "img/default.jpg");
-        } else
+        else
             return "redirect:/joinus";
-
         return "login";
     }
 
@@ -93,11 +92,11 @@ public class ProcessController {
         Project project = pjs.get(projectIdx);
         User user = us.getById(userId);
         logger.info(project.getName());
-        List<Project> sp = us.getProjects(user); // 유저가 참가중인 프로젝트
-        for (Project p : sp) {
+        List<Project> lp = us.getProjects(user); // 유저가 참가중인 프로젝트
+        for (Project p : lp)
             if (p.getProjectidx() == project.getProjectidx())
                 return null;
-        }
+
         HashMap<String, String> Value = new HashMap<String, String>();
         Value.put("userId", user.getId());
         Value.put("name", user.getName());
@@ -112,16 +111,14 @@ public class ProcessController {
         logger.info("Invite Member");
         Integer userIdx = (Integer) session.getAttribute("userIdx");
         Integer projectIdx = (Integer) session.getAttribute("room");
-        User actor = us.get(userIdx);
-        User user = us.getById(userId);
-        Project project = pjs.get(projectIdx);
-
+        User actor = us.get(userIdx); // 초대한 사람
+        User user = us.getById(userId); // 초대받은 사람
+        Project project = pjs.get(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date());
         alarm.setUser(user);
         alarm.setActor(actor);
         alarm.setProject(project);
-        as.save(alarm);
-
+        as.save(alarm); //알람 생성
         return String.valueOf(user.getUseridx());
     }
 
@@ -141,24 +138,25 @@ public class ProcessController {
         Integer project_id = (Integer) session.getAttribute("room");
         Map<String, Object> map = new HashMap<String, Object>();
         List data = new ArrayList();
-        List<String> temp = new ArrayList<String>();
+
         File dir;
         String foldername = FileUtil.getFoldername(project_id, date);
         dir = new File(foldername);
-
         if (dir.listFiles() != null) {
             for (File f : dir.listFiles()) {
-                FileDB fd = fs.getByOriginalname(f.getName());
+                logger.info(f.getName()+"FILENAME!!!");
+                FileDB fd = fs.getByOriginalname(date,f.getName());
                 if (fd != null) {
+                    List<String> temp = new ArrayList<String>();
                     temp.add("<a href='file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
                     temp.add(fd.getUser().getName());
                     temp.add(fd.getDate().toString());
                     data.add(temp);
-                } else {
+                } else
                     logger.info(f.getName() + "!!!ERROR!!!");
-                }
             }
         }
+
 /* String content = null;
        ArrayList<String> contents = new ArrayList<String>();
         File file;
@@ -166,8 +164,10 @@ public class ProcessController {
         String filename;
           HashMap<Integer, HashMap<String, String>> hm = new HashMap<Integer, HashMap<String, String>>();
       */
+
         // filename = foldername + "/minute.txt";
 //   int size = 0;
+
        /*
         file = new File(filename);
         if (file.exists()) {
@@ -181,7 +181,6 @@ public class ProcessController {
         }*/
 
         map.put("data", data);
-
         return map;
     }
 
@@ -193,9 +192,8 @@ public class ProcessController {
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + file.getOriginalname()));
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(512);
             int imageByte;
-            while ((imageByte = in.read()) != -1) {
+            while ((imageByte = in.read()) != -1)
                 byteStream.write(imageByte);
-            }
             in.close();
             response.setContentType("image/*");
             byteStream.writeTo(response.getOutputStream());
@@ -219,7 +217,6 @@ public class ProcessController {
             alarm.setUser(u);
             as.save(alarm);
         }
-
         logger.info("Schedule 만듬");
     }
 
@@ -227,60 +224,55 @@ public class ProcessController {
     public String makeTodolist(@RequestParam("projectIdx") Integer projectIdx, @RequestParam("userId") String userId, @ModelAttribute("todolist") Todolist todolist) {
         Project project = pjs.get(projectIdx);
         User user = us.getById(userId);
-        todolist.setProject(project);
-        todolist.setUser(user);
-        ts.save(todolist);
+        todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
+        todolist.setUser(user); // todolist가 누구것인가
+        ts.save(todolist); // todolist 생성
         logger.info("todolist 만듬");
         return "redirect:/chat?projectIdx=" + projectIdx;
     }
 
     @RequestMapping(value = "/makeRegister", method = RequestMethod.GET)
     @ResponseBody
-    public void makeRegister(@RequestParam("userIdx") Integer userIdx, @RequestParam("scheduleIdx") Integer scheduleIdx,
-                             @RequestParam("startdate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startdate, @RequestParam("enddate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date enddate,
+    public void makeRegister(@RequestParam("userIdx") Integer userIdx, @RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("startdate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startdate,
+                             @RequestParam("enddate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date enddate,
                              @ModelAttribute("Appointment") Appointment appointment) {
         Schedule schedule = ss.get(scheduleIdx);
         Project project = schedule.getProject();
         User user = us.get(userIdx);
-        boolean check = false;
+        boolean check = false; // 모든사람이 체크를 하였는가?
         appointment.setUser(user);
         appointment.setSchedule(schedule);
         List<User> lu = pjs.getUsers(project);
 
-        while (!startdate.after(enddate)) {
+        while (!startdate.after(enddate)) { // startdate 부터 enddate 까지 반복
             appointment.setAppointmentidx(null);
             appointment.setDate(startdate);
-            aps.make(appointment, userIdx, scheduleIdx, startdate); //appointment 만듬
-            if (aps.check(lu.size(), scheduleIdx, startdate)) {
+            aps.make(appointment, userIdx, scheduleIdx, startdate);
+            //appointment가 해당 날짜에 있을경우 생성하지않고 없을경우 생성하는 함수
+            if (aps.check(lu.size(), scheduleIdx, startdate)) { // 모든 사람이 체크했는가?
                 check = true;
                 break;
             }
-            logger.info(lu.size() + "명 있음");
             Calendar cal = Calendar.getInstance();
             cal.setTime(startdate);
-            cal.add(Calendar.DATE, 1);
+            cal.add(Calendar.DATE, 1); //startdate 날짜에 하루를 더함
             startdate = cal.getTime();
         }
-
         if (check) {
             schedule.setState(1); // Meeting 날짜 확정
             ss.save(schedule);
         }
         logger.info("appointment 만듬");
-
-
     }
 
     @RequestMapping(value = "/loadTime", method = RequestMethod.GET)
     @ResponseBody
     public List loadTime(@RequestParam("scheduleIdx") Integer scheduleIdx) {
         Schedule schedule = ss.get(scheduleIdx);
-
         List<String> ls = new ArrayList<String>();
         List<Appointment> la = ss.getAppointments(schedule, 1);
-        for (Appointment ap : la) {
+        for (Appointment ap : la)
             ls.add(ap.getDate().toString());
-        }
         return ls;
     }
 
@@ -309,16 +301,13 @@ public class ProcessController {
         schedule.setState(3);
         Set<Appointment> appointments = schedule.getAppointments();
         logger.info("Meeting 종료");
-        for (int i = 0; i < ids.size(); i++) {
-            for (Appointment a : appointments) {
+        for (int i = 0; i < ids.size(); i++)
+            for (Appointment a : appointments)
                 if (a.getUser().getId().equals(ids.get(i))) {
                     a.setState(3); // 참가 확정
                     ss.save(schedule);
                     break;
                 }
-            }
-        }
-
     }
 
 
@@ -329,7 +318,6 @@ public class ProcessController {
         alarm.setIsshow(false);
         if (type == 1)
             alarm.getUser().addProject(alarm.getProject());
-
         us.save(alarm.getUser());
         as.save(alarm);
     }
@@ -339,30 +327,28 @@ public class ProcessController {
     public Map getEvent(@RequestParam("projectIdx") Integer projectIdx) {
         Project project = pjs.get(projectIdx);
         SimpleDateFormat transFormat = new SimpleDateFormat("MM-dd-yyyy");
-        List<Schedule> ls = pjs.getSchedules(projectIdx);
-        Map<String, String> event = new HashMap<String, String>();
-        for (Schedule s : ls) {
-            if (s.getState() >= 2) {
+        List<Schedule> ls = pjs.getSchedules(projectIdx); // 프로젝트에 있는 모든 스케쥴들
+        Map<String, String> event = new HashMap<String, String>(); //반환할 JSON
+        for (Schedule s : ls)
+            if (s.getState() >= 2) // 확정된 미팅일경우
                 event.put(transFormat.format(s.getStartdate()), "<span> Meeting! <br>" +
                         "To do - " + s.getContent() + "<br>" +
                         "Place - " + s.getPlace() + "<br>" +
                         "Time - " + s.getTime() + "</span>");
-            }
-        }
+
         return event;
     }
+
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
     @ResponseBody
     public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
         Alarm alarm = us.getOneAlarm(userIdx);
-        if(alarm!=null) {
-            logger.info("HAHAHO "+ alarm.getDate());
-            logger.info("OK WHATS");
-        }
         Map<String, String> data = new HashMap<String, String>();
-        data.put("alarmidx",String.valueOf(alarm.getAlarmidx()));
-        data.put("projectname",alarm.getProject().getName());
-        data.put("actorid",alarm.getActor().getId());
+        if (alarm != null) {
+            data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
+            data.put("projectname", alarm.getProject().getName());
+            data.put("actorid", alarm.getActor().getId());
+        }
         return data;
     }
 

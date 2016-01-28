@@ -2,10 +2,7 @@ package com.shape.web.server;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-
 import com.shape.web.data.ServerUser;
-import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Minute;
 import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;
@@ -15,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.http.HttpServer;
-import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 import com.nhncorp.mods.socket.io.SocketIOServer;
 import com.nhncorp.mods.socket.io.SocketIOSocket;
@@ -36,15 +32,12 @@ public class VertxServer extends DefaultEmbeddableVerticle {
     @Autowired
     UserService us;
 
-    /*@Autowired
-ChatlogService cs;*/
     @Override
     public void start(Vertx vertx) {
         int port = 9999;
         HttpServer server = vertx.createHttpServer(); //HTTP Server 생성
 
         io = new DefaultSocketIOServer(vertx, server);
-
         io.sockets().onConnection(new Handler<SocketIOSocket>() {//Connection Event
 
             public void handle(final SocketIOSocket socket) {
@@ -54,18 +47,16 @@ ChatlogService cs;*/
                         ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"),event.getString("userId"), event.getString("userName"), event.getString("userImg"),socket.getId());
                         Clients.put(socket.getId(), su); // Socket에 해당하는 Room저장
                         logger.info("방 아이디 : " + projectIdx + " 접속 " + socket.getId());
-                        if (Rooms.get(projectIdx) != null) { //방이 존재할경우
+                        if (Rooms.get(projectIdx) != null)//방이 존재할경우
                             logger.info("방 접속 ");
-                        } else {
+                        else {
                             //방이 존재하지 않을경우
                             Rooms.put(projectIdx, -1);
                             logger.info("방 생성");
                         }
                         socket.join(projectIdx);
-                        for (ServerUser temp : Clients.values()) {
+                        for (ServerUser temp : Clients.values())
                             io.sockets().in(temp.getProjectIdx()).emit("adduser", temp.getId());
-                        }
-
                     }
                 }); //Join End
 
@@ -79,11 +70,13 @@ ChatlogService cs;*/
                             logger.info("방나감 :: " + projectIdx + socket.getId());
                             socket.leave(projectIdx);
                             Clients.remove(socket.getId());
-                            for (ServerUser temp : Clients.values()) { //새로고침 방지
-                                if (temp.getName().equals(su.getName()) && temp.getProjectIdx()==su.getProjectIdx()) {
+
+                            for (ServerUser temp : Clients.values())  //새로고침 방지
+                                if ((temp.getName().equals(su.getName())) && (temp.getProjectIdx().equals(su.getProjectIdx()))) {
                                     flag = false;
+                                    break;
                                 }
-                            }
+
                             if (flag) {
                                 logger.info("나감 : " + su.getName());
                                 io.sockets().in(projectIdx).emit("deleteuser", su.getName());
@@ -176,21 +169,14 @@ ChatlogService cs;*/
                 socket.on("invite", new Handler<JsonObject>() {
                     public void handle(JsonObject event) {
                         Integer userIdx = Integer.parseInt(event.getString("userIdx"));
-                            for(ServerUser temp : Clients.values()){
-                                if(temp.getUserIdx()==userIdx){
+                            for(ServerUser temp : Clients.values())
+                                if(temp.getUserIdx()==userIdx)
                                     io.sockets().socket(temp.getSocketId(),false).emit("alarm");
-                                }
-                            }
-
                         }
                 });
             }
-
-
         });// onConnection end
-
         server.listen(port);
-
     }
 
 

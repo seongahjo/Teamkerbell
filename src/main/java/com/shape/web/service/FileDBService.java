@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -17,13 +18,13 @@ public class FileDBService {
     private SessionFactory sessionFactory;
 
     public FileDB get(Integer id) {
-        Session session=sessionFactory.openSession();
-        FileDB filedb=(FileDB)session.get(FileDB.class,id);
+        Session session = sessionFactory.openSession();
+        FileDB filedb = (FileDB) session.get(FileDB.class, id);
         return filedb;
     }
 
     public FileDB save(FileDB fileDB) {
-        Session session=sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         session.saveOrUpdate(fileDB);
         session.flush();
         session.close();
@@ -39,13 +40,22 @@ public class FileDBService {
     }
 
     public FileDB getByStoredname(String filename) {
-        Session session=sessionFactory.openSession();
-        FileDB filedb=(FileDB)session.createCriteria(FileDB.class).add(Restrictions.eq("storedname",filename)).uniqueResult();
+        Session session = sessionFactory.openSession();
+        FileDB filedb = (FileDB) session.createCriteria(FileDB.class).add(Restrictions.eq("storedname", filename)).uniqueResult();
         return filedb;
     }
-    public FileDB getByOriginalname(String filename) {
-        Session session=sessionFactory.openSession();
-        FileDB filedb=(FileDB)session.createCriteria(FileDB.class).add(Restrictions.eq("originalname",filename)).uniqueResult();
+
+    public FileDB getByOriginalname(Date date, String filename) {
+        Session session = sessionFactory.openSession();
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 1); //startdate 날짜에 하루를 더함
+        Date nextDate = cal.getTime();
+        FileDB filedb = (FileDB) session.createCriteria(FileDB.class)
+                .add(Restrictions.between("date", date, nextDate))
+                .add(Restrictions.eq("originalname", filename))
+                .uniqueResult();
         return filedb;
     }
 }

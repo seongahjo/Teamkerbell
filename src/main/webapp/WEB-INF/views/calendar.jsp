@@ -262,7 +262,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="file" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>Name</th>
@@ -672,7 +672,6 @@
 <script src="../js/modernizr.custom.63321.js"></script>
 <script src="../js/prettydate.min.js"></script>
 <script src="../js/jquery.calendario.js"></script>
-<script src="../js/data.js"></script>
 <script src="../js/modernizr.custom.63321.js"></script>
 <!-- date -->
 <script src="../js/date.js"></script>
@@ -713,10 +712,10 @@
         $(".select2").select2();
 
         $("#example1").DataTable();
-        table = $('#example2').DataTable({
+        table = $('#file').DataTable({
             "ajax": {
-                "type": "GET",
                 "url": "../selectDate",
+                "type": "GET",
                 "data": function (d) {
                     d.date = clickDate;
                 },
@@ -734,23 +733,7 @@
             "info": true,
             "autoWidth": false
         });
-        $("#example2").on("click", "a", function () {
-            console.log($(this).val());
-        });
-        /*
-         'columns': [
-         {"data" : "metric_name"},
-         {"data" : "metric_type"},
-         {"data" : "metric_timestamp"},
-         {"data" : "metric_duration"}
-         ]
-         */
 
-        /* $(document).on('shown.calendar.calendario', function (e, instance) {
-         if (!instance) instance = cal;
-         var $cell = instance.getCell(new Date().getDate());
-         if ($cell.hasClass('fc-today')) $cell.trigger('click.calendario');
-         });*/
         $.ajax({
             url: "../getEvent",
             data: param,
@@ -761,7 +744,6 @@
             type: 'GET',
             success: function (data) {
                 Events = data;
-
                 var transEndEventNames = {
                             'WebkitTransition': 'webkitTransitionEnd',
                             'MozTransition': 'transitionend',
@@ -782,6 +764,7 @@
                                 }
                             },
                             caldata: Events,
+                            testdata: Events,
                             displayWeekAbbr: true,
                             events: 'click'
                         }),
@@ -981,16 +964,19 @@
             }
         });
     }
-    /*function addFile(files) {
-     $("#tablebody").html('');
-     if (files != null) {
-     var size = files.length;
-     for (var i = 0; i < size; i++) {
-     $("#tablebody").append("<tr><td>" + files[i] + "</td> <td>sieun</td> <td>2016/12/15</td></tr>");
-     }
 
-     }
-     }*/
+
+    /* $("#example2").on("click", "a", function () {
+     console.log($(this).val());
+     });*/
+    /*
+     'columns': [
+     {"data" : "metric_name"},
+     {"data" : "metric_type"},
+     {"data" : "metric_timestamp"},
+     {"data" : "metric_duration"}
+     ]
+     */
 
 </script>
 </body>

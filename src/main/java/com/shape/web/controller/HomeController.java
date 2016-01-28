@@ -33,17 +33,12 @@ public class HomeController {
 
     @Autowired
     UserService us;
-    /*  @Autowired
-      ScheduleService ss;*/
     @Autowired
     ProjectService pjs;
     @Autowired
     TodolistService ts;
-    /*@Autowired
-    ChatlogService cs;*/
     @Autowired
     AlarmService as;
-
     @Autowired
     MinuteService ms;
     @Autowired
@@ -74,19 +69,18 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("/userInfo");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
-
         return mv;
     }
 
     @RequestMapping(value = "/dashboard/{userId}", method = RequestMethod.GET)
     public ModelAndView Dashboard(@PathVariable("userId") String userId, HttpSession session) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
-
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = us.getTimeline(user); // 타임라인 리스트를 반환
         List<Todolist> lt = us.getTodolist(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = us.getScheudles(user); // 스케쥴 리스트를 반환
         List<Alarm> la = us.getAlarms(user.getUseridx()); // 알람 리스트를 반환
+
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
         mv.addObject("timeline", tlla);
@@ -103,18 +97,20 @@ public class HomeController {
         User user = us.get(userIdx); // 유저 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Minute> lm = pjs.getMinutes(project); // 회의록 객체 반환
-        session.setAttribute("room", projectIdx);
-        File file;
-        String filename = FileUtil.getFoldername(projectIdx, null);
-        file = new File(filename);
-        if (!file.exists()) {
-            if (file.mkdirs())
-                logger.info("폴더 새로 생성");
-        }
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
         List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
         List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
+        session.setAttribute("room", projectIdx);
+
+        File file;
+        String foldername = FileUtil.getFoldername(projectIdx, null);
+        //folder name 받기
+        file = new File(foldername);
+        if (!file.exists())
+            if (file.mkdirs())
+                logger.info("폴더 새로 생성");
+
         ModelAndView mv = new ModelAndView("/project");
         mv.addObject("projects", lpj);
         mv.addObject("users", lu);
@@ -124,7 +120,6 @@ public class HomeController {
         mv.addObject("project", project);
         mv.addObject("img", img);
         return mv;
-
     }
 
     @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
@@ -152,6 +147,7 @@ public class HomeController {
         int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
+
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
@@ -168,6 +164,7 @@ public class HomeController {
         List<User> lu = pjs.getUsers(project); // 유저 객체 반환
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
+
         ModelAndView mv = new ModelAndView("/document");
         mv.addObject("user", user);
         mv.addObject("schedules", ls);
@@ -176,7 +173,6 @@ public class HomeController {
         mv.addObject("users", lu);
         mv.addObject("alarm", la);
         mv.addObject("todolist", lt);
-
         return mv;
     }
 
@@ -185,16 +181,18 @@ public class HomeController {
         int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
+
         ModelAndView mv = new ModelAndView("/filemanager");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
         return mv;
     }
+
     @RequestMapping(value = "/courseInfo/{userId}", method = RequestMethod.GET)
     public ModelAndView CourseInfo(@PathVariable("userId") String userId, HttpSession session) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
-
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환
+
         ModelAndView mv = new ModelAndView("/courseInfo");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);

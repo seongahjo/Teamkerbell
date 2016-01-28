@@ -120,10 +120,9 @@ public class FileController {
         File file = new File(folder + "/" + name);
         response.reset();
         response.setHeader("Content-Disposition", "attachment;filename=\"" + name + "\"" + ";");
-        if (client.contains("MSIE")) {
+        if (client.contains("MSIE"))
             response.setHeader("Content-Disposition", "attachment; filename=" + new String(name.getBytes("KSC5601"), "ISO8859_1"));
-        } else {
-            // IE 이외
+        else {  // IE 이외
             response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(name, "UTF-8") + "\"");
             response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
         }    //response 헤더 설정해서

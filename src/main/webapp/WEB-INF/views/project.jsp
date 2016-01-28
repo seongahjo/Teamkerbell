@@ -20,20 +20,11 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
-
-    <!--
-     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/../css/bootstrap.min.css" rel="stylesheet">
-        <script src="http://codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/../js/bootstrap.min.js"></script>
-        -->
-
     <link rel="stylesheet" href="../css/wait2.css">
-
     <!-- daterange picker -->
     <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
     <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
-
     <!-- Select2 -->
     <link rel="stylesheet" href="../css/select2.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -73,43 +64,6 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- <li class="dropdown messages-menu">
-
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">4</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 4 messages</li>
-                            <li>
-
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <div class="pull-left">
-
-                                                <img src="${user.img}" class="img-circle" alt="User Image">
-                                            </div>
-
-                                            <h4>
-                                                Support Team
-                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                            </h4>
-
-                                            <p>Why not buy a new awesome theme?</p>
-                                        </a>
-                                    </li>
-
-                                </ul>
-
-                            </li>
-                            <li class="footer"><a href="#">See All Messages</a></li>
-                        </ul>
-                    </li>-->
-                    <!-- /.messages-menu -->
-
-                    <!-- Notifications Menu -->
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -144,40 +98,6 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-                    <!--
-                            <li class="dropdown tasks-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-flag-o"></i>
-                                    <span class="label label-danger">9</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="header">You have 9 tasks</li>
-                                    <li>
-                                         <ul class="menu">
-                                            <li>
-                                            <a href="#">
-                                                    <h3>
-                                                        Design some buttons
-                                                        <small class="pull-right">20%</small>
-                                                    </h3>
-                                                    <div class="progress xs">
-                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%"
-                                                             role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                             aria-valuemax="100">
-                                                            <span class="sr-only">20% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="footer">
-                                        <a href="#">View all tasks</a>
-                                    </li>
-                                </ul>
-                            </li>-->
-                    <!-- User Account Menu -->
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
@@ -384,35 +304,6 @@
                         <div class="box-body">
                             <!-- Conversations are loaded here -->
                             <div class="direct-chat-messages chatbox" id="chat">
-                                <!-- Message. Default to the left -->
-                                <!-- message -->
-
-
-                                <!--    <div class="direct-chat-msg right">
-                      <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                        <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                      </div>
-                      <img class="direct-chat-img" src="" alt="message user image">                  
-                      <div class="direct-chat-text">
-                          <img src="../${user.img}" style="width:200px;height:150px">
-                      </div>
-                    </div>-->
-                                <!-- /.direct-chat-msg -->
-
-                                <!-- Message to the right -->
-                                <!--
-                                <div class="direct-chat-msg right">
-                                  <div class="direct-chat-info clearfix">
-                                    <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                                    <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                                  </div>
-
-                                  <img class="direct-chat-img" src="" alt="message user image">
-                                  <div class="direct-chat-text">
-                                    You better believe it!
-                                  </div>
-                                </div>-->
                             </div>
                         </div> <!-- box body-->
                     </div> <!-- box -->
@@ -646,7 +537,7 @@
 </div>
 <!-- REQUIRED JS SCRIPTS -->
 
-
+<!-- Gallery -->
 <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -862,7 +753,11 @@
         $(".timepicker").timepicker({
             showInputs: false
         });
+        $('#InviteUser').on('hidden.bs.modal', function (e) {
+            $("#user").html('');
+            $("#inviteForm #inviteId").val('');
 
+        })
     });
     var option = "Today";
     var Tminute = "${project.minute}";
@@ -998,6 +893,9 @@
             success: function (data) {
                 inviteU = data.userId;
                 $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="'+"../"+ data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+            },
+            error : function(){
+                $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
             }
         });
     }

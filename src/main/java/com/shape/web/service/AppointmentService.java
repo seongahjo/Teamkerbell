@@ -2,21 +2,17 @@ package com.shape.web.service;
 
 import com.shape.web.entity.Appointment;
 import com.shape.web.entity.Schedule;
-import com.shape.web.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class AppointmentService {
