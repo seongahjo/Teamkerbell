@@ -49,7 +49,7 @@ public class ProcessController {
     /*
     To login Spring Security로 대체할 예정
      */
-    @RequestMapping(value = "/loginok", method = RequestMethod.POST)    //"login.jsp"에서 넘어옴
+    @RequestMapping(value = "/loginok", method = RequestMethod.GET)    //"login.jsp"에서 넘어옴
     public String Loginok(@RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw, HttpSession session) {
         User user = us.getById(userId);    //데이터베이스에서 아이디를 조회해서 유저데이터를 받아옴
         if (user != null) {

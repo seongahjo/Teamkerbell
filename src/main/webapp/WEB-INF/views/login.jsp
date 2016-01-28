@@ -88,7 +88,7 @@
         </div>
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <form action="loginok" method="post">
+        <form action="loginok" method="GET">
           <div class="form-group has-feedback">
             <input type="ID" name="userId" class="form-control" placeholder="ID">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
