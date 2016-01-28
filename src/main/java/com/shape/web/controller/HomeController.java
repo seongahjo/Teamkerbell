@@ -29,8 +29,6 @@ public class HomeController {
     //메뉴 컨트롤러
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-
-
     @Autowired
     UserService us;
     @Autowired

@@ -95,6 +95,9 @@ public class ProcessController {
         us.deleteProject(projectIdx);
     }
 
+    /*
+       To find out invited user
+       */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
     @ResponseBody
     public HashMap searchUser(@RequestParam(value = "userId") String userId, HttpSession session) {
@@ -115,7 +118,9 @@ public class ProcessController {
         return Value;
     }
 
-
+    /*
+       To invite user to project room
+       */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
     @ResponseBody
     public String InviteMember(@RequestParam(value = "userId") String userId, HttpSession session) {
@@ -133,6 +138,9 @@ public class ProcessController {
         return String.valueOf(user.getUseridx());
     }
 
+    /*
+      To accomplish to-do list
+      */
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
     @ResponseBody
     public void IsTodolist(@RequestParam(value = "id") Integer id) throws Exception {
@@ -142,7 +150,9 @@ public class ProcessController {
     }
 
 
-    //Calendar 데이터받기
+    /*
+       To get appropriate file data when user select the date
+       */
     @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Map<String, Object> GetDate(@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, HttpSession session) {
@@ -195,6 +205,9 @@ public class ProcessController {
         return map;
     }
 
+    /*
+       To load uploaded Image
+       */
     @RequestMapping(value = "/loadImg", method = RequestMethod.GET)
     @ResponseBody
     public void loadImg(@RequestParam("name") String name, HttpServletResponse response) {
@@ -212,7 +225,9 @@ public class ProcessController {
         }
     }
 
-
+    /*
+    To make schedule
+    */
     @RequestMapping(value = "/makeSchedule", method = RequestMethod.GET)
     @ResponseBody
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
@@ -231,6 +246,9 @@ public class ProcessController {
         logger.info("Schedule 만듬");
     }
 
+    /*
+    To make to-do list
+    */
     @RequestMapping(value = "/makeTodolist", method = RequestMethod.GET)
     public String makeTodolist(@RequestParam("projectIdx") Integer projectIdx, @RequestParam("userId") String userId, @ModelAttribute("todolist") Todolist todolist) {
         Project project = pjs.get(projectIdx);
@@ -242,6 +260,9 @@ public class ProcessController {
         return "redirect:/chat?projectIdx=" + projectIdx;
     }
 
+    /*
+    To register the date you want to participate & prepare to make meeting when all users make a choice
+    */
     @RequestMapping(value = "/makeRegister", method = RequestMethod.GET)
     @ResponseBody
     public void makeRegister(@RequestParam("userIdx") Integer userIdx, @RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("startdate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startdate,
@@ -276,6 +297,9 @@ public class ProcessController {
         logger.info("appointment 만듬");
     }
 
+    /*
+       To find out the date all users choose
+    */
     @RequestMapping(value = "/loadTime", method = RequestMethod.GET)
     @ResponseBody
     public List loadTime(@RequestParam("scheduleIdx") Integer scheduleIdx) {
@@ -287,6 +311,9 @@ public class ProcessController {
         return ls;
     }
 
+    /*
+       To make meeting when all users make a choice
+    */
     @RequestMapping(value = "/makeMeeting", method = RequestMethod.GET)
     @ResponseBody
     public void makeMeeting(@RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
@@ -305,6 +332,9 @@ public class ProcessController {
         ss.updateAm(scheduleIdx, 2, date);
     }
 
+    /*
+      To find out real participants
+   */
     @RequestMapping(value = "/finishMeeting", method = RequestMethod.GET)
     @ResponseBody
     public void finishMeeting(@RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("ids") List<String> ids) {
@@ -321,7 +351,9 @@ public class ProcessController {
                 }
     }
 
-
+    /*
+    To accept invite request
+     */
     @RequestMapping(value = "/acceptRequest", method = RequestMethod.GET)
     @ResponseBody
     public void acceptRequest(@RequestParam("alarmIdx") Integer alarmIdx, @RequestParam("type") Integer type) {
@@ -333,6 +365,9 @@ public class ProcessController {
         as.save(alarm);
     }
 
+    /*
+    To get meetings
+     */
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
     @ResponseBody
     public Map getEvent(@RequestParam("projectIdx") Integer projectIdx) {
@@ -350,6 +385,9 @@ public class ProcessController {
         return event;
     }
 
+    /*
+    To get invite request
+     */
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
     @ResponseBody
     public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
