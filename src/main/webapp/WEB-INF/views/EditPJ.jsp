@@ -488,7 +488,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Make new Project</h4>
             </div>
-            <form action="makeroom">
+            <form action="room" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-group has-success">
@@ -561,10 +561,7 @@
         $.ajax({
             url: "deleteroom",
             data: param,
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
+            type: 'DELETE',
             success: function () {
                 location.reload();
             }

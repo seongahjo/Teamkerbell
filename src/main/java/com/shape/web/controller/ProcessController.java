@@ -16,6 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.shape.web.util.FileUtil;
 
+/**
+ * Handles requests for the application processing.
+ */
 @Controller
 public class ProcessController {
 
@@ -44,7 +47,7 @@ public class ProcessController {
 
 
     /*
-    Spring Security로 대체할 예정
+    To login Spring Security로 대체할 예정
      */
     @RequestMapping(value = "/loginok", method = RequestMethod.POST)    //"login.jsp"에서 넘어옴
     public String Loginok(@RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw, HttpSession session) {
@@ -59,7 +62,9 @@ public class ProcessController {
         return "redirect:/";
     }
 
-    //회원가입
+    /*
+    To register
+    */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String Register(@RequestParam(value = "name") String name, @RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw) {
         if (us.getById(userId) == null)
@@ -69,7 +74,10 @@ public class ProcessController {
         return "login";
     }
 
-    @RequestMapping(value = "/makeroom", method = RequestMethod.GET)    //프로젝트 개설
+    /*
+    To make project room
+    */
+    @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
     public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
         Integer userIdx = (Integer) session.getAttribute("userIdx");
         Project project = new Project(name, userIdx, "");
@@ -77,7 +85,10 @@ public class ProcessController {
         return "redirect:/projectmanager";
     }
 
-    @RequestMapping(value = "/deleteroom", method = RequestMethod.GET)    //프로젝트 삭제
+    /*
+    To delete project room
+    */
+    @RequestMapping(value = "/room", method = RequestMethod.DELETE)    //프로젝트 삭제
     public String deleteRoom(@RequestParam(value = "projectIdx") Integer projectIdx, HttpSession session) {
         Integer userIdx = (Integer) session.getAttribute("userIdx");
         us.deleteProject(projectIdx);

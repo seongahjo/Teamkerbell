@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by seongahjo on 2016. 1. 1..
+ * Handles requests for accessing file.
  */
 @Controller
 public class FileController {
@@ -53,6 +54,9 @@ public class FileController {
     @Autowired
     FileDBService fs;
 
+    /*
+     To uploading file
+     */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
     public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest, HttpSession session) throws Exception {
@@ -109,14 +113,17 @@ public class FileController {
         return "redirect:/chat?projectIdx=" + projectIdx;
     }
 
+    /*
+    To download file
+    */
     @RequestMapping(value = "/file", method = RequestMethod.GET)
     public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InputStream in = null;
         OutputStream os = null;
         String client = "";
-        FileDB fd=fs.getByStoredname(name);
-        name=fd.getOriginalname();
-        String folder=fd.getPath();
+        FileDB fd = fs.getByStoredname(name);
+        name = fd.getOriginalname();
+        String folder = fd.getPath();
         File file = new File(folder + "/" + name);
         response.reset();
         response.setHeader("Content-Disposition", "attachment;filename=\"" + name + "\"" + ";");

@@ -29,7 +29,7 @@ public class HomeController {
     //메뉴 컨트롤러
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    //하이버네이트를 이용해 데이터베이스를 제어하기 위한 서비스 정의
+
 
     @Autowired
     UserService us;
