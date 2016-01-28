@@ -556,11 +556,9 @@
         });
     });
     function leave(projectIdx) {
-        var param = "projectIdx=" + projectIdx;
         console.log("DELTE");
         $.ajax({
-            url: "deleteroom",
-            data: param,
+            url: "room/"+projectIdx,
             type: 'DELETE',
             success: function () {
                 location.reload();

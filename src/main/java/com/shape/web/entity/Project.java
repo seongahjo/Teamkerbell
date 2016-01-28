@@ -27,7 +27,7 @@ public class Project {
     @Column(name = "MINUTE")
     private String minute;
 
-    @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER )
+    @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
 

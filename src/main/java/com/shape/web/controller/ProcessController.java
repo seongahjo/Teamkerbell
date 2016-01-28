@@ -88,11 +88,11 @@ public class ProcessController {
     /*
     To delete project room
     */
-    @RequestMapping(value = "/room", method = RequestMethod.DELETE)    //프로젝트 삭제
-    public String deleteRoom(@RequestParam(value = "projectIdx") Integer projectIdx, HttpSession session) {
+    @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
+    @ResponseBody
+    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
         Integer userIdx = (Integer) session.getAttribute("userIdx");
         us.deleteProject(projectIdx);
-        return "redirect:/projectmanager";
     }
 
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
