@@ -174,16 +174,16 @@
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user"></i><span> MyProfile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
+                      
                     </ul>
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-usb"></i><span>Projectrooms</span></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Projectrooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
@@ -193,6 +193,9 @@
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
+                </li>
+                 <li class="treeview">
+                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Cource Info</span></a>                    
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
