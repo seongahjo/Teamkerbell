@@ -80,9 +80,6 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
-
-                    <!-- Notifications Menu -->
-                    <!-- Notifications Menu -->
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -158,7 +155,7 @@
                         </ul>
                     </li>
                     <!-- Control Sidebar Toggle Button -->
-                    	
+                    
                 </ul>
             </div>
         </nav>
@@ -174,7 +171,7 @@
                 <div class="pull-left image">
                     <img src="../${user.img}" class="img-circle" alt="User Image">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -217,19 +214,7 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <!-- <section class="content-header">
-               <h1>
-                   Main Page
-                   <!-- <small>Optional description</small>
-               </h1>
-               <ol class="breadcrumb">
-                   <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                   <li class="active">Here</li>
-               </ol>
-          </section>-->
-
+    <div class="content-wrapper">       
         <!-- Main content -->
         <section class="content">
 
@@ -405,7 +390,6 @@
 
 
 <div class="control-sidebar-bg"></div>
-</div>
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
 
 <!--register modal -->
@@ -533,17 +517,7 @@
                             <!-- /.form group -->
                         </div>
 
-                        <!-- <div class="form-group has-success">
-                             <label class="control-label" for="inputSuccess"><i class="fa fa-users"></i> Write the Real
-                                 Participation</label>
-                             <select class="form-control select2" multiple="multiple" data-placeholder="Select a person" style="width: 100%;">
-                                 <option>MinJi</option>
-                                 <option>Solip</option>
-                                 <option>Sieun</option>
-                                 <option>SeongAh</option>
-                                 <option>SolJi</option>
-                             </select>
-                         </div>-->
+                      
                         <div class="form-group has-success">
                             <label class="control-label" for="inputSuccess"><i class="fa fa-map-marker"></i> Write where
                                 you want to meet</label>
