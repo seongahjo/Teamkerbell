@@ -207,27 +207,117 @@
         <!-- /.sidebar -->
     </aside>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
+    
+    
+      <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Course Info
+     
+         <small><i class="fa fa-diamond"></i> : Over 10 likes</small>
+      </h1>
+     
+    </section>
 
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
-            </ol>
-        </section>
+    <!-- Main content -->
+    <section class="content">
 
-        <!-- Main content -->
-        <section class="content">
+      <!-- row -->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- The time line -->
+          <ul class="timeline">
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-red">
+                    first semester. 2014
+                  </span>
+            </li>
+            <!-- /.timeline-label -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-diamond bg-maroon"></i>
 
-            <div class="row">
+              <div class="timeline-item">
+                <h3 class="timeline-header"><a href="#"> Computer Architecture</a> Brian</h3>
 
-            </div>
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+                <div class="timeline-body">
+                  Some Homework , ....
+                </div>
+                <div class="timeline-footer">
+                  <div id="app"></div>
+                </div>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-group bg-blue"></i>
+
+              <div class="timeline-item">
+                <h3 class="timeline-header"><a href="#">  Computer Architecture</a> JungTaecheong</h3>
+
+                <div class="timeline-body">
+                  Some Homework , and......
+                </div>
+                <div class="timeline-footer">
+                  <div id="app"></div>
+                </div>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-group bg-blue"></i>
+
+              <div class="timeline-item">
+                <h3 class="timeline-header"><a href="#"> Computer Architecture</a> Brian</h3>
+
+                <div class="timeline-body">
+                  Some Homework , ....
+                </div>
+                <div class="timeline-footer">
+                  <div id="app"></div>
+                </div>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-green">
+                     second semester 2014
+                  </span>
+            </li>
+            <!-- /.timeline-label -->
+			<li>
+              <i class="fa fa-group bg-blue"></i>
+
+              <div class="timeline-item">
+                <h3 class="timeline-header"><a href="#"> Computer Architecture</a> Brian</h3>
+
+                <div class="timeline-body">
+                  Some Homework , ....
+                </div>
+                <div class="timeline-footer">
+                  <div id="app"></div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+          </ul>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
     <!-- Main Footer -->
     <footer class="main-footer">
