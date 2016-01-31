@@ -186,7 +186,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-users"></i><span> Projectrooms</span></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
@@ -198,7 +198,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href=../courseInfo><i class="fa fa-university"></i><span> Info of Courses</span></a>
+                    <a href=../courseInfo><i class="fa fa-university"></i><span> Courses Info</span></a>
 
                 </li>
             </ul>
