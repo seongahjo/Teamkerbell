@@ -179,7 +179,7 @@
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> MyProfile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
