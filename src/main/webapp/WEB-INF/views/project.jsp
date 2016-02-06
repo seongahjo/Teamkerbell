@@ -1013,7 +1013,6 @@
     function upload() {
         var form = $("#uploadForm")[0];
         var formData = new FormData(form);
-        console.log(formData);
         $.ajax({
             url: "../file",
             type: "POST",

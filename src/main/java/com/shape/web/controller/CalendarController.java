@@ -72,30 +72,6 @@ public class CalendarController {
                     logger.info(f.getName() + "!!!ERROR!!!");
             }
         }
-
-/* String content = null;
-       ArrayList<String> contents = new ArrayList<String>();
-        File file;
-       ArrayList<String> filenames = new ArrayList<String>();
-        String filename;
-          HashMap<Integer, HashMap<String, String>> hm = new HashMap<Integer, HashMap<String, String>>();
-      */
-
-        // filename = foldername + "/minute.txt";
-//   int size = 0;
-
-       /*
-        file = new File(filename);
-        if (file.exists()) {
-            BufferedReader f = new BufferedReader(new FileReader(filename));
-            content = f.readLine();
-            contents.add(content);
-            f.close();
-        } else {
-            contents.add("");
-            logger.info("파일 존재안함");
-        }*/
-
         map.put("data", data);
         return map;
     }

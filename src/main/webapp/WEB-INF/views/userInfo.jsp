@@ -266,24 +266,25 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="../register" method="POST" enctype="multipart/form-data">
+                        <form id="registerForm" action="../register" method="POST" enctype="multipart/form-data">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label> ID </label>
-                                    <input type="text" class="form-control" name="id" placeholder="${user.id}" disabled>
+                                    <input type="text" class="form-control" value="${user.id}" disabled>
+                                    <input type="hidden" name="id" value="${user.id}">
                                 </div>
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="${user.name}">
+                                    <input type="text" class="form-control" name="name" value="${user.name}">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1"
-                                           name="password" placeholder="Password">
+                                    <input type="password" class="form-control" id="password1"
+                                           name="pw" placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Password confirm</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1"
+                                    <input type="password" class="form-control" id="password2"
                                            placeholder="Password">
                                 </div>
 
@@ -297,7 +298,7 @@
                             <!-- /.box-body -->
 
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-primary" onclick="register()">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -379,6 +380,23 @@ for(var i = 0; i< files.length; i++)
 		reader.readAsDataURL(file);	
 	}
 	}
+
+}
+function register(){
+    if(($("#password1").val())==($("#password2").val())){
+        var form = $("#registerForm")[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: "../register",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                alert("success");
+            }
+        });
+    }
 }
 </script>
 </body>

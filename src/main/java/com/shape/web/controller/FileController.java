@@ -52,7 +52,7 @@ public class FileController {
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
-    public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest)  {
+    public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = pjs.get(Integer.parseInt(projectIdx));
@@ -75,6 +75,7 @@ public class FileController {
             if (!multipartFile.isEmpty()) {
                 try {
                     originalFileName = multipartFile.getOriginalFilename();
+                    originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
                     storedFileName = CommonUtils.getRandomString() + originalFileExtension;
                     if (FileUtil.IsImage(originalFileName))
                         type = "img";
@@ -99,7 +100,7 @@ public class FileController {
 
                     logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
                     return storedFileName;
-                }catch(IOException e){
+                } catch (IOException e) {
                     // file io error
                 }
             }
@@ -112,25 +113,25 @@ public class FileController {
     To download file
     */
     @RequestMapping(value = "/file", method = RequestMethod.GET)
-    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response)  {
+    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response) {
         try {
-        InputStream in = null;
-        OutputStream os = null;
-        String client = "";
-        FileDB fd = fs.getByStoredname(name);
-        name = fd.getOriginalname();
-        String folder = fd.getPath();
-        File file = new File(folder + "/" + name);
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + name + "\"" + ";");
-        if (client.contains("MSIE"))
-            response.setHeader("Content-Disposition", "attachment; filename=" + new String(name.getBytes("KSC5601"), "ISO8859_1"));
-        else {  // IE 이외
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(name, "UTF-8") + "\"");
-            response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
-        }    //response 헤더 설정해서
+            InputStream in = null;
+            OutputStream os = null;
+            String client = "";
+            FileDB fd = fs.getByStoredname(name);
+            name = fd.getOriginalname();
+            String folder = fd.getPath();
+            File file = new File(folder + "/" + name);
+            response.reset();
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + name + "\"" + ";");
+            if (client.contains("MSIE"))
+                response.setHeader("Content-Disposition", "attachment; filename=" + new String(name.getBytes("KSC5601"), "ISO8859_1"));
+            else {  // IE 이외
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(name, "UTF-8") + "\"");
+                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
+            }    //response 헤더 설정해서
 
-        response.setHeader("Content-Length", "" + file.length());
+            response.setHeader("Content-Length", "" + file.length());
 
             in = new FileInputStream(file);
             os = response.getOutputStream();
@@ -142,9 +143,9 @@ public class FileController {
             }
             in.close();
             os.close();
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             // File 존재 안함
-        }catch(IOException e){
+        } catch (IOException e) {
             //OutputStream Error
         }
 
