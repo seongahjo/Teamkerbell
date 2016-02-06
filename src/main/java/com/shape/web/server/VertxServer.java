@@ -47,19 +47,21 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 socket.on("join", new Handler<JsonObject>() { //room
                     public void handle(JsonObject event) {
                         String projectIdx = event.getString("projectIdx");
-                        ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"),event.getString("userId"), event.getString("userName"), event.getString("userImg"),socket.getId());
+                        ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"), event.getString("userId"), event.getString("userName"), event.getString("userImg"), socket.getId());
                         Clients.put(socket.getId(), su); // Socket에 해당하는 Room저장
-                        logger.info("방 아이디 : " + projectIdx + " 접속 " + socket.getId());
-                        if (Rooms.get(projectIdx) != null)//방이 존재할경우
-                            logger.info("방 접속 ");
-                        else {
-                            //방이 존재하지 않을경우
-                            Rooms.put(projectIdx, -1);
-                            logger.info("방 생성");
+                        if (!projectIdx.equals("")) {
+                            logger.info("방 아이디 : " + projectIdx + " 접속 " + socket.getId());
+                            if (Rooms.get(projectIdx) != null)//방이 존재할경우
+                                logger.info("방 접속 ");
+                            else {
+                                //방이 존재하지 않을경우
+                                Rooms.put(projectIdx, -1);
+                                logger.info("방 생성");
+                            }
+                            socket.join(projectIdx);
+                            for (ServerUser temp : Clients.values())
+                                io.sockets().in(temp.getProjectIdx()).emit("adduser", temp.getId());
                         }
-                        socket.join(projectIdx);
-                        for (ServerUser temp : Clients.values())
-                            io.sockets().in(temp.getProjectIdx()).emit("adduser", temp.getId());
                     }
                 }); //Join End
 
@@ -68,31 +70,35 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                     public void handle(JsonObject event) {
                         boolean flag = true;
                         ServerUser su = Clients.get(socket.getId());
-                        if (su != null) {
-                            String projectIdx = su.getProjectIdx();
-                            logger.info("방나감 :: " + projectIdx + socket.getId());
-                            socket.leave(projectIdx);
-                            Clients.remove(socket.getId());
+                        Clients.remove(socket.getId());
+                        if (!su.getProjectIdx().equals("")) {
+                            if (su != null) {
+                                String projectIdx = su.getProjectIdx();
+                                logger.info("방나감 :: " + projectIdx + socket.getId());
+                                socket.leave(projectIdx);
 
-                            for (ServerUser temp : Clients.values())  //새로고침 방지
-                                if ((temp.getName().equals(su.getName())) && (temp.getProjectIdx().equals(su.getProjectIdx()))) {
-                                    flag = false;
-                                    break;
+                                for (ServerUser temp : Clients.values()) {   // 남아있는 Client들
+                                    //새로고침시 방 삭제 방지
+                                    logger.info(temp.getName() + " vs "+su.getName());
+                                    logger.info(temp.getProjectIdx()+" vs "+su.getProjectIdx());
+                                    if ((temp.getName().equals(su.getName())) && (temp.getProjectIdx().equals(su.getProjectIdx()))) {
+                                        flag = false;
+                                        break;
+                                    }
                                 }
-
-                            if (flag) {
-                                logger.info("나감 : " + su.getName());
-                                io.sockets().in(projectIdx).emit("deleteuser", su.getName());
+                                if (flag) {
+                                    logger.info("나감 : " + su.getName());
+                                    io.sockets().in(projectIdx).emit("deleteuser", su.getName());
+                                }
+                                if (Rooms.get(projectIdx) == (su.getUserIdx())) {
+                                    logger.info("writer 초기화");
+                                    Rooms.replace(projectIdx, -1);
+                                }
+                                if (io.sockets().clients(projectIdx) == null) {
+                                    logger.info("방삭제");
+                                    Rooms.remove(projectIdx);
+                                }
                             }
-                            if (Rooms.get(projectIdx) == (su.getUserIdx())) {
-                                logger.info("writer 초기화");
-                                Rooms.replace(projectIdx, -1);
-                            }
-                            if (io.sockets().clients(projectIdx) == null) {
-                                logger.info("방삭제");
-                                Rooms.remove(projectIdx);
-                            }
-
                         }
                     }
                 }); //Disconnect End
@@ -172,10 +178,10 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 socket.on("invite", new Handler<JsonObject>() {
                     public void handle(JsonObject event) {
                         Integer userIdx = Integer.parseInt(event.getString("userIdx"));
-                            for(ServerUser temp : Clients.values())
-                                if(temp.getUserIdx()==userIdx)
-                                    io.sockets().socket(temp.getSocketId(),false).emit("alarm");
-                        }
+                        for (ServerUser temp : Clients.values())
+                            if (temp.getUserIdx() == userIdx)
+                                io.sockets().socket(temp.getSocketId(), false).emit("alarm");
+                    }
                 });
             }
         });// onConnection end
