@@ -1,8 +1,5 @@
 package com.shape.web.entity;
 
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-
 import javax.persistence.*;
 import java.util.Date;
 

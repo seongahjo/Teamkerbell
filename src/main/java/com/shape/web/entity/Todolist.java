@@ -1,10 +1,9 @@
 package com.shape.web.entity;
 
-import javax.persistence.*;
-
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity

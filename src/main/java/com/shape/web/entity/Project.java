@@ -1,13 +1,9 @@
 package com.shape.web.entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

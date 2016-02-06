@@ -1,12 +1,11 @@
 package com.shape.web.service;
 
-import javax.annotation.Resource;
-
+import com.shape.web.entity.Alarm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
-import com.shape.web.entity.Alarm;
+import javax.annotation.Resource;
 
 @Service
 public class AlarmService {

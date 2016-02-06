@@ -1,11 +1,17 @@
 package com.shape.web.server;
 
-import java.util.Date;
-import java.util.HashMap;
+import com.nhncorp.mods.socket.io.SocketIOServer;
+import com.nhncorp.mods.socket.io.SocketIOSocket;
+import com.nhncorp.mods.socket.io.impl.DefaultSocketIOServer;
+import com.nhncorp.mods.socket.io.spring.DefaultEmbeddableVerticle;
 import com.shape.web.VO.ServerUser;
 import com.shape.web.entity.Minute;
-import com.shape.web.service.*;
+import com.shape.web.entity.Project;
+import com.shape.web.service.MinuteService;
+import com.shape.web.service.ProjectService;
+import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
+import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +19,9 @@ import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.http.HttpServer;
 import org.vertx.java.core.json.JsonObject;
-import com.nhncorp.mods.socket.io.SocketIOServer;
-import com.nhncorp.mods.socket.io.SocketIOSocket;
-import com.nhncorp.mods.socket.io.impl.DefaultSocketIOServer;
-import com.nhncorp.mods.socket.io.spring.DefaultEmbeddableVerticle;
-import com.shape.web.entity.Project;
-import com.shape.web.util.FileUtil;
+
+import java.util.Date;
+import java.util.HashMap;
 
 public class VertxServer extends DefaultEmbeddableVerticle {
     private static SocketIOServer io = null;

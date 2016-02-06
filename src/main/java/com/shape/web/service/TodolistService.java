@@ -1,15 +1,11 @@
 package com.shape.web.service;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import com.shape.web.entity.Todolist;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
-import com.shape.web.entity.Todolist;
+import javax.annotation.Resource;
 
 @Service
 public class TodolistService {

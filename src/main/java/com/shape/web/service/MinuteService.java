@@ -1,19 +1,13 @@
 package com.shape.web.service;
 
-import com.shape.web.entity.FileDB;
-import com.shape.web.entity.Minute;
-import com.shape.web.entity.Minute;
 import com.shape.web.entity.Minute;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 
 
 
