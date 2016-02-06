@@ -624,7 +624,14 @@
      <div class="box-body">
             
             <div class="gallery">
-				<a href="http://c1.staticflickr.com/9/8037/7897220164_3e3aa82d43_h.jpg" title="An elegant profile by Takumi Yoshida, on Flickr" class="zoom">
+
+                <c:forEach var="list" items="${img}">
+                    <a href="../loadImg?name=${list.storedname}" class="zoom">
+                        <img src="../loadImg?name=${list.storedname}" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                    </a>
+                </c:forEach>
+
+                <!--<a href="http://c1.staticflickr.com/9/8037/7897220164_3e3aa82d43_h.jpg" title="An elegant profile by Takumi Yoshida, on Flickr" class="zoom">
 					<img src="https://farm9.staticflickr.com/8037/7897220164_7950bc48ed_n.jpg" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
 				</a>
 				<a href="http://c2.staticflickr.com/6/5478/9531699422_fe130c112c_k.jpg" title="_MG_9696 by Takumi Yoshida, on Flickr" class="zoom">
@@ -638,7 +645,7 @@
 				</a>
 				<a href="https://c1.staticflickr.com/9/8301/7897238688_2b7318b6a7_k.jpg" title="V by Takumi Yoshida, on Flickr" class="zoom">
 					<img src="https://farm9.staticflickr.com/8301/7897238688_1d7ae06e36_n.jpg" width="170" height="120" alt="V" style="margin-top:3%;margin-right:1%">
-				</a>
+				</a>-->
 			</div>
 			
             

@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.shape.web.util.FileUtil;
@@ -256,9 +257,9 @@ public class ProcessController {
        */
     @RequestMapping(value = "/loadImg", method = RequestMethod.GET)
     @ResponseBody
-    public void loadImg(@RequestParam("name") String name, HttpServletResponse response) {
-        FileDB file = fs.getByStoredname(name);
+    public void loadImg(@RequestParam(value = "name") String name, HttpServletResponse response) {
         try {
+            FileDB file = fs.getByStoredname(name);
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + file.getOriginalname()));
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(512);
             int imageByte;
@@ -268,6 +269,9 @@ public class ProcessController {
             response.setContentType("image/*");
             byteStream.writeTo(response.getOutputStream());
         } catch (IOException ioe) {
+        }
+        catch(NullPointerException e){
+            // file 존재 안할시
         }
     }
 
