@@ -2,7 +2,7 @@ package com.shape.web.server;
 
 import java.util.Date;
 import java.util.HashMap;
-import com.shape.web.data.ServerUser;
+import com.shape.web.VO.ServerUser;
 import com.shape.web.entity.Minute;
 import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;

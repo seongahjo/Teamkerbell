@@ -1,4 +1,4 @@
-package com.shape.web.data;
+package com.shape.web.VO;
 
 public class ServerUser {
     private String projectIdx;
