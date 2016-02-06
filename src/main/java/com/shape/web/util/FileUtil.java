@@ -30,7 +30,7 @@ public class FileUtil {
     }
 
     public static void MakeMinute(int project_id, String memo) throws Exception {
-        String filename = FileUtil.getFoldername(project_id, null);
+        String filename = getFoldername(project_id, null);
         FileWriter fw = new FileWriter(filename + "/minute.txt");
         fw.write(memo);
         fw.close();

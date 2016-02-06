@@ -266,7 +266,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="../register" method="POST">
+                        <form action="../register" method="POST" enctype="multipart/form-data">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label> ID </label>

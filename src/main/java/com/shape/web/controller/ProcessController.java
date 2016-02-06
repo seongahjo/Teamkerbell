@@ -1,11 +1,9 @@
 package com.shape.web.controller;
 
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,12 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.shape.web.util.FileUtil;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * Handles requests for the application processing.
@@ -71,7 +67,8 @@ public class ProcessController {
     /*
     To register
     */
-   /* @RequestMapping(value = "/register", method = RequestMethod.POST)
+
+    /* @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String Register(@RequestParam(value = "name") String name, @RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw) {
         if (us.getById(userId) == null)
             us.add(userId, name, pw, "img/default.jpg");
@@ -81,40 +78,27 @@ public class ProcessController {
     }*/
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@ModelAttribute("user")User user, @RequestParam("file") File file)  {
-        logger.info(file.getName()+"FILEFILE");
-        //HttpServletRequest HSrequest
-     /*   MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
-        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+    public String register(@ModelAttribute("user")User user, @RequestParam("file") MultipartFile file)  {
+        User tempUser=us.getById(user.getId());
         String filePath = "img";
-        MultipartFile multipartFile = null;
-        String originalFileName = null;
-        String originalFileExtension = null;
-        File file = new File(filePath);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+        File folder = new File(filePath);
+        if (!folder.exists())
+            folder.mkdirs();
 
-        while (iterator.hasNext()) {
-            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-
-            if (!multipartFile.isEmpty()) {
-                originalFileName = multipartFile.getOriginalFilename();
-                originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-                    file = new File(filePath + "/" + originalFileName);
-                    try {
-                        multipartFile.transferTo(file);
-                        user.setImg(filePath+"/"+originalFileName);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return "ok";
-
-            }
+        File transFile = new File(filePath + "/" + file.getOriginalFilename());
+        logger.info("FILE NAME = " + file.getOriginalFilename());
+        try {
+            file.transferTo(transFile);
+        } catch (IOException ioe) {
 
         }
-        return "ok";*/
-        return "redirect:/";
+        if(tempUser!=null) { // user가 존재하지 않음
+
+        }else{ //user가 존재
+            user.setUseridx(tempUser.getUseridx());
+            us.save(user);
+        }
+       return "redirect:/";
     }
 
 
@@ -188,7 +172,7 @@ public class ProcessController {
       */
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
     @ResponseBody
-    public void IsTodolist(@RequestParam(value = "id") Integer id) throws Exception {
+    public void IsTodolist(@RequestParam(value = "id") Integer id) {
         Todolist todolist = ts.get(id);
         todolist.setOk(!todolist.getOk());
         ts.save(todolist);
@@ -267,6 +251,7 @@ public class ProcessController {
             response.setContentType("image/*");
             byteStream.writeTo(response.getOutputStream());
         } catch (IOException ioe) {
+            // InputStream Error
         }
         catch(NullPointerException e){
             // file 존재 안할시
@@ -365,19 +350,23 @@ public class ProcessController {
     @RequestMapping(value = "/makeMeeting", method = RequestMethod.GET)
     @ResponseBody
     public void makeMeeting(@RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
-                            @RequestParam("time") String time, @RequestParam("place") String place) throws Exception {
+                            @RequestParam("time") String time, @RequestParam("place") String place) {
         SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-        java.util.Date d1 = format.parse(time);
-        java.sql.Time ppstime = new java.sql.Time(d1.getTime());
-        logger.info("Meeting 만들어짐");
-        Schedule schedule = ss.get(scheduleIdx);
-        schedule.setStartdate(date);
-        schedule.setEnddate(date);
-        schedule.setTime(ppstime);
-        schedule.setPlace(place);
-        schedule.setState(2);
-        ss.save(schedule);
-        ss.updateAm(scheduleIdx, 2, date);
+        try {
+            java.util.Date d1 = format.parse(time);
+            java.sql.Time ppstime = new java.sql.Time(d1.getTime());
+            logger.info("Meeting 만들어짐");
+            Schedule schedule = ss.get(scheduleIdx);
+            schedule.setStartdate(date);
+            schedule.setEnddate(date);
+            schedule.setTime(ppstime);
+            schedule.setPlace(place);
+            schedule.setState(2);
+            ss.save(schedule);
+            ss.updateAm(scheduleIdx, 2, date);
+        }catch(ParseException e){
+            // parse fail
+        }
     }
 
     /*

@@ -90,7 +90,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) throws Exception {
+    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session)  {
         int userIdx = (Integer) session.getAttribute("userIdx");
         User user = us.get(userIdx); // 유저 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
@@ -121,7 +121,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) throws Exception {
+    public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx, HttpSession session)  {
         int userIdx = (Integer) session.getAttribute("userIdx"); // user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
@@ -141,7 +141,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
-    public ModelAndView manager(HttpSession session) throws Exception {
+    public ModelAndView manager(HttpSession session)  {
         int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
@@ -153,7 +153,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/document/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView document(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) throws Exception {
+    public ModelAndView document(@PathVariable("projectIdx") Integer projectIdx,HttpSession session)  {
         int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
@@ -175,7 +175,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/filemanager/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) throws Exception {
+    public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx,HttpSession session)  {
         Project project = pjs.get(projectIdx);
         int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환

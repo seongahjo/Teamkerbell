@@ -25,10 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -59,7 +56,7 @@ public class FileController {
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
-    public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) throws Exception {
+    public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest)  {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = pjs.get(Integer.parseInt(projectIdx));
@@ -80,30 +77,35 @@ public class FileController {
             multipartFile = multipartHttpServletRequest.getFile(iterator.next());
 
             if (!multipartFile.isEmpty()) {
-                originalFileName = multipartFile.getOriginalFilename();
-                storedFileName = CommonUtils.getRandomString() + originalFileExtension;
-                if (FileUtil.IsImage(originalFileName))
-                    type = "img";
-                else
-                    type = "file";
+                try {
+                    originalFileName = multipartFile.getOriginalFilename();
+                    storedFileName = CommonUtils.getRandomString() + originalFileExtension;
+                    if (FileUtil.IsImage(originalFileName))
+                        type = "img";
+                    else
+                        type = "file";
 
-                file = new File(filePath + "/" + originalFileName);
-                multipartFile.transferTo(file);
-                FileDB fd = new FileDB(storedFileName, originalFileName, filePath, type, new Date());
-                fd.setUser(user);
-                fd.setProject(project);
-                fs.save(fd);
+                    file = new File(filePath + "/" + originalFileName);
 
-                for (User u : project.getUsers()) {
-                    Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date());
-                    alarm.setUser(u);
-                    alarm.setActor(user);
-                    alarm.setProject(project);
-                    as.save(alarm);
+                    multipartFile.transferTo(file);
+                    FileDB fd = new FileDB(storedFileName, originalFileName, filePath, type, new Date());
+                    fd.setUser(user);
+                    fd.setProject(project);
+                    fs.save(fd);
+
+                    for (User u : project.getUsers()) {
+                        Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date());
+                        alarm.setUser(u);
+                        alarm.setActor(user);
+                        alarm.setProject(project);
+                        as.save(alarm);
+                    }
+
+                    logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
+                    return storedFileName;
+                }catch(IOException e){
+                    // file io error
                 }
-
-                logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
-                return storedFileName;
             }
         }
 
@@ -114,7 +116,8 @@ public class FileController {
     To download file
     */
     @RequestMapping(value = "/file", method = RequestMethod.GET)
-    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response)  {
+        try {
         InputStream in = null;
         OutputStream os = null;
         String client = "";
@@ -132,16 +135,22 @@ public class FileController {
         }    //response 헤더 설정해서
 
         response.setHeader("Content-Length", "" + file.length());
-        in = new FileInputStream(file);
-        os = response.getOutputStream();
-        byte b[] = new byte[(int) file.length()];
-        int leng = 0;
-        logger.info("다운로드 " + name);
-        while ((leng = in.read(b)) > 0) {
-            os.write(b, 0, leng);
+
+            in = new FileInputStream(file);
+            os = response.getOutputStream();
+            byte b[] = new byte[(int) file.length()];
+            int leng = 0;
+            logger.info("다운로드 " + name);
+            while ((leng = in.read(b)) > 0) {
+                os.write(b, 0, leng);
+            }
+            in.close();
+            os.close();
+        }catch(FileNotFoundException e){
+            // File 존재 안함
+        }catch(IOException e){
+            //OutputStream Error
         }
-        in.close();
-        os.close();
 
     }
 }
