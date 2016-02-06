@@ -216,7 +216,7 @@ public class ProcessController {
                 FileDB fd = fs.getByOriginalname(date, f.getName());
                 if (fd != null) {
                     List<String> temp = new ArrayList<String>();
-                    temp.add("<a href='file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
+                    temp.add("<a href='../file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
                     temp.add(fd.getUser().getName());
                     temp.add(fd.getDate().toString());
                     data.add(temp);

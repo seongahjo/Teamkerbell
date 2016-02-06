@@ -250,12 +250,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>image1.txt</td>
-                                    <td>jun</td>
-                                    <td>2016/12/15</td>
-                                    <td>blue,Apink,bbq</td>
-                                </tr>
+                                <c:forEach var="list" items="${files}">
+                                    <tr>
+                                        <td><a href="../file?name="${list.storedname}>${list.originalname}</a></td>
+                                       <td>${list.user.name}</td>
+                                        <td>${list.date}</td>
+                                        <td></td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -322,6 +324,7 @@
     });
     function search(){
         var search_val=$("#tokenfield-typeahead").val();
+        console.log(search_val);
         table.search( search_val ).draw();
     }
 </script>

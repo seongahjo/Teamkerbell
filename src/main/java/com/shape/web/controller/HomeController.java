@@ -176,13 +176,16 @@ public class HomeController {
 
     @RequestMapping(value = "/filemanager/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) throws Exception {
+        Project project = pjs.get(projectIdx);
         int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
         User user = us.get(userIdx); // 유저 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
+        List<FileDB> lfd = pjs.getFiles(project);
 
         ModelAndView mv = new ModelAndView("/filemanager");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
+        mv.addObject("files",lfd);
         return mv;
     }
 

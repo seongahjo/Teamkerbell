@@ -94,6 +94,17 @@ public class ProjectService {
         return lfd;
     }
 
+    public List<FileDB> getFiles(Project project) {
+        Session session = sessionFactory.openSession();
+        List<FileDB> lfd = session.createCriteria(FileDB.class)
+                .createAlias("project", "project")
+                .add(Restrictions.eq("project.projectidx", project.getProjectidx()))
+                .addOrder(Order.desc("date"))
+                .list();
+        session.close();
+        return lfd;
+    }
+
     public List<User> getUsers(Project project) {
         Session session = sessionFactory.openSession();
         List<User> lu = session.createCriteria(User.class)

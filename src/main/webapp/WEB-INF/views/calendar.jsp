@@ -615,7 +615,6 @@
         //Initialize Select Elements
         $(".select2").select2();
 
-        $("#example1").DataTable();
         table = $('#file').DataTable({
             "ajax": {
                 "url": "../selectDate",
