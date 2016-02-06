@@ -321,7 +321,7 @@
                                     <tbody>
                                     <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
                                         <tr>
-                                            <td class="mailbox-name"><a href="chat?projectIdx=${list.projectidx}"
+                                            <td class="mailbox-name"><a href="chat/${list.projectidx}"
                                                                         style="font-weight:bold">${list.name}</a>
                                             </td>
 
@@ -333,7 +333,7 @@
 
                                             <td class="mailbox-attachment">
                                                 <div class="btn-group pull-right">
-                                                    <a href="document?projectIdx=${list.projectidx}">
+                                                    <a href="document/${list.projectidx}">
                                                         <button type="button" class="btn btn-default btn-flat"><i
                                                                 class="fa fa-comment"></i>Doc
                                                         </button>
