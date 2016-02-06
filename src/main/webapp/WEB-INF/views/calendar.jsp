@@ -80,9 +80,6 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
-
-                    <!-- Notifications Menu -->
-                    <!-- Notifications Menu -->
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -158,9 +155,7 @@
                         </ul>
                     </li>
                     <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+                    
                 </ul>
             </div>
         </nav>
@@ -176,7 +171,7 @@
                 <div class="pull-left image">
                     <img src="../${user.img}" class="img-circle" alt="User Image">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -185,19 +180,19 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
+                   
                     </ul>
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-usb"></i><span>Projectrooms</span></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}">
@@ -209,6 +204,9 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>                    
+                </li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -216,19 +214,7 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <!-- <section class="content-header">
-               <h1>
-                   Main Page
-                   <!-- <small>Optional description</small>
-               </h1>
-               <ol class="breadcrumb">
-                   <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                   <li class="active">Here</li>
-               </ol>
-          </section>-->
-
+    <div class="content-wrapper">       
         <!-- Main content -->
         <section class="content">
 
@@ -393,78 +379,7 @@
         <!-- Default to the left -->
         <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
-        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <!-- Home tab content -->
-            <div class="tab-pane active" id="control-sidebar-home-tab">
-                <h3 class="control-sidebar-heading">Recent Activity</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                <p>Will be 23 on April 24th</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-                <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <h4 class="control-sidebar-subheading">
-                                Template Design
-                                <span class="label label-danger pull-right">70%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-            </div>
-            <!-- /.tab-pane -->
-            <!-- Stats tab content -->
-            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-            <!-- /.tab-pane -->
-            <!-- Settings tab content -->
-            <div class="tab-pane" id="control-sidebar-settings-tab">
-                <form method="post">
-                    <h3 class="control-sidebar-heading">General Settings</h3>
-
-                    <div class="form-group">
-                        <label class="control-sidebar-subheading">
-                            Report panel usage
-                            <input type="checkbox" class="pull-right" checked>
-                        </label>
-
-                        <p>
-                            Some information about this general settings option
-                        </p>
-                    </div>
-                    <!-- /.form-group -->
-                </form>
-            </div>
-            <!-- /.tab-pane -->
-        </div>
-    </aside>
-    <!-- /.control-sidebar -->
+    
     <!-- Add the sidebar's background. This div must be placed
          immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
@@ -475,7 +390,6 @@
 
 
 <div class="control-sidebar-bg"></div>
-</div>
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
 
 <!--register modal -->
@@ -603,17 +517,7 @@
                             <!-- /.form group -->
                         </div>
 
-                        <!-- <div class="form-group has-success">
-                             <label class="control-label" for="inputSuccess"><i class="fa fa-users"></i> Write the Real
-                                 Participation</label>
-                             <select class="form-control select2" multiple="multiple" data-placeholder="Select a person" style="width: 100%;">
-                                 <option>MinJi</option>
-                                 <option>Solip</option>
-                                 <option>Sieun</option>
-                                 <option>SeongAh</option>
-                                 <option>SolJi</option>
-                             </select>
-                         </div>-->
+                      
                         <div class="form-group has-success">
                             <label class="control-label" for="inputSuccess"><i class="fa fa-map-marker"></i> Write where
                                 you want to meet</label>

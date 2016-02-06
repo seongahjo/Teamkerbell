@@ -168,27 +168,30 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href="userInfo/${user.id}"><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
+                      
                     </ul>
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-usb"></i><span>Projectrooms</span></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
-                            <c:forEach var="list" items="${projects}"> <!-- ��Ʈ�ѷ����� �Ѱܹ��� ������Ʈ�� list�� ���� -->
+                            <c:forEach var="list" items="${projects}"> 
                                 <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
+                </li>
+                <li class="treeview">
+                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>                    
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
@@ -538,6 +541,7 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- Gallery -->
+<!--  
 <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -605,6 +609,53 @@
         </div>
     </div>
 </div>
+-->
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
+            </div>
+            <form>
+                <div class="modal-body">
+
+     <div class="box-body">
+            
+            <div class="gallery">
+				<a href="http://c1.staticflickr.com/9/8037/7897220164_3e3aa82d43_h.jpg" title="An elegant profile by Takumi Yoshida, on Flickr" class="zoom">
+					<img src="https://farm9.staticflickr.com/8037/7897220164_7950bc48ed_n.jpg" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+				</a>
+				<a href="http://c2.staticflickr.com/6/5478/9531699422_fe130c112c_k.jpg" title="_MG_9696 by Takumi Yoshida, on Flickr" class="zoom">
+					<img src="https://farm6.staticflickr.com/5478/9531699422_fdb940c06a_n.jpg" width="170" height="120" alt="_MG_9696" style="margin-top:3%;margin-right:1%">
+				</a>
+				<a href="http://c2.staticflickr.com/4/3697/9531555260_19ad5113a5_k.jpg" title="rose by Takumi Yoshida, on Flickr" class="zoom">
+					<img src="https://farm4.staticflickr.com/3697/9531555260_b432af93d2_n.jpg" width="170" height="120" alt="rose" style="margin-top:3%;margin-right:1%">
+				</a>
+				<a href="http://c2.staticflickr.com/6/5450/8970878075_06589570a8_k.jpg" title="Arsenale ruin by Takumi Yoshida, on Flickr" class="zoom">
+					<img src="https://farm6.staticflickr.com/5450/8970878075_232a1eb081_n.jpg" width="170" height="120" alt="Arsenale ruin" style="margin-top:3%;margin-right:1%">
+				</a>
+				<a href="https://c1.staticflickr.com/9/8301/7897238688_2b7318b6a7_k.jpg" title="V by Takumi Yoshida, on Flickr" class="zoom">
+					<img src="https://farm9.staticflickr.com/8301/7897238688_1d7ae06e36_n.jpg" width="170" height="120" alt="V" style="margin-top:3%;margin-right:1%">
+				</a>
+			</div>
+			
+            
+            
+            </div>
+                    
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
