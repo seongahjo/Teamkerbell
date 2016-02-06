@@ -3,6 +3,9 @@ package com.shape.web.controller;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.shape.web.util.FileUtil;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * Handles requests for the application processing.
@@ -65,14 +70,55 @@ public class ProcessController {
     /*
     To register
     */
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String Register(@RequestParam(value = "name") String name, @RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw) {
         if (us.getById(userId) == null)
             us.add(userId, name, pw, "img/default.jpg");
         else
             return "redirect:/joinus";
         return "login";
+    }*/
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ResponseBody
+    public String register(@ModelAttribute("user")User user, HttpServletRequest HSrequest)  {
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
+        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+        String filePath = "img";
+        MultipartFile multipartFile = null;
+        String originalFileName = null;
+        String originalFileExtension = null;
+        Pattern pattern = Pattern.compile("\\.(jpg|jpeg|png|gif)$", Pattern.CASE_INSENSITIVE);
+        File file = new File(filePath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        while (iterator.hasNext()) {
+            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+
+            if (!multipartFile.isEmpty()) {
+                originalFileName = multipartFile.getOriginalFilename();
+                originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                Matcher m = pattern.matcher(originalFileExtension);
+                if (m.matches()) {
+                    file = new File(filePath + "/" + originalFileName);
+                    try {
+                        multipartFile.transferTo(file);
+                        user.setImg(filePath+"/"+originalFileName);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
+                    return "ok";
+                }
+            }
+
+        }
+        return "ok";
     }
+
+
 
     /*
     To make project room
@@ -165,8 +211,8 @@ public class ProcessController {
         dir = new File(foldername);
         if (dir.listFiles() != null) {
             for (File f : dir.listFiles()) {
-                logger.info(f.getName()+"FILENAME!!!");
-                FileDB fd = fs.getByOriginalname(date,f.getName());
+                logger.info(f.getName() + "FILENAME!!!");
+                FileDB fd = fs.getByOriginalname(date, f.getName());
                 if (fd != null) {
                     List<String> temp = new ArrayList<String>();
                     temp.add("<a href='file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");

@@ -59,7 +59,7 @@ public class FileController {
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
-    public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest, HttpSession session) throws Exception {
+    public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) throws Exception {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = pjs.get(Integer.parseInt(projectIdx));
