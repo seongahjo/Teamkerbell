@@ -136,13 +136,13 @@
         </div>
         <p class="login-box-msg">Register a new membership</p>
 
-        <form action="register" method="post" id="registerForm">
+        <form action="register" method="post" id="registerForm" enctype="multipart/form-data">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="name" placeholder="Full name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="id" class="form-control" name="userId" placeholder="ID">
+            <input type="id" class="form-control" name="id" placeholder="ID">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
@@ -153,6 +153,12 @@
             <input type="password" class="form-control" id="pw2" placeholder="Retype password">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
+          <div class="form-group">
+            <label for="exampleInputFile">Change image</label>
+            <input type="file" name="file" onchange="previewImage(this,'preimage')">
+          </div>
+          <div id='preimage' style="width:100px;height:100px"></div>
+
           <div class="row">
             <div class="col-xs-8">
               <div class="checkbox icheck">
@@ -282,11 +288,23 @@
 <!-- AdminLTE App -->
 <script src="js/app.min.js"></script>
 <script src="js/date.js"></script>
+<script src="js/previewimage.js"></script>
 <script>
   function register(){
    if(($("#pw").val())==($("#pw2").val())){
      if($("#check").prop('checked')==true){
-       $("#registerForm").submit();
+       var form = $("#registerForm")[0];
+       var formData = new FormData(form);
+       $.ajax({
+         url: "../register",
+         type: "POST",
+         data: formData,
+         processData: false,
+         contentType: false,
+         success: function () {
+           location.reload();
+         }
+       });
      }
    }
   }

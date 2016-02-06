@@ -84,6 +84,8 @@ public class UserController {
         } catch (IOException ioe) {
 
         } catch (StringIndexOutOfBoundsException e) {
+            if(user.getImg()==null)
+                user.setImg("img/default.jpg");
             //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
             us.save(user);
         }
