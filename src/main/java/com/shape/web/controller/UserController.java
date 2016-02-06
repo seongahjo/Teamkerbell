@@ -61,10 +61,13 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public void register(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile file) {
-        User tempUser = us.getById(user.getId());
-        if (tempUser != null) // user가 존재함
-            user.setUseridx(tempUser.getUseridx());
+    public void register(@ModelAttribute("tempUser") User tempUser, @RequestParam("file") MultipartFile file) {
+        User user = us.getById(tempUser.getId());
+        if(user==null)
+            user=new User();
+        user.setId(tempUser.getId());
+        user.setName(tempUser.getName());
+        user.setPw(tempUser.getPw());
         try {
             String filePath = "img";
             String originalFileName = file.getOriginalFilename(); // 파일 이름
@@ -79,17 +82,18 @@ public class UserController {
             file.transferTo(transFile);
             fs.save(filedb); // 파일 내용을 디비에 저장
             user.setImg("loadImg?name=" + storedFileName);
+
             filedb.setUser(user);
             us.save(user);
         } catch (IOException ioe) {
 
         } catch (StringIndexOutOfBoundsException e) {
-            if(user.getImg()==null)
+            if (user.getImg() == null)
                 user.setImg("img/default.jpg");
             //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
             us.save(user);
         }
-        }
+    }
 
 
 }

@@ -67,21 +67,21 @@
                 <span class="sr-only">Toggle navigation</span>
             </a>
             <!-- Navbar Right Menu -->
+
+            <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-
-
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning" id="alarm_size">${alarm.size()}</span>
+                            <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header" id="alarm_size_display">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -105,7 +105,6 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-                   
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
@@ -125,10 +124,12 @@
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo
+                                            Edit</a>
                                     </div>
 
                                 </div>
@@ -177,8 +178,9 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                      
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
+                        </li>
+
                     </ul>
                 </li>
 
@@ -194,8 +196,8 @@
                         </li>
                     </ul>
                 </li>
-                 <li class="treeview">
-                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>                    
+                <li class="treeview">
+                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
@@ -340,7 +342,8 @@
                                     </c:choose>
                                     <span class="text">${list.content}</span>
 
-                                    <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}</small>
+                                    <small class="label label-danger" prettydate><i
+                                            class="fa fa-clock-o"></i>${list.enddate}</small>
 
                                     <div class="tools">
                                         <i class="fa fa-edit"></i>
@@ -466,6 +469,8 @@
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
 <script src="../js/prettydate.min.js"></script>
+<!-- Socket IO -->
+<script src="../js/socket.io.js"></script>
 <!-- date-range-picker -->
 <script src="../js/moment.min.js"></script>
 <script src="../js/daterangepicker.js"></script>
@@ -478,6 +483,44 @@
 <script>
     var registerStartDate;
     var registerEndDate;
+    var socket;
+    $(document).ready(function () {
+        socket = io.connect("http://192.168.10.105:9999");
+        socket.emit('join', {
+            projectIdx: "${project.projectidx}",
+            userIdx:${user.useridx},
+            userName: "${user.name}",
+            userId: "${user.id}",
+            userImg: "${user.img}"
+        });
+
+        socket.on('alarm', function (data) {
+            var par = "userIdx=" +${user.useridx};
+            $.ajax({
+                url: "../updateAlarm",
+                data: par,
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    var size = parseInt($("#alarm-size").text()) + 1;
+                    $("#alarm-size").text(size);
+                    $("#alarm-content").text('You have ' + size + 'notifications');
+                    $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                            '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                            'has invited you to <strong>' + data.projectname + '</strong>' +
+                            '<div style="float:right;">' +
+                            ' <button type="button" class="btn btn-primary btn-xs"' +
+                            'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                            '<button type="button" class="btn btn-default btn-xs"' +
+                            'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                            '</button>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>');
+                }
+            });
+        });
+    });// socket end
     //Date range picker with time picker
     $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'YYYY-MM-DD h:mm A'});
     //Date range as a button
@@ -552,7 +595,6 @@
             }
         });
     });
-
 
 
 </script>

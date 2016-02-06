@@ -785,6 +785,7 @@
     var scheduleEnd;
     var inviteU;
     $(function () {
+        $("a.zoom").imageZoom({scale: 0.75});
         //Initialize Select Elements
         $(".select2").select();
         //Date range picker
@@ -863,7 +864,6 @@
             $("#memo").val(memo);
         });
         socket.on('alarm', function (data) {
-            console.log('alarm');
                 var par="userIdx="+${user.useridx};
                 $.ajax({
                     url: "../updateAlarm",
@@ -1026,10 +1026,6 @@
             }
         });
     }
-
-    $(function () {
-        $("a.zoom").imageZoom({scale: 0.75});
-    });
 
 </script>
 </body>
