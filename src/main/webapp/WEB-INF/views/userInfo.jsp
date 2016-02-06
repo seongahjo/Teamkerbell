@@ -266,7 +266,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form">
+                        <form action="../register" method="POST">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label> ID </label>
@@ -289,7 +289,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputFile">Change image</label>
-                                    <input type="file" onchange="previewImage(this,'preimage')">
+                                    <input type="file" name="file" onchange="previewImage(this,'preimage')">
                                 </div>
 								<div id='preimage' style="width:100px;height:100px"></div>
 

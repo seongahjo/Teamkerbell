@@ -81,15 +81,15 @@ public class ProcessController {
     }*/
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody
-    public String register(@ModelAttribute("user")User user, HttpServletRequest HSrequest)  {
-        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
+    public String register(@ModelAttribute("user")User user, @RequestParam("file") File file)  {
+        logger.info(file.getName()+"FILEFILE");
+        //HttpServletRequest HSrequest
+     /*   MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         String filePath = "img";
         MultipartFile multipartFile = null;
         String originalFileName = null;
         String originalFileExtension = null;
-        Pattern pattern = Pattern.compile("\\.(jpg|jpeg|png|gif)$", Pattern.CASE_INSENSITIVE);
         File file = new File(filePath);
         if (!file.exists()) {
             file.mkdirs();
@@ -101,8 +101,6 @@ public class ProcessController {
             if (!multipartFile.isEmpty()) {
                 originalFileName = multipartFile.getOriginalFilename();
                 originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-                Matcher m = pattern.matcher(originalFileExtension);
-                if (m.matches()) {
                     file = new File(filePath + "/" + originalFileName);
                     try {
                         multipartFile.transferTo(file);
@@ -110,13 +108,13 @@ public class ProcessController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
                     return "ok";
-                }
+
             }
 
         }
-        return "ok";
+        return "ok";*/
+        return "redirect:/";
     }
 
 
@@ -450,5 +448,4 @@ public class ProcessController {
         }
         return data;
     }
-
 }

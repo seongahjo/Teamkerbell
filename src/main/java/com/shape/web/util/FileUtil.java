@@ -1,22 +1,13 @@
 package com.shape.web.util;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import com.shape.web.entity.FileDB;
 import com.shape.web.service.FileDBService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public class FileUtil {
     // Static 메소드로만 만들기
@@ -47,6 +38,13 @@ public class FileUtil {
     public static String DecodeFile(String storedFileName){
        FileDB fd=fs.getByStoredname(storedFileName);
         return fd.getOriginalname();
+    }
+    public static boolean IsImage(String filename){
+        String FileExtension = filename.substring(filename.lastIndexOf("."));
+
+        Pattern pattern = Pattern.compile("\\.(jpg|jpeg|png|gif)$", Pattern.CASE_INSENSITIVE);
+        Matcher m = pattern.matcher(FileExtension);
+        return m.matches();
     }
 }
 

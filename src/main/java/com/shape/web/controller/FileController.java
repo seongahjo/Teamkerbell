@@ -70,7 +70,6 @@ public class FileController {
         String originalFileExtension = null;
         String storedFileName = null;
         String type = null;
-        Pattern pattern = Pattern.compile("\\.(jpg|jpeg|png|gif)$", Pattern.CASE_INSENSITIVE);
 
         File file = new File(filePath);
         if (!file.exists()) {
@@ -82,10 +81,8 @@ public class FileController {
 
             if (!multipartFile.isEmpty()) {
                 originalFileName = multipartFile.getOriginalFilename();
-                originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
                 storedFileName = CommonUtils.getRandomString() + originalFileExtension;
-                Matcher m = pattern.matcher(originalFileExtension);
-                if (m.matches())
+                if (FileUtil.IsImage(originalFileName))
                     type = "img";
                 else
                     type = "file";
