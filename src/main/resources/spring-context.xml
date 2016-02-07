@@ -33,15 +33,25 @@
 		p:dataSource-ref="dataSource" p:configLocation="${hibernate.config}"
 		p:packagesToScan="com.shape.web.entity" />
 
-	<bean id="dataSource"
+	<!--<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${app.jdbc.driverClassName}" />
 		<property name="url" value="${app.jdbc.url}" />
 		<property name="username" value="${app.jdbc.username}" />
 		<property name="password" value="${app.jdbc.password}" />
-
+	</bean>-->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		  destroy-method="close">
+		<property name="driverClass" value="${app.jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${app.jdbc.url}" />
+		<property name="user" value="${app.jdbc.username}" />
+		<property name="password" value="${app.jdbc.password}" />
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="maxStatements" value="50" />
+		<property name="idleConnectionTestPeriod" value="3000" />
+		<property name="loginTimeout" value="300" />
 	</bean>
-	
 	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="100000000" />
         <property name="maxInMemorySize" value="100000000" />
