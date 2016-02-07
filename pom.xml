@@ -129,11 +129,6 @@
             <version>4.1.7.Final</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>4.1.7.Final</version>
-        </dependency>
         <!-- Microsoft Office 파서  -->
         <dependency>
             <groupId>org.apache.poi</groupId>
