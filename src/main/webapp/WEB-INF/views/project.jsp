@@ -67,8 +67,8 @@
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                            <i class="fa fa-bell-o"  id="alarm"></i>
                             <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -762,6 +762,7 @@
 </div>
 <!-- jQuery 2.1.4 -->
 <script src="../js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
@@ -785,6 +786,7 @@
     var scheduleEnd;
     var inviteU;
     $(function () {
+
         $("a.zoom").imageZoom({scale: 0.75});
         //Initialize Select Elements
         $(".select2").select();
@@ -872,6 +874,7 @@
                     type: 'GET',
                     success: function (data) {
                         var size=parseInt($("#alarm-size").text())+1;
+                        $("#alarm").effect("bounce",{direction:'left',distance:13, times:3},500);
                         $("#alarm-size").text(size);
                         $("#alarm-content").text('You have '+size+'notifications');
                         $("#alarm-list").prepend('<li id="alarm-"'+data.alarmidx+'><a href="#">'+
