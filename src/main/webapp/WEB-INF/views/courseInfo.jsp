@@ -246,8 +246,9 @@
                 <div class="timeline-body">
                   Some Homework , ....
                 </div>
-                <div class="timeline-footer">
-                  <div id="app"></div>
+                <div class="timeline-footer">                 
+                  <button style="width:8%;float:left;hover:none"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line1" class="line" value="3"> Like</button>
+                <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
               </div>
             </li>
@@ -262,9 +263,12 @@
                 <div class="timeline-body">
                   Some Homework , and......
                 </div>
+                  
                 <div class="timeline-footer">
-                  <div id="app"></div>
+                 <button style="width:8%;float:left;hover:none"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line2" class="line" value="3"> Like</button>
+                <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
+                
               </div>
             </li>
             <!-- END timeline item -->
@@ -278,8 +282,9 @@
                 <div class="timeline-body">
                   Some Homework , ....
                 </div>
-                <div class="timeline-footer">
-                  <div id="app"></div>
+                <div class="timeline-footer">            
+                <button style="width:8%;float:left;hover:none"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line3" class="line" value="3"> Like</button>
+                <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>                   
                 </div>
               </div>
             </li>
@@ -301,7 +306,8 @@
                   Some Homework , ....
                 </div>
                 <div class="timeline-footer">
-                  <div id="app"></div>
+                <button style="width:8%;float:left"type="button" id="like-bt" class="btn btn-block btn-default btn-sm"><i id="like-button" class="fa fa-heart-o margin-r-5"></i>Like</button>
+                <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
               </div>
             </li>
@@ -342,7 +348,23 @@
 <script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
+<script>
+$(function() {
+    $('#like-bt').click(function(){
 
-
+    	 if($('#like-button').hasClass('fa-heart-o')==true){    
+    	  $('#like-button').removeClass("fa-heart-o").addClass("fa-heart");
+    	  $('.line').val(parseInt($('.line').val())+1);
+    	 
+      }
+      else{
+    	  
+    	  $('#like-button').removeClass("fa-heart").addClass("fa-heart-o");    	
+    	  $('.line').val(parseInt($('.line').val())-1); 	
+    	     	  
+      }   	     	
+    });
+});
+</script>
 </body>
 </html>

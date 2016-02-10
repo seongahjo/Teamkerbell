@@ -184,3 +184,10 @@ border-radius: 50%;
   border-bottom: 1px solid #000000;
   border-radius: 4px;
 }
+
+.btn-like{
+	background-color:#ffffff;
+	color:#000000;
+	border-color: #ccc;
+	    border-radius: 3px;
+}
