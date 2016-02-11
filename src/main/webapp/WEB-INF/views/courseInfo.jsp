@@ -181,7 +181,7 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -198,7 +198,6 @@
                 </li>
                 <li class="treeview">
                     <a href=../courseInfo><i class="fa fa-university"></i><span> Course Info</span></a>
-
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
