@@ -21,12 +21,11 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../css/wait1.css">
 
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -176,11 +175,11 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-user"></i><span> MyProfile</span></a>
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
                     </ul>
@@ -198,7 +197,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href=../courseInfo><i class="fa fa-university"></i><span> Courses Info</span></a>
+                    <a href=../courseInfo><i class="fa fa-university"></i><span> Course Info</span></a>
 
                 </li>
             </ul>
@@ -247,7 +246,7 @@
                   Some Homework , ....
                 </div>
                 <div class="timeline-footer">                 
-                  <button style="width:8%;float:left;hover:none"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line1" class="line" value="3"> Like</button>
+                  <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line1" class="line" value="3"> Like</button>
                 <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
               </div>
@@ -265,7 +264,7 @@
                 </div>
                   
                 <div class="timeline-footer">
-                 <button style="width:8%;float:left;hover:none"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line2" class="line" value="3"> Like</button>
+                 <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line2" class="line" value="3"> Like</button>
                 <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
                 
@@ -283,7 +282,7 @@
                   Some Homework , ....
                 </div>
                 <div class="timeline-footer">            
-                <button style="width:8%;float:left;hover:none"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line3" class="line" value="3"> Like</button>
+                <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line3" class="line" value="3"> Like</button>
                 <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>                   
                 </div>
               </div>
@@ -306,8 +305,8 @@
                   Some Homework , ....
                 </div>
                 <div class="timeline-footer">
-                <button style="width:8%;float:left"type="button" id="like-bt" class="btn btn-block btn-default btn-sm"><i id="like-button" class="fa fa-heart-o margin-r-5"></i>Like</button>
-                <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
+                 <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line3" class="line" value="3"> Like</button>
+                <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>                   
                 </div>
               </div>
             </li>

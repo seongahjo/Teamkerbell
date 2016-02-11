@@ -167,7 +167,7 @@
                 <div class="pull-left image">
                     <img src="${user.img}" class="img-circle" alt="User Image">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -178,26 +178,27 @@
             <ul class="sidebar-menu">
                 <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
-
-                <li class="treeview">
+ 			<li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
+                      
                     </ul>
                 </li>
 
-                 <li class="treeview">
-                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-users"></i><span> Project Rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
-                            <c:forEach var="list" items="${projects}"> 
-                                <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
+                            <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
+                                <a href="../chat/${list.projectidx}"
+                                   class="side-nav-button">name: ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
+                 <li class="treeview">
                     <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>                    
                 </li>
             </ul>

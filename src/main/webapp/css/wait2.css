@@ -190,4 +190,10 @@ border-radius: 50%;
 	color:#000000;
 	border-color: #ccc;
 	    border-radius: 3px;
+	    margin-top: 4px;
+}
+.three-menu>span{
+	-webkit-font-smoothing: antialiased;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 400;
 }
