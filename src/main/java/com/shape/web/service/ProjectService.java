@@ -97,6 +97,7 @@ public class ProjectService {
                 .createAlias("project", "project")
                 .add(Restrictions.eq("project.projectidx", project.getProjectidx()))
                 .addOrder(Order.desc("date"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return lfd;

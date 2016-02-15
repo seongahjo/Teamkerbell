@@ -70,7 +70,7 @@ public class ProcessController {
     public void loadImg(@RequestParam(value = "name") String name, HttpServletResponse response) {
         try {
             FileDB file = fs.getByStoredname(name);
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + name));
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + file.getOriginalname()));
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(512);
             int imageByte;
             while ((imageByte = in.read()) != -1)
@@ -78,12 +78,13 @@ public class ProcessController {
             in.close();
             response.setContentType("image/*");
             byteStream.writeTo(response.getOutputStream());
+            logger.info("SUCCESS LOAD IMG");
         } catch (IOException ioe) {
             // InputStream Error
         } catch (NullPointerException e) {
             // file 존재 안할시
         }
-        logger.info("SUCCESS LOAD IMG");
+
     }
 
 

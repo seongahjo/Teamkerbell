@@ -158,11 +158,16 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                         Project pj = pjs.get(Integer.parseInt(projectIdx));
                         pj.setMinute(memo);
                         Minute minute = ms.getByDate(new Date());
-                        if (minute == null)
+                        if (minute == null) {
                             minute = new Minute(memo, new Date());
-                        minute.setProject(pj);
+                            logger.info("새로 생성했다!");
+                        }
+                            minute.setContent(memo);
+                            minute.setDate(new Date());
+                            minute.setProject(pj);
                         logger.info("메모장 : " + memo);
                         ms.save(minute);
+                        pjs.save(pj);
                         Rooms.replace(projectIdx, -1);
                         try {
                             FileUtil.MakeMinute(Integer.parseInt(projectIdx), memo);

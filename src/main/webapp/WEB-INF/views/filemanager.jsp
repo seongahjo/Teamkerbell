@@ -252,7 +252,7 @@
                                 <tbody>
                                 <c:forEach var="list" items="${files}">
                                     <tr>
-                                        <td><a href="../file?name="${list.storedname}>${list.originalname}</a></td>
+                                        <td><a href="../file?name=${list.storedname}">${list.originalname}</a></td>
                                        <td>${list.user.name}</td>
                                         <td>${list.date}</td>
                                         <td></td>

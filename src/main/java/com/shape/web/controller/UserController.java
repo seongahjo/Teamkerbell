@@ -77,7 +77,7 @@ public class UserController {
             File folder = new File(filePath); // 폴더
             if (!folder.exists()) // 폴더 존재하지 않을 경우 만듬
                 folder.mkdirs();
-            File transFile = new File(filePath + "/" + storedFileName); // 전송된 파일
+            File transFile = new File(filePath + "/" + originalFileName); // 전송된 파일
             logger.info("FILE NAME = " + file.getOriginalFilename());
             file.transferTo(transFile);
             fs.save(filedb); // 파일 내용을 디비에 저장

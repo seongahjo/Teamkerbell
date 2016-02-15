@@ -767,7 +767,7 @@
         console.log(param);
 
         $.ajax({
-            url: "makeSchedule",
+            url: "../makeSchedule",
             data: param,
             dataType: 'text',
             async: true,
@@ -793,7 +793,7 @@
         var param = "userIdx=${user.useridx} &scheduleIdx=" + scheduleIdx + "&startdate=" + registerStartDate.format('YYYY-MM-DD') + "&enddate=" + registerEndDate.format('YYYY-MM-DD') + "&state=0";
 
         $.ajax({
-            url: "makeRegister",
+            url: "../makeRegister",
             data: param,
             dataType: 'text',
             async: true,
@@ -811,7 +811,7 @@
         var param = "scheduleIdx=" + _scheduleIdx;
         scheduleIdx = _scheduleIdx;
         $.ajax({
-            url: "loadTime",
+            url: "../loadTime",
             data: param,
             dataType: 'json',
             async: true,
@@ -836,7 +836,7 @@
         var place = $("#make_place").val();
         var param = "scheduleIdx=" + scheduleIdx + "&date=" + make_checkbox + "&time=" + make_time + "&place=" + place;
         $.ajax({
-            url: "makeMeeting",
+            url: "../makeMeeting",
             data: param,
             dataType: 'text',
             async: true,
@@ -855,7 +855,7 @@
     function finish() {
         var param = "scheduleIdx=" + scheuldIdx + "&ids=" + $("#select").children("option:selected").val();
         $.ajax({
-            url: "finishMeeting",
+            url: "../finishMeeting",
             data: param,
             dataType: 'text',
             async: true,
