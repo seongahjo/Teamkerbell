@@ -162,7 +162,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image"style="width:100px;height:100px">
                 </div>
                 <div class="pull-left info dash-user">
                     <p>${user.id}</p>
