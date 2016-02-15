@@ -179,7 +179,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>

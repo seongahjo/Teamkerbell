@@ -180,15 +180,15 @@
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
                        </ul>
                 </li>
 
-                <li class="treeview">
-                    <a href="#"><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right"
+                <li class="treeview active">
+                    <a href="#"><i class="fa fa-users"></i><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right"
                                                             style="color:#ffffff"></i></a>
                     <ul class="treeview-menu">
                         <li>
@@ -196,7 +196,7 @@
                                 <a href="../chat/${list.projectidx}" class="side-nav-button">name
                                     : ${list.name}</a>
                             </c:forEach>
-                            <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                            <a href="#"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
                 </li>
