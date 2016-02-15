@@ -242,7 +242,7 @@
                         <div class="icon">
                             <i class="ion ion-ios-compose-outline"></i>
                         </div>
-                        <a data-toggle="modal" data-target="#todoMadal" class="small-box-footer">More info <i
+                        <a  class="small-box-footer">More info <i
                                 class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -295,9 +295,7 @@
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                         class="fa fa-minus"></i>
                                 </button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                        class="fa fa-times"></i>
-                                </button>
+                   
                             </div>
                         </div>
                         <!-- /.box-header -->
@@ -317,6 +315,14 @@
                             <button type="button" type="button" class="btn btn-primary btn-flat" onClick="sendMsg()">
                                 Send
                             </button>
+                            <span onclick="selectFile()" >
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="File Upload" style="margin-left:3px;height:34px">
+                 			 <i class="fa fa-paperclip fa-2x"></i></button>
+                 			 </span>
+                 			  <span data-toggle="modal" data-target="#todoMadal" >
+                 			  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="Add TodoList" style="margin-left:3px;height:34px">
+                 			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
+                 			 </span>
                           </span>
                         </div>
                     </div>
@@ -752,7 +758,7 @@
         socket = io.connect("http://192.168.0.45:9999");
         socket.emit('join', {
             projectIdx: "${project.projectidx}",
-            userIdx:${user.useridx},
+            userIdx:"${user.useridx}",
             userName: "${user.name}",
             userId: "${user.id}",
             userImg: "${user.img}"
