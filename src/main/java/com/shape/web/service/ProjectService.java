@@ -12,6 +12,7 @@ import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,6 +49,7 @@ public class ProjectService {
         List<Minute> lm = session.createCriteria(Minute.class)
                 .createAlias("project", "project")
                 .add(Restrictions.eq("project.projectidx", project.getProjectidx()))
+                .add(Restrictions.ne("date",new Date()))
                 .addOrder(Order.desc("date"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
