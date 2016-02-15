@@ -184,3 +184,16 @@ border-radius: 50%;
   border-bottom: 1px solid #000000;
   border-radius: 4px;
 }
+
+.btn-like{
+	background-color:#ffffff;
+	color:#000000;
+	border-color: #ccc;
+	    border-radius: 3px;
+	    margin-top: 4px;
+}
+.three-menu>span{
+	-webkit-font-smoothing: antialiased;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 400;
+}

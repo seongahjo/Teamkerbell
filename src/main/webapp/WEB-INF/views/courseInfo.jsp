@@ -20,12 +20,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
+ <link rel="stylesheet" href="../css/bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+   
 
 
     <!--[if lt IE 9]>
@@ -116,7 +116,7 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="" >
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
@@ -165,7 +165,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image"  style="width:100px;height:100px">
                 </div>
                 <div class="pull-left info dash-user">
                     <p>${user.id}</p>
@@ -176,11 +176,11 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-user"></i><span> MyProfile</span></a>
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
                     </ul>
@@ -198,7 +198,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href=../courseInfo><i class="fa fa-university"></i><span> Courses Info</span></a>
+                    <a href=../courseInfo><i class="fa fa-university"></i><span> Course Info</span></a>
 
                 </li>
             </ul>
@@ -247,7 +247,8 @@
                   Some Homework , ....
                 </div>
                 <div class="timeline-footer">
-                  <div id="app"></div>
+                  <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line1" class="line" value="3" readonly> Like</button>
+                  <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
               </div>
             </li>
@@ -263,7 +264,8 @@
                   Some Homework , and......
                 </div>
                 <div class="timeline-footer">
-                  <div id="app"></div>
+                 <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line1" class="line" value="3" readonly> Like</button>
+                  <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
               </div>
             </li>
@@ -279,7 +281,8 @@
                   Some Homework , ....
                 </div>
                 <div class="timeline-footer">
-                  <div id="app"></div>
+                <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line1" class="line" value="3" readonly> Like</button>
+                  <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
               </div>
             </li>
@@ -301,7 +304,8 @@
                   Some Homework , ....
                 </div>
                 <div class="timeline-footer">
-                  <div id="app"></div>
+                  <button style="width:8%;float:left;hover:none;padding:4.5px 4.1px;margin-right:1%"type="button" id="like-bt" class="btn btn-block btn-like btn-sm"><i id="like-button" style="color:#ff0000" class="fa fa-heart-o margin-r-5"></i><input style="width:10%;border:none" name="line1" class="line" value="3" readonly> Like</button>
+                  <button style="width:8%"type="button" id="share-bt" class="btn btn-block btn-default btn-sm"><i id="share-button" class="fa fa-share margin-r-5"></i>Share</button>
                 </div>
               </div>
             </li>
@@ -342,7 +346,24 @@
 <script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
-
+<script>
+  $(function() {
+      $('#like-bt').click(function(){
+ 
+      	 if($('#like-button').hasClass('fa-heart-o')==true){    
+      	  $('#like-button').removeClass("fa-heart-o").addClass("fa-heart");
+      	  $('.line').val(parseInt($('.line').val())+1);
+   	 
+       }
+        else{
+    	  
+      	  $('#like-button').removeClass("fa-heart").addClass("fa-heart-o");    	
+      	  $('.line').val(parseInt($('.line').val())-1); 	
+    	     	  
+        }   	     	
+      });
+  });
+  </script>
 
 </body>
 </html>
