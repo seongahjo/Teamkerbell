@@ -14,7 +14,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../css/bootstrap.min.css"
+          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+          crossorigin="anonymous">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
@@ -26,9 +28,6 @@
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../css/bootstrap.min.css"
-          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-          crossorigin="anonymous">
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
     <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../../js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
     <!--[if lt IE 9]>
@@ -113,14 +112,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image">
+                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:30px;height:30px">
 
                             </li>
                             <!-- Menu Body -->
@@ -147,25 +146,22 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+                    
                 </ul>
             </div>
         </nav>
     </header>    <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
 
-        <!-- sidebar: style can be found in sidebar.less -->
+           <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
 
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -174,34 +170,34 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
+                        <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
                     </ul>
                 </li>
-
-                <li class="treeview">
-                    <a href="#"><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right"
-                                                            style="color:#ffffff"></i></a>
+                <li class="treeview active">
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
+                                <a href="../chat/${list.projectidx}"
+                                   class="side-nav-button">name: ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
-
                         </li>
                     </ul>
+                </li>
+                <li class="treeview">
+                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>
+
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
-        <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->

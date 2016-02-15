@@ -70,43 +70,7 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- <li class="dropdown messages-menu">
-
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">4</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 4 messages</li>
-                            <li>
-
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <div class="pull-left">
-
-                                                <img src="${user.img}" class="img-circle" alt="User Image">
-                                            </div>
-
-                                            <h4>
-                                                Support Team
-                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                            </h4>
-
-                                            <p>Why not buy a new awesome theme?</p>
-                                        </a>
-                                    </li>
-
-                                </ul>
-
-                            </li>
-                            <li class="footer"><a href="#">See All Messages</a></li>
-                        </ul>
-                    </li>-->
-                    <!-- /.messages-menu -->
-
-                    <!-- Notifications Menu -->
+                  
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -147,14 +111,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt=""style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image">
+                                <img src="../${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
 
                             </li>
                             <!-- Menu Body -->

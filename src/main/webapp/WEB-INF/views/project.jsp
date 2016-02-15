@@ -103,14 +103,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image">
+                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:90px;height:90px">
 
                             </li>
                             <!-- Menu Body -->
@@ -382,7 +382,7 @@
                             <ul class="products-list product-list-in-box">
                                 <c:forEach var="list" items="${users}">
                                     <li class="item">
-                                        <img src="../${list.img}" alt="User Image"style="width:34px;height:34px">
+                                        <img src="../${list.img}" alt="User Image"style="width:30px;height:30px">
                                         <a class="users-list-name user-st-name" href="#">${list.id}</a>
                                         <i id="user${list.id}on"
                                            class="fa fa-circle st-cir text-success pull-right hidden"

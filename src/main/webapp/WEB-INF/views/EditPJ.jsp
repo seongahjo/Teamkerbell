@@ -17,7 +17,10 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="css/blue.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+          crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -27,10 +30,7 @@
     <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
 
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-          crossorigin="anonymous">
+    
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
     <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
     <!--[if lt IE 9]>
@@ -114,14 +114,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image">
+                                <img src="${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
 
                             </li>
                             <!-- Menu Body -->
@@ -148,10 +148,7 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+                    
                 </ul>
             </div>
         </nav>
@@ -166,9 +163,9 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="${user.img}" class="img-circle" alt="User Image">
+                    <img src="${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -177,19 +174,18 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
                        </ul>
                 </li>
 
                 <li class="treeview active">
-                    <a href="#"><i class="fa fa-users"></i><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right"
-                                                            style="color:#ffffff"></i></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
@@ -199,6 +195,9 @@
                             <a href="#"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
+                    <li class="treeview">
+                    <a href=../courseInfo><i class="fa fa-university"></i><span> Course Info</span></a>
+                </li>
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
@@ -329,79 +328,6 @@
         <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
-        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <!-- Home tab content -->
-            <div class="tab-pane active" id="control-sidebar-home-tab">
-                <h3 class="control-sidebar-heading">Recent Activity</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                <p>Will be 23 on April 24th</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-                <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <h4 class="control-sidebar-subheading">
-                                Custom Template Design
-                                <span class="label label-danger pull-right">70%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-            </div>
-            <!-- /.tab-pane -->
-            <!-- Stats tab content -->
-            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-            <!-- /.tab-pane -->
-            <!-- Settings tab content -->
-            <div class="tab-pane" id="control-sidebar-settings-tab">
-                <form method="post">
-                    <h3 class="control-sidebar-heading">General Settings</h3>
-
-                    <div class="form-group">
-                        <label class="control-sidebar-subheading">
-                            Report panel usage
-                            <input type="checkbox" class="pull-right" checked>
-                        </label>
-
-                        <p>
-                            Some information about this general settings option
-                        </p>
-                    </div>
-                    <!-- /.form-group -->
-                </form>
-            </div>
-            <!-- /.tab-pane -->
-        </div>
-    </aside>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

@@ -120,14 +120,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt=""style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image">
+                                <img src="../${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
 
                             </li>
                             <!-- Menu Body -->
@@ -169,7 +169,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
                 <div class="pull-left info dash-user">
                     <p>${user.id}</p>
