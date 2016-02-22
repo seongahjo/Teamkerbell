@@ -324,6 +324,7 @@
     });
     function search(){
         var search_val=$("#tokenfield-typeahead").val();
+        search_val=search_val.replace(/,/gi,"");
         console.log(search_val);
         table.search( search_val ).draw();
     }
