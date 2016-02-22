@@ -31,6 +31,9 @@ public class FileDB {
     @Column(name = "PATH")
     private String path;
 
+    @Column(name = "TAG")
+    private String tag;
+
     @Column(name = "DATE")
     private Date date;
 
@@ -98,12 +101,20 @@ public class FileDB {
         this.type = type;
     }
 
+    public String getTag() {
+        return tag;
+    }
 
-    public FileDB( String storedname, String originalname, String path, String type, Date date) {
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public FileDB(String storedname, String originalname, String type, String path, String tag, Date date) {
         this.storedname = storedname;
         this.originalname = originalname;
-        this.path = path;
         this.type = type;
+        this.path = path;
+        this.tag = tag;
         this.date = date;
     }
 

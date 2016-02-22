@@ -486,7 +486,7 @@
     var registerEndDate;
     var socket;
     $(document).ready(function () {
-        socket = io.connect("http://192.168.0.45:9999");
+        socket = io.connect("http://localhost:9999");
         socket.emit('join', {
             projectIdx: "${project.projectidx}",
             userIdx:${user.useridx},

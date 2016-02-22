@@ -4,6 +4,7 @@ import com.shape.web.entity.Alarm;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
+import com.shape.web.parser.Tagging;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -85,7 +87,17 @@ public class FileController {
                     file = new File(filePath + "/" + originalFileName);
 
                     multipartFile.transferTo(file);
-                    FileDB fd = new FileDB(storedFileName, originalFileName, filePath, type, new Date());
+                    String tag = null;
+                    ArrayList<String> Tag=Tagging.Tag(file);
+                    if(Tag!=null) {
+                        tag=new String();
+                        for (String temp : Tag) {
+                            tag += temp + ",";
+                        }
+                        tag = tag.substring(0, tag.length() - 1);
+                    }
+                    FileDB fd = new FileDB(storedFileName, originalFileName, filePath, type,tag, new Date());
+
                     fd.setUser(user);
                     fd.setProject(project);
                     fs.save(fd);
@@ -102,6 +114,8 @@ public class FileController {
                     return storedFileName;
                 } catch (IOException e) {
                     // file io error
+                }catch(NullPointerException e){
+                    logger.info("NULL!!!!!!");
                 }
             }
         }

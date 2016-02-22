@@ -70,7 +70,6 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                     public void handle(JsonObject event) {
                         boolean flag = true;
                         ServerUser su = Clients.get(socket.getId());
-                        Clients.remove(socket.getId());
                         if (!su.getProjectIdx().equals("")) {
                             if (su != null) {
                                 String projectIdx = su.getProjectIdx();
@@ -100,6 +99,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                                 }
                             }
                         }
+                        Clients.remove(socket.getId());
                     }
                 }); //Disconnect End
 

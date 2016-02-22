@@ -255,7 +255,7 @@
                                         <td><a href="../file?name=${list.storedname}">${list.originalname}</a></td>
                                        <td>${list.user.name}</td>
                                         <td>${list.date}</td>
-                                        <td></td>
+                                        <td>${list.tag}</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

@@ -73,7 +73,7 @@ public class UserController {
             String originalFileName = file.getOriginalFilename(); // 파일 이름
             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자
             String storedFileName = CommonUtils.getRandomString() + originalFileExtension; //암호화된 고유한 파일 이름
-            FileDB filedb = new FileDB(storedFileName, originalFileName, filePath, "img", new Date());
+            FileDB filedb = new FileDB(storedFileName, originalFileName, filePath, "img",null, new Date());
             File folder = new File(filePath); // 폴더
             if (!folder.exists()) // 폴더 존재하지 않을 경우 만듬
                 folder.mkdirs();
