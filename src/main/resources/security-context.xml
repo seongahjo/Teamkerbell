@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <http pattern="/css/*.css" security="none" />
+    <http pattern="/img/*" security="none" />
+    <http pattern="/js/*.js" security="none" />
+
+    <http auto-config="true">
+        <intercept-url pattern="/"  access="permitAll" />
+        <intercept-url pattern="/loginprocess"  access="permitAll" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <csrf disabled="true"/>
+        <form-login login-page="/"
+                    default-target-url="/dashboard"
+                    login-processing-url="/loginprocess"
+                    username-parameter="userId"
+                    password-parameter="pw"
+                    authentication-failure-url="/error-login.html"/>
+        <logout logout-url="/j_spring_security_logout.do"
+                         logout-success-url="/logout.do"
+                         invalidate-session="true" />
+        <session-management>
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+        </session-management>
+    </http>
+
+    <authentication-manager >
+        <authentication-provider user-service-ref="userService">
+            </authentication-provider>
+    </authentication-manager>
+    <beans:bean id="userService" class="com.shape.web.service.UserService"/>
+</beans:beans>

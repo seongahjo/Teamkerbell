@@ -1,6 +1,7 @@
 package com.shape.web.service;
 
 import com.shape.web.entity.Alarm;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,14 @@ public class AlarmService {
     @Resource
     private SessionFactory sessionFactory;
 
+
+    public void Accept(Alarm alarm){
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("DELETE from Alarm where ");
+        query.executeUpdate();
+        session.flush();
+        session.close();
+    }
 
     public Alarm get(Integer id) {
         Session session=sessionFactory.openSession();

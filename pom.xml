@@ -9,7 +9,7 @@
     <version>1.0.0-BUILD-SNAPSHOT</version>
     <properties>
         <java-version>1.6</java-version>
-        <org.springframework-version>3.1.1.RELEASE</org.springframework-version>
+        <org.springframework-version>4.0.4.RELEASE</org.springframework-version>
         <org.aspectj-version>1.6.10</org.aspectj-version>
         <poi.version>3.10-FINAL</poi.version>
     </properties>
@@ -38,11 +38,43 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
+        <!-- security-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <!--  spring beans -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <!-- spring orm -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <!-- spring test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
         <!-- AspectJ -->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -96,25 +128,7 @@
             <version>4.7</version>
             <scope>test</scope>
         </dependency>
-        <!--  spring beans -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>3.1.1.RELEASE</version>
-        </dependency>
 
-        <!-- spring orm -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>3.1.1.RELEASE</version>
-        </dependency>
-        <!-- spring test -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>3.1.1.RELEASE</version>
-        </dependency>
         <!-- mysql -->
         <dependency>
             <groupId>mysql</groupId>

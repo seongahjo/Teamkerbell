@@ -2,6 +2,7 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.User;
+import com.shape.web.entity.Role;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
@@ -68,6 +69,7 @@ public class UserController {
         user.setId(tempUser.getId());
         user.setName(tempUser.getName());
         user.setPw(tempUser.getPw());
+        user.setRole(new Role("user"));
         try {
             String filePath = "img";
             String originalFileName = file.getOriginalFilename(); // 파일 이름

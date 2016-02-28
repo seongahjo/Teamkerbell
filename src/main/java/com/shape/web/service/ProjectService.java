@@ -121,6 +121,7 @@ public class ProjectService {
         Query query = session.createQuery("SELECT new com.shape.web.VO.MeetingMember(data.Date as date, data.participants as participant, (SELECT group_Concat(u.name) FROM Schedule s  JOIN Appointment ap on s.SCHEDULEIDX = ap.SCHEDULEIDX RIGHT JOIN User u on ap.USERIDX = u.USERIDX WHERE ap.STATE=2 and s.STATE >=2 and ap.Date=data.DATE Group By ap.date) as nonparticipant, data.place as place, data.content as content) FROM (SELECT ap.DATE Date,group_concat(u.name) as participants,s.PLACE,s.content FROM Schedule s  JOIN Appointment ap on s.SCHEDULEIDX = ap.SCHEDULEIDX RIGHT JOIN User u on ap.USERIDX = u.USERIDX WHERE ap.STATE=3 and s.STATE >=2 Group By ap.DATE,s.SCHEDULEIDX) as data");
         //query.setParameter("useridx", userIdx, StandardBasicTypes.INTEGER);
         List<MeetingMember> members= query.list();
+        session.close();
         return members;
     }
     @SuppressWarnings("unchecked")
