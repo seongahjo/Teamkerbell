@@ -6,6 +6,7 @@ import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +58,11 @@ public class HomeController {
         return mv;
     }
 
+    @RequestMapping(value="/dashboard", method=RequestMethod.GET)
+    public String goDashboard(Authentication authentication){
+        return "redirect:/dashboard/" + authentication.getName();
+
+    }
     @RequestMapping(value = "/userInfo/{userId}", method = RequestMethod.GET)
     public ModelAndView UserInfo(@PathVariable("userId") String userId) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
