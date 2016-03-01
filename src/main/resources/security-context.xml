@@ -24,7 +24,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <logout logout-url="/j_spring_security_logout.do"
                          logout-success-url="/logout.do"
                          invalidate-session="true" />
-        <session-management>
+        <session-management >
+            <!--invalid-session-url="/invalidSession.htm"-->
             <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
         </session-management>
     </http>

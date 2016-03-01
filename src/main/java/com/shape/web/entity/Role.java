@@ -16,11 +16,15 @@ public class Role {
 
     private String role;
 
+    public Role() {
+    }
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "useridx")}
     )
+
     protected Set<User> userRoles;
 
     public Integer getId() {

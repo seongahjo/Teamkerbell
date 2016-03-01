@@ -95,6 +95,7 @@ public class HomeController {
 
     @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
+        // 보안처리
         int userIdx = (Integer) session.getAttribute("userIdx");
         User user = us.get(userIdx); // 유저 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
