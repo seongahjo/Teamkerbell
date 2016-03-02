@@ -1,5 +1,6 @@
 package com.shape.web.controller;
 
+import com.nhncorp.mods.socket.io.impl.transports.Http;
 import com.shape.web.entity.*;
 import com.shape.web.service.*;
 import com.shape.web.util.FileUtil;
@@ -48,7 +49,6 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
     public String Home(Locale locale, Model model) {
-
         return "login";
     }
 
@@ -94,17 +94,18 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
+    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
         // 보안처리
-        int userIdx = (Integer) session.getAttribute("userIdx");
-        User user = us.get(userIdx); // 유저 객체 반환
+        User user=us.getById(authentication.getName());
+        int userIdx = user.getUseridx();
+       /* User user = us.get(userIdx);*/ // 유저 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Minute> lm = pjs.getMinutes(project); // 회의록 객체 반환
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
         List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
         List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
-        session.setAttribute("room", projectIdx);
+      //  session.setAttribute("room", projectIdx);
         project.setMinute(" ");
         for (Minute temp : lm) {
             logger.info(temp.getDate() + "vs" + new Date());
@@ -133,9 +134,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
-        int userIdx = (Integer) session.getAttribute("userIdx"); // user id 받아옴
-        User user = us.get(userIdx); // 유저 객체 반환
+    public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx,Authentication authentication) {
+        User user=us.getById(authentication.getName()); //유저 객체 반환
+        int userIdx = user.getUseridx();
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
         List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
@@ -153,9 +154,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
-    public ModelAndView manager(HttpSession session) {
-        int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
-        User user = us.get(userIdx); // 유저 객체 반환
+    public ModelAndView manager(Authentication authentication) {
+        User user=us.getById(authentication.getName()); //유저 객체 반환
+        int userIdx = user.getUseridx();
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
 
         ModelAndView mv = new ModelAndView("/EditPJ");
@@ -165,9 +166,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/document/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView document(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
-        int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
-        User user = us.get(userIdx); // 유저 객체 반환
+    public ModelAndView document(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
+        User user=us.getById(authentication.getName()); //유저 객체 반환
+        int userIdx = user.getUseridx();
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
@@ -187,13 +188,12 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/filemanager/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
+    public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
         Project project = pjs.get(projectIdx);
-        int userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 user id 받아옴
-        User user = us.get(userIdx); // 유저 객체 반환
+        User user=us.getById(authentication.getName()); //유저 객체 반환
+        int userIdx = user.getUseridx();
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
         List<FileDB> lfd = pjs.getFiles(project);
-
         ModelAndView mv = new ModelAndView("/filemanager");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
