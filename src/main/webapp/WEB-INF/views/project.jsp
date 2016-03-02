@@ -255,7 +255,7 @@
                             <p>File & Picture</p>
                         </div>
                         <a href="#">
-                            <div class="icon">
+                            <div class="icon" data-toggle="modal" data-target="#uploadModal">
                                 <i class="ion ion-ios-upload"></i>
                             </div>
                         </a>
@@ -318,7 +318,7 @@
                             <span onclick="selectFile()" >
                             <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="File Upload" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-paperclip fa-2x"></i></button>
-                                </span>
+                 			 </span>
                  			  <span data-toggle="modal" data-target="#todoMadal" >
                  			  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="Add TodoList" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
@@ -448,11 +448,12 @@
                             <input type="hidden" name="userIdx" value="${user.useridx}"/>
                             <div class="form-group">
 
-                                <input type="file" id="file" class="realFile" onChange="upload()" name="File[]"/>
+
                                 <input type="text" id="fakeFileTxt" class="fakeFileTxt" readonly="readonly" multiple>
                                 <div class="fileDiv">
                                     <input type="button" value="Select File" onclick="selectFile()" class="buttonImg"/>
-                                   </div>
+                                    <input type="file" id="file" class="realFile" onChange="test()" name="File[]"/>
+                                </div>
 
 
                             </div>
@@ -754,7 +755,7 @@
     var Tminute = "${project.minute}";
     var socket;
     $(document).ready(function () {
-        socket = io.connect("http://localhost:9999");
+        socket = io.connect("http://192.168.0.45:9999");
         socket.emit('join', {
             projectIdx: "${project.projectidx}",
             userIdx:${user.useridx},
@@ -956,7 +957,7 @@
             success: function (data) {
                 if (data.endsWith(".png") || data.endsWith(".jpg"))
                     socket.emit("img", {msg: data, user: "${user.name}", date: new Date().toString('HH:mm')});
-                //$("#uploadModal").modal('hide');
+                $("#uploadModal").modal('hide');
             }
         });
     }
