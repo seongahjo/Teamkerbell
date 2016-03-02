@@ -2,6 +2,7 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.User;
+import com.shape.web.entity.Role;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
@@ -32,7 +33,7 @@ public class UserController {
 
     @Autowired
     FileDBService fs;
-
+/*
     @RequestMapping(value = "/loginok", method = RequestMethod.GET)    //"login.jsp"에서 넘어옴
     public String Loginok(@RequestParam(value = "userId") String userId, @RequestParam(value = "pw") String pw, HttpSession session) {
         User user = us.getById(userId);    //데이터베이스에서 아이디를 조회해서 유저데이터를 받아옴
@@ -44,7 +45,7 @@ public class UserController {
             }
         }
         return "redirect:/";
-    }
+    }*/
 
     /*
     To register
@@ -68,6 +69,7 @@ public class UserController {
         user.setId(tempUser.getId());
         user.setName(tempUser.getName());
         user.setPw(tempUser.getPw());
+        user.setRole(new Role("user"));
         try {
             String filePath = "img";
             String originalFileName = file.getOriginalFilename(); // 파일 이름
