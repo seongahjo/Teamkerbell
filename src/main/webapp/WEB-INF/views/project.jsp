@@ -452,7 +452,7 @@
                                 <input type="text" id="fakeFileTxt" class="fakeFileTxt" readonly="readonly" multiple>
                                 <div class="fileDiv">
                                     <input type="button" value="Select File" onclick="selectFile()" class="buttonImg"/>
-                                    <input type="file" id="file" class="realFile" onChange="test()" name="File[]"/>
+                                    <input type="file" id="file" class="realFile" onChange="upload()" name="File[]"/>
                                 </div>
 
 
