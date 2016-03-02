@@ -239,7 +239,7 @@
                             <p>ToDolist in This project</p>
                         </div>
                         
-                        <div class="icon">
+                        <div class="icon" data-toggle="modal" data-target="#todoList">
                             <i class="ion ion-ios-compose-outline"></i>
                         </div>
                  
@@ -594,6 +594,25 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Project List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    
+                </div>
+             </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- jQuery 2.1.4 -->
 <script src="../js/jQuery-2.1.4.min.js"></script>
 <script src="../js/jquery-ui.min.js"></script>
