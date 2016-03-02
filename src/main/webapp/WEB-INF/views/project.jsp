@@ -471,76 +471,7 @@
 </div>
 <!-- REQUIRED JS SCRIPTS -->
 
-<!-- Gallery -->
-<!--  
-<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
-            </div>
-            <form>
-                <div class="modal-body">
 
-     <div class="box-body">
-              <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                
-                <div class="carousel-inner">
-                  <div class="item active">
-                    <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" alt="First slide" style="width:550px;height:305.547px">
-                  </div>
-                  <div class="item">
-                    <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" alt="Second slide" style="width:550px;height:305.547px">
-                  </div>
-                  <div class="item">
-                    <img src="http://placehold.it/900x500/f39c12/ffffff&text=I+Love+Bootstrap" alt="Third slide" style="width:550px;height:305.547px">
-                  </div>      
-                  <div class="item">
-                   <img src="http://placehold.it/150x100" alt="Fifth slide" style="width:550px;height:305.547px">
-                  </div>
-                   <div class="item">
-                   <img src="http://placehold.it/150x100" alt="Seventh slide" style="width:550px;height:305.547px">
-                  </div>
-                   <div class="item">
-                    <img src="http://placehold.it/150x100" alt="Eighth slide" style="width:550px;height:305.547px">
-                  </div>
-                   <div class="item">
-                    <img src="http://placehold.it/150x100" alt="Ninth slide" style="width:550px;height:305.547px">
-                  </div>
-                </div>
-                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                  <span class="fa fa-angle-left"></span>
-                </a>
-                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                  <span class="fa fa-angle-right"></span>
-                </a>
-              </div>
-               <div class="timeline-item">
-                <div class="timeline-body">
-                  <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" class="margin" style="width:150px;height:100px" alt="First slide">
-                  <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" class="margin" style="width:150px;height:100px" alt="Second slide">
-                  <img src="http://placehold.it/900x500/f39c12/ffffff&text=I+Love+Bootstrap" class="margin" style="width:150px;height:100px"alt="Third slide">
-                  <img src="http://placehold.it/150x100" alt="Fifth slide" class="margin" style="width:150px;height:100px">
-                  <img src="http://placehold.it/150x100" alt="Seventh slide" class="margin" style="width:150px;height:100px">
-                  <img src="http://placehold.it/150x100" alt="Eighth slide" class="margin" style="width:150px;height:100px">
-                  <img src="http://placehold.it/150x100" alt="Ninth slide" class="margin" style="width:150px;height:100px">
-                </div>
-              </div>
-            </div>
-                    
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
--->
 
 <div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
@@ -552,8 +483,21 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-
-
+ 			 <div class="user-block">
+                    <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                    <span class="description">Make PPt</span>
+             </div>
+ 				
+ 		     <div class="user-block">
+                    <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                    <span class="description">Write Report</span>
+             </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -583,27 +527,9 @@
                         <img src="../loadImg?name=${list.storedname}" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
                     </a>
                 </c:forEach>
-
-                <!--<a href="http://c1.staticflickr.com/9/8037/7897220164_3e3aa82d43_h.jpg" title="An elegant profile by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm9.staticflickr.com/8037/7897220164_7950bc48ed_n.jpg" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
-				</a>
-				<a href="http://c2.staticflickr.com/6/5478/9531699422_fe130c112c_k.jpg" title="_MG_9696 by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm6.staticflickr.com/5478/9531699422_fdb940c06a_n.jpg" width="170" height="120" alt="_MG_9696" style="margin-top:3%;margin-right:1%">
-				</a>
-				<a href="http://c2.staticflickr.com/4/3697/9531555260_19ad5113a5_k.jpg" title="rose by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm4.staticflickr.com/3697/9531555260_b432af93d2_n.jpg" width="170" height="120" alt="rose" style="margin-top:3%;margin-right:1%">
-				</a>
-				<a href="http://c2.staticflickr.com/6/5450/8970878075_06589570a8_k.jpg" title="Arsenale ruin by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm6.staticflickr.com/5450/8970878075_232a1eb081_n.jpg" width="170" height="120" alt="Arsenale ruin" style="margin-top:3%;margin-right:1%">
-				</a>
-				<a href="https://c1.staticflickr.com/9/8301/7897238688_2b7318b6a7_k.jpg" title="V by Takumi Yoshida, on Flickr" class="zoom">
-					<img src="https://farm9.staticflickr.com/8301/7897238688_1d7ae06e36_n.jpg" width="170" height="120" alt="V" style="margin-top:3%;margin-right:1%">
-				</a>-->
+           
 			</div>
-			
-            
-            
-            </div>
+      </div>
                     
 
 
@@ -616,12 +542,6 @@
     </div>
 </div>
 
-
-
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
 
 
 <div class="modal fade" id="todoMadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">

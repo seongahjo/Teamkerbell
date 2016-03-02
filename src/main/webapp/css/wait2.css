@@ -197,3 +197,8 @@ border-radius: 50%;
     font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
     font-weight: 400;
 }
+.user-block{
+    border-bottom: 1px solid #AAA5A5;
+    margin-bottom: 2px;
+    padding-bottom: 5px;
+}
