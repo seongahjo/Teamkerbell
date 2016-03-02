@@ -222,11 +222,10 @@
 
                             <p>Phote album</p>
                         </div>
-                        <div class="icon">
+                        <div class="icon" data-toggle="modal" data-target="#photoModal">
                             <i class="ion ion-images"></i>
                         </div>
-                        <a data-toggle="modal" data-target="#photoModal" class="small-box-footer">More info <i
-                                class="fa fa-arrow-circle-right"></i></a>
+
                     </div>
                 </div>
                 <!-- ./col -->
@@ -239,11 +238,11 @@
 
                             <p>ToDolist in This project</p>
                         </div>
-                        <div class="icon">
+
+                        <div class="icon" data-toggle="modal" data-target="#todoList">
                             <i class="ion ion-ios-compose-outline"></i>
                         </div>
-                        <a  class="small-box-footer">More info <i
-                                class="fa fa-arrow-circle-right"></i></a>
+
                     </div>
                 </div>
                 <!-- ./col -->
@@ -254,13 +253,13 @@
                             <h3>Upload</h3>
                             <p>File & Picture</p>
                         </div>
-                        <a href="#">
-                            <div class="icon" data-toggle="modal" data-target="#uploadModal">
+
+                        <div class="icon"  >
+                            <a href="../filemanager/${project.projectidx}" style="color:#ffffff">
                                 <i class="ion ion-ios-upload"></i>
-                            </div>
-                        </a>
-                        <a href="../filemanager/${project.projectidx}" class="small-box-footer">File Manager <i
-                                class="fa fa-arrow-circle-right"></i></a>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
                 <!-- ./col -->
@@ -273,10 +272,11 @@
                             <p>Todo & downlode</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-ios-calendar"></i>
+                            <a  href="../calendar/${project.projectidx}" style="color:#ffffff">
+                                <i class="ion ion-ios-calendar"></i>
+                            </a>
                         </div>
-                        <a href="../calendar/${project.projectidx}" class="small-box-footer">More info <i
-                                class="fa fa-arrow-circle-right"></i></a>
+
                     </div>
                 </div>
                 <!-- ./col -->
@@ -541,6 +541,28 @@
     </div>
 </div>
 -->
+
+<div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Project To Do List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -755,7 +777,7 @@
     var Tminute = "${project.minute}";
     var socket;
     $(document).ready(function () {
-        socket = io.connect("http://192.168.0.45:9999");
+        socket = io.connect("http://localhost:9999");
         socket.emit('join', {
             projectIdx: "${project.projectidx}",
             userIdx:${user.useridx},
