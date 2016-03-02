@@ -111,6 +111,7 @@ public class ProjectController {
     To make to-do list
     */
     @RequestMapping(value = "/makeTodolist", method = RequestMethod.GET)
+    @ResponseBody
     public String makeTodolist(@RequestParam("projectIdx") Integer projectIdx, @RequestParam("userId") String userId, @ModelAttribute("todolist") Todolist todolist) {
         Project project = pjs.get(projectIdx);
         User user = us.getById(userId);
