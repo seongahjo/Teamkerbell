@@ -620,6 +620,7 @@
                 "url": "../selectDate",
                 "type": "GET",
                 "data": function (d) {
+                    d.projectIdx=${project.projectidx};
                     d.date = clickDate;
                 },
                 "columns": [

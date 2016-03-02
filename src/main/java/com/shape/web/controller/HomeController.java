@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -96,6 +97,9 @@ public class HomeController {
     @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
         // 보안처리
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String time=formatter.format(new Date());
         User user=us.getById(authentication.getName());
         int userIdx = user.getUseridx();
        /* User user = us.get(userIdx);*/ // 유저 객체 반환
@@ -105,13 +109,14 @@ public class HomeController {
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
         List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
         List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
-      //  session.setAttribute("room", projectIdx);
+        //  session.setAttribute("room", projectIdx);
         project.setMinute(" ");
         for (Minute temp : lm) {
-            logger.info(temp.getDate() + "vs" + new Date());
-            if (temp.getDate().equals(new Date())) {
+
+            if (time.equals((temp.getDate().toString()))) {
                 project.setMinute(temp.getContent());
                 lm.remove(temp);
+                break;
             }
         }
         File file;

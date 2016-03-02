@@ -119,7 +119,7 @@ public class ProjectController {
         todolist.setUser(user); // todolist가 누구것인가
         ts.save(todolist); // todolist 생성
         logger.info("todolist 만듬");
-        return "redirect:/chat?projectIdx=" + projectIdx;
+        return "Ok";
     }
 
 

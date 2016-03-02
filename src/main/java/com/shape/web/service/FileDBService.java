@@ -43,7 +43,7 @@ public class FileDBService {
         return filedb;
     }
 
-    public FileDB getByOriginalname(Date date, String filename) {
+    public FileDB getByOriginalname(Date date, String filename,String path) {
         Session session = sessionFactory.openSession();
         Calendar cal = Calendar.getInstance();
 
@@ -52,6 +52,7 @@ public class FileDBService {
         Date nextDate = cal.getTime();
         FileDB filedb = (FileDB) session.createCriteria(FileDB.class)
                 .add(Restrictions.between("date", date, nextDate))
+                .add(Restrictions.eq("path",path))
                 .add(Restrictions.eq("originalname", filename))
                 .uniqueResult();
         return filedb;

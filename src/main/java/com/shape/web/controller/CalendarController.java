@@ -50,18 +50,17 @@ public class CalendarController {
       */
     @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Map<String, Object> GetDate(@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, HttpSession session) {
-        Integer project_id = (Integer) session.getAttribute("room");
+    public Map<String, Object> GetDate(@RequestParam(value="projectIdx") Integer projectIdx,@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, HttpSession session) {
         Map<String, Object> map = new HashMap<String, Object>();
         List data = new ArrayList();
 
         File dir;
-        String foldername = FileUtil.getFoldername(project_id, date);
+        String foldername = FileUtil.getFoldername(projectIdx, date);
         dir = new File(foldername);
         if (dir.listFiles() != null) {
             for (File f : dir.listFiles()) {
                 logger.info(f.getName() + "FILENAME!!!");
-                FileDB fd = fs.getByOriginalname(date, f.getName());
+                FileDB fd = fs.getByOriginalname(date, f.getName(),foldername);
                 if (fd != null) {
                     List<String> temp = new ArrayList<String>();
                     temp.add("<a href='../file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");

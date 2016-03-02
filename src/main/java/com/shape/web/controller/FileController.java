@@ -96,7 +96,7 @@ public class FileController {
                         }
                         tag = tag.substring(0, tag.length() - 1);
                     }
-                    FileDB fd = new FileDB(storedFileName, originalFileName, filePath, type,tag, new Date());
+                    FileDB fd = new FileDB(storedFileName, originalFileName, type, filePath,tag, new Date());
 
                     fd.setUser(user);
                     fd.setProject(project);

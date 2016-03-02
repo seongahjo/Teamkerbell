@@ -9,6 +9,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <http pattern="/img/*" security="none" />
     <http pattern="/js/*.js" security="none" />
 
+
     <http auto-config="true">
         <intercept-url pattern="/"  access="permitAll" />
         <intercept-url pattern="/loginprocess"  access="permitAll" />

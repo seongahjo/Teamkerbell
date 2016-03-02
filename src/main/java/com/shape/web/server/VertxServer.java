@@ -65,8 +65,8 @@ public class VertxServer extends DefaultEmbeddableVerticle {
             socket.onDisconnect(event -> {
                 boolean flag = true;
                 ServerUser su = Clients.get(socket.getId());
-                if (!su.getProjectIdx().equals("")) {
                     if (su != null) {
+                        if (!su.getProjectIdx().equals("")) {
                         String projectIdx = su.getProjectIdx();
                         logger.info("방나감 :: " + projectIdx + socket.getId());
                         socket.leave(projectIdx);
