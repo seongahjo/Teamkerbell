@@ -81,7 +81,33 @@
                 <ul class="nav navbar-nav">
 
                     <!-- Notifications Menu -->
+                    <li data-toggle="modal" data-target="#photoModal">
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Images Gallery">
+              	<i class="fa fa-picture-o"></i>
+            	</a>
+            	</li>
+            	
+            	
+            	<li data-toggle="modal" data-target="#todoList" >
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="to do List">
+              	<i class="fa fa-edit"></i>
+            	</a>
+            	</li>
+
+            	 <li  onclick="location.href='../filemanager/${project.projectidx}';">
+            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
+              	<i class="fa fa-file-text-o"></i>
+            	</a>
+            	
+            	</li>
+            	
+            	 <li onclick="location.href=' ';">
+            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Goback to Project">
+              	<i class="fa fa-undo"></i>
+            	</a>
+            	</li>
                     <li class="dropdown notifications-menu">
+                    
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
@@ -204,9 +230,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>                    
-                </li>
+                
             </ul>
             <!-- /.sidebar-menu -->
         </section>

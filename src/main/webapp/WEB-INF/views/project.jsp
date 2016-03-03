@@ -49,25 +49,46 @@
 
         <!-- Logo -->
         <a href="../dashboard/${user.id}" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>T</b>eam</span>
-            <!-- logo for regular state and mobile devices -->
             <span class="logo-lg"><b>Teamker</b>Bell</span>
         </a>
 
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
-            <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
-            <!-- Navbar Right Menu -->
+               
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Notifications Menu -->
+               
+                <li data-toggle="modal" data-target="#photoModal">
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Images Gallery">
+              	<i class="fa fa-picture-o"></i>
+            	</a>
+            	</li>
+            	
+            	
+            	<li data-toggle="modal" data-target="#todoList" >
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="to do List">
+              	<i class="fa fa-edit"></i>
+            	</a>
+            	</li>
+
+            	 <li  onclick="location.href='../filemanager/${project.projectidx}';">
+            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
+              	<i class="fa fa-file-text-o"></i>
+            	</a>
+            	
+            	</li>
+            	
+            	 <li onclick="location.href='../calendar/${project.projectidx}';">
+            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
+              	<i class="fa fa-calendar-o"></i>
+            	</a>
+            	</li>
                     <li class="dropdown notifications-menu">
-                        <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
                             <i class="fa fa-bell-o"  id="alarm"></i>
                             <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
@@ -210,76 +231,6 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="row">
-
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3>Gallery</h3>
-
-                            <p>Phote album</p>
-                        </div>
-                        <div class="icon" data-toggle="modal" data-target="#photoModal">
-                            <i class="ion ion-images"></i>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- ./col -->
-
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                            <h3>ToDoList<sup style="font-size: 20px"></sup></h3>
-
-                            <p>ToDolist in This project</p>
-                        </div>
-
-                        <div class="icon" data-toggle="modal" data-target="#todoList">
-                            <i class="ion ion-ios-compose-outline"></i>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3>Upload</h3>
-                            <p>File & Picture</p>
-                        </div>
-
-                        <div class="icon"  >
-                            <a href="../filemanager/${project.projectidx}" style="color:#ffffff">
-                                <i class="ion ion-ios-upload"></i>
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-red">
-                        <div class="inner">
-                            <h3>Calendar</h3>
-
-                            <p>Todo & downlode</p>
-                        </div>
-                        <div class="icon">
-                            <a  href="../calendar/${project.projectidx}" style="color:#ffffff">
-                                <i class="ion ion-ios-calendar"></i>
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- ./col -->
-            </div>
-
 
             <div class="row">
                 <div class="col-md-7">
