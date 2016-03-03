@@ -202,3 +202,16 @@ border-radius: 50%;
     margin-bottom: 2px;
     padding-bottom: 5px;
 }
+.todo-list>li>img{
+	width:40px;
+	height:40px;
+}
+.pro-todo>li{
+	background-color:#ffffff;
+	border-bottom: 1px solid #e6e7e8;;
+   border-left:transparent;
+}
+.pro-todo{
+	max-height: 500px;
+	overfloat:auto;
+}

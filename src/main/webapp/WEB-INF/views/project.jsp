@@ -187,9 +187,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>                    
-                </li>
+                
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -284,7 +282,7 @@
 
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <!-- DIRECT CHAT -->
                     <div class="box box-primary direct-chat direct-chat-primary">
                         <div class="box-header with-border">
@@ -332,7 +330,7 @@
 
                 <!-- memo -->
 
-                <section class="col-md-4 connectedSortable">
+                <section class="col-md-3 connectedSortable">
 
                     <div class="box box-primary">
                         <div class="box-header with-border">
@@ -483,21 +481,54 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
- 			 <div class="user-block">
-                    <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+             <ul class="todo-list pro-todo">
+                <li>
+                 <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
                         <span class="username">
                           <span>${user.id}</span>
                         </span>
-                    <span class="description">Make PPt</span>
-             </div>
- 				
- 		     <div class="user-block">
-                    <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  <!-- General tools such as edit or delete-->
+                  
+                </li>
+                <li>
+                 <img src="../${user.img}" class="img-circle img-bordered-sm"  alt="user image">
                         <span class="username">
                           <span>${user.id}</span>
                         </span>
-                    <span class="description">Write Report</span>
-             </div>
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  <!-- General tools such as edit or delete-->
+                  
+                </li>
+                <li class="done">
+                 <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 4 mins</small>
+                  <!-- General tools such as edit or delete-->
+                  
+                </li>
+                <li class="done">
+                 <img src="../${user.img}"   class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  <!-- General tools such as edit or delete-->                 
+                </li>
+                
+                </ul>
+ 			
+            
                 </div>
             </div>
             <div class="modal-footer">
