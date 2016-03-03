@@ -215,3 +215,9 @@ border-radius: 50%;
 	max-height: 500px;
 	overfloat:auto;
 }
+.dash-nav>i{
+	color:#e6e7e8;
+}
+.dash-icon:hover{
+	    background-color: #3c8dbc;
+}
