@@ -196,9 +196,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>
-                </li>
+                
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -332,6 +330,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
+                     
                                     <c:choose>
                                         <c:when test="${list.ok=='0'}">
                                             <input type="checkbox" class="cb" checked value="${list.todolistidx}">
@@ -340,16 +339,16 @@
                                             <input type="checkbox" class="cb" value="${list.todolistidx}">
                                         </c:otherwise>
                                     </c:choose>
+                                    <span> [Kong Cha]</span>
                                     <span class="text">${list.content}</span>
 
                                     <small class="label label-danger" prettydate><i
                                             class="fa fa-clock-o"></i>${list.enddate}</small>
 
-                                    <div class="tools">
-                                        <i class="fa fa-edit"></i>
+                                    <div class="tools">                                       
                                         <i class="fa fa-trash-o"></i>
                                     </div>
-                                    </li>
+                                  
                                 </c:forEach>
                             </ul>
                         </div>
