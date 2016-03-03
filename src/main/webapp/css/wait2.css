@@ -216,8 +216,11 @@ border-radius: 50%;
 	overfloat:auto;
 }
 .dash-nav>i{
-	color:#e6e7e8;
+	color:#C0C2C3;
 }
 .dash-icon:hover{
+	    background-color: #3c8dbc;
+}
+.dash-nav:hover{
 	    background-color: #3c8dbc;
 }

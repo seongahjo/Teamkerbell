@@ -78,18 +78,39 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
+          <li data-toggle="modal" data-target="#photoModal">
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Images Gallery">
+              	<i class="fa fa-picture-o"></i>
+            	</a>
+            	</li>
+            	
+            	
+            	<li data-toggle="modal" data-target="#todoList" >
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="to do List">
+              	<i class="fa fa-edit"></i>
+            	</a>
+            	</li>
 
-                    <!-- Notifications Menu -->
-                    <li class="dropdown notifications-menu">
-                        <!-- Menu toggle button -->
+            	 <li  onclick="location.href='../filemanager/${project.projectidx}';">
+            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
+              	<i class="fa fa-file-text-o"></i>
+            	</a>
+            	</li>
+            	<li onclick="location.href=' ';">
+            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Goback to Project">
+              	<i class="fa fa-undo"></i>
+            	</a>
+            	</li>
+                     <li class="dropdown notifications-menu">
+
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning" id="alarm_size">${alarm.size()}</span>
+                            <span class="label label-warning">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header" id="alarm_size_display">You have ${alarm.size()} notifications</li>
+                            <li class="header">You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -107,7 +128,6 @@
                                             </a>
                                         </li>
                                     </c:forEach>
-
                                 </ul>
                             </li>
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
@@ -200,10 +220,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>
-
-                </li>
+                
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -216,8 +233,8 @@
         <section class="content-header">
 
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> <small> ${project.name}</small></a></li>
+                <li class="active">File Manager</li>
             </ol>
         </section>
 
@@ -284,11 +301,8 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
 
-    <!-- Control Sidebar -->
 
     <div class="control-sidebar-bg"></div>
 </div>
