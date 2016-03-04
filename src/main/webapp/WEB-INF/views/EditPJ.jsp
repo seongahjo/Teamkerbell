@@ -29,14 +29,6 @@
     <link rel="stylesheet" href="css/wait1.css">
     <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
 
-
-    
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
-
     <link rel="stylesheet" href="css/wait2.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -75,15 +67,37 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Notifications Menu -->
+                <li class="dash-icon">
+                <a class="dash-nav">
+              	<i class="fa fa-picture-o"></i></a>
+            	</li>
+            	
+           	
+            	<li class="dash-icon">
+            	<a class="dash-nav">
+              	<i class="fa fa-edit"></i>
+              	</a>
+            	</li>
+
+            	 <li class="dash-icon">
+            	 <a class="dash-nav">
+              	<i class="fa fa-file-text-o"></i> 
+              	 </a>          	
+           	   </li>
+           	   <li class="dash-icon">
+           	   <a class="dash-nav">
+              	<i class="fa fa-calendar-o"></i>   
+              	</a>         	
+           	   </li>
+                 <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-                            <i class="fa fa-bell-o"  id="alarm"></i>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o" id="alarm"></i>
                             <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header" id="alarm-content" >You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
                                 <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
@@ -195,10 +209,7 @@
                             <a href="#"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
-                    <li class="treeview">
-                    <a href=../courseInfo><i class="fa fa-university"></i><span> Course Info</span></a>
-                </li>
-                </li>
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -324,8 +335,6 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
 
     <div class="control-sidebar-bg"></div>

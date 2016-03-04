@@ -137,7 +137,7 @@
 
                                 </ul>
                             </li>
-                            <li class="footer"> <!--<a href="#">View all</a></li>-->
+                            <li class="footer"> 
                         </ul>
                     </li>
 
@@ -180,19 +180,13 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    
+
                 </ul>
             </div>
         </nav>
     </header>
-    <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
-
-        <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-
-            <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
                     <img src="../${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
@@ -241,7 +235,6 @@
     <div class="content-wrapper">       
         <!-- Main content -->
         <section class="content">
-
             <div class="row">
                 <!--calendar-->
                 <div class="col-md-6">
@@ -261,8 +254,6 @@
                             </div>
                         </div>
                     </section>
-
-
                 </div>
 
                 <section class="col-md-6 ">
@@ -297,10 +288,7 @@
 
 
                 </section>
-
-
             </div>
-
 
             <div class="row">
                 <div class="col-xs-12">
@@ -383,8 +371,6 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box -->
-
-
                 </div>
             </div>
             <!--2row end-->
@@ -400,18 +386,11 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
-    
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
+
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
-<!-- REQUIRED JS SCRIPTS -->
-
 
 <div class="control-sidebar-bg"></div>
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
@@ -438,9 +417,6 @@
                             </div>
                             <input type="text" class="form-control pull-right" id="reservation">
                         </div>
-
-
-                        <!-- /.input group -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -465,8 +441,6 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-
-
                         <div class="pull-right">
                             <label>Sign the Date range:</label>
                             <div class="input-group">
@@ -517,8 +491,6 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-
-
                         <strong>Date check</strong>
                         <br>
                         <div id="date-check" style="">
@@ -539,9 +511,7 @@
                                 <!-- /.input group -->
                             </div>
                             <!-- /.form group -->
-                        </div>
-
-                      
+                        </div>            
                         <div class="form-group has-success">
                             <label class="control-label" for="inputSuccess"><i class="fa fa-map-marker"></i> Write where
                                 you want to meet</label>

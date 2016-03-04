@@ -24,11 +24,6 @@
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
 
     <link rel="stylesheet" href="../css/wait2.css">
 
@@ -245,6 +240,7 @@
         <!-- Main content -->
         <section class="content">
 
+ 
             <div class="row">
                 <div class="col-md-8">
                     <div class="box box-success time-line">
@@ -259,6 +255,7 @@
                                 </div>
                             </div> <!-- status -->
                         </div> <!-- header -->
+                              
                         <c:forEach var="list" items="${timeline}">
                             <div class="box-body chat" id="chat-box">
                                 <!-- chat item -->
@@ -316,6 +313,9 @@
                                         <!-- 파일 -->
 
                                     </c:when>
+                                    <c:otherwise>
+                                    <img src="../img/Notime.png">
+                                    </c:otherwise>
                                 </c:choose>
 
                             </div>
@@ -438,8 +438,7 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
+
     </footer>
 
     <!-- Control Sidebar -->

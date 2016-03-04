@@ -29,22 +29,8 @@
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
-
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
-
     <link rel="stylesheet" href="../css/wait2.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -70,7 +56,28 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                  
+                   <li class="dash-icon">
+                <a class="dash-nav">
+              	<i class="fa fa-picture-o"></i></a>
+            	</li>
+            	
+           	
+            	<li class="dash-icon">
+            	<a class="dash-nav">
+              	<i class="fa fa-edit"></i>
+              	</a>
+            	</li>
+
+            	 <li class="dash-icon">
+            	 <a class="dash-nav">
+              	<i class="fa fa-file-text-o"></i> 
+              	 </a>          	
+           	   </li>
+           	   <li class="dash-icon">
+           	   <a class="dash-nav">
+              	<i class="fa fa-calendar-o"></i>   
+              	</a>         	
+           	   </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -195,9 +202,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>                    
-                </li>
+                
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -284,14 +289,8 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
 
- 
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

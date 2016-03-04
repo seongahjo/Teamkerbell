@@ -62,21 +62,6 @@
 
 </div>
 
-<!--
-<div class=row>
-<div class="col-xs-8">
-<img src="tem.png" style="height:350px;margin-bottom:-50px;margin-left:10%; margin-top:-70px">
-<img src="tem.png" style=" width:100%;height:350px;margin-bottom:-50px;margin-left:10%; margin-top:-40px">
-</div>
-<div class="col-xs-4">
-<img src="sign.png" data-toggle="modal" data-target="#myModal3"><br>
-<img src="login.png" data-toggle="modal" data-target="#myModal2">
-<img src="gg.png" style="margin-top:10px;hover{url:login2.png}" data-toggle="modal" data-target="#myModal5">
-<img src="fb.png"style="margin-top:15px" data-toggle="modal" data-target="#myModal4">
-</div>
-</div>
-
-  -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
 
@@ -154,7 +139,7 @@
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
           <div class="form-group">
-            <label for="exampleInputFile">Change image</label>
+            <label for="exampleInputFile">Select image</label>
             <input type="file" name="file" onchange="previewImage(this,'preimage')">
           </div>
           <div id='preimage' style="width:100px;height:100px"></div>
