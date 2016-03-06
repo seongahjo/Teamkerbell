@@ -72,9 +72,41 @@
             </div>
         </nav>
     </header>
+    <div class="row" style="background-color:#ffffff;">
+    
+    <img class="fairy" src="img/fairy.png" style="width:280px;height:280px;margin:110px;margin-right:50px;margin-left:190px;">
+    <div role="document"style="width:40%;height:500px;float:right; margin-top:50px;margin-bottom:50px;margin-right:70px;padding-right:50px;">
+     <h1>Sign in to start your session</h1>
+      <form action="loginprocess" method="post" id="loginForm">
+    	<div class="form-group has-feedback"style="margin-top:50px;margin-bottom:30px">
+            <input style="height:45px" type="ID" name="userId" class="form-control log_input" placeholder="ID">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          
+          <div class="form-group has-feedback"style="margin-top:50px;margin-bottom:30px">
+            <input style="height:45px" type="password" name="pw" class="form-control log_input" placeholder="Password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+              <div class="checkbox icheck">
+                <label>
+                  <input type="checkbox"> Remember Me
+                </label>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            </div>
+            <!-- /.col -->
+          </div>
+          </form>
+    </div>
+    </div>
 
-
-
+</div>
+<!-- 
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
 
@@ -103,11 +135,9 @@
                 </label>
               </div>
             </div>
-            <!-- /.col -->
             <div class="col-xs-4">
               <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
             </div>
-            <!-- /.col -->
           </div>
         </form>
 
@@ -119,7 +149,7 @@
     </div>
   </div>
 </div>
-
+-->
 
 <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
