@@ -21,9 +21,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                     login-processing-url="/loginprocess"
                     username-parameter="userId"
                     password-parameter="pw"
-                    authentication-failure-url="/error-login.html"/>
-        <logout logout-url="/j_spring_security_logout.do"
-                         logout-success-url="/logout.do"
+                    authentication-failure-url="/"/>
+        <logout logout-url="/logout"
+                         logout-success-url="/"
                          invalidate-session="true" />
         <session-management >
             <!--invalid-session-url="/invalidSession.htm"-->
