@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" href="css/wait2.css">
   <style>
-    .fa-user{
+    .login-fa-user{
       color: #ddd;
       border: solid 3px;
       padding: 10%;
@@ -58,18 +58,18 @@
             </div>
         </nav>
     </header>
-    <div class="row" style="background-color:#ffffff;">
+    <div class="row log_page">
     
-    <img class="fairy" src="img/fairy.png" style="width:280px;height:280px;margin:110px;margin-right:50px;margin-left:190px;">
-    <div role="document"style="width:40%;height:500px;float:right; margin-top:50px;margin-bottom:50px;margin-right:70px;padding-right:50px;">
+    <img class="fairy" src="img/fairy.png">
+    <div class="entry_log_form"role="document">
      <h1>Sign in to start your session</h1>
       <form action="loginprocess" method="post" id="loginForm">
-    	<div class="form-group has-feedback"style="margin-top:50px;margin-bottom:20px">
+    	<div class="form-group has-feedback first_log_form">
             <input style="height:45px" type="ID" name="userId" class="form-control log_input" placeholder="ID">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           
-          <div class="form-group has-feedback"style="margin-top:30px;margin-bottom:30px">
+          <div class="form-group has-feedback second-log-form">
             <input style="height:45px" type="password" name="pw" class="form-control log_input" placeholder="Password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
@@ -90,6 +90,7 @@
           </form>
           <div class="social-auth-links text-center" data-toggle="modal" data-target="#signupModal">
           <a  class="btn btn-block btn-social btn-twitter btn-flat"><i class="fa fa-sign-in"></i> Sign up</a>
+          </div>
           <div class="social-auth-links text-center" data-toggle="modal" data-target="#facebookModal">
           <a  class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
             Facebook</a>
@@ -101,19 +102,16 @@
     </div>
     
     </div>
-
 </div>
 
 <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
-
-
     <div class="register-box">
 
       <div class="register-box-body">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <div class="login-logo" style="text-align:center">
-          <i class="fa fa-user fa-1x"></i>
+          <i class="fa fa-user fa-1x login-fa-user"></i>
         </div>
         <p class="login-box-msg">Register a new membership</p>
 

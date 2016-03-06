@@ -226,7 +226,31 @@ border-radius: 50%;
 }
 .fairy{
 	
-	width:300px;
-	height:300px;
-	margin: 30px;
+width:280px;height:280px;margin:110px;margin-right:50px;margin-left:190px;
+
 }
+    .login-fa-user{
+      color: #ddd;
+      border: solid 3px;
+      padding: 10%;
+      border-radius: 40% 40% 40% 40%;
+    }
+    .fb-logo{
+      color:#3B5998;
+    }
+    .gg-logo{
+      color:#dd4b39;
+    }
+   .entry_log_form{
+   width:40%;height:500px;float:right; margin-top:50px;margin-bottom:50px;margin-right:70px;padding-right:50px;
+   }
+   .first_log_form{
+   margin-top:50px;margin-bottom:20px;
+   }
+   .second-log-form{
+   margin-top:30px;margin-bottom:30px;
+   }
+   .log_page{
+   
+   background-color:#ffffff;
+   }
