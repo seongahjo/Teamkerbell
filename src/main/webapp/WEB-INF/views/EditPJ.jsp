@@ -373,7 +373,6 @@
 </div>
 
 <div class="control-sidebar-bg"></div>
-</div>
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
 <!-- jQuery 2.1.4 -->
 <script src="js/jQuery-2.1.4.min.js"></script>
