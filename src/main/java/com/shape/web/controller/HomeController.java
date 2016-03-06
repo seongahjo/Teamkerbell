@@ -174,7 +174,7 @@ public class HomeController {
     @RequestMapping(value = "/document/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView document(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
         User user=us.getById(authentication.getName()); //유저 객체 반환
-        int userIdx = user.getUseridx();
+        int userIdx = user.getUseridx(); // 유저
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
@@ -212,7 +212,6 @@ public class HomeController {
     public ModelAndView CourseInfo(@PathVariable("userId") String userId, HttpSession session) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환
-
         ModelAndView mv = new ModelAndView("/courseInfo");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);

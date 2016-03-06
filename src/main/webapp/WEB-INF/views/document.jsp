@@ -292,13 +292,7 @@
                                 <td>${list.content}</td>
                             </tr>
                         </c:forEach>
-                        <tr>
-                            <td>2015/3/15</td>
-                            <td>CGV</td>
-                            <td>Sieun,MinJi</td>
-                            <td>SangA</td>
-                            <td> To not do anything</td>
-                        </tr>
+
                          </tbody>
                     </table>
                 </div>

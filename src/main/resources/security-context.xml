@@ -22,6 +22,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                     username-parameter="userId"
                     password-parameter="pw"
                     authentication-failure-url="/"/>
+
         <logout logout-url="/logout"
                          logout-success-url="/"
                          invalidate-session="true" />
