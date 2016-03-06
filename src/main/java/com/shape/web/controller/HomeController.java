@@ -182,6 +182,7 @@ public class HomeController {
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
         List<MeetingMember> lm = pjs.getMeetingMember(project);
+
         ModelAndView mv = new ModelAndView("/document");
         mv.addObject("user", user);
         mv.addObject("schedules", ls);
