@@ -44,23 +44,36 @@
 
   </style>
 </head>
-<body style="background-color:#FDF3EB">
-<!--
-	<div class="row">
-	<img src="back.png" style="width:100%">
-	</div>	-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
-<div class="row" style="text-align:center">
-  <img src="img/temker.png" style="width:50%;">
-  <br>
-  <div class="row">
-    <img src="img/log2.png" id="log"  data-toggle="modal" data-target="#loginModal" style="width:150px; ">
-    <img src="img/sig2.png" id="sig"  data-toggle="modal" data-target="#signupModal" style="width:175px;">
-    <img src="img/fb2.png" id="fb"  data-toggle="modal" data-target="#facebookModal" style="width:150px; margin-right:1%;">
-    <img src="img/gg2.png" id="gg"  data-toggle="modal" data-target="#googleModal" style="width:138px;height:153px;">
-  </div>
+    <!-- Main Header -->
+    <header class="main-header">
 
-</div>
+        <!-- Logo -->
+        <a href="../dashboard/${user.id}" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>T</b>eam</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Teamker</b>Bell</span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+               
+                <ul class="nav navbar-nav">
+				
+				
+                </ul>
+                <i class="fa fa-users text-aqua" data-toggle="modal" data-target="#loginModal"></i>
+                 <i class="fa fa-users text-aqua" data-toggle="modal" data-target="#signupModal"></i>
+            </div>
+        </nav>
+    </header>
+
+
 
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
