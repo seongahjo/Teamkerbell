@@ -184,6 +184,8 @@ public class UserService implements UserDetailsService {
         return la;
     }
 
+
+
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
         Session session = sessionFactory.openSession();

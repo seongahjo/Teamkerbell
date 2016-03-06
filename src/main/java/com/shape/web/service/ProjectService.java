@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Service;
 
@@ -118,12 +119,20 @@ public class ProjectService {
     }
     public List<MeetingMember> getMeetingMember(Project project){
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery("SELECT new com.shape.web.VO.MeetingMember(data.Date as date, data.participants as participant, (SELECT group_Concat(u.name) FROM Schedule s  JOIN Appointment ap on s.SCHEDULEIDX = ap.SCHEDULEIDX RIGHT JOIN User u on ap.USERIDX = u.USERIDX WHERE ap.STATE=2 and s.STATE >=2 and ap.Date=data.DATE Group By ap.date) as nonparticipant, data.place as place, data.content as content) FROM (SELECT ap.DATE Date,group_concat(u.name) as participants,s.PLACE,s.content FROM Schedule s  JOIN Appointment ap on s.SCHEDULEIDX = ap.SCHEDULEIDX RIGHT JOIN User u on ap.USERIDX = u.USERIDX WHERE ap.STATE=3 and s.STATE >=2 Group By ap.DATE,s.SCHEDULEIDX) as data");
-        //query.setParameter("useridx", userIdx, StandardBasicTypes.INTEGER);
+        Query query = session.createSQLQuery("SELECT s.scheduleidx,s.startdate as date," +
+                "(SELECT GROUP_CONCAT(u.name) FROM Appointment ap JOIN User u on ap.useridx=u.useridx where s.scheduleidx = ap.scheduleidx and ap.state=3) as participant," +
+                "(SELECT GROUP_CONCAT(u.name) FROM Appointment ap JOIN User u on ap.useridx=u.useridx where s.scheduleidx = ap.scheduleidx and ap.state=2) as nonparticipant," +
+                "s.content, s.place "+
+                "FROM Schedule s WHERE s.state=3 and s.projectidx = :projectidx");
+        query.setParameter("projectidx", project.getProjectidx(), StandardBasicTypes.INTEGER);
+        query.setResultTransformer(Transformers.aliasToBean(MeetingMember.class));
         List<MeetingMember> members= query.list();
         session.close();
         return members;
+        //return null;
     }
+
+
     @SuppressWarnings("unchecked")
     public List<Project> getAll() {
         Session session = sessionFactory.openSession();

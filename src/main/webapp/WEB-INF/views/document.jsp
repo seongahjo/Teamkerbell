@@ -283,16 +283,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="list" items="${schedules}">
-                            <c:if test="${list.state==3}">
+                        <c:forEach var="list" items="${meetingmember}">
                             <tr>
-                                <td>${list.startdate}</td>
+                                <td>${list.date}</td>
                                 <td>${list.place}</td>
-                                <td></td>
-                                <td></td>
+                                <td>${list.participant}</td>
+                                <td>${list.nonparticipant}</td>
                                 <td>${list.content}</td>
                             </tr>
-                            </c:if>
                         </c:forEach>
                         <tr>
                             <td>2015/3/15</td>

@@ -1,6 +1,7 @@
 package com.shape.web.controller;
 
 import com.nhncorp.mods.socket.io.impl.transports.Http;
+import com.shape.web.VO.MeetingMember;
 import com.shape.web.entity.*;
 import com.shape.web.service.*;
 import com.shape.web.util.FileUtil;
@@ -180,7 +181,7 @@ public class HomeController {
         List<User> lu = pjs.getUsers(project); // 유저 객체 반환
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
-
+        List<MeetingMember> lm = pjs.getMeetingMember(project);
         ModelAndView mv = new ModelAndView("/document");
         mv.addObject("user", user);
         mv.addObject("schedules", ls);
@@ -189,6 +190,7 @@ public class HomeController {
         mv.addObject("users", lu);
         mv.addObject("alarm", la);
         mv.addObject("todolist", lt);
+        mv.addObject("meetingmember",lm);
         return mv;
     }
 
