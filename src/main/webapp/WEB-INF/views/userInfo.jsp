@@ -136,7 +136,7 @@
                                             Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo
+                                        <a href=../userInfo/${user.id}><i class="fa fa-info-circle"></i> MyInfo
                                             Edit</a>
                                     </div>
 
