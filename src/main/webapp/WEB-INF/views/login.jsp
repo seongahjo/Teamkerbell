@@ -29,19 +29,7 @@
     .gg-logo{
       color:#dd4b39;
     }
-    #log:hover{
-      content:url('img/Log1.png');
-    }
-    #sig:hover{
-      content:url('img/sig1.png');
-    }
-    #fb:hover{
-      content:url('img/fb1.png');
-    }
-    #gg:hover{
-      content:url('img/gg1.png');
-    }
-
+   
   </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -67,8 +55,6 @@
 				
 				
                 </ul>
-                <i class="fa fa-users text-aqua" data-toggle="modal" data-target="#loginModal"></i>
-                 <i class="fa fa-users text-aqua" data-toggle="modal" data-target="#signupModal"></i>
             </div>
         </nav>
     </header>
@@ -78,12 +64,12 @@
     <div role="document"style="width:40%;height:500px;float:right; margin-top:50px;margin-bottom:50px;margin-right:70px;padding-right:50px;">
      <h1>Sign in to start your session</h1>
       <form action="loginprocess" method="post" id="loginForm">
-    	<div class="form-group has-feedback"style="margin-top:50px;margin-bottom:30px">
+    	<div class="form-group has-feedback"style="margin-top:50px;margin-bottom:20px">
             <input style="height:45px" type="ID" name="userId" class="form-control log_input" placeholder="ID">
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           
-          <div class="form-group has-feedback"style="margin-top:50px;margin-bottom:30px">
+          <div class="form-group has-feedback"style="margin-top:30px;margin-bottom:30px">
             <input style="height:45px" type="password" name="pw" class="form-control log_input" placeholder="Password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
@@ -102,54 +88,21 @@
             <!-- /.col -->
           </div>
           </form>
+          <div class="social-auth-links text-center" data-toggle="modal" data-target="#signupModal">
+          <a  class="btn btn-block btn-social btn-twitter btn-flat"><i class="fa fa-sign-in"></i> Sign up</a>
+          <div class="social-auth-links text-center" data-toggle="modal" data-target="#facebookModal">
+          <a  class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+            Facebook</a>
+     	</div>
+    	 <div class="social-auth-links text-center"  data-toggle="modal" data-target="#googleModal">
+          <a class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using
+            Google+</a>
+       	 </div>
     </div>
+    
     </div>
 
 </div>
-<!-- 
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-  <div class="modal-dialog" role="document">
-
-    <div class="login-box">
-      <div class="login-box-body">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <div class="login-logo" style="text-align:center">
-          <i class="fa fa-user fa-2x"></i>
-        </div>
-        <p class="login-box-msg">Sign in to start your session</p>
-
-        <form action="loginprocess" method="POST">
-          <div class="form-group has-feedback">
-            <input type="ID" name="userId" class="form-control" placeholder="ID">
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-          </div>
-          <div class="form-group has-feedback">
-            <input type="password" name="pw" class="form-control" placeholder="Password">
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-          <div class="row">
-            <div class="col-xs-8">
-              <div class="checkbox icheck">
-                <label>
-                  <input type="checkbox"> Remember Me
-                </label>
-              </div>
-            </div>
-            <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-            </div>
-          </div>
-        </form>
-
-        <div class="social-auth-links text-center">
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
--->
 
 <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
