@@ -66,8 +66,10 @@ public class UserController {
         User user = us.getById(tempUser.getId());
         if(user==null)
             user=new User();
+
         user.setId(tempUser.getId());
         user.setName(tempUser.getName());
+        if(!tempUser.getPw().equals(""))
         user.setPw(tempUser.getPw());
         user.setRole(new Role("user"));
         try {
