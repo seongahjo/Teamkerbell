@@ -69,7 +69,7 @@ public class UserController {
 
         user.setId(tempUser.getId());
         user.setName(tempUser.getName());
-        if(!tempUser.getPw().equals(""))
+        if(!tempUser.getPw().equals("")) // 비밀번호란이 공란이 아닐경우
         user.setPw(tempUser.getPw());
         user.setRole(new Role("user"));
         try {
