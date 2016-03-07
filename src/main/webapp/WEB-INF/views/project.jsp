@@ -255,6 +255,7 @@
                              <div class="direct-chat-info clearfix"> 
                              <span class="direct-chat-name pull-right">' + data.user + '</span>
                               </div>
+                              <img class="direct-chat-img" src="../${user.img}" alt="message user image">
                                <div class="direct-chat-text pull-right"> <i class="fa fa-file-text-o fa-2x"></i><span> Main.txt</span></div> 
                                </div> 
                                <span class="direct-chat-timestamp pull-right" >' + data.date + '</span>
