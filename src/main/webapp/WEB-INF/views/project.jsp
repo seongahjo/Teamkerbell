@@ -234,10 +234,9 @@
 
             <div class="row">
                 <div class="col-md-7">
-                    <!-- DIRECT CHAT -->
                     <div class="box box-primary direct-chat direct-chat-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Direct Chat</h3>
+                            <h3 class="box-title">Chatting</h3>
 
                             <div class="box-tools pull-right">
                                 <span data-toggle="tooltip" title="New Messages" class="badge bg-light-blue"></span>
@@ -251,6 +250,16 @@
                         <div class="box-body">
                             <!-- Conversations are loaded here -->
                             <div class="direct-chat-messages chatbox" id="chat">
+                            
+                            <div class="direct-chat-msg right">
+                             <div class="direct-chat-info clearfix"> 
+                             <span class="direct-chat-name pull-right">' + data.user + '</span>
+                              </div>
+                               <div class="direct-chat-text pull-right"> <i class="fa fa-file-text-o fa-2x"></i><span> Main.txt</span></div> 
+                               </div> 
+                               <span class="direct-chat-timestamp pull-right" >' + data.date + '</span>
+                               <br>
+                               
                             </div>
                         </div> <!-- box body-->
                     </div> <!-- box -->

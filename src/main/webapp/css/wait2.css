@@ -253,3 +253,9 @@ border-radius: 50%;
    
    background-color:#ffffff;
    }
+   .file-message-icon{
+   border:solid 1px;border-radius:40% 40%;margin:4px;padding:8px;
+   }
+   .file-massage-name{
+   margin-left:4px;
+   }
