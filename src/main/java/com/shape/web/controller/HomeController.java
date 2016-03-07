@@ -2,6 +2,7 @@ package com.shape.web.controller;
 
 import com.nhncorp.mods.socket.io.impl.transports.Http;
 import com.shape.web.VO.MeetingMember;
+import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
 import com.shape.web.service.*;
 import com.shape.web.util.FileUtil;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -181,8 +183,14 @@ public class HomeController {
         List<User> lu = pjs.getUsers(project); // 유저 객체 반환
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
-        List<MeetingMember> lm = pjs.getMeetingMember(project);
-
+        List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
+        List<MemberGraph> lg= pjs.getMemberGraph(project); // 멤버 참석율 반환
+        List<String> username= new ArrayList<>();
+        List<Integer> participant =new ArrayList<>();
+        for(MemberGraph temp : lg){
+            username.add("\""+temp.getName()+"\"");
+            participant.add(temp.getParticipate().intValue());
+        }
         ModelAndView mv = new ModelAndView("/document");
         mv.addObject("user", user);
         mv.addObject("schedules", ls);
@@ -192,6 +200,8 @@ public class HomeController {
         mv.addObject("alarm", la);
         mv.addObject("todolist", lt);
         mv.addObject("meetingmember",lm);
+        mv.addObject("usersname",username);
+        mv.addObject("participant",participant);
         return mv;
     }
 

@@ -28,7 +28,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                          invalidate-session="true" />
         <session-management >
             <!--invalid-session-url="/invalidSession.htm"-->
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
         </session-management>
     </http>
 

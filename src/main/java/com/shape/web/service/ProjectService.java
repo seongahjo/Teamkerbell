@@ -1,6 +1,7 @@
 package com.shape.web.service;
 
 import com.shape.web.VO.MeetingMember;
+import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -13,6 +14,7 @@ import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Member;
 import java.util.Date;
 import java.util.List;
 
@@ -123,7 +125,7 @@ public class ProjectService {
                 "(SELECT GROUP_CONCAT(u.name) FROM Appointment ap JOIN User u on ap.useridx=u.useridx where s.scheduleidx = ap.scheduleidx and ap.state=3) as participant," +
                 "(SELECT GROUP_CONCAT(u.name) FROM Appointment ap JOIN User u on ap.useridx=u.useridx where s.scheduleidx = ap.scheduleidx and ap.state=2) as nonparticipant," +
                 "s.content, s.place "+
-                "FROM Schedule s WHERE s.state=3 and s.projectidx = :projectidx");
+                "FROM Schedule s WHERE s.state=3 and s.projectidx =:projectidx");
         query.setParameter("projectidx", project.getProjectidx(), StandardBasicTypes.INTEGER);
         query.setResultTransformer(Transformers.aliasToBean(MeetingMember.class));
         List<MeetingMember> members= query.list();
@@ -132,6 +134,18 @@ public class ProjectService {
         //return null;
     }
 
+    public List<MemberGraph> getMemberGraph(Project project){
+        Session session = sessionFactory.openSession();
+        Query query = session.createSQLQuery("SELECT u.useridx,u.name,(count(if(ap.state=3,ap.scheduleidx,NULL))/count(if(ap.state>=2,ap.scheduleidx,NULL)))*100 as participate" +
+                " FROM Appointment ap JOIN Schedule s on ap.scheduleidx = s.scheduleidx JOIN User u on ap.useridx = u.useridx " +
+                "WHERE s.projectidx=:projectidx group by ap.useridx order by ap.useridx");
+        query.setParameter("projectidx", project.getProjectidx(), StandardBasicTypes.INTEGER);
+       query.setResultTransformer(Transformers.aliasToBean(MemberGraph.class));
+        List<MemberGraph> graph= query.list();
+        session.close();
+        return graph;
+
+    }
 
     @SuppressWarnings("unchecked")
     public List<Project> getAll() {

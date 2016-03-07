@@ -14,9 +14,6 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../css/bootstrap.min.css"
-          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-          crossorigin="anonymous">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
@@ -509,7 +506,7 @@
         var areaChart = new Chart(areaChartCanvas);
 
         var areaChartData = {
-            labels: ["Sieun", "SeongAh", "MinJi", "SolA", "Junyounh", "JAne", "Soli"],
+            labels: ${usersname},
             ykeys: ['item1', 'item2'],
             datasets: [
                 {
@@ -520,7 +517,7 @@
                     pointStrokeColor: "#c1c7d1",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [100, 50, 100, 81, 56, 100, 40]
+                    data: ${participant}
                 },
                 {
                     label: "Digital Goods",
@@ -530,7 +527,7 @@
                     pointStrokeColor: "rgba(60,141,188,1)",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(60,141,188,1)",
-                    data: [28, 100, 40, 19, 100, 27, 90]
+                    data: [50]
                 }
             ]
         };
