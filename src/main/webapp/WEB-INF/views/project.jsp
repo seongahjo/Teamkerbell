@@ -243,24 +243,12 @@
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                         class="fa fa-minus"></i>
                                 </button>
-                   
                             </div>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <!-- Conversations are loaded here -->
                             <div class="direct-chat-messages chatbox" id="chat">
-                            
-                            <div class="direct-chat-msg right">
-                             <div class="direct-chat-info clearfix"> 
-                             <span class="direct-chat-name pull-right">' + data.user + '</span>
-                              </div>
-                              <img class="direct-chat-img" src="../${user.img}" alt="message user image">
-                               <div class="direct-chat-text pull-right"> <i class="fa fa-file-text-o fa-2x"></i><span> Main.txt</span></div> 
-                               </div> 
-                               <span class="direct-chat-timestamp pull-right" >' + data.date + '</span>
-                               <br>
-                               
                             </div>
                         </div> <!-- box body-->
                     </div> <!-- box -->
@@ -885,12 +873,12 @@
         $.ajax({
             url: "../file",
             type: "POST",
+            dataType: "json",
             data: formData,
             processData: false,
             contentType: false,
             success: function (data) {
-                if (data.endsWith(".png") || data.endsWith(".jpg"))
-                    socket.emit("img", {msg: data, user: "${user.name}", date: new Date().toString('HH:mm')});
+                    socket.emit("file", {msg: data, user: "${user.name}", date: new Date().toString('HH:mm'),type:data.type});
                 $("#uploadModal").modal('hide');
             }
         });

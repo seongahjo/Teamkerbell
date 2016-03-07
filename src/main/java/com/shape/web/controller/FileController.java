@@ -25,9 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Created by seongahjo on 2016. 1. 1..
@@ -54,13 +52,14 @@ public class FileController {
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
-    public String Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) {
+    public Map Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = pjs.get(Integer.parseInt(projectIdx));
         User user = us.get(Integer.parseInt(userIdx));
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
+        HashMap<String,String> result=null;
         String originalFileName = null;
         String originalFileExtension = null;
         String storedFileName = null;
@@ -76,6 +75,7 @@ public class FileController {
 
             if (!multipartFile.isEmpty()) {
                 try {
+                    result= new HashMap<>();
                     originalFileName = multipartFile.getOriginalFilename();
                     originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
                     storedFileName = CommonUtils.getRandomString() + originalFileExtension;
@@ -111,7 +111,10 @@ public class FileController {
                     }
 
                     logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
-                    return storedFileName;
+                    result.put("stored",storedFileName);
+                    result.put("type",type);
+                    result.put("original",originalFileName);
+                    result.put("size",String.valueOf(file.length()));
                 } catch (IOException e) {
                     // file io error
                 }catch(NullPointerException e){
@@ -120,7 +123,7 @@ public class FileController {
             }
         }
 
-        return "redirect:/chat?projectIdx=" + projectIdx;
+        return result;
     }
 
     /*

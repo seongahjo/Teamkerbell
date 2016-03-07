@@ -109,12 +109,16 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 io.sockets().in(projectIdx).emit("response", event);
             }); //Msg End
 
-            socket.on("img", event -> {
+            socket.on("file", event -> {
+                // msg = 파일이름
                 ServerUser su = Clients.get(socket.getId());
                 String projectIdx = su.getProjectIdx();
                 event.putString("img", su.getImg());
                 event.putString("user", su.getName());
-                event.putString("msg", "<img src=../loadImg?name=" + event.getString("msg") + " style=\'width:200px;height:150px\'>");
+                if(event.getString("type").equals("img"))
+                event.putString("msg", "<img src=../loadImg?name=" + event.getElement("msg").asObject().getString("stored") + " style=\'width:200px;height:150px\'>");
+                else
+                event.putString("msg","<i class='fa fa-file-text-o fa-2x'></i>"+"<a href='file?name="+event.getElement("msg").asObject().getString("stored")+"'><span> "+event.getElement("msg").asObject().getString("original")+"</span></a>");
                 io.sockets().in(projectIdx).emit("response", event);
             });//img end
 
