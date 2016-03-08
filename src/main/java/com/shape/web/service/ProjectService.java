@@ -136,8 +136,8 @@ public class ProjectService {
 
     public List<MemberGraph> getMemberGraph(Project project){
         Session session = sessionFactory.openSession();
-        Query query = session.createSQLQuery("SELECT u.useridx,u.name,(count(if(ap.state=3,ap.scheduleidx,NULL))/count(if(ap.state>=2,ap.scheduleidx,NULL)))*100 as participate" +
-                " FROM Appointment ap JOIN Schedule s on ap.scheduleidx = s.scheduleidx JOIN User u on ap.useridx = u.useridx " +
+        Query query = session.createSQLQuery("SELECT u.useridx,u.name,count(if(td.OK=true,td.CONTENT,NULL))/count(td.OK)*100 as percentage,(count(if(ap.state=3,ap.scheduleidx,NULL))/count(if(ap.state>=2,ap.scheduleidx,NULL)))*100 as participate" +
+                " FROM Appointment ap JOIN Schedule s on ap.scheduleidx = s.scheduleidx JOIN User u on ap.useridx = u.useridx   JOIN Todolist td on u.USERIDX = td.USERIDX" +
                 "WHERE s.projectidx=:projectidx group by ap.useridx order by ap.useridx");
         query.setParameter("projectidx", project.getProjectidx(), StandardBasicTypes.INTEGER);
        query.setResultTransformer(Transformers.aliasToBean(MemberGraph.class));

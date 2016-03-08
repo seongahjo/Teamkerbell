@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class MemberGraph {
     private Integer useridx;
     private String name;
+    private BigDecimal percentage;
     private BigDecimal participate;
 
     public MemberGraph() {
@@ -37,5 +38,13 @@ public class MemberGraph {
 
     public void setParticipate(BigDecimal participate) {
         this.participate = participate;
+    }
+
+    public BigDecimal getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(BigDecimal percentage) {
+        this.percentage = percentage;
     }
 }
