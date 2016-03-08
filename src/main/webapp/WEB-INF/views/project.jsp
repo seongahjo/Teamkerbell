@@ -38,7 +38,6 @@
     <!--gallery-->
     <link rel="stylesheet" href="../css/ImageZoom.css"/>
 
-
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
