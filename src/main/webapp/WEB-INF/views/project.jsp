@@ -878,7 +878,6 @@
             contentType: false,
             success: function (data) {
                     socket.emit("file", {msg: data, user: "${user.name}", date: new Date().toString('HH:mm'),type:data.type});
-                $("#uploadModal").modal('hide');
             }
         });
     }
