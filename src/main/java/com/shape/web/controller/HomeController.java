@@ -187,9 +187,11 @@ public class HomeController {
         List<MemberGraph> lg= pjs.getMemberGraph(project); // 멤버 참석율 반환
         List<String> username= new ArrayList<>();
         List<Integer> participant =new ArrayList<>();
+        List<Integer> percentage = new ArrayList<>();
         for(MemberGraph temp : lg){
             username.add("\""+temp.getName()+"\"");
             participant.add(temp.getParticipate().intValue());
+            percentage.add(temp.getPercentage().intValue());
         }
         ModelAndView mv = new ModelAndView("/document");
         mv.addObject("user", user);
@@ -202,6 +204,7 @@ public class HomeController {
         mv.addObject("meetingmember",lm);
         mv.addObject("usersname",username);
         mv.addObject("participant",participant);
+        mv.addObject("percentage",percentage);
         return mv;
     }
 

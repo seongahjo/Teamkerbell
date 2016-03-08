@@ -364,7 +364,7 @@
                                             <input type="checkbox" class="cb" value="${list.todolistidx}">
                                         </c:otherwise>
                                     </c:choose>
-                                    <span> [Kong Cha]</span>
+                                    <span> ${list.project.name}</span>
                                     <span class="text">${list.content}</span>
 
                                     <small class="label label-danger" prettydate><i
