@@ -30,9 +30,25 @@ How To Use
 
 Open Source License
 =====
-
+Spring Framework - [Apache License 2.0.]
+Hibernate Framework - [LGPL V2.1]
+Vert.x Framework - [Apache License 2.0.]
+Mod-Socket io - [Apache License 2.0.]
+logback - [LGPL V2.1]
+Apache POI -[Apache License 2.0.]
+JQuery - [MIT License]
+Bootstrap - [MIT License]
+AdminLTE - [MIT License]
+Modernizr - [MIT License]
+Calendario - [MIT License]
+Chart.js - [MIT License]
+Datatable - [MIT License]
+Prettydate - [MIT License]
 
 License
 =====
-Teamkerbell is released under [MIT License] (https://github.com/seongahjo/Teamkerbell/blob/master/LICENSE)
+Teamkerbell is released under [MIT License] 
 
+[MIT License]: https://github.com/seongahjo/Teamkerbell/blob/master/LICENSE
+[Apache License 2.0.]: https://www.apache.org/licenses/LICENSE-2.0.html
+[LGPL V2.1]: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
