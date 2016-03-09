@@ -30,20 +30,20 @@ How To Use
 
 Open Source License
 =====
-Spring Framework - [Apache License 2.0.]
-Hibernate Framework - [LGPL V2.1]
-Vert.x Framework - [Apache License 2.0.]
-Mod-Socket io - [Apache License 2.0.]
-logback - [LGPL V2.1]
-Apache POI -[Apache License 2.0.]
-JQuery - [MIT License]
-Bootstrap - [MIT License]
-AdminLTE - [MIT License]
-Modernizr - [MIT License]
-Calendario - [MIT License]
-Chart.js - [MIT License]
-Datatable - [MIT License]
-Prettydate - [MIT License]
+* Spring Framework - [Apache License 2.0.]
+* Hibernate Framework - [LGPL V2.1]
+* Vert.x Framework - [Apache License 2.0.]
+* Mod-Socket io - [Apache License 2.0.]
+* logback - [LGPL V2.1]
+* Apache POI -[Apache License 2.0.]
+* JQuery - [MIT License]
+* Bootstrap - [MIT License]
+* AdminLTE - [MIT License]
+* Modernizr - [MIT License]
+* Calendario - [MIT License]
+* Chart.js - [MIT License]
+* Datatable - [MIT License]
+* Prettydate - [MIT License]
 
 License
 =====
