@@ -208,10 +208,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../courseInfo/${user.id}"><i class="fa fa-university"></i><span> Course Info</span></a>
-
-                </li>
+              
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -224,22 +221,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Invoice
-                <small>#007612</small>
+                Document
+                <small>project result</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">Invoice</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Project Edit</a></li>
+                <li><a href="#">Document</a></li>
             </ol>
         </section>
-
-        <div class="pad margin no-print">
-            <div class="callout callout-info" style="margin-bottom: 0!important;">
-                <h4><i class="fa fa-info"></i> Note:</h4>
-                This page has been enhanced for printing. Click the print button at the bottom of this page
-            </div>
-        </div>
 
         <!-- Main content -->
         <section class="invoice">
@@ -508,15 +497,15 @@
 
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
 <!-- jQuery 2.1.4 -->
-<script src="../../js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="../../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../js/app.min.js"></script>
-<script src="../../js/prettydate.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/prettydate.min.js"></script>
 <!-- ChartJS 1.0.1 -->
-<script src="../../js/Chart.min.js"></script>
-<script src="../../js/date.js"></script>
+<script src="../js/Chart.min.js"></script>
+<script src="../js/date.js"></script>
 <script>
     $(function () {
 
