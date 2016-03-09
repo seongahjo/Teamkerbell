@@ -140,6 +140,9 @@ public class FileController {
             String folder = fd.getPath();
             File file = new File(folder + "/" + name);
             response.reset();
+            /*
+            Header Setting
+             */
             response.setHeader("Content-Disposition", "attachment;filename=\"" + name + "\"" + ";");
             if (client.contains("MSIE"))
                 response.setHeader("Content-Disposition", "attachment; filename=" + new String(name.getBytes("KSC5601"), "ISO8859_1"));
@@ -150,6 +153,9 @@ public class FileController {
 
             response.setHeader("Content-Length", "" + file.length());
 
+            /*
+            Buffer 덮어쓰기
+             */
             in = new FileInputStream(file);
             os = response.getOutputStream();
             byte b[] = new byte[(int) file.length()];

@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 public class Tagging {
-    //MAP REDUCE 구현
     private static HashMap<String,Integer> Push(String value){
         StringTokenizer st=new StringTokenizer(value);
         String temp;

@@ -224,6 +224,7 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("/filemanager");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
+        mv.addObject("project",project);
         mv.addObject("files", lfd);
         return mv;
     }
