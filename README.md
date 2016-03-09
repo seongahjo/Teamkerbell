@@ -35,7 +35,7 @@ Open Source License
 * Vert.x Framework - [Apache License 2.0.]
 * Mod-Socket io - [Apache License 2.0.]
 * logback - [LGPL V2.1]
-* Apache POI -[Apache License 2.0.]
+* Apache POI - [Apache License 2.0.]
 * JQuery - [MIT License]
 * Bootstrap - [MIT License]
 * AdminLTE - [MIT License]
@@ -44,6 +44,8 @@ Open Source License
 * Chart.js - [MIT License]
 * Datatable - [MIT License]
 * Prettydate - [MIT License]
+* html2canvas - [MIT License]
+* jsPDF - [MIT License]
 
 License
 =====
