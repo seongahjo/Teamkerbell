@@ -34,5 +34,5 @@ Open Source License
 
 License
 =====
-
+Teamkerbell is released under [MIT License] (https://github.com/seongahjo/Teamkerbell/blob/master/LICENSE)
 
