@@ -357,54 +357,30 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-             <ul class="todo-list pro-todo">
-                <li>
-                 <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                    <ul class="todo-list pro-todo">
+                        <c:forEach var="list" items="${todolist}">
+                            <c:choose>
+                                <c:when test="${list.ok=='0'}">
+                                    <li class="done">
+                                </c:when>
+                                <c:otherwise>
+                                    <li>
+                                </c:otherwise>
+                            </c:choose>
+                            <img src="../${list.user.img}"  class="img-circle img-bordered-sm"  alt="user image">
                         <span class="username">
-                          <span>${user.id}</span>
+                          <span>${list.user.id}</span>
                         </span>
-                  <span class="text" >Design a nice theme</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                  <!-- General tools such as edit or delete-->
-                  
-                </li>
-                <li>
-                 <img src="../${user.img}" class="img-circle img-bordered-sm"  alt="user image">
-                        <span class="username">
-                          <span>${user.id}</span>
-                        </span>
-                  <span class="text" >Design a nice theme</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                  <!-- General tools such as edit or delete-->
-                  
-                </li>
-                <li class="done">
-                 <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
-                        <span class="username">
-                          <span>${user.id}</span>
-                        </span>
-                  <span class="text" >Design a nice theme</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 4 mins</small>
-                  <!-- General tools such as edit or delete-->
-                  
-                </li>
-                <li class="done">
-                 <img src="../${user.img}"   class="img-circle img-bordered-sm"  alt="user image">
-                        <span class="username">
-                          <span>${user.id}</span>
-                        </span>
-                  <span class="text" >Design a nice theme</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                  <!-- General tools such as edit or delete-->                 
-                </li>
-                
-                </ul>
- 			
-            
+                            <span class="text" >${list.content}</span>
+                            <!-- Emphasis label -->
+                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}</small>
+                            <!-- General tools such as edit or delete-->
+                            </li>
+                        </c:forEach>
+                        <!-- todolist end-->
+                    </ul>
+
+
                 </div>
             </div>
             <div class="modal-footer">
