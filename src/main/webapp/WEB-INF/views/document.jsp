@@ -236,7 +236,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
-                        <i class="fa fa-globe"></i> Computer Architecture
+                        <i class="fa fa-globe"></i> ${project.name}
                         <small class="pull-right">Date : </small>
                     </h2>
                 </div>
@@ -344,9 +344,12 @@
             <!-- this row will not appear when printing -->
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i>
+                    <a href="#" class="btn btn-default" onclick="capture()"><i class="fa fa-print"></i>
                         Print</a>
-                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                    <form method="POST" enctype="multipart/form-data" action="file" id="myForm">
+                        <input type="hidden" name="file" id="img_val" value="" />
+                    </form>
+                    <button type="button" class="btn btn-primary pull-right" onclick="pdf_capture()" style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Generate PDF
                     </button>
                 </div>
@@ -502,11 +505,35 @@
 <script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
+<script src="../js/jspdf.min.js"></script>
+<script src="../js/html2canvas.js"></script>
 <script src="../js/prettydate.min.js"></script>
 <!-- ChartJS 1.0.1 -->
 <script src="../js/Chart.min.js"></script>
 <script src="../js/date.js"></script>
 <script>
+    function capture() {
+        html2canvas($('.content-wrapper'), {
+            onrendered: function(canvas) {
+                var a = document.createElement('a');
+                // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+                a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                a.download = 'document.jpg';
+                a.click();
+            }
+        });
+    }
+    function pdf_capture(){
+        html2canvas($('.content-wrapper'), {
+            onrendered: function(canvas) {
+                var doc =  new jsPDF();
+                doc.setFontSize(40);
+                var imgData=canvas.toDataURL('image/jpeg', 1.0);
+                doc.addImage(imgData, 'JPEG',15, 40, 180, 220);
+                doc.save("document.pdf");
+            }
+        });
+    }
     $(function () {
 
         // Get context with jQuery - using jQuery's .get() method.
