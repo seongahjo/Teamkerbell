@@ -107,6 +107,9 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    /*
+    User가 가지고 있는 Schedule 객체들을 반환
+     */
     public List<Schedule> getScheudles(User user) {
         Session session = sessionFactory.openSession();
         List<Schedule> ls = session.createCriteria(Schedule.class)
@@ -120,6 +123,9 @@ public class UserService implements UserDetailsService {
         return ls;
     }
 
+    /*
+    User가 가지고 있는 Project 객체들을 반환
+     */
     public List<Project> getProjects(User user){
         Session session = sessionFactory.openSession();
         List<Project> lp = session.createCriteria(Project.class)
@@ -132,6 +138,9 @@ public class UserService implements UserDetailsService {
         return lp;
     }
 
+    /*
+    User가 가지고 있는 Alarm 객체들을 반환
+     */
     public List<Alarm> getAlarms(Integer userIdx) {
         Session session = sessionFactory.openSession();
         List<Alarm> la = session.createCriteria(Alarm.class)
@@ -146,6 +155,9 @@ public class UserService implements UserDetailsService {
         return la;
     }
 
+    /*
+    User가 가지고 있는 최신 알람객체 하나를 반환
+     */
     public Alarm getOneAlarm(Integer userIdx) {
         Session session = sessionFactory.openSession();
        /* Alarm alarm=(Alarm)session.createCriteria(Alarm.class)
@@ -165,6 +177,9 @@ public class UserService implements UserDetailsService {
         return alarm;
     }
 
+    /*
+    User가 가지고 있는 Timeline을 반환
+     */
     public List<Alarm> getTimeline(User user) {
         Session session = sessionFactory.openSession();
        /* List<Alarm> la=session.createCriteria(Alarm.class)
@@ -201,6 +216,10 @@ public class UserService implements UserDetailsService {
         session.flush();
         session.close();
     }
+
+    /*
+    Spring Security에서 권한 설정을 위한 객체 Role 반환
+     */
     public List<String> getRoles(Integer role) {
 
         List<String> roles = new ArrayList<String>();
@@ -226,6 +245,9 @@ public class UserService implements UserDetailsService {
         List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
         return authList;
     }
+    /*
+    Spring Security에서 로그인 인증을 위한 함수
+     */
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         Session session = sessionFactory.openSession();

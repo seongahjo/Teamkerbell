@@ -47,6 +47,10 @@ public class ProjectService {
         return project;
     }
 
+
+    /*
+    해당 프로젝트가 가지고 있는 회의록들을 반환
+     */
     public List<Minute> getMinutes(Project project) {
         Session session = sessionFactory.openSession();
         List<Minute> lm = session.createCriteria(Minute.class)
@@ -60,6 +64,10 @@ public class ProjectService {
         return lm;
     }
 
+
+    /*
+    해당 프로젝트가 가지고 있는 스케쥴들을 반환
+     */
     public List<Schedule> getSchedules(Integer projectIdx) {
         Session session = sessionFactory.openSession();
         List<Schedule> ls = session.createCriteria(Schedule.class)
@@ -73,6 +81,10 @@ public class ProjectService {
         session.close();
         return ls;
     }
+
+    /*
+    해당 프로젝트가 가지고 있는 To-do list들을 반환
+     */
     public List<Todolist> getTodolists(Integer projectIdx){
         Session session = sessionFactory.openSession();
         List<Todolist> lt = session.createCriteria(Todolist.class)
@@ -84,6 +96,11 @@ public class ProjectService {
         session.close();
         return lt;
     }
+
+
+    /*
+    해당 프로젝트가 가지고 있는 이미지들을 반환
+     */
     public List<FileDB> getImgs(Project project) {
         Session session = sessionFactory.openSession();
         List<FileDB> lfd = session.createCriteria(FileDB.class)
@@ -96,6 +113,10 @@ public class ProjectService {
         return lfd;
     }
 
+
+    /*
+    해당 프로젝트가 가지고 있는 파일들을 반환
+     */
     public List<FileDB> getFiles(Project project) {
         Session session = sessionFactory.openSession();
         List<FileDB> lfd = session.createCriteria(FileDB.class)
@@ -108,6 +129,9 @@ public class ProjectService {
         return lfd;
     }
 
+    /*
+    해당 프로젝트에 소속된 User 객체들을 반환
+     */
     public List<User> getUsers(Project project) {
         Session session = sessionFactory.openSession();
         List<User> lu = session.createCriteria(User.class)
@@ -119,6 +143,9 @@ public class ProjectService {
         session.close();
         return lu;
     }
+    /*
+    Project Manager에서 해당 Project의 참석, 비참석 표를 그리기 위한 정보 반환
+     */
     public List<MeetingMember> getMeetingMember(Project project){
         Session session = sessionFactory.openSession();
         Query query = session.createSQLQuery("SELECT s.scheduleidx,s.startdate as date," +
@@ -133,7 +160,9 @@ public class ProjectService {
         return members;
         //return null;
     }
-
+    /*
+        ProjectManager에서 해당 Project의 참석율, 달성율 Graph를 그리기 위한 정보를 반환
+     */
     public List<MemberGraph> getMemberGraph(Project project){
         Session session = sessionFactory.openSession();
         Query query = session.createSQLQuery("SELECT u.useridx,u.name,count(if(td.OK=true,td.CONTENT,NULL))/count(td.OK)*100 as percentage,(count(if(ap.state=3,ap.scheduleidx,NULL))/count(if(ap.state>=2,ap.scheduleidx,NULL)))*100 as participate" +
