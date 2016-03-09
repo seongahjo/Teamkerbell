@@ -190,8 +190,14 @@ public class HomeController {
         List<Integer> percentage = new ArrayList<>();
         for(MemberGraph temp : lg){
             username.add("\""+temp.getName()+"\"");
+            if(temp.getParticipate()!=null)
             participant.add(temp.getParticipate().intValue());
+            else
+            	participant.add(0);
+            if(temp.getPercentage()!=null)
             percentage.add(temp.getPercentage().intValue());
+            else
+            	percentage.add(0);
         }
         ModelAndView mv = new ModelAndView("/document");
         mv.addObject("user", user);

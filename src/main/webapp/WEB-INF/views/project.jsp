@@ -593,16 +593,10 @@
               		</span>
                         </div>
 
-
                         <!-- Profile Image -->
                         <!-- at fist, not in here, after searching there will be -->
                         <div id="user"></div>
 
-                        <!--  if user's info doesn't exist
-                        <div style="text-align:center;">
-                         <img src="cry.png"  width="50%" height="200px">
-                         <p> User Info doesn't exist</p>
-                         </div>-->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -631,7 +625,7 @@
 <script src="../js/prettydate.min.js"></script>
 <script src="../js/jquery.filepicker.js"></script>
 
-<!-- gallery--><
+<!-- gallery-->
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
 <script>
     var scheduleStart;

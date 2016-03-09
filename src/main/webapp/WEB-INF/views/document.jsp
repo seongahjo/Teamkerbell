@@ -67,8 +67,28 @@
                 <ul class="nav navbar-nav">
 
 
-                    <!-- Notifications Menu -->
-                    <!-- Notifications Menu -->
+                <li class="dash-icon">
+                <a class="dash-nav">
+              	<i class="fa fa-picture-o"></i></a>
+            	</li>
+            	
+           	
+            	<li class="dash-icon">
+            	<a class="dash-nav">
+              	<i class="fa fa-edit"></i>
+              	</a>
+            	</li>
+
+            	 <li class="dash-icon">
+            	 <a class="dash-nav">
+              	<i class="fa fa-file-text-o"></i> 
+              	 </a>          	
+           	   </li>
+           	   <li class="dash-icon">
+           	   <a class="dash-nav">
+              	<i class="fa fa-calendar-o"></i>   
+              	</a>         	
+           	   </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->

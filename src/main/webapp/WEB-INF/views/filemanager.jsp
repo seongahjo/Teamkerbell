@@ -52,6 +52,8 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+        <!--gallery-->
+    <link rel="stylesheet" href="../css/ImageZoom.css"/>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -90,17 +92,17 @@
               	<i class="fa fa-edit"></i>
             	</a>
             	</li>
-
-            	 <li  onclick="location.href='../filemanager/${project.projectidx}';">
-            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
-              	<i class="fa fa-file-text-o"></i>
-            	</a>
-            	</li>
-            	<li onclick="location.href=' ';">
+				<li onclick="location.href='../chat/${project.projectidx}';">
             	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Goback to Project">
               	<i class="fa fa-undo"></i>
             	</a>
             	</li>
+            	<li onclick="location.href='../calendar/${project.projectidx}';">
+            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
+              	<i class="fa fa-calendar-o"></i>
+            	</a>
+            	</li>
+            	
                      <li class="dropdown notifications-menu">
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -308,6 +310,110 @@
 </div>
 <!-- ./wrapper -->
 
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
+            </div>
+            <form>
+                <div class="modal-body">
+
+     <div class="box-body">
+            
+            <div class="gallery">
+
+                <c:forEach var="list" items="${img}">
+                    <a href="../loadImg?name=${list.storedname}" class="zoom">
+                        <img src="../loadImg?name=${list.storedname}" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                    </a>
+                </c:forEach>
+           
+			</div>
+      </div>
+                    
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Project To Do List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+             <ul class="todo-list pro-todo">
+                <li>
+                 <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  <!-- General tools such as edit or delete-->
+                  
+                </li>
+                <li>
+                 <img src="../${user.img}" class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  <!-- General tools such as edit or delete-->
+                  
+                </li>
+                <li class="done">
+                 <img src="../${user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 4 mins</small>
+                  <!-- General tools such as edit or delete-->
+                  
+                </li>
+                <li class="done">
+                 <img src="../${user.img}"   class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${user.id}</span>
+                        </span>
+                  <span class="text" >Design a nice theme</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  <!-- General tools such as edit or delete-->                 
+                </li>
+                
+                </ul>
+ 			
+            
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- jQuery 2.1.4 -->
 <script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
@@ -321,9 +427,14 @@
 <script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
 <script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
+<!-- image -->
+<script type="text/javascript" src="../js/ImageZoom.js"></script>
 <script>
     var table;
     $(function () {
+    	
+    	$("a.zoom").imageZoom({scale: 0.75});
+    	
         $("#example1").DataTable();
          table=$('#example2').DataTable({
             "paging": true,
