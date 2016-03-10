@@ -214,12 +214,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Main Page
-                <!-- <small>Optional description</small>-->
+               Change User Info Page
+
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Main Page</a></li>
+                <li class="active"> Change User Info</li>
             </ol>
         </section>
 
@@ -229,8 +229,6 @@
             <div class="row">
 
                 <div class="col-md-12">
-                    <!-- DIRECT CHAT -->
-
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Change User Info</h3>
