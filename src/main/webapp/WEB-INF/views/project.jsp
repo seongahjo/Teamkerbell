@@ -334,7 +334,7 @@
                                 <c:forEach var="list" items="${users}">
                                     <li class="item">
                                         <img src="../${list.img}" alt="User Image"style="width:30px;height:30px">
-                                        <a class="users-list-name user-st-name" href="#">${list.id}</a>
+                                        <a class="users-list-name user-st-name">${list.id}</a>
                                         <i id="user${list.id}on"
                                            class="fa fa-circle st-cir text-success pull-right hidden"
                                         ></i>
