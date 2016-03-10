@@ -310,8 +310,7 @@
                                 <button id="savebutton" type="button" class="btn btn-primary hidden"
                                         onClick="save_memo()"><i class="fa fa-floppy-o"></i> Save
                                 </button>
-                            </div>
-                            <button type="reset" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
+                            </div>	
                         </div>
                         <!-- /.box-footer -->
                     </div>
