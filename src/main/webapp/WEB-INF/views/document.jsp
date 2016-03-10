@@ -264,9 +264,9 @@
                 </div>
 
                 <div class="col-sm-4 invoice-col">
-                     <strong>All Members</strong><br>
+                     <h4>All Members</h4>
                     <c:forEach var="list" items="${users}">
-                    ${list.name}<br>
+                    <strong>${list.name}</strong><br>
                     </c:forEach>
 
                 </div>
