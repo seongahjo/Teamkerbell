@@ -240,21 +240,6 @@
                         <!-- /.box-header -->
                         <div class="box-body no-padding">
 
-                            <!-- Check all button -->
-                            <!-- /.btn-group -->
-                            <div class="btn-group ">
-                                <div class="has-feedback">
-                                    <input type="text" class="form-control input-sm"
-                                           placeholder="Search Project">
-                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </div>
-
-                            </div>
-                            <!-- /.btn-group -->
-
-
-                            <!-- /.pull-right -->
-
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
                                     <tbody>
@@ -346,13 +331,7 @@
 <div class="modal fade" id="completePJ" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <!--  
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Make Document</h4>
-            </div>
-            -->
+        
             <form>
                 <div class="modal-body">
 
@@ -363,9 +342,9 @@
       </div>
              </div>
                 <div class="modal-footer">
-                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
                    <a href="document/${list.projectidx}">
                     <button type="submit" class="btn btn-primary">Make Document</button></a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
                 </div>
             </form>
         </div>
