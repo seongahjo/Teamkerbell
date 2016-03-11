@@ -118,7 +118,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 if(event.getString("type").equals("img"))
                 event.putString("msg", "<img src=../loadImg?name=" + event.getElement("msg").asObject().getString("stored") + " style=\'width:200px;height:150px\'>");
                 else
-                event.putString("msg","<i class='fa fa-file-text-o fa-2x'></i>"+"<a href='file?name="+event.getElement("msg").asObject().getString("stored")+"'><span> "+event.getElement("msg").asObject().getString("original")+"</span></a>");
+                event.putString("msg","<i class='fa fa-file-text-o fa-2x'></i>"+"<a href='file?name="+event.getElement("msg").asObject().getString("stored")+"'><span class='file_name_tag' style='color:#ffffff;'> "+event.getElement("msg").asObject().getString("original")+"</span></a>");
                 io.sockets().in(projectIdx).emit("response", event);
             });//img end
 

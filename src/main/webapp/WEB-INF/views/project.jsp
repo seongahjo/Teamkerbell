@@ -22,7 +22,6 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
-    <link rel="stylesheet" href="../css/wait2.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
     <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
@@ -39,6 +38,7 @@
 
     <!--gallery-->
     <link rel="stylesheet" href="../css/ImageZoom.css"/>
+   <link rel="stylesheet" href="../css/wait2.css">
 
 </head>
 

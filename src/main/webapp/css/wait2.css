@@ -259,3 +259,9 @@ border-radius: 50%;
    .file-massage-name{
    margin-left:4px;
    }
+   span.file_name_tag{
+   color:#ffffff;
+   }
+   span.file_name_tag:hover{
+   color:#ffffff;
+   }
