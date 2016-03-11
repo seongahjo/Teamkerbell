@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -219,7 +221,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Project Room
+                과제방
                 <small> ${project.name}</small>
             </h1>
             <ol class="breadcrumb">
@@ -235,7 +237,7 @@
                 <div class="col-md-7">
                     <div class="box box-primary direct-chat direct-chat-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Chatting</h3>
+                            <h3 class="box-title">회의 공간</h3>
 
                             <div class="box-tools pull-right">
                                 <span data-toggle="tooltip" title="New Messages" class="badge bg-light-blue"></span>
@@ -282,7 +284,7 @@
 
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Memo</h3>
+                            <h3 class="box-title">회의록</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -305,10 +307,10 @@
                         <div class="box-footer">
                             <div class="pull-right">
                                 <button id="writebutton" type="button" class="btn btn-default" onClick="write_memo()"><i
-                                        class="fa fa-pencil"></i> Writing
+                                        class="fa fa-pencil"></i> 쓰기
                                 </button>
                                 <button id="savebutton" type="button" class="btn btn-primary hidden"
-                                        onClick="save_memo()"><i class="fa fa-floppy-o"></i> Save
+                                        onClick="save_memo()"><i class="fa fa-floppy-o"></i> 저장
                                 </button>
                             </div>	
                         </div>
@@ -321,7 +323,7 @@
                 <div class="col-md-2">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Users State</h3><i class="fa fa-user-plus fa-3x pull-right"
+                            <h3 class="box-title">사용자들</h3><i class="fa fa-user-plus fa-3x pull-right"
                                                                      data-toggle="modal" data-target="#InviteUser"></i>
 
                             <div class="box-tools pull-right">

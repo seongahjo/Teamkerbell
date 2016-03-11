@@ -263,7 +263,7 @@
                 <section class="col-md-6 ">
                     <div class="box" style="height:470px">
                         <div class="box-header">
-                            <h3 class="box-title">Files</h3>
+                            <h3 class="box-title">파일들</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -298,7 +298,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header add-header">
-                            <h3 class="box-title"> Add Meeting Schedule <i class="fa fa-calendar-plus-o"
+                            <h3 class="box-title"> 미팅 일정 추가 <i class="fa fa-calendar-plus-o"
                                                                            data-toggle="modal"
                                                                            data-target="#myModal3"></i></h3>
 

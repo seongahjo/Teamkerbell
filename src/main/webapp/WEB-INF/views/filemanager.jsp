@@ -233,6 +233,9 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
+            <h1>
+                파일 관리자
+            </h1>
             <ol class="breadcrumb">
                 <li><a href="../chat/${project.projectidx}"><i class="fa fa-dashboard"></i> <small> ${project.name}</small></a></li>
                 <li class="active">File Manager</li>
@@ -247,7 +250,6 @@
 
                     <div class="box">
                         <div class="box-header">
-                            <p><strong>File manager</strong></p>
                             <div class="bs-example">
                                 <div class="form-group" >
                                     <a href="#"><i class="fa fa-search fa-2x pull-right" style="float:left;padding-right:26%" onclick="search()"></i></a>
