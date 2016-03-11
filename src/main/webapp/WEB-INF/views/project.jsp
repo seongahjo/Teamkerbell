@@ -752,7 +752,7 @@
     }
 
     function invite() {
-        var par = "userId=" + inviteU;
+        var par = "userId=" + inviteU+"&projectIdx=${project.projectidx}";
         $.ajax({
             url: "../inviteUser",
             data: par,
@@ -769,7 +769,7 @@
         });
     }
     function search() {
-        var par = "userId=" + $("#inviteForm #inviteId").val();
+        var par = "userId=" + $("#inviteForm #inviteId").val()+"&projectIdx=${project.projectidx}";
         $.ajax({
             url: "../inviteUser",
             type: 'POST',

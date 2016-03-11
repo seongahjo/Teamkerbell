@@ -11,6 +11,7 @@ import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,8 +47,9 @@ public class ProjectController {
     To make project room
     */
     @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
-    public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
-        Integer userIdx = (Integer) session.getAttribute("userIdx");
+    public String MakeRoom(@RequestParam(value = "name") String name, Authentication authentication) {
+        User user=us.getById(authentication.getName()); //유저 객체 반환
+        Integer userIdx=user.getUseridx();
         Project project = new Project(name, userIdx, "");
         us.addProject(userIdx, project);
         return "redirect:/projectmanager";
@@ -58,19 +60,24 @@ public class ProjectController {
     */
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
     @ResponseBody
-    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
-        Integer userIdx = (Integer) session.getAttribute("userIdx");
+    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
         us.deleteProject(projectIdx);
     }
 
+    @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
+    @ResponseBody
+    public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx) {
+        Project project= pjs.get(projectIdx);
+        project.setProcessed(false);
+        pjs.save(project);
+    }
     /*
        To find out invited user
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap searchUser(@RequestParam(value = "userId") String userId, HttpSession session) {
+    public HashMap searchUser(@RequestParam(value = "userId") String userId,@RequestParam("projectIdx") Integer projectIdx) {
         logger.info("Search Member");
-        Integer projectIdx = (Integer) session.getAttribute("room");
         Project project = pjs.get(projectIdx);
         User user = us.getById(userId);
         logger.info(project.getName());
@@ -91,11 +98,9 @@ public class ProjectController {
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
     @ResponseBody
-    public String InviteMember(@RequestParam(value = "userId") String userId, HttpSession session) {
+    public String InviteMember(@RequestParam(value = "userId") String userId, @RequestParam("projectIdx") Integer projectIdx,Authentication authentication) {
         logger.info("Invite Member");
-        Integer userIdx = (Integer) session.getAttribute("userIdx");
-        Integer projectIdx = (Integer) session.getAttribute("room");
-        User actor = us.get(userIdx); // 초대한 사람
+        User actor=us.getById(authentication.getName()); //초대한 사람
         User user = us.getById(userId); // 초대받은 사람
         Project project = pjs.get(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date());

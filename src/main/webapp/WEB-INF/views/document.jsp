@@ -67,28 +67,28 @@
                 <ul class="nav navbar-nav">
 
 
-                <li class="dash-icon">
-                <a class="dash-nav">
-              	<i class="fa fa-picture-o"></i></a>
-            	</li>
-            	
-           	
-            	<li class="dash-icon">
-            	<a class="dash-nav">
-              	<i class="fa fa-edit"></i>
-              	</a>
-            	</li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-picture-o"></i></a>
+                    </li>
 
-            	 <li class="dash-icon">
-            	 <a class="dash-nav">
-              	<i class="fa fa-file-text-o"></i> 
-              	 </a>          	
-           	   </li>
-           	   <li class="dash-icon">
-           	   <a class="dash-nav">
-              	<i class="fa fa-calendar-o"></i>   
-              	</a>         	
-           	   </li>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    </li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -136,14 +136,16 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:30px;height:30px">
+                                <img src="../${user.img}" class="img-circle" alt="User Image"
+                                     style="width:30px;height:30px">
 
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
                                         <a href=../userInfo/${user.id}><i class="fa fa-info-circle"></i> MyInfo Edit</a>
@@ -163,14 +165,14 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                 </ul>
             </div>
         </nav>
     </header>    <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
 
-           <!-- sidebar: style can be found in sidebar.less -->
+        <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
 
             <!-- Sidebar user panel (optional) -->
@@ -193,7 +195,8 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="treeview active">
@@ -208,7 +211,7 @@
                         </li>
                     </ul>
                 </li>
-              
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -237,7 +240,7 @@
                 <div class="col-xs-12">
                     <h2 class="page-header">
                         <i class="fa fa-globe"></i> ${project.name}
-                        <small class="pull-right">Date : </small>
+                        <small class="pull-right">Date :</small>
                     </h2>
                 </div>
                 <!-- /.col -->
@@ -255,8 +258,8 @@
                         <tbody>
                         <c:forEach var="list" items="${todolist}">
                             <tr>
-                            <td>${list.content}</td>
-                            <td>${list.user.name}</td>
+                                <td>${list.content}</td>
+                                <td>${list.user.name}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -264,9 +267,9 @@
                 </div>
 
                 <div class="col-sm-4 invoice-col">
-                     <h4>All Members</h4>
+                    <h4>All Members</h4>
                     <c:forEach var="list" items="${users}">
-                    <strong>${list.name}</strong><br>
+                        <strong>${list.name}</strong><br>
                     </c:forEach>
 
                 </div>
@@ -299,7 +302,7 @@
                             </tr>
                         </c:forEach>
 
-                         </tbody>
+                        </tbody>
                     </table>
                 </div>
                 <!-- /.col -->
@@ -347,9 +350,10 @@
                     <a href="#" class="btn btn-default" onclick="capture()"><i class="fa fa-print"></i>
                         Print</a>
                     <form method="POST" enctype="multipart/form-data" action="file" id="myForm">
-                        <input type="hidden" name="file" id="img_val" value="" />
+                        <input type="hidden" name="file" id="img_val" value=""/>
                     </form>
-                    <button type="button" class="btn btn-primary pull-right" onclick="pdf_capture()" style="margin-right: 5px;">
+                    <button type="button" class="btn btn-primary pull-right" onclick="pdf_capture()"
+                            style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Generate PDF
                     </button>
                 </div>
@@ -441,7 +445,7 @@
 <script>
     function capture() {
         html2canvas($('.content-wrapper'), {
-            onrendered: function(canvas) {
+            onrendered: function (canvas) {
                 var a = document.createElement('a');
                 // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
                 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
@@ -450,13 +454,13 @@
             }
         });
     }
-    function pdf_capture(){
+    function pdf_capture() {
         html2canvas($('.content-wrapper'), {
-            onrendered: function(canvas) {
-                var doc =  new jsPDF();
+            onrendered: function (canvas) {
+                var doc = new jsPDF();
                 doc.setFontSize(40);
-                var imgData=canvas.toDataURL('image/jpeg', 1.0);
-                doc.addImage(imgData, 'JPEG',15, 40, 180, 220);
+                var imgData = canvas.toDataURL('image/jpeg', 1.0);
+                doc.addImage(imgData, 'JPEG', 15, 40, 180, 220);
                 doc.save("document.pdf");
             }
         });

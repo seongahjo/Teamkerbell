@@ -17,7 +17,7 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="css/blue.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
           integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
           crossorigin="anonymous">
@@ -67,29 +67,29 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                <li class="dash-icon">
-                <a class="dash-nav">
-              	<i class="fa fa-picture-o"></i></a>
-            	</li>
-            	
-           	
-            	<li class="dash-icon">
-            	<a class="dash-nav">
-              	<i class="fa fa-edit"></i>
-              	</a>
-            	</li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-picture-o"></i></a>
+                    </li>
 
-            	 <li class="dash-icon">
-            	 <a class="dash-nav">
-              	<i class="fa fa-file-text-o"></i> 
-              	 </a>          	
-           	   </li>
-           	   <li class="dash-icon">
-           	   <a class="dash-nav">
-              	<i class="fa fa-calendar-o"></i>   
-              	</a>         	
-           	   </li>
-                 <!-- Notifications Menu -->
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    </li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
+                    <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -135,14 +135,16 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
+                                <img src="${user.img}" class="img-circle" alt="User Image"
+                                     style="width:90px;height:90px">
 
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
                                         <a href=../userInfo/${user.id}><i class="fa fa-info-circle"></i> MyInfo Edit</a>
@@ -162,7 +164,7 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                 </ul>
             </div>
         </nav>
@@ -194,8 +196,9 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                       </ul>
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="treeview active">
@@ -231,7 +234,9 @@
                         <div class="box-header with-border">
                             <h3 class="box-title"> Project room List</h3>
                             <div class="box-tools pull-left">
-                                <button type="button" class="btn btn-success pull-left" data-toggle="modal"data-target="#AddModal">Add Project</button>
+                                <button type="button" class="btn btn-success pull-left" data-toggle="modal"
+                                        data-target="#AddModal">Add Project
+                                </button>
                             </div>
                             <!-- /.box-tools -->
                         </div>
@@ -255,11 +260,12 @@
 
                                             <td class="mailbox-attachment">
                                                 <div class="btn-group pull-right">
-                                                 <!--     <a href="document/${list.projectidx}">-->
-                                                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#completePJ"><i
-                                                                class="fa fa-comment" ></i>Doc
-                                                        </button>
-                                                   <!--  </a>-->
+                                                    <!--     <a href="document/${list.projectidx}">-->
+                                                    <button type="button" class="btn btn-default btn-flat"
+                                                            data-toggle="modal" data-target="#completePJ"><i
+                                                            class="fa fa-comment"></i>Doc
+                                                    </button>
+                                                    <!--  </a>-->
                                                     <a href="#">
                                                         <button type="button" class="btn btn-default btn-flat"><i
                                                                 class="fa fa-gears"></i>Edit
@@ -329,22 +335,20 @@
 <div class="modal fade" id="completePJ" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        
-            <form>
                 <div class="modal-body">
 
-     <div class="box-body">
-            <h4> If you Press the "Make Document" button, </h4>
-            <h4> This Project will be finished. </h4>
+                    <div class="box-body">
+                        <h4> If you Press the "Make Document" button, </h4>
+                        <h4> This Project will be finished. </h4>
 
-      </div>
-             </div>
-                <div class="modal-footer">
-                   <a href="document/${list.projectidx}">
-                    <button type="submit" class="btn btn-primary">Make Document</button></a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                    </div>
                 </div>
-            </form>
+                <div class="modal-footer">
+                    <a href="document/${list.projectidx}">
+                        <button type="submit" class="btn btn-primary" onclick="finish()">Make Document</button>
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
         </div>
     </div>
 </div>
@@ -427,13 +431,21 @@
     function leave(projectIdx) {
         console.log("DELTE");
         $.ajax({
-            url: "room/"+projectIdx,
+            url: "room/" + projectIdx,
             type: 'DELETE',
             success: function () {
                 location.reload();
             }
         });
-
+        function finish(projectIdx){
+            $.ajax({
+                url:"room/"+projectIdx,
+                type:'PUT',
+                success:function(){
+                    location.reload();
+                }
+            })
+        }
     }
 </script>
 

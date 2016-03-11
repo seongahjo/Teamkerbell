@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,7 +48,7 @@ public class CalendarController {
       */
     @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Map<String, Object> GetDate(@RequestParam(value="projectIdx") Integer projectIdx,@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, HttpSession session) {
+    public Map<String, Object> GetDate(@RequestParam(value="projectIdx") Integer projectIdx,@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         Map<String, Object> map = new HashMap<String, Object>();
         List data = new ArrayList();
 
