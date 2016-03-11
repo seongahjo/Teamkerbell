@@ -272,11 +272,11 @@
 
                                             <td class="mailbox-attachment">
                                                 <div class="btn-group pull-right">
-                                                    <a href="document/${list.projectidx}">
-                                                        <button type="button" class="btn btn-default btn-flat"><i
-                                                                class="fa fa-comment"></i>Doc
+                                                 <!--     <a href="document/${list.projectidx}">-->
+                                                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#completePJ"><i
+                                                                class="fa fa-comment" ></i>Doc
                                                         </button>
-                                                    </a>
+                                                   <!--  </a>-->
                                                     <a href="#">
                                                         <button type="button" class="btn btn-default btn-flat"><i
                                                                 class="fa fa-gears"></i>Edit
@@ -342,6 +342,35 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
+
+<div class="modal fade" id="completePJ" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <!--  
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Make Document</h4>
+            </div>
+            -->
+            <form>
+                <div class="modal-body">
+
+     <div class="box-body">
+            <h4> If you Press the "Make Document" button, </h4>
+            <h4> This Project will be finished. </h4>
+
+      </div>
+             </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                   <a href="document/${list.projectidx}">
+                    <button type="submit" class="btn btn-primary">Make Document</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
