@@ -223,7 +223,7 @@
                 <small> ${project.name}</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Mainpage</a></li>
+                <li><a href="../dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                 <li class="active">Here</li>
             </ol>
         </section>

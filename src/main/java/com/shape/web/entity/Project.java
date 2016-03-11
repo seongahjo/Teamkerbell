@@ -23,6 +23,9 @@ public class Project {
     @Column(name = "MINUTE")
     private String minute;
 
+    @Column(name = "PROCESSED")
+    private boolean processed = true;
+
     @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
@@ -115,5 +118,13 @@ public class Project {
 
     public void setMinute(String minute) {
         this.minute = minute;
+    }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 }

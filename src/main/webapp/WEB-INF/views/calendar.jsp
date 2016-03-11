@@ -234,7 +234,9 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">       
+    <div class="content-wrapper">
+        <section class="content-header">
+        </section>
         <!-- Main content -->
         <section class="content">
             <div class="row">

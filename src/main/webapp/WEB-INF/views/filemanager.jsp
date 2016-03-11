@@ -233,9 +233,8 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> <small> ${project.name}</small></a></li>
+                <li><a href="../chat/${project.projectidx}"><i class="fa fa-dashboard"></i> <small> ${project.name}</small></a></li>
                 <li class="active">File Manager</li>
             </ol>
         </section>
