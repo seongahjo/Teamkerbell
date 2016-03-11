@@ -231,9 +231,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title"> Project room List</h3>
                             <div class="box-tools pull-left">
-                                <button type="button" class="btn btn-success pull-left" data-toggle="modal"
-                                        data-target="#AddModal">Add Project
-                                </button>
+                                <button type="button" class="btn btn-success pull-left" data-toggle="modal"data-target="#AddModal">Add Project</button>
                             </div>
                             <!-- /.box-tools -->
                         </div>
