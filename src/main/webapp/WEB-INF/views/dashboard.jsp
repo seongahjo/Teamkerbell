@@ -138,7 +138,9 @@
                             <!-- The user image in the menu -->
                             <li class="user-header">
                                 <img src="../${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
-
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
@@ -157,9 +159,11 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
+                                <!--
                                 <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
+                                -->
                                 <div class="pull-right">
                                     <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>

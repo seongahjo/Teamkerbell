@@ -24,7 +24,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-     <!-- Bootstrap 3.3.5 -->
+    <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
@@ -56,28 +56,28 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                   <li class="dash-icon">
-                <a class="dash-nav">
-              	<i class="fa fa-picture-o"></i></a>
-            	</li>
-            	
-           	
-            	<li class="dash-icon">
-            	<a class="dash-nav">
-              	<i class="fa fa-edit"></i>
-              	</a>
-            	</li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-picture-o"></i></a>
+                    </li>
 
-            	 <li class="dash-icon">
-            	 <a class="dash-nav">
-              	<i class="fa fa-file-text-o"></i> 
-              	 </a>          	
-           	   </li>
-           	   <li class="dash-icon">
-           	   <a class="dash-nav">
-              	<i class="fa fa-calendar-o"></i>   
-              	</a>         	
-           	   </li>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    </li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -112,21 +112,24 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-                 
+
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt=""style="width:25px;height:25px">
+                            <img src="../${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
-
+                                <img src="../${user.img}" class="img-circle" alt="User Image"
+                                     style="width:90px;height:90px">
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
@@ -145,9 +148,11 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
+                                <!--
                                 <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
+                                -->
                                 <div class="pull-right">
                                     <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
@@ -155,7 +160,7 @@
                         </ul>
                     </li>
                     <!-- Control Sidebar Toggle Button -->
-                    
+
                 </ul>
             </div>
         </nav>
@@ -169,7 +174,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle" alt="User Image"style="width:100px;height:100px">
+                    <img src="../${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
                 <div class="pull-left info dash-user">
                     <p>${user.id}</p>
@@ -187,7 +192,7 @@
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
                         <li class="active"><a href="#"><i class="fa fa-key"></i> Change user Info</a></li>
-                       
+
                     </ul>
                 </li>
 
@@ -195,14 +200,14 @@
                     <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
-                            <c:forEach var="list" items="${projects}"> 
+                            <c:forEach var="list" items="${projects}">
                                 <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
                 </li>
-                
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -214,7 +219,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-               Change User Info Page
+                Change User Info Page
 
             </h1>
             <ol class="breadcrumb">
@@ -261,7 +266,7 @@
                                     <label for="exampleInputFile">Change image</label>
                                     <input type="file" name="file" onchange="previewImage(this,'preimage')">
                                 </div>
-								<div id='preimage' style="width:100px;height:100px"></div>
+                                <div id='preimage' style="width:100px;height:100px"></div>
 
                             </div>
                             <!-- /.box-body -->
@@ -296,9 +301,6 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 
-
-
-
 <!-- jQuery 2.1.4 http://ohming.tistory.com/250-->
 <script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
@@ -308,22 +310,22 @@
 <script src="../js/prettydate.min.js"></script>
 <script src="../js/previewimage.js"></script>
 <script>
-function register(){
-    if(($("#password1").val())==($("#password2").val())){
-        var form = $("#registerForm")[0];
-        var formData = new FormData(form);
-        $.ajax({
-            url: "../register",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-               location.reload();
-            }
-        });
+    function register() {
+        if (($("#password1").val()) == ($("#password2").val())) {
+            var form = $("#registerForm")[0];
+            var formData = new FormData(form);
+            $.ajax({
+                url: "../register",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
     }
-}
 </script>
 </body>
 </html>

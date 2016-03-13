@@ -59,35 +59,36 @@
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
-               
+
+            <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-               
-                <li data-toggle="modal" data-target="#photoModal">
-            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
-              	<i class="fa fa-picture-o"></i>
-            	</a>
-            	</li>
-            	
-            	
-            	<li data-toggle="modal" data-target="#todoList" >
-            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
-              	<i class="fa fa-edit"></i>
-            	</a>
-            	</li>
 
-            	 <li  onclick="location.href='../filemanager/${project.projectidx}';">
-            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
-              	<i class="fa fa-file-text-o"></i>
-            	</a>
-            	
-            	</li>
-            	
-            	 <li onclick="location.href='../calendar/${project.projectidx}';">
-            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
-              	<i class="fa fa-calendar-o"></i>
-            	</a>
-            	</li>
+                    <li data-toggle="modal" data-target="#photoModal">
+                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
+                            <i class="fa fa-picture-o"></i>
+                        </a>
+                    </li>
+
+
+                    <li data-toggle="modal" data-target="#todoList" >
+                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li  onclick="location.href='../filemanager/${project.projectidx}';">
+                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+
+                    </li>
+
+                    <li onclick="location.href='../calendar/${project.projectidx}';">
+                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
                             <i class="fa fa-bell-o"  id="alarm"></i>
@@ -133,7 +134,9 @@
                             <!-- The user image in the menu -->
                             <li class="user-header">
                                 <img src="../${user.img}" class="img-circle" alt="User Image" style="width:90px;height:90px">
-
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
@@ -142,7 +145,7 @@
                                         <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href=../userInfo/${user.id}><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
                                     </div>
 
                                 </div>
@@ -150,16 +153,16 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="../userInfo/${user.name}" class="btn btn-default btn-flat">Profile</a>
-                                </div>
+                                <!--<div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>-->
                                 <div class="pull-right">
                                     <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                    
+
                 </ul>
             </div>
         </nav>

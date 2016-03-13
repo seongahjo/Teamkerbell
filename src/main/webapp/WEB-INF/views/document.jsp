@@ -138,7 +138,9 @@
                             <li class="user-header">
                                 <img src="../${user.img}" class="img-circle" alt="User Image"
                                      style="width:30px;height:30px">
-
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
