@@ -275,7 +275,7 @@
        var form = $("#registerForm")[0];
        var formData = new FormData(form);
        $.ajax({
-         url: "../register",
+         url: "register",
          type: "POST",
          data: formData,
          processData: false,

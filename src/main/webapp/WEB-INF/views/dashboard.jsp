@@ -320,7 +320,7 @@
                             <!-- /.chat -->
                         </c:forEach>
                         <c:if test="${timeline.size()==0}">
-                        <img src="../img/Notime.png">
+                        <img class="notime" src="../img/Notime.png">
                         </c:if>
                     </div>
                 </div>
