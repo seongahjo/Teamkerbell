@@ -918,7 +918,7 @@
         scheuldIdx = _scheduleIdx;
     }
     function finish() {
-        var param = "scheduleIdx=" + scheuldIdx + "&ids=" + $("#select").children("option:selected").val();
+        var param = "scheduleIdx=" + scheuldIdx + "&ids=" +$("#select").val();
         $.ajax({
             url: "../finishMeeting",
             data: param,

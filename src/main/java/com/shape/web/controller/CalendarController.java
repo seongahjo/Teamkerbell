@@ -164,16 +164,20 @@ public class CalendarController {
     public void finishMeeting(@RequestParam("scheduleIdx") Integer scheduleIdx, @RequestParam("ids") List<String> ids) {
         Schedule schedule = ss.get(scheduleIdx);
         schedule.setState(3);
-        Set<Appointment> appointments = schedule.getAppointments();
+        ss.save(schedule);
+        List<Appointment> appointments=ss.getAppointments(schedule,2);
         logger.info("Meeting 종료");
+        logger.info("ids"+ids);
         for (int i = 0; i < ids.size(); i++)
             for (Appointment a : appointments)
                 if (a.getUser().getId().equals(ids.get(i))) {
+                    logger.info(a.getDate()+" "+a.getUser().getId()+"vs"+ids.get(i));
                     a.setState(3); // 참가 확정
-                    ss.save(schedule);
+                    aps.save(a);
                     break;
                 }
     }
+
 
     /*
  To get meetings
