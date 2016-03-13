@@ -109,6 +109,7 @@ public class ProjectService {
                 .add(Restrictions.eq("project.projectidx", project.getProjectidx()))
                 .add(Restrictions.eq("type", "img"))
                 .addOrder(Order.desc("date"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return lfd;
