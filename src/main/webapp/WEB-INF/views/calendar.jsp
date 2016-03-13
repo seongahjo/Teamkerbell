@@ -321,7 +321,7 @@
                                     <th>To Do</th>
                                     <th>Place</th>
                                     <th>Time</th>
-                                    <th>Participation</th>
+                                    <th>ConfirmDate</th>
                                 </tr>
                                 <c:forEach var="list" items="${schedules}">
                                     <tr>
@@ -359,7 +359,7 @@
                                                         <br>
                                                     </c:when>
                                                     <c:when test="${ap.state=='3' }">
-                                                        <strong>${ap.date} : ${ap.user.name}</strong>
+                                                        <strong>${ap.date} </strong>
                                                         <br>
                                                     </c:when>
                                                 </c:choose>

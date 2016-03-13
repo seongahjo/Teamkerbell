@@ -70,9 +70,11 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                         String projectIdx = su.getProjectIdx();
                         logger.info("방나감 :: " + projectIdx + socket.getId());
                         socket.leave(projectIdx);
-
+                            Clients.remove(socket.getId());
+                        //su ==> 나가는 사람
                         for (ServerUser temp : Clients.values()) {   // 남아있는 Client들
                             //새로고침시 방 삭제 방지
+                            flag=true;
                             logger.info(temp.getName() + " vs " + su.getName());
                             logger.info(temp.getProjectIdx() + " vs " + su.getProjectIdx());
                             if ((temp.getName().equals(su.getName())) && (temp.getProjectIdx().equals(su.getProjectIdx()))) {
@@ -80,10 +82,10 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                                 break;
                             }
                         }
-                        if (flag) {
-                            logger.info("나감 : " + su.getName());
-                            io.sockets().in(projectIdx).emit("deleteuser", su.getName());
-                        }
+                            if (flag) {
+                                logger.info("나감 : " + su.getName());
+                                io.sockets().in(projectIdx).emit("deleteuser", su.getName());
+                            }
                         if (Rooms.get(projectIdx) == (su.getUserIdx())) {
                             logger.info("writer 초기화");
                             Rooms.replace(projectIdx, -1);
@@ -94,7 +96,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                         }
                     }
                 }
-                Clients.remove(socket.getId());
+                //Clients.remove(socket.getId());
 
             }); //Disconnect End
 

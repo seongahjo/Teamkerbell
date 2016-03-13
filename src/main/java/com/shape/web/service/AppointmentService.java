@@ -76,8 +76,8 @@ public class AppointmentService {
             for (Appointment ap : lap) {
                 ap.setState(1);
                 session.saveOrUpdate(ap);
+                session.flush();
             }
-            session.flush();
             session.close();
             return true;
         }

@@ -118,7 +118,6 @@ public class CalendarController {
             //appointment가 해당 날짜에 있을경우 생성하지않고 없을경우 생성하는 함수
             if (aps.check(lu.size(), scheduleIdx, startdate)) { // 모든 사람이 체크했는가?
                 check = true;
-                break;
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(startdate);

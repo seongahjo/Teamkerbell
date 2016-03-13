@@ -118,6 +118,7 @@ public class UserService implements UserDetailsService {
                 .add(Restrictions.eq("users.useridx", user.getUseridx()))
                 .add(Restrictions.ge("enddate", new Date()))
                 .addOrder(Order.desc("scheduleidx"))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
         return ls;
