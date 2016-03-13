@@ -14,29 +14,24 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/wait1.css">
-    <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="../css/wait1.css">
+    <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-          crossorigin="anonymous">
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
+    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../../js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
     <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 
-    <link rel="stylesheet" href="css/wait2.css">
+    <link rel="stylesheet" href="../css/wait2.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,7 +49,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="dashboard/${user.id}" class="logo">
+        <a href="../dashboard/${user.id}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>T</b>eam</span>
             <!-- logo for regular state and mobile devices -->
@@ -72,8 +67,28 @@
                 <ul class="nav navbar-nav">
 
 
-                    <!-- Notifications Menu -->
-                    <!-- Notifications Menu -->
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-picture-o"></i></a>
+                    </li>
+
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    </li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -114,24 +129,28 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="${user.img}" class="img-circle" alt="User Image">
-
+                                <img src="../${user.img}" class="img-circle" alt="User Image"
+                                     style="width:30px;height:30px">
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="userInfo"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href=../userInfo/${user.id}><i class="fa fa-info-circle"></i> MyInfo Edit</a>
                                     </div>
 
                                 </div>
@@ -143,15 +162,12 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="../" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -164,9 +180,9 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -175,34 +191,32 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
-                    <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
-                    </ul>
-                </li>
-
                 <li class="treeview">
-                    <a href="#"><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right"
-                                                            style="color:#ffffff"></i></a>
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li>
-                            <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
-                            </c:forEach>
-                            <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
-
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
                         </li>
                     </ul>
                 </li>
+                <li class="treeview active">
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
+                                <a href="../chat/${list.projectidx}"
+                                   class="side-nav-button">name: ${list.name}</a>
+                            </c:forEach>
+                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
-        <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
@@ -212,22 +226,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Invoice
-                <small>#007612</small>
+                Document
+                <small>project result</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">Invoice</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Project Edit</a></li>
+                <li><a href="#">Document</a></li>
             </ol>
         </section>
-
-        <div class="pad margin no-print">
-            <div class="callout callout-info" style="margin-bottom: 0!important;">
-                <h4><i class="fa fa-info"></i> Note:</h4>
-                This page has been enhanced for printing. Click the print button at the bottom of this page
-            </div>
-        </div>
 
         <!-- Main content -->
         <section class="invoice">
@@ -235,8 +241,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
-                        <i class="fa fa-globe"></i> Computer Architecture
-                        <small class="pull-right">Date : </small>
+                        <i class="fa fa-globe"></i> ${project.name}
+                        <small class="pull-right">Date : ${date}</small>
                     </h2>
                 </div>
                 <!-- /.col -->
@@ -254,8 +260,8 @@
                         <tbody>
                         <c:forEach var="list" items="${todolist}">
                             <tr>
-                            <td>${list.content}</td>
-                            <td>${list.user.name}</td>
+                                <td>${list.content}</td>
+                                <td>${list.user.name}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -263,9 +269,9 @@
                 </div>
 
                 <div class="col-sm-4 invoice-col">
-                     <strong>All Members</strong><br>
+                    <h4>All Members</h4>
                     <c:forEach var="list" items="${users}">
-                    ${list.name}<br>
+                        <strong>${list.name}</strong><br>
                     </c:forEach>
 
                 </div>
@@ -288,25 +294,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="list" items="${schedules}">
-                            <c:if test="${list.state==3}">
+                        <c:forEach var="list" items="${meetingmember}">
                             <tr>
-                                <td>${list.startdate}</td>
+                                <td>${list.date}</td>
                                 <td>${list.place}</td>
-                                <td></td>
-                                <td></td>
+                                <td>${list.participant}</td>
+                                <td>${list.nonparticipant}</td>
                                 <td>${list.content}</td>
                             </tr>
-                            </c:if>
                         </c:forEach>
-                        <tr>
-                            <td>2015/3/15</td>
-                            <td>CGV</td>
-                            <td>Sieun,MinJi</td>
-                            <td>SangA</td>
-                            <td> To not do anything</td>
-                        </tr>
-                         </tbody>
+
+                        </tbody>
                     </table>
                 </div>
                 <!-- /.col -->
@@ -351,9 +349,13 @@
             <!-- this row will not appear when printing -->
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i>
+                    <a href="#" class="btn btn-default" onclick="capture()"><i class="fa fa-print"></i>
                         Print</a>
-                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                    <form method="POST" enctype="multipart/form-data" action="file" id="myForm">
+                        <input type="hidden" name="file" id="img_val" value=""/>
+                    </form>
+                    <button type="button" class="btn btn-primary pull-right" onclick="pdf_capture()"
+                            style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Generate PDF
                     </button>
                 </div>
@@ -375,79 +377,6 @@
         <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
-        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <!-- Home tab content -->
-            <div class="tab-pane active" id="control-sidebar-home-tab">
-                <h3 class="control-sidebar-heading">Recent Activity</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                <p>Will be 23 on April 24th</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-                <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <h4 class="control-sidebar-subheading">
-                                Custom Template Design
-                                <span class="label label-danger pull-right">70%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-            </div>
-            <!-- /.tab-pane -->
-            <!-- Stats tab content -->
-            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-            <!-- /.tab-pane -->
-            <!-- Settings tab content -->
-            <div class="tab-pane" id="control-sidebar-settings-tab">
-                <form method="post">
-                    <h3 class="control-sidebar-heading">General Settings</h3>
-
-                    <div class="form-group">
-                        <label class="control-sidebar-subheading">
-                            Report panel usage
-                            <input type="checkbox" class="pull-right" checked>
-                        </label>
-
-                        <p>
-                            Some information about this general settings option
-                        </p>
-                    </div>
-                    <!-- /.form-group -->
-                </form>
-            </div>
-            <!-- /.tab-pane -->
-        </div>
-    </aside>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
@@ -482,7 +411,7 @@
                         <!-- at fist, not in here, after searching there will be -->
                         <div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%">
                             <div class="box-body box-profile">
-                                <img class="profile-user-img img-responsive img-circle" src="${user.img}"
+                                <img class="profile-user-img img-responsive img-circle" src="../${user.img}"
                                      alt="User profile picture">
                                 <h3 class="profile-username text-center">sieun</h3>
                                 <p class="text-muted text-center">kim sieun</p>
@@ -504,16 +433,40 @@
 
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
 <!-- jQuery 2.1.4 -->
-<script src="js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/app.min.js"></script>
-<script src="js/prettydate.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/jspdf.min.js"></script>
+<script src="../js/html2canvas.js"></script>
+<script src="../js/prettydate.min.js"></script>
 <!-- ChartJS 1.0.1 -->
-<script src="js/Chart.min.js"></script>
-<script src="js/date.js"></script>
+<script src="../js/Chart.min.js"></script>
+<script src="../js/date.js"></script>
 <script>
+    function capture() {
+        html2canvas($('.content-wrapper'), {
+            onrendered: function (canvas) {
+                var a = document.createElement('a');
+                // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+                a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                a.download = 'document.jpg';
+                a.click();
+            }
+        });
+    }
+    function pdf_capture() {
+        html2canvas($('.content-wrapper'), {
+            onrendered: function (canvas) {
+                var doc = new jsPDF();
+                doc.setFontSize(40);
+                var imgData = canvas.toDataURL('image/jpeg', 1.0);
+                doc.addImage(imgData, 'JPEG', 15, 40, 180, 220);
+                doc.save("document.pdf");
+            }
+        });
+    }
     $(function () {
 
         // Get context with jQuery - using jQuery's .get() method.
@@ -522,7 +475,7 @@
         var areaChart = new Chart(areaChartCanvas);
 
         var areaChartData = {
-            labels: ["Sieun", "SeongAh", "MinJi", "SolA", "Junyounh", "JAne", "Soli"],
+            labels: ${usersname},
             ykeys: ['item1', 'item2'],
             datasets: [
                 {
@@ -533,7 +486,7 @@
                     pointStrokeColor: "#c1c7d1",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [100, 50, 100, 81, 56, 100, 40]
+                    data: ${participant}
                 },
                 {
                     label: "Digital Goods",
@@ -543,7 +496,7 @@
                     pointStrokeColor: "rgba(60,141,188,1)",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(60,141,188,1)",
-                    data: [28, 100, 40, 19, 100, 27, 90]
+                    data: ${percentage}
                 }
             ]
         };

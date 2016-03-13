@@ -1,17 +1,14 @@
 package com.shape.web.service;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.hibernate.Criteria;
+import com.shape.web.entity.Chatlog;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
-import com.shape.web.entity.Chatlog;
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class ChatlogService {

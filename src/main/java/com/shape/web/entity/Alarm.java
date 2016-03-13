@@ -1,10 +1,7 @@
 package com.shape.web.entity;
 
-import org.hibernate.annotations.Type;
-
-import java.util.Date;
-
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "Alarm")

@@ -2,4 +2,5 @@ eclipse.preferences.version=1
 encoding//src/main/webapp/WEB-INF/views/calendar.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/chat.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/index.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/project.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/waitingroom.jsp=UTF-8

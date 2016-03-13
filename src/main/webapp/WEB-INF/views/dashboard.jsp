@@ -24,11 +24,6 @@
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
 
     <link rel="stylesheet" href="../css/wait2.css">
 
@@ -67,50 +62,46 @@
                 <span class="sr-only">Toggle navigation</span>
             </a>
             <!-- Navbar Right Menu -->
+
+            <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
+               
                 <ul class="nav navbar-nav">
+                
+                
+                <li class="dash-icon">
+                <a class="dash-nav">
+              	<i class="fa fa-picture-o"></i></a>
+            	</li>
+            	
+           	
+            	<li class="dash-icon">
+            	<a class="dash-nav">
+              	<i class="fa fa-edit"></i>
+              	</a>
+            	</li>
 
-                    <!-- Messages-->
-                    <!--
-                        <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="header">You have 4 messages</li>
-                                <li>
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="../img/default.jpg" class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                    Support Team
-                                                    <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
-                            </ul>
-                        </li>
-                       -->
-
+            	 <li class="dash-icon">
+            	 <a class="dash-nav">
+              	<i class="fa fa-file-text-o"></i> 
+              	 </a>          	
+           	   </li>
+           	   <li class="dash-icon">
+           	   <a class="dash-nav">
+              	<i class="fa fa-calendar-o"></i>   
+              	</a>         	
+           	   </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning" id="alarm_size">${alarm.size()}</span>
+                            <i class="fa fa-bell-o" id="alarm"></i>
+                            <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header" id="alarm_size_display">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -134,64 +125,33 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-                    <!--Task-->
-                    <!--
-                    <li class="dropdown tasks-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-flag-o"></i>
-                            <span class="label label-danger">9</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 9 tasks</li>
-                            <li>
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <h3>
-                                                Design some buttons
-                                                <small class="pull-right">20%</small>
-                                            </h3>
-                                            <div class="progress xs">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
-                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                     aria-valuemax="100">
-                                                    <span class="sr-only">20% Complete</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer">
-                                <a href="#">View all tasks</a>
-                            </li>
-                        </ul>
-                    </li>
-                    -->
-                    <!-- User Account Menu -->
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image">
-
+                                <img src="../${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="../userInfo"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href=../userInfo/${user.id}><i class="fa fa-info-circle"></i> MyInfo
+                                            Edit</a>
                                     </div>
 
                                 </div>
@@ -199,11 +159,13 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
+                                <!--
                                 <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
+                                -->
                                 <div class="pull-right">
-                                    <a href="../../" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -223,7 +185,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
                 <div class="pull-left info dash-user">
                     <p>${user.id}</p>
@@ -234,29 +196,31 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
+                        </li>
+
                     </ul>
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-usb"></i><span>Projectrooms</span></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Project Rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="../chat?projectIdx=${list.projectidx}"
+                                <a href="../chat/${list.projectidx}"
                                    class="side-nav-button">name: ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
                 </li>
+                
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -268,25 +232,25 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Main Page
+                Dashboard
                 <!-- <small>Optional description</small>-->
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
 
+ 
             <div class="row">
                 <div class="col-md-8">
                     <div class="box box-success time-line">
                         <div class="box-header">
                             <i class="fa fa-comments-o"></i>
 
-                            <h3 class="box-title">TimeLine</h3>
+                            <h3 class="box-title">타임라인</h3>
 
                             <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
                                 <div class="btn-group" data-toggle="btn-toggle">
@@ -294,6 +258,7 @@
                                 </div>
                             </div> <!-- status -->
                         </div> <!-- header -->
+                              
                         <c:forEach var="list" items="${timeline}">
                             <div class="box-body chat" id="chat-box">
                                 <!-- chat item -->
@@ -310,7 +275,7 @@
                                                 <small class="text-muted pull-right"><i
                                                         class="fa fa-clock-o"></i><span
                                                         prettydate> ${list.date}</span></small>
-                                                <a href="../chat?projectIdx=${list.project.projectidx}"> ${list.project.name}</a>
+                                                <a href="../chat/${list.project.projectidx}"> ${list.project.name}</a>
                                                 에서 일정이 추가되었습니다
                                             </p>
                                         </div>
@@ -326,7 +291,7 @@
                                                 <small class="text-muted pull-right"><i class="fa fa-clock-o"></i><span
                                                         prettydate> ${list.date}</span></small>
                                                     ${list.actor.id}님이 <a
-                                                    href="../chat?projectIdx=${list.project.projectidx}">${list.project.name}</a>에
+                                                    href="../chat/${list.project.projectidx}">${list.project.name}</a>에
                                                 파일
                                                 업로드를 하셨습니다
                                             </p>
@@ -351,11 +316,16 @@
                                         <!-- 파일 -->
 
                                     </c:when>
+                                    <c:otherwise>
+                                    </c:otherwise>
                                 </c:choose>
 
                             </div>
                             <!-- /.chat -->
                         </c:forEach>
+                        <c:if test="${timeline.size()==0}">
+                        <img class="notime" src="../img/Notime.png">
+                        </c:if>
                     </div>
                 </div>
                 <!-- TOdo -->
@@ -364,7 +334,7 @@
                         <div class="box-header">
                             <i class="ion ion-clipboard"></i>
 
-                            <h3 class="box-title">To Do List</h3>
+                            <h3 class="box-title">할 일</h3>
 
                             <div class="box-tools pull-right vec">
                                 <ul class="pagination pagination-sm inline vec">
@@ -390,6 +360,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
+                     
                                     <c:choose>
                                         <c:when test="${list.ok=='0'}">
                                             <input type="checkbox" class="cb" checked value="${list.todolistidx}">
@@ -398,15 +369,16 @@
                                             <input type="checkbox" class="cb" value="${list.todolistidx}">
                                         </c:otherwise>
                                     </c:choose>
+                                    <span> ${list.project.name}</span>
                                     <span class="text">${list.content}</span>
 
-                                    <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                                    <small class="label label-danger" prettydate><i
+                                            class="fa fa-clock-o"></i>${list.enddate}</small>
 
-                                    <div class="tools">
-                                        <i class="fa fa-edit"></i>
+                                    <div class="tools">                                       
                                         <i class="fa fa-trash-o"></i>
                                     </div>
-                                    </li>
+                                  
                                 </c:forEach>
                             </ul>
                         </div>
@@ -416,7 +388,7 @@
                     <div class="box">
                         <div class="box-header add-header">
                             <i class="fa fa-calendar-plus-o"></i>
-                            <h3 class="box-title"> Register Schedule</h3>
+                            <h3 class="box-title"> 확인해야하는 스케쥴</h3>
 
                             <div class="box-tools">
 
@@ -471,8 +443,7 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
+
     </footer>
 
     <!-- Control Sidebar -->
@@ -521,11 +492,14 @@
 
 <!-- jQuery 2.1.4 -->
 <script src="../js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../js/app.min.js"></script>
 <script src="../js/prettydate.min.js"></script>
+<!-- Socket IO -->
+<script src="../js/socket.io.js"></script>
 <!-- date-range-picker -->
 <script src="../js/moment.min.js"></script>
 <script src="../js/daterangepicker.js"></script>
@@ -538,6 +512,45 @@
 <script>
     var registerStartDate;
     var registerEndDate;
+    var socket;
+    /*$(document).ready(function () {
+        socket = io.connect("http://192.168.0.45:9999");
+        socket.emit('join', {
+            projectIdx: "${project.projectidx}",
+            userIdx:${user.useridx},
+            userName: "${user.name}",
+            userId: "${user.id}",
+            userImg: "${user.img}"
+        });
+
+        socket.on('alarm', function (data) {
+            var par = "userIdx=" +${user.useridx};
+            $.ajax({
+                url: "../updateAlarm",
+                data: par,
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    var size = parseInt($("#alarm-size").text()) + 1;
+                    $("#alarm").effect("bounce",{direction:'left',distance:13, times:3},500);
+                    $("#alarm-size").text(size);
+                    $("#alarm-content").text('You have ' + size + 'notifications');
+                    $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                            '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                            'has invited you to <strong>' + data.projectname + '</strong>' +
+                            '<div style="float:right;">' +
+                            ' <button type="button" class="btn btn-primary btn-xs"' +
+                            'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                            '<button type="button" class="btn btn-default btn-xs"' +
+                            'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                            '</button>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>');
+                }
+            });
+        });
+    });// socket end*/
     //Date range picker with time picker
     $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'YYYY-MM-DD h:mm A'});
     //Date range as a button
@@ -612,7 +625,6 @@
             }
         });
     });
-
 
 
 </script>

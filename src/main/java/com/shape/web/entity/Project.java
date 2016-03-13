@@ -1,13 +1,9 @@
 package com.shape.web.entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,7 +23,10 @@ public class Project {
     @Column(name = "MINUTE")
     private String minute;
 
-    @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER )
+    @Column(name = "PROCESSED")
+    private boolean processed = true;
+
+    @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
 
@@ -120,4 +119,19 @@ public class Project {
     public void setMinute(String minute) {
         this.minute = minute;
     }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
+    }
+
+    @Override
+    public boolean equals(Object o ){
+        Project pj=(Project)o;
+        return this.projectidx == pj.getProjectidx();
+    }
+
 }

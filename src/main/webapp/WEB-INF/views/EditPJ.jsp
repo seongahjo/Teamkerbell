@@ -17,7 +17,10 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="css/blue.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+          crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -25,17 +28,6 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="css/wait1.css">
     <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
-
-
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-          crossorigin="anonymous">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
 
     <link rel="stylesheet" href="css/wait2.css">
 
@@ -75,54 +67,39 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- <li class="dropdown messages-menu">
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-picture-o"></i></a>
+                    </li>
 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">4</span>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-edit"></i>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 4 messages</li>
-                            <li>
+                    </li>
 
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <div class="pull-left">
-
-                                                <img src="${user.img}" class="img-circle" alt="User Image">
-                                            </div>
-
-                                            <h4>
-                                                Support Team
-                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                            </h4>
-
-                                            <p>Why not buy a new awesome theme?</p>
-                                        </a>
-                                    </li>
-
-                                </ul>
-
-                            </li>
-                            <li class="footer"><a href="#">See All Messages</a></li>
-                        </ul>
-                    </li>-->
-                    <!-- /.messages-menu -->
-
-                    <!-- Notifications Menu -->
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    </li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">${alarm.size()}</span>
+                            <i class="fa fa-bell-o" id="alarm"></i>
+                            <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -146,62 +123,33 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-                    <!--
-                            <li class="dropdown tasks-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-flag-o"></i>
-                                    <span class="label label-danger">9</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="header">You have 9 tasks</li>
-                                    <li>
-                                         <ul class="menu">
-                                            <li>
-                                            <a href="#">
-                                                    <h3>
-                                                        Design some buttons
-                                                        <small class="pull-right">20%</small>
-                                                    </h3>
-                                                    <div class="progress xs">
-                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%"
-                                                             role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                             aria-valuemax="100">
-                                                            <span class="sr-only">20% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="footer">
-                                        <a href="#">View all tasks</a>
-                                    </li>
-                                </ul>
-                            </li>-->
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="${user.img}" class="user-image" alt="">
+                            <img src="${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="${user.img}" class="img-circle" alt="User Image">
-
+                                <img src="${user.img}" class="img-circle" alt="User Image"
+                                     style="width:90px;height:90px">
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="userInfo"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href=../userInfo/${user.id}><i class="fa fa-info-circle"></i> MyInfo Edit</a>
                                     </div>
 
                                 </div>
@@ -209,19 +157,18 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
+                                <!--
                                 <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
+                                -->
                                 <div class="pull-right">
-                                    <a href="../" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -236,9 +183,9 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="${user.img}" class="img-circle" alt="User Image">
+                    <img src="${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -247,30 +194,29 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
-                    <ul class="treeview-menu">
-                        <li class="active"><a href=userInfo><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
-                    </ul>
-                </li>
-
                 <li class="treeview">
-                    <a href="#"><span>Projectrooms</span><i class="fa fa-pencil-square-o pull-right"
-                                                            style="color:#ffffff"></i></a>
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li>
-                            <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name
-                                    : ${list.name}</a>
-                            </c:forEach>
-                            <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="treeview active">
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
+                                <a href="../chat/${list.projectidx}" class="side-nav-button">name
+                                    : ${list.name}</a>
+                            </c:forEach>
+                            <a href="#"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                        </li>
+                    </ul>
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -290,10 +236,10 @@
                 <div class="col-md-10">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"> Project room List</h3>
+                            <h3 class="box-title"> 과제방 목록</h3>
                             <div class="box-tools pull-left">
                                 <button type="button" class="btn btn-success pull-left" data-toggle="modal"
-                                        data-target="#AddModal">Add Project
+                                        data-target="#AddModal">프로젝트 추가
                                 </button>
                             </div>
                             <!-- /.box-tools -->
@@ -301,27 +247,12 @@
                         <!-- /.box-header -->
                         <div class="box-body no-padding">
 
-                            <!-- Check all button -->
-                            <!-- /.btn-group -->
-                            <div class="btn-group ">
-                                <div class="has-feedback">
-                                    <input type="text" class="form-control input-sm"
-                                           placeholder="Search Project">
-                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </div>
-
-                            </div>
-                            <!-- /.btn-group -->
-
-
-                            <!-- /.pull-right -->
-
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
                                     <tbody>
                                     <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
                                         <tr>
-                                            <td class="mailbox-name"><a href="chat?projectIdx=${list.projectidx}"
+                                            <td class="mailbox-name"><a href="chat/${list.projectidx}"
                                                                         style="font-weight:bold">${list.name}</a>
                                             </td>
 
@@ -333,16 +264,29 @@
 
                                             <td class="mailbox-attachment">
                                                 <div class="btn-group pull-right">
-                                                    <a href="document?projectIdx=${list.projectidx}">
-                                                        <button type="button" class="btn btn-default btn-flat"><i
-                                                                class="fa fa-comment"></i>Doc
+
+                                                    <!--     <a href="document/${list.projectidx}">-->
+                                                    <c:choose>
+                                                    <c:when test="${list.processed!='0'}">
+                                                    <button type="button" class="btn btn-default btn-flat"
+                                                            onclick="save_idx('${list.projectidx}')"
+                                                            data-toggle="modal" data-target="#completePJ"><i
+                                                            class="fa fa-comment" ></i>Doc
+                                                    </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button type="button" class="btn btn-default btn-flat"
+                                                                disabled><i
+                                                                class="fa fa-comment" ></i>Doc
                                                         </button>
-                                                    </a>
-                                                    <a href="#">
+                                                    </c:otherwise>
+                                                    </c:choose>
+                                                    <!--  </a>-->
+                                                   <!-- <a href="#">
                                                         <button type="button" class="btn btn-default btn-flat"><i
                                                                 class="fa fa-gears"></i>Edit
                                                         </button>
-                                                    </a>
+                                                    </a>-->
                                                     <a href="#">
                                                         <button type="button" class="btn btn-default btn-flat"
                                                                 onclick="leave('${list.projectidx}')"><i
@@ -396,88 +340,31 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
-        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <!-- Home tab content -->
-            <div class="tab-pane active" id="control-sidebar-home-tab">
-                <h3 class="control-sidebar-heading">Recent Activity</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                <p>Will be 23 on April 24th</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-                <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <h4 class="control-sidebar-subheading">
-                                Custom Template Design
-                                <span class="label label-danger pull-right">70%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-            </div>
-            <!-- /.tab-pane -->
-            <!-- Stats tab content -->
-            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-            <!-- /.tab-pane -->
-            <!-- Settings tab content -->
-            <div class="tab-pane" id="control-sidebar-settings-tab">
-                <form method="post">
-                    <h3 class="control-sidebar-heading">General Settings</h3>
-
-                    <div class="form-group">
-                        <label class="control-sidebar-subheading">
-                            Report panel usage
-                            <input type="checkbox" class="pull-right" checked>
-                        </label>
-
-                        <p>
-                            Some information about this general settings option
-                        </p>
-                    </div>
-                    <!-- /.form-group -->
-                </form>
-            </div>
-            <!-- /.tab-pane -->
-        </div>
-    </aside>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
+
+<div class="modal fade" id="completePJ" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-body">
+
+                    <div class="box-body">
+                        <h4> 프로젝트를 종료합니다 </h4>
+                        <h4> 확인 버튼을 누르시면 이전 상태로 돌아갈 수 없습니다 </h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" onclick="finish()">확인</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">종료</button>
+                </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -488,7 +375,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Make new Project</h4>
             </div>
-            <form action="makeroom">
+            <form action="room" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-group has-success">
@@ -509,7 +396,6 @@
 </div>
 
 <div class="control-sidebar-bg"></div>
-</div>
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
 <!-- jQuery 2.1.4 -->
 <script src="js/jQuery-2.1.4.min.js"></script>
@@ -522,6 +408,7 @@
 <script src="js/icheck.min.js"></script>
 <!-- Page Script -->
 <script>
+    var idx;
     $(function () {
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
@@ -555,21 +442,29 @@
 
         });
     });
+    function save_idx(value){
+        idx=value;
+        console.log(idx);
+    }
     function leave(projectIdx) {
-        var param = "projectIdx=" + projectIdx;
         console.log("DELTE");
         $.ajax({
-            url: "deleteroom",
-            data: param,
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
+            url: "room/" + projectIdx,
+            type: 'DELETE',
             success: function () {
                 location.reload();
             }
         });
 
+    }
+    function finish(){
+        $.ajax({
+            url:"room/"+idx,
+            type:'PUT',
+            success:function(){
+                location.reload();
+            }
+        })
     }
 </script>
 

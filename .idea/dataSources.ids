@@ -6,365 +6,426 @@
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
-    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
       <schema id="1" name="hibernate"/>
-      <table id="2" parent="1" name="Appointment"/>
-      <table id="3" parent="1" name="Chatlog"/>
-      <table id="4" parent="1" name="FileDB"/>
-      <table id="5" parent="1" name="Minute"/>
-      <table id="6" parent="1" name="Participate"/>
-      <table id="7" parent="1" name="Project"/>
-      <table id="8" parent="1" name="Schedule"/>
-      <table id="9" parent="1" name="Todolist"/>
-      <table id="10" parent="1" name="User"/>
-      <table id="11" parent="1" name="Alarm"/>
-      <column id="12" parent="2" name="APPOINTMENTIDX">
+      <table id="2" parent="1" name="Alarm"/>
+      <table id="3" parent="1" name="Appointment"/>
+      <table id="4" parent="1" name="Chatlog"/>
+      <table id="5" parent="1" name="FileDB"/>
+      <table id="6" parent="1" name="Minute"/>
+      <table id="7" parent="1" name="Participate"/>
+      <table id="8" parent="1" name="Project"/>
+      <table id="9" parent="1" name="Schedule"/>
+      <table id="10" parent="1" name="Todolist"/>
+      <table id="11" parent="1" name="User"/>
+      <table id="12" parent="1" name="roles"/>
+      <table id="13" parent="1" name="user_roles"/>
+      <column id="14" parent="2" name="ALARMIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="13" parent="2" name="DATE">
-        <data-type>date</data-type>
-      </column>
-      <column id="14" parent="2" name="STATE">
+      <column id="15" parent="2" name="CONTENTID">
         <data-type>int(11)</data-type>
       </column>
-      <column id="15" parent="2" name="SCHEDULEIDX">
+      <column id="16" parent="2" name="DATE">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="17" parent="2" name="FILENAME">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="18" parent="2" name="FILEURL">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="19" parent="2" name="ISSHOW">
+        <data-type>tinyint(1)</data-type>
+      </column>
+      <column id="20" parent="2" name="ACTORIDX">
         <data-type>int(11)</data-type>
       </column>
-      <column id="16" parent="2" name="USERIDX">
+      <column id="21" parent="2" name="PROJECTIDX">
         <data-type>int(11)</data-type>
       </column>
-      <index id="17" parent="2" name="FKB7F037F36A1FA94">
-        <columns>SCHEDULEIDX</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="18" parent="2" name="FKB7F037F4053194">
+      <column id="22" parent="2" name="USERIDX">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="23" parent="2" name="FK3C68A314053194">
         <columns>USERIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="19" parent="2" name="PRIMARY">
+      <index id="24" parent="2" name="FK3C68A31AA68CB2A">
+        <columns>ACTORIDX</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="25" parent="2" name="FK3C68A31D5BFD206">
+        <columns>PROJECTIDX</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="26" parent="2" name="PRIMARY">
+        <columns>ALARMIDX</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="27" parent="2" name="FK3C68A314053194">
+        <columns>USERIDX</columns>
+        <ref-key>~.User.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="28" parent="2" name="FK3C68A31AA68CB2A">
+        <columns>ACTORIDX</columns>
+        <ref-key>~.User.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="29" parent="2" name="FK3C68A31D5BFD206">
+        <columns>PROJECTIDX</columns>
+        <ref-key>~.Project.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="30" parent="3" name="APPOINTMENTIDX">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="31" parent="3" name="DATE">
+        <data-type>date</data-type>
+      </column>
+      <column id="32" parent="3" name="STATE">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="33" parent="3" name="SCHEDULEIDX">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="34" parent="3" name="USERIDX">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="35" parent="3" name="FKB7F037F36A1FA94">
+        <columns>SCHEDULEIDX</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="36" parent="3" name="FKB7F037F4053194">
+        <columns>USERIDX</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="37" parent="3" name="PRIMARY">
         <columns>APPOINTMENTIDX</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="20" parent="2" name="FKB7F037F36A1FA94">
+      <foreign-key id="38" parent="3" name="FKB7F037F36A1FA94">
         <columns>SCHEDULEIDX</columns>
         <ref-key>~.Schedule.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="21" parent="2" name="FKB7F037F4053194">
+      <foreign-key id="39" parent="3" name="FKB7F037F4053194">
         <columns>USERIDX</columns>
         <ref-key>~.User.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="22" parent="3" name="ID">
+      <column id="40" parent="4" name="ID">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="23" parent="3" name="CONTENT">
+      <column id="41" parent="4" name="CONTENT">
         <data-type>text</data-type>
       </column>
-      <column id="24" parent="3" name="DATE">
+      <column id="42" parent="4" name="DATE">
         <data-type>datetime</data-type>
       </column>
-      <column id="25" parent="3" name="PROJECTIDX">
+      <column id="43" parent="4" name="PROJECTIDX">
         <data-type>int(11)</data-type>
       </column>
-      <key id="26" parent="3" name="PRIMARY">
+      <key id="44" parent="4" name="PRIMARY">
         <columns>ID</columns>
         <primary>1</primary>
       </key>
-      <column id="27" parent="4" name="FILEDBIDX">
+      <column id="45" parent="5" name="FILEDBIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="28" parent="4" name="DATE">
+      <column id="46" parent="5" name="DATE">
         <data-type>datetime</data-type>
       </column>
-      <column id="29" parent="4" name="ORIGINALNAME">
+      <column id="47" parent="5" name="ORIGINALNAME">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="30" parent="4" name="PATH">
+      <column id="48" parent="5" name="PATH">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="31" parent="4" name="STOREDNAME">
+      <column id="49" parent="5" name="STOREDNAME">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="32" parent="4" name="TYPE">
+      <column id="50" parent="5" name="TYPE">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="33" parent="4" name="PROJECTIDX">
+      <column id="51" parent="5" name="PROJECTIDX">
         <data-type>int(11)</data-type>
       </column>
-      <column id="34" parent="4" name="USERIDX">
+      <column id="52" parent="5" name="USERIDX">
         <data-type>int(11)</data-type>
       </column>
-      <index id="35" parent="4" name="FK7D6D7B1A4053194">
+      <column id="53" parent="5" name="TAG">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="54" parent="5" name="FK7D6D7B1A4053194">
         <columns>USERIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="36" parent="4" name="FK7D6D7B1AD5BFD206">
+      <index id="55" parent="5" name="FK7D6D7B1AD5BFD206">
         <columns>PROJECTIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="37" parent="4" name="PRIMARY">
+      <key id="56" parent="5" name="PRIMARY">
         <columns>FILEDBIDX</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="38" parent="4" name="FK7D6D7B1A4053194">
+      <foreign-key id="57" parent="5" name="FK7D6D7B1A4053194">
         <columns>USERIDX</columns>
         <ref-key>~.User.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="39" parent="4" name="FK7D6D7B1AD5BFD206">
+      <foreign-key id="58" parent="5" name="FK7D6D7B1AD5BFD206">
         <columns>PROJECTIDX</columns>
         <ref-key>~.Project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="40" parent="5" name="MINUTEIDX">
+      <column id="59" parent="6" name="MINUTEIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="41" parent="5" name="CONTENT">
+      <column id="60" parent="6" name="CONTENT">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="42" parent="5" name="DATE">
+      <column id="61" parent="6" name="DATE">
         <data-type>date</data-type>
       </column>
-      <column id="43" parent="5" name="PROJECTIDX">
+      <column id="62" parent="6" name="PROJECTIDX">
         <data-type>int(11)</data-type>
       </column>
-      <index id="44" parent="5" name="FK89609234D5BFD206">
+      <index id="63" parent="6" name="FK89609234D5BFD206">
         <columns>PROJECTIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="45" parent="5" name="PRIMARY">
+      <key id="64" parent="6" name="PRIMARY">
         <columns>MINUTEIDX</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="46" parent="5" name="FK89609234D5BFD206">
+      <foreign-key id="65" parent="6" name="FK89609234D5BFD206">
         <columns>PROJECTIDX</columns>
         <ref-key>~.Project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="47" parent="6" name="USERIDX">
+      <column id="66" parent="7" name="USERIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="48" parent="6" name="PROJECTIDX">
+      <column id="67" parent="7" name="PROJECTIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <index id="49" parent="6" name="FK912797BE4053194">
+      <index id="68" parent="7" name="FK912797BE4053194">
         <columns>USERIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="50" parent="6" name="FK912797BED5BFD206">
+      <index id="69" parent="7" name="FK912797BED5BFD206">
         <columns>PROJECTIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="51" parent="6" name="PRIMARY">
+      <key id="70" parent="7" name="PRIMARY">
         <columns>USERIDX
 PROJECTIDX</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="52" parent="6" name="FK912797BE4053194">
+      <foreign-key id="71" parent="7" name="FK912797BE4053194">
         <columns>USERIDX</columns>
         <ref-key>~.User.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="53" parent="6" name="FK912797BED5BFD206">
+      <foreign-key id="72" parent="7" name="FK912797BED5BFD206">
         <columns>PROJECTIDX</columns>
         <ref-key>~.Project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="54" parent="7" name="PROJECTIDX">
+      <column id="73" parent="8" name="PROJECTIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="55" parent="7" name="LEADERIDX">
+      <column id="74" parent="8" name="LEADERIDX">
         <data-type>int(11)</data-type>
       </column>
-      <column id="56" parent="7" name="MINUTE">
+      <column id="75" parent="8" name="MINUTE">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="57" parent="7" name="NAME">
+      <column id="76" parent="8" name="NAME">
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="58" parent="7" name="PRIMARY">
+      <column id="77" parent="8" name="PROCESSED">
+        <data-type>tinyint(1)</data-type>
+      </column>
+      <key id="78" parent="8" name="PRIMARY">
         <columns>PROJECTIDX</columns>
         <primary>1</primary>
       </key>
-      <column id="59" parent="8" name="SCHEDULEIDX">
+      <column id="79" parent="9" name="SCHEDULEIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="60" parent="8" name="CONTENT">
+      <column id="80" parent="9" name="CONTENT">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="61" parent="8" name="ENDDATE">
+      <column id="81" parent="9" name="ENDDATE">
         <data-type>date</data-type>
       </column>
-      <column id="62" parent="8" name="PLACE">
+      <column id="82" parent="9" name="PLACE">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="63" parent="8" name="STARTDATE">
+      <column id="83" parent="9" name="STARTDATE">
         <data-type>date</data-type>
       </column>
-      <column id="64" parent="8" name="STATE">
+      <column id="84" parent="9" name="STATE">
         <data-type>int(11)</data-type>
       </column>
-      <column id="65" parent="8" name="TIME">
+      <column id="85" parent="9" name="TIME">
         <data-type>time</data-type>
       </column>
-      <column id="66" parent="8" name="PROJECTIDX">
+      <column id="86" parent="9" name="PROJECTIDX">
         <data-type>int(11)</data-type>
       </column>
-      <index id="67" parent="8" name="FKDA40F6B7D5BFD206">
+      <index id="87" parent="9" name="FKDA40F6B7D5BFD206">
         <columns>PROJECTIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="68" parent="8" name="PRIMARY">
+      <key id="88" parent="9" name="PRIMARY">
         <columns>SCHEDULEIDX</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="69" parent="8" name="FKDA40F6B7D5BFD206">
+      <foreign-key id="89" parent="9" name="FKDA40F6B7D5BFD206">
         <columns>PROJECTIDX</columns>
         <ref-key>~.Project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="70" parent="9" name="TODOLISTIDX">
+      <column id="90" parent="10" name="TODOLISTIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="71" parent="9" name="CONTENT">
+      <column id="91" parent="10" name="CONTENT">
         <data-type>text</data-type>
       </column>
-      <column id="72" parent="9" name="ENDDATE">
+      <column id="92" parent="10" name="ENDDATE">
         <data-type>date</data-type>
       </column>
-      <column id="73" parent="9" name="OK">
+      <column id="93" parent="10" name="OK">
         <data-type>tinyint(1)</data-type>
       </column>
-      <column id="74" parent="9" name="STARTDATE">
+      <column id="94" parent="10" name="STARTDATE">
         <data-type>date</data-type>
       </column>
-      <column id="75" parent="9" name="PROJECTIDX">
+      <column id="95" parent="10" name="PROJECTIDX">
         <data-type>int(11)</data-type>
       </column>
-      <column id="76" parent="9" name="USERIDX">
+      <column id="96" parent="10" name="USERIDX">
         <data-type>int(11)</data-type>
       </column>
-      <index id="77" parent="9" name="FKB6A9EA044053194">
+      <index id="97" parent="10" name="FKB6A9EA044053194">
         <columns>USERIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="78" parent="9" name="FKB6A9EA04D5BFD206">
+      <index id="98" parent="10" name="FKB6A9EA04D5BFD206">
         <columns>PROJECTIDX</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="79" parent="9" name="PRIMARY">
+      <key id="99" parent="10" name="PRIMARY">
         <columns>TODOLISTIDX</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="80" parent="9" name="FKB6A9EA044053194">
+      <foreign-key id="100" parent="10" name="FKB6A9EA044053194">
         <columns>USERIDX</columns>
         <ref-key>~.User.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="81" parent="9" name="FKB6A9EA04D5BFD206">
+      <foreign-key id="101" parent="10" name="FKB6A9EA04D5BFD206">
         <columns>PROJECTIDX</columns>
         <ref-key>~.Project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="82" parent="10" name="USERIDX">
+      <column id="102" parent="11" name="USERIDX">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="83" parent="10" name="ID">
+      <column id="103" parent="11" name="ID">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="84" parent="10" name="IMG">
+      <column id="104" parent="11" name="IMG">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="85" parent="10" name="NAME">
+      <column id="105" parent="11" name="NAME">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="86" parent="10" name="PW">
+      <column id="106" parent="11" name="PW">
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="87" parent="10" name="PRIMARY">
+      <key id="107" parent="11" name="PRIMARY">
         <columns>USERIDX</columns>
         <primary>1</primary>
       </key>
-      <column id="88" parent="11" name="ALARMIDX">
+      <column id="108" parent="12" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="89" parent="11" name="CONTENTID">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="90" parent="11" name="DATE">
-        <data-type>datetime</data-type>
-      </column>
-      <column id="91" parent="11" name="FILENAME">
+      <column id="109" parent="12" name="role">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="92" parent="11" name="FILEURL">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="93" parent="11" name="ISSHOW">
-        <data-type>tinyint(1)</data-type>
-      </column>
-      <column id="94" parent="11" name="ACTORIDX">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="95" parent="11" name="PROJECTIDX">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="96" parent="11" name="USERIDX">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="97" parent="11" name="FK3C68A314053194">
-        <columns>USERIDX</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="98" parent="11" name="FK3C68A31AA68CB2A">
-        <columns>ACTORIDX</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="99" parent="11" name="FK3C68A31D5BFD206">
-        <columns>PROJECTIDX</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <key id="100" parent="11" name="PRIMARY">
-        <columns>ALARMIDX</columns>
+      <key id="110" parent="12" name="PRIMARY">
+        <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="101" parent="11" name="FK3C68A314053194">
-        <columns>USERIDX</columns>
+      <column id="111" parent="13" name="role_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="112" parent="13" name="useridx">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="113" parent="13" name="FK734299494053194">
+        <columns>useridx</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="114" parent="13" name="FK734299495EDA48B1">
+        <columns>role_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="115" parent="13" name="useridx">
+        <columns>useridx</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="116" parent="13" name="PRIMARY">
+        <columns>role_id
+useridx</columns>
+        <primary>1</primary>
+      </key>
+      <key id="117" parent="13" name="useridx">
+        <columns>useridx</columns>
+        <underlying-index>useridx</underlying-index>
+      </key>
+      <foreign-key id="118" parent="13" name="FK734299494053194">
+        <columns>useridx</columns>
         <ref-key>~.User.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="102" parent="11" name="FK3C68A31AA68CB2A">
-        <columns>ACTORIDX</columns>
-        <ref-key>~.User.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <foreign-key id="103" parent="11" name="FK3C68A31D5BFD206">
-        <columns>PROJECTIDX</columns>
-        <ref-key>~.Project.PRIMARY</ref-key>
+      <foreign-key id="119" parent="13" name="FK734299495EDA48B1">
+        <columns>role_id</columns>
+        <ref-key>~.roles.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>

@@ -86,7 +86,7 @@
       }
       return val;
     },
-    
+
     _processCaldata: function(caldata){
       var self = this;
       caldata = caldata || {};
@@ -314,6 +314,7 @@
             if(dayDataMonthYear) content += this._parseDataToDay( dayDataMonthYear, day );
             if(dayDataYear) content += this._parseDataToDay( dayDataYear, day );
             if(content !== '') inner += '<div class="fc-calendar-events">' + content + '</div>';
+
             ++day;
           } else {
             today = false;
@@ -325,7 +326,6 @@
           else cellClasses += 'fc-future ';
 
           if(content !== '') cellClasses += 'fc-content';
-          
           html += (cellClasses !== '' ? '<div class="' + cellClasses.trim() + '">' : '<div>') + inner + '</div>';
         }
 

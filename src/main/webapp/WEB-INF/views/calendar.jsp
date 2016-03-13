@@ -22,13 +22,13 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/wait1.css">
-    <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
-    <link rel="stylesheet" href="css/wait2.css">
+    <link rel="stylesheet" href="../css/wait1.css">
+    <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="../css/wait2.css">
 
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
+    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
     <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -38,22 +38,24 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" type="text/css" href="css/cal_demo.css"/>
-    <link rel="stylesheet" type="text/css" href="css/top_calendar.css"/>
-    <link rel="stylesheet" type="text/css" href="css/custom_2.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/cal_demo.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/top_calendar.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/custom_2.css"/>
     <!-- daterange picker -->
-    <link rel="stylesheet" href="css/daterangepicker-bs3.css">
-    <link rel="stylesheet" href="css/bootstrap-timepicker.min.css">
-    <link rel="stylesheet" href="css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <!-- daterange picker -->
-    <link rel="stylesheet" href="css/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
 
     <!-- iCheck for checkboxes and radio inputs -->
 
-    <link href="css/check_style.css" rel="stylesheet">
+    <link href="../css/check_style.css" rel="stylesheet">
 
     <!-- Select2 -->
-    <link rel="stylesheet" href="css/select2.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+        <!--gallery-->
+    <link rel="stylesheet" href="../css/ImageZoom.css"/>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -63,7 +65,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="dashboard/${user.id}" class="logo">
+        <a href="../dashboard/${user.id}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>T</b>eam</span>
             <!-- logo for regular state and mobile devices -->
@@ -80,20 +82,40 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
+                    <li data-toggle="modal" data-target="#photoModal">
+                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
+                            <i class="fa fa-picture-o"></i>
+                        </a>
+                    </li>
 
-                    <!-- Notifications Menu -->
-                    <!-- Notifications Menu -->
-                    <!-- Notifications Menu -->
+
+                    <li data-toggle="modal" data-target="#todoList" >
+                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li  onclick="location.href='../filemanager/${project.projectidx}';">
+                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+
+                    </li>
+
+                    <li onclick="location.href='../calendar/${project.projectidx}';">
+                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <li class="dropdown notifications-menu">
-                        <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">${alarm.size()}</span>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
+                            <i class="fa fa-bell-o"  id="alarm"></i>
+                            <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content" >You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -117,30 +139,31 @@
                             <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="${user.img}" class="user-image" alt="">
+                            <img src="../${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="${user.img}" class="img-circle" alt="User Image">
-
+                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:90px;height:90px">
+                                <p>
+                                    ${user.id}
+                                </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="userInfo"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
                                     </div>
 
                                 </div>
@@ -148,35 +171,27 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                <div class="pull-left">
+                                <!--<div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                </div>
+                                </div>-->
                                 <div class="pull-right">
-                                    <a href="../" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+
                 </ul>
             </div>
         </nav>
     </header>
-    <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
-
-        <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-
-            <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="${user.img}" class="img-circle" alt="User Image">
+                    <img src="../${user.img}" class="img-circle" alt="User Image" style="width:100px;height:100px">
                 </div>
-                <div class="pull-left info">
+                <div class="pull-left info dash-user">
                     <p>${user.id}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -185,30 +200,31 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header"> Main Menu</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview active">
-                    <a href="#"><i class="fa fa-user"></i><span>MyProfile</span></a>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=userInfo><i class="fa fa-key"></i> Change user Info</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i>Friends</a></li>
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
+                   
                     </ul>
                 </li>
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-usb"></i><span>Projectrooms</span></a>
+                    <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}">
-                                <a href="chat?projectIdx=${list.projectidx}" class="side-nav-button">name
+                                <a href="../chat/${list.projectidx}" class="side-nav-button">name
                                     : ${list.name}</a>
                             </c:forEach>
-                            <a href="projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
 
                     </ul>
                 </li>
+                
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -217,21 +233,10 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <!-- <section class="content-header">
-               <h1>
-                   Main Page
-                   <!-- <small>Optional description</small>
-               </h1>
-               <ol class="breadcrumb">
-                   <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                   <li class="active">Here</li>
-               </ol>
-          </section>-->
-
+        <section class="content-header">
+        </section>
         <!-- Main content -->
         <section class="content">
-
             <div class="row">
                 <!--calendar-->
                 <div class="col-md-6">
@@ -251,18 +256,16 @@
                             </div>
                         </div>
                     </section>
-
-
                 </div>
 
                 <section class="col-md-6 ">
                     <div class="box" style="height:470px">
                         <div class="box-header">
-                            <h3 class="box-title">Files</h3>
+                            <h3 class="box-title">파일들</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="file" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>Name</th>
@@ -287,16 +290,13 @@
 
 
                 </section>
-
-
             </div>
-
 
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header add-header">
-                            <h3 class="box-title"> Add Meeting Schedule <i class="fa fa-calendar-plus-o"
+                            <h3 class="box-title"> 미팅 일정 추가 <i class="fa fa-calendar-plus-o"
                                                                            data-toggle="modal"
                                                                            data-target="#myModal3"></i></h3>
 
@@ -321,7 +321,6 @@
                                     <th>To Do</th>
                                     <th>Place</th>
                                     <th>Time</th>
-                                    <th>Participation</th>
                                 </tr>
                                 <c:forEach var="list" items="${schedules}">
                                     <tr>
@@ -351,20 +350,6 @@
                                         <td>${list.content}</td>
                                         <td>${list.place}</td>
                                         <td>${list.time}</td>
-                                        <td>
-                                            <c:forEach var="ap" items="${list.appointments}">
-                                                <c:choose>
-                                                    <c:when test="${ap.state=='1' }">
-                                                        ${ap.date} : ${ap.user.name}
-                                                        <br>
-                                                    </c:when>
-                                                    <c:when test="${ap.state=='3' }">
-                                                        <strong>${ap.date} : ${ap.user.name}</strong>
-                                                        <br>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </td>
                                     </tr>
                                 </c:forEach>
 
@@ -373,8 +358,6 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box -->
-
-
                 </div>
             </div>
             <!--2row end-->
@@ -390,92 +373,13 @@
         <div class="pull-right hidden-xs">
             Teamkerbell
         </div>
-        <!-- Default to the left -->
-        <!-- <strong> &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
     </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
-        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <!-- Home tab content -->
-            <div class="tab-pane active" id="control-sidebar-home-tab">
-                <h3 class="control-sidebar-heading">Recent Activity</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                <p>Will be 23 on April 24th</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-                <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="">
-                            <h4 class="control-sidebar-subheading">
-                                Template Design
-                                <span class="label label-danger pull-right">70%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-            </div>
-            <!-- /.tab-pane -->
-            <!-- Stats tab content -->
-            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-            <!-- /.tab-pane -->
-            <!-- Settings tab content -->
-            <div class="tab-pane" id="control-sidebar-settings-tab">
-                <form method="post">
-                    <h3 class="control-sidebar-heading">General Settings</h3>
-
-                    <div class="form-group">
-                        <label class="control-sidebar-subheading">
-                            Report panel usage
-                            <input type="checkbox" class="pull-right" checked>
-                        </label>
-
-                        <p>
-                            Some information about this general settings option
-                        </p>
-                    </div>
-                    <!-- /.form-group -->
-                </form>
-            </div>
-            <!-- /.tab-pane -->
-        </div>
-    </aside>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED JS SCRIPTS -->
-
-
 <div class="control-sidebar-bg"></div>
-</div>
 <input id="reloadValue" type="hidden" name="reloadValue" value=""/>
 
 <!--register modal -->
@@ -500,9 +404,6 @@
                             </div>
                             <input type="text" class="form-control pull-right" id="reservation">
                         </div>
-
-
-                        <!-- /.input group -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -527,8 +428,6 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-
-
                         <div class="pull-right">
                             <label>Sign the Date range:</label>
                             <div class="input-group">
@@ -579,8 +478,6 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-
-
                         <strong>Date check</strong>
                         <br>
                         <div id="date-check" style="">
@@ -601,19 +498,7 @@
                                 <!-- /.input group -->
                             </div>
                             <!-- /.form group -->
-                        </div>
-
-                        <!-- <div class="form-group has-success">
-                             <label class="control-label" for="inputSuccess"><i class="fa fa-users"></i> Write the Real
-                                 Participation</label>
-                             <select class="form-control select2" multiple="multiple" data-placeholder="Select a person" style="width: 100%;">
-                                 <option>MinJi</option>
-                                 <option>Solip</option>
-                                 <option>Sieun</option>
-                                 <option>SeongAh</option>
-                                 <option>SolJi</option>
-                             </select>
-                         </div>-->
+                        </div>            
                         <div class="form-group has-success">
                             <label class="control-label" for="inputSuccess"><i class="fa fa-map-marker"></i> Write where
                                 you want to meet</label>
@@ -662,36 +547,116 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
+            </div>
+            <form>
+                <div class="modal-body">
+
+     <div class="box-body">
+            
+            <div class="gallery">
+
+                <c:forEach var="list" items="${img}">
+                    <a href="../loadImg?name=${list.storedname}" class="zoom">
+                        <img src="../loadImg?name=${list.storedname}" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                    </a>
+                </c:forEach>
+           
+			</div>
+      </div>
+                    
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Project To Do List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <ul class="todo-list pro-todo">
+                        <c:forEach var="list" items="${todolist}">
+                            <c:choose>
+                                <c:when test="${list.ok=='0'}">
+                                    <li class="done">
+                                </c:when>
+                                <c:otherwise>
+                                    <li>
+                                </c:otherwise>
+                            </c:choose>
+                            <img src="../${list.user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                        <span class="username">
+                          <span>${list.user.id}</span>
+                        </span>
+                            <span class="text" >${list.content}</span>
+                            <!-- Emphasis label -->
+                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}</small>
+                            <!-- General tools such as edit or delete-->
+                            </li>
+                        </c:forEach>
+                        <!-- todolist end-->
+                    </ul>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- jQuery 2.1.4 -->
-<script src="js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/app.min.js"></script>
-<script src="js/modernizr.custom.63321.js"></script>
-<script src="js/prettydate.min.js"></script>
-<script src="js/jquery.calendario.js"></script>
-<script src="js/data.js"></script>
-<script src="js/modernizr.custom.63321.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/modernizr.custom.63321.js"></script>
+<script src="../js/prettydate.min.js"></script>
+<script src="../js/jquery.calendario.js"></script>
+<script src="../js/modernizr.custom.63321.js"></script>
 <!-- date -->
-<script src="js/date.js"></script>
+<script src="../js/date.js"></script>
 <!--Table-->
-<script src="js/jquery.dataTables.min.js"></script>
-<script src="js/dataTables.bootstrap.min.js"></script>
+<script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/dataTables.bootstrap.min.js"></script>
 <!-- date-range-picker -->
-<script src="js/moment.min.js"></script>
-<script src="js/daterangepicker.js"></script>
+<script src="../js/moment.min.js"></script>
+<script src="../js/daterangepicker.js"></script>
 <!-- tag-->
-<script src="js/addtags.js"></script>
+<script src="../js/addtags.js"></script>
 <!-- bootstrap time picker -->
-<script src="js/bootstrap-timepicker.min.js"></script>
+<script src="../js/bootstrap-timepicker.min.js"></script>
 <!-- iCheck 1.0.1 -->
-<script src="js/jquery-checkbox.js" type="text/javascript"></script>
+<script src="../js/jquery-checkbox.js" type="text/javascript"></script>
 <!-- InputMask -->
-<script src="js/jquery.inputmask.js"></script>
+<script src="../js/jquery.inputmask.js"></script>
 <!-- Select -->
-<script src="js/select2.full.min.js"></script>
+<script src="../js/select2.full.min.js"></script>
+<!-- image -->
+<script type="text/javascript" src="../js/ImageZoom.js"></script>
 <script>
     var Events;
     var param = "projectIdx=" +${project.projectidx};
@@ -710,14 +675,16 @@
 
     $(function () {
         //Initialize Select Elements
+        $("a.zoom").imageZoom({scale: 0.75});
+        
         $(".select2").select2();
 
-        $("#example1").DataTable();
-        table = $('#example2').DataTable({
+        table = $('#file').DataTable({
             "ajax": {
+                "url": "../selectDate",
                 "type": "GET",
-                "url": "selectDate",
                 "data": function (d) {
+                    d.projectIdx=${project.projectidx};
                     d.date = clickDate;
                 },
                 "columns": [
@@ -734,25 +701,9 @@
             "info": true,
             "autoWidth": false
         });
-        $("#example2").on("click", "a", function () {
-            console.log($(this).val());
-        });
-        /*
-         'columns': [
-         {"data" : "metric_name"},
-         {"data" : "metric_type"},
-         {"data" : "metric_timestamp"},
-         {"data" : "metric_duration"}
-         ]
-         */
 
-        /* $(document).on('shown.calendar.calendario', function (e, instance) {
-         if (!instance) instance = cal;
-         var $cell = instance.getCell(new Date().getDate());
-         if ($cell.hasClass('fc-today')) $cell.trigger('click.calendario');
-         });*/
         $.ajax({
-            url: "getEvent",
+            url: "../getEvent",
             data: param,
             dataType: 'json',
             async: true,
@@ -761,7 +712,6 @@
             type: 'GET',
             success: function (data) {
                 Events = data;
-
                 var transEndEventNames = {
                             'WebkitTransition': 'webkitTransitionEnd',
                             'MozTransition': 'transitionend',
@@ -782,6 +732,7 @@
                                 }
                             },
                             caldata: Events,
+                            testdata: Events,
                             displayWeekAbbr: true,
                             events: 'click'
                         }),
@@ -881,7 +832,7 @@
         console.log(param);
 
         $.ajax({
-            url: "makeSchedule",
+            url: "../makeSchedule",
             data: param,
             dataType: 'text',
             async: true,
@@ -907,7 +858,7 @@
         var param = "userIdx=${user.useridx} &scheduleIdx=" + scheduleIdx + "&startdate=" + registerStartDate.format('YYYY-MM-DD') + "&enddate=" + registerEndDate.format('YYYY-MM-DD') + "&state=0";
 
         $.ajax({
-            url: "makeRegister",
+            url: "../makeRegister",
             data: param,
             dataType: 'text',
             async: true,
@@ -925,7 +876,7 @@
         var param = "scheduleIdx=" + _scheduleIdx;
         scheduleIdx = _scheduleIdx;
         $.ajax({
-            url: "loadTime",
+            url: "../loadTime",
             data: param,
             dataType: 'json',
             async: true,
@@ -950,7 +901,7 @@
         var place = $("#make_place").val();
         var param = "scheduleIdx=" + scheduleIdx + "&date=" + make_checkbox + "&time=" + make_time + "&place=" + place;
         $.ajax({
-            url: "makeMeeting",
+            url: "../makeMeeting",
             data: param,
             dataType: 'text',
             async: true,
@@ -967,9 +918,9 @@
         scheuldIdx = _scheduleIdx;
     }
     function finish() {
-        var param = "scheduleIdx=" + scheuldIdx + "&ids=" + $("#select").children("option:selected").val();
+        var param = "scheduleIdx=" + scheuldIdx + "&ids=" +$("#select").val();
         $.ajax({
-            url: "finishMeeting",
+            url: "../finishMeeting",
             data: param,
             dataType: 'text',
             async: true,
@@ -981,16 +932,19 @@
             }
         });
     }
-    /*function addFile(files) {
-     $("#tablebody").html('');
-     if (files != null) {
-     var size = files.length;
-     for (var i = 0; i < size; i++) {
-     $("#tablebody").append("<tr><td>" + files[i] + "</td> <td>sieun</td> <td>2016/12/15</td></tr>");
-     }
 
-     }
-     }*/
+
+    /* $("#example2").on("click", "a", function () {
+     console.log($(this).val());
+     });*/
+    /*
+     'columns': [
+     {"data" : "metric_name"},
+     {"data" : "metric_type"},
+     {"data" : "metric_timestamp"},
+     {"data" : "metric_duration"}
+     ]
+     */
 
 </script>
 </body>

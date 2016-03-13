@@ -1,7 +1,5 @@
 package com.shape.web.entity;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,6 +42,12 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<Appointment>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "useridx")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
+    )
+    private Role role;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -146,6 +150,14 @@ public class User {
 
     public String getPw() {
         return pw;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void setPw(String pw) {

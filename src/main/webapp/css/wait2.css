@@ -184,3 +184,88 @@ border-radius: 50%;
   border-bottom: 1px solid #000000;
   border-radius: 4px;
 }
+
+.btn-like{
+	background-color:#ffffff;
+	color:#000000;
+	border-color: #ccc;
+	    border-radius: 3px;
+	    margin-top: 4px;
+}
+.three-menu>span{
+	-webkit-font-smoothing: antialiased;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 400;
+}
+.user-block{
+    border-bottom: 1px solid #AAA5A5;
+    margin-bottom: 2px;
+    padding-bottom: 5px;
+}
+.todo-list>li>img{
+	width:40px;
+	height:40px;
+}
+.pro-todo>li{
+	background-color:#ffffff;
+	border-bottom: 1px solid #e6e7e8;;
+   border-left:transparent;
+}
+.pro-todo{
+	max-height: 500px;
+	overfloat:auto;
+}
+.dash-nav>i{
+	color:#C0C2C3;
+}
+.dash-icon:hover{
+	    background-color: #3c8dbc;
+}
+.dash-nav:hover{
+	    background-color: #3c8dbc;
+}
+.fairy{
+	width:300px;height:300px;margin:140px;margin-right:50px;margin-left:190px;
+
+}
+    .login-fa-user{
+      color: #ddd;
+      border: solid 3px;
+      padding: 10%;
+      border-radius: 40% 40% 40% 40%;
+    }
+    .fb-logo{
+      color:#3B5998;
+    }
+    .gg-logo{
+      color:#dd4b39;
+    }
+   .entry_log_form{
+   width:40%;height:500px;float:right; margin-top:50px;margin-bottom:50px;margin-right:70px;padding-right:50px;
+   }
+   .first_log_form{
+   margin-top:50px;margin-bottom:20px;
+   }
+   .second-log-form{
+   margin-top:30px;margin-bottom:30px;
+   }
+   .log_page{
+   
+   background-color:#ffffff;
+   }
+   .file-message-icon{
+   border:solid 1px;border-radius:40% 40%;margin:4px;padding:8px;
+   }
+   .file-massage-name{
+   margin-left:4px;
+   }
+   span.file_name_tag{
+   color:#ffffff;
+   }
+   span.file_name_tag:hover{
+   color:#ffffff;
+   }
+   img.notime {
+    padding-left: 15%;
+    margin-bottom: 8.4%;
+}

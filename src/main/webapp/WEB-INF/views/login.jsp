@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" href="css/wait2.css">
   <style>
-    .fa-user{
+    .login-fa-user{
       color: #ddd;
       border: solid 3px;
       padding: 10%;
@@ -29,72 +29,48 @@
     .gg-logo{
       color:#dd4b39;
     }
-    #log:hover{
-      content:url('img/Log1.png');
-    }
-    #sig:hover{
-      content:url('img/sig1.png');
-    }
-    #fb:hover{
-      content:url('img/fb1.png');
-    }
-    #gg:hover{
-      content:url('img/gg1.png');
-    }
-
+   
   </style>
 </head>
-<body style="background-color:#FDF3EB">
-<!--
-	<div class="row">
-	<img src="back.png" style="width:100%">
-	</div>	-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
-<div class="row" style="text-align:center">
-  <img src="img/temker.png" style="width:50%;">
-  <br>
-  <div class="row">
-    <img src="img/log2.png" id="log"  data-toggle="modal" data-target="#loginModal" style="width:150px; ">
-    <img src="img/sig2.png" id="sig"  data-toggle="modal" data-target="#signupModal" style="width:175px;">
-    <img src="img/fb2.png" id="fb"  data-toggle="modal" data-target="#facebookModal" style="width:150px; margin-right:1%;">
-    <img src="img/gg2.png" id="gg"  data-toggle="modal" data-target="#googleModal" style="width:138px;height:153px;">
-  </div>
+    <!-- Main Header -->
+    <header class="main-header">
 
-</div>
+        <!-- Logo -->
+        <a href="../dashboard/${user.id}" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>T</b>eam</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Teamker</b>Bell</span>
+        </a>
 
-<!--
-<div class=row>
-<div class="col-xs-8">
-<img src="tem.png" style="height:350px;margin-bottom:-50px;margin-left:10%; margin-top:-70px">
-<img src="tem.png" style=" width:100%;height:350px;margin-bottom:-50px;margin-left:10%; margin-top:-40px">
-</div>
-<div class="col-xs-4">
-<img src="sign.png" data-toggle="modal" data-target="#myModal3"><br>
-<img src="login.png" data-toggle="modal" data-target="#myModal2">
-<img src="gg.png" style="margin-top:10px;hover{url:login2.png}" data-toggle="modal" data-target="#myModal5">
-<img src="fb.png"style="margin-top:15px" data-toggle="modal" data-target="#myModal4">
-</div>
-</div>
-
-  -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-  <div class="modal-dialog" role="document">
-
-    <div class="login-box">
-      <div class="login-box-body">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <div class="login-logo" style="text-align:center">
-          <i class="fa fa-user fa-2x"></i>
-        </div>
-        <p class="login-box-msg">Sign in to start your session</p>
-
-        <form action="loginok" method="post">
-          <div class="form-group has-feedback">
-            <input type="ID" name="userId" class="form-control" placeholder="ID">
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+               
+                <ul class="nav navbar-nav">
+				
+				
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="row log_page">
+    
+    <img class="fairy" src="img/fairy.png">
+    <div class="entry_log_form"role="document">
+     <h1>Sign in to start your session</h1>
+      <form action="loginprocess" method="post" id="loginForm">
+    	<div class="form-group has-feedback first_log_form">
+            <input style="height:45px" type="ID" name="userId" class="form-control log_input" placeholder="ID">
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
-          <div class="form-group has-feedback">
-            <input type="password" name="pw" class="form-control" placeholder="Password">
+          
+          <div class="form-group has-feedback second-log-form">
+            <input style="height:45px" type="password" name="pw" class="form-control log_input" placeholder="Password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
@@ -111,38 +87,41 @@
             </div>
             <!-- /.col -->
           </div>
-        </form>
-
-        <div class="social-auth-links text-center">
-
-        </div>
-      </div>
-
+          </form>
+          <div class="social-auth-links text-center" data-toggle="modal" data-target="#signupModal">
+          <a  class="btn btn-block btn-social btn-twitter btn-flat"><i class="fa fa-sign-in"></i> Sign up</a>
+          </div>
+          <div class="social-auth-links text-center" data-toggle="modal" data-target="#facebookModal">
+          <a  class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+            Facebook</a>
+     	</div>
+    	 <div class="social-auth-links text-center"  data-toggle="modal" data-target="#googleModal">
+          <a class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using
+            Google+</a>
+       	 </div>
     </div>
-  </div>
+    
+    </div>
 </div>
-
 
 <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
-
-
     <div class="register-box">
 
       <div class="register-box-body">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <div class="login-logo" style="text-align:center">
-          <i class="fa fa-user fa-1x"></i>
+          <i class="fa fa-user fa-1x login-fa-user"></i>
         </div>
         <p class="login-box-msg">Register a new membership</p>
 
-        <form action="register" method="post" id="registerForm">
+        <form action="register" method="post" id="registerForm" enctype="multipart/form-data" onsubmit="register()">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="name" placeholder="Full name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="id" class="form-control" name="userId" placeholder="ID">
+            <input type="id" class="form-control" name="id" placeholder="ID">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
@@ -153,6 +132,12 @@
             <input type="password" class="form-control" id="pw2" placeholder="Retype password">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
+          <div class="form-group">
+            <label for="exampleInputFile">Select image</label>
+            <input type="file" name="file" onchange="previewImage(this,'preimage')">
+          </div>
+          <div id='preimage' style="width:100px;height:100px"></div>
+
           <div class="row">
             <div class="col-xs-8">
               <div class="checkbox icheck">
@@ -163,7 +148,7 @@
             </div>
             <!-- /.col -->
             <div class="col-xs-4">
-              <button type="button" class="btn btn-primary btn-block btn-flat" onclick="register()">Register</button>
+              <button type="submit" class="btn btn-primary btn-block btn-flat" >Register</button>
             </div>
             <!-- /.col -->
           </div>
@@ -282,13 +267,27 @@
 <!-- AdminLTE App -->
 <script src="js/app.min.js"></script>
 <script src="js/date.js"></script>
+<script src="js/previewimage.js"></script>
 <script>
   function register(){
    if(($("#pw").val())==($("#pw2").val())){
      if($("#check").prop('checked')==true){
-       $("#registerForm").submit();
+       /*var form = $("#registerForm")[0];
+       var formData = new FormData(form);
+       $.ajax({
+         url: "register",
+         type: "POST",
+         data: formData,
+         processData: false,
+         contentType: false,
+         success: function () {
+
+         }
+       });*/
+         return true;
      }
    }
+      return false;
   }
 
 </script>
