@@ -64,14 +64,14 @@
                 <ul class="nav navbar-nav">
                
                 <li data-toggle="modal" data-target="#photoModal">
-            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Images Gallery">
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
               	<i class="fa fa-picture-o"></i>
             	</a>
             	</li>
             	
             	
             	<li data-toggle="modal" data-target="#todoList" >
-            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="to do List">
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo list">
               	<i class="fa fa-edit"></i>
             	</a>
             	</li>
