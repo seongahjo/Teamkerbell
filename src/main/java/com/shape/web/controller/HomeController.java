@@ -1,6 +1,5 @@
 package com.shape.web.controller;
 
-import com.nhncorp.mods.socket.io.impl.transports.Http;
 import com.shape.web.VO.MeetingMember;
 import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
@@ -11,17 +10,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Handles requests for the application home page.
@@ -51,8 +49,8 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
     public String Home(Authentication authentication) {
-        if(authentication==null)
-        return "login";
+        if (authentication == null)
+            return "login";
         return "redirect:/dashboard";
     }
 
@@ -62,11 +60,12 @@ public class HomeController {
         return mv;
     }
 
-    @RequestMapping(value="/dashboard", method=RequestMethod.GET)
-    public String goDashboard(Authentication authentication){
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String goDashboard(Authentication authentication) {
         return "redirect:/dashboard/" + authentication.getName();
 
     }
+
     @RequestMapping(value = "/userInfo/{userId}", method = RequestMethod.GET)
     public ModelAndView UserInfo(@PathVariable("userId") String userId) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
@@ -102,15 +101,15 @@ public class HomeController {
         // 보안처리
         ModelAndView mv = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String time=formatter.format(new Date());
-        User user=us.getById(authentication.getName());
+        String time = formatter.format(new Date());
+        User user = us.getById(authentication.getName());
         int userIdx = user.getUseridx();
         /*
         공통된 객체 반환
          */
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
-        if(lpj.contains(project)) {
+        if (lpj.contains(project)) {
             List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
 
             List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
@@ -181,8 +180,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx,Authentication authentication) {
-        User user=us.getById(authentication.getName()); //유저 객체 반환
+    public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
+        User user = us.getById(authentication.getName()); //유저 객체 반환
         int userIdx = user.getUseridx();
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
@@ -200,13 +199,13 @@ public class HomeController {
         mv.addObject("alarm", la);
         mv.addObject("img", img);
         mv.addObject("todolist", lt);
-        mv.addObject("date",new Date());
+        mv.addObject("date", new Date());
         return mv;
     }
 
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
     public ModelAndView manager(Authentication authentication) {
-        User user=us.getById(authentication.getName()); //유저 객체 반환
+        User user = us.getById(authentication.getName()); //유저 객체 반환
         int userIdx = user.getUseridx();
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
 
@@ -226,7 +225,7 @@ public class HomeController {
     @RequestMapping(value = "/filemanager/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
         Project project = pjs.get(projectIdx);
-        User user=us.getById(authentication.getName()); //유저 객체 반환
+        User user = us.getById(authentication.getName()); //유저 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
         List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
         List<FileDB> lfd = pjs.getFiles(project); // 파일 받아오기
@@ -234,7 +233,7 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("/filemanager");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
-        mv.addObject("project",project);
+        mv.addObject("project", project);
         mv.addObject("files", lfd);
         mv.addObject("img", img);
         mv.addObject("todolist", lt);
