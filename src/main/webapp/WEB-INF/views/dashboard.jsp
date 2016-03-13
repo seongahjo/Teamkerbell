@@ -246,7 +246,7 @@
                         <div class="box-header">
                             <i class="fa fa-comments-o"></i>
 
-                            <h3 class="box-title">TimeLine</h3>
+                            <h3 class="box-title">타임라인</h3>
 
                             <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
                                 <div class="btn-group" data-toggle="btn-toggle">
@@ -313,13 +313,15 @@
 
                                     </c:when>
                                     <c:otherwise>
-                                    <img src="../img/Notime.png">
                                     </c:otherwise>
                                 </c:choose>
 
                             </div>
                             <!-- /.chat -->
                         </c:forEach>
+                        <c:if test="${timeline.size()==0}">
+                        <img src="../img/Notime.png">
+                        </c:if>
                     </div>
                 </div>
                 <!-- TOdo -->
@@ -328,7 +330,7 @@
                         <div class="box-header">
                             <i class="ion ion-clipboard"></i>
 
-                            <h3 class="box-title">To Do List</h3>
+                            <h3 class="box-title">할 일</h3>
 
                             <div class="box-tools pull-right vec">
                                 <ul class="pagination pagination-sm inline vec">
@@ -382,7 +384,7 @@
                     <div class="box">
                         <div class="box-header add-header">
                             <i class="fa fa-calendar-plus-o"></i>
-                            <h3 class="box-title"> Register Schedule</h3>
+                            <h3 class="box-title"> 확인해야하는 스케쥴</h3>
 
                             <div class="box-tools">
 
