@@ -82,43 +82,40 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
-                    <!-- Notifications Menu -->
                     <li data-toggle="modal" data-target="#photoModal">
-            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Images Gallery">
-              	<i class="fa fa-picture-o"></i>
-            	</a>
-            	</li>
-            	
-            	
-            	<li data-toggle="modal" data-target="#todoList" >
-            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="to do List">
-              	<i class="fa fa-edit"></i>
-            	</a>
-            	</li>
+                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
+                            <i class="fa fa-picture-o"></i>
+                        </a>
+                    </li>
 
-            	 <li  onclick="location.href='../filemanager/${project.projectidx}';">
-            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
-              	<i class="fa fa-file-text-o"></i>
-            	</a>
-            	
-            	</li>
-            	
-            	 <li onclick="location.href='../chat/${project.projectidx}';">
-            	<a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Goback to Project">
-              	<i class="fa fa-undo"></i>
-            	</a>
-            	</li>
+
+                    <li data-toggle="modal" data-target="#todoList" >
+                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li  onclick="location.href='../filemanager/${project.projectidx}';">
+                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+
+                    </li>
+
+                    <li onclick="location.href='../calendar/${project.projectidx}';">
+                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <li class="dropdown notifications-menu">
-                    
-                        <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">${alarm.size()}</span>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
+                            <i class="fa fa-bell-o"  id="alarm"></i>
+                            <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content" >You have ${alarm.size()} notifications</li>
                             <li>
-                                <ul class="menu" style="max-height:400px;overflow-y:auto">
+                                <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
                                         <li id="alarm-${list.alarmidx}">
                                             <a href="#">
@@ -139,23 +136,22 @@
 
                                 </ul>
                             </li>
-                            <li class="footer"> 
+                            <li class="footer"> <!--<a href="#">View all</a></li>-->
                         </ul>
                     </li>
-
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="../${user.img}" class="user-image" alt=""style="width:25px;height:25px">
+                            <img src="../${user.img}" class="user-image" alt="" style="width:25px;height:25px">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">${user.id}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
+                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:90px;height:90px">
 
                             </li>
                             <!-- Menu Body -->
@@ -174,7 +170,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="../userInfo/${user.name}" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="../logout" class="btn btn-default btn-flat">Sign out</a>

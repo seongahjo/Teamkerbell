@@ -71,7 +71,7 @@
             	
             	
             	<li data-toggle="modal" data-target="#todoList" >
-            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo list">
+            	<a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
               	<i class="fa fa-edit"></i>
             	</a>
             	</li>
@@ -151,7 +151,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="../userInfo/${user.name}" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
