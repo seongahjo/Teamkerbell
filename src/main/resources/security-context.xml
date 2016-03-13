@@ -12,6 +12,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 
     <http auto-config="true">
         <intercept-url pattern="/"  access="permitAll" />
+        <intercept-url pattern="/register"  access="permitAll" />
         <intercept-url pattern="/loginprocess"  access="permitAll" />
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />

@@ -50,8 +50,10 @@ public class HomeController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
-    public String Home(Locale locale, Model model) {
+    public String Home(Authentication authentication) {
+        if(authentication==null)
         return "login";
+        return "redirect:/dashboard";
     }
 
     @RequestMapping(value = "/joinus", method = RequestMethod.GET)

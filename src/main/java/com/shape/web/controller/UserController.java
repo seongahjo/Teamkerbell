@@ -33,8 +33,7 @@ public class UserController {
     FileDBService fs;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody
-    public void register(@ModelAttribute("tempUser") User tempUser, @RequestParam("file") MultipartFile file) {
+    public String register(@ModelAttribute("tempUser") User tempUser, @RequestParam("file") MultipartFile file) {
         User user = us.getById(tempUser.getId());
         if(user==null)
             user=new User();
@@ -44,6 +43,7 @@ public class UserController {
         if(!tempUser.getPw().equals("")) // 비밀번호란이 공란이 아닐경우
         user.setPw(tempUser.getPw());
         user.setRole(new Role("user"));
+        logger.info("REGISTER START");
         try {
             String filePath = "img";
             String originalFileName = file.getOriginalFilename(); // 파일 이름
@@ -61,6 +61,7 @@ public class UserController {
 
             filedb.setUser(user);
             us.save(user);
+            logger.info("Register Success "+ user.getName());
         } catch (IOException ioe) {
 
         } catch (StringIndexOutOfBoundsException e) {
@@ -68,7 +69,9 @@ public class UserController {
                 user.setImg("img/default.jpg");
             //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
             us.save(user);
+            logger.info("Register Success "+ user.getName());
         }
+        return "redirect:/";
     }
 
 

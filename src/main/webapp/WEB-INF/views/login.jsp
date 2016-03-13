@@ -115,7 +115,7 @@
         </div>
         <p class="login-box-msg">Register a new membership</p>
 
-        <form action="register" method="post" id="registerForm" enctype="multipart/form-data">
+        <form action="register" method="post" id="registerForm" enctype="multipart/form-data" onsubmit="register()">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="name" placeholder="Full name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -148,7 +148,7 @@
             </div>
             <!-- /.col -->
             <div class="col-xs-4">
-              <button type="button" class="btn btn-primary btn-block btn-flat" onclick="register()">Register</button>
+              <button type="submit" class="btn btn-primary btn-block btn-flat" >Register</button>
             </div>
             <!-- /.col -->
           </div>
@@ -272,7 +272,7 @@
   function register(){
    if(($("#pw").val())==($("#pw2").val())){
      if($("#check").prop('checked')==true){
-       var form = $("#registerForm")[0];
+       /*var form = $("#registerForm")[0];
        var formData = new FormData(form);
        $.ajax({
          url: "register",
@@ -281,11 +281,13 @@
          processData: false,
          contentType: false,
          success: function () {
-           location.reload();
+
          }
-       });
+       });*/
+         return true;
      }
    }
+      return false;
   }
 
 </script>
