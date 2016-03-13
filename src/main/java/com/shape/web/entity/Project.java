@@ -127,4 +127,11 @@ public class Project {
     public void setProcessed(boolean processed) {
         this.processed = processed;
     }
+
+    @Override
+    public boolean equals(Object o ){
+        Project pj=(Project)o;
+        return this.projectidx == pj.getProjectidx();
+    }
+
 }

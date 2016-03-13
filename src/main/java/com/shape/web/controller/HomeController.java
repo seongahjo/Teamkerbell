@@ -106,73 +106,76 @@ public class HomeController {
         /*
         공통된 객체 반환
          */
-        List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
-        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
-        List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
-        List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
-        if(project.isProcessed()) {
-            List<Minute> lm = pjs.getMinutes(project); // 회의록 객체 반환
-            List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
-            project.setMinute(" "); //회의록 초기화
-            for (Minute temp : lm)
+        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
+        if(lpj.contains(project)) {
+            List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
+
+            List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
+            List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
+            if (project.isProcessed()) {
+                List<Minute> lm = pjs.getMinutes(project); // 회의록 객체 반환
+                List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
+                project.setMinute(" "); //회의록 초기화
+                for (Minute temp : lm)
                 /*
                 Today에 해당하는 회의록 찾기
                  */
-                if (time.equals((temp.getDate().toString()))) {
-                    project.setMinute(temp.getContent());
-                    lm.remove(temp);
-                    break;
-                }
-            String foldername = FileUtil.getFoldername(projectIdx, null);
-            //folder name 받기
-            File file = new File(foldername);
-            if (!file.exists())
-                if (file.mkdirs())
-                    logger.info("폴더 새로 생성");
+                    if (time.equals((temp.getDate().toString()))) {
+                        project.setMinute(temp.getContent());
+                        lm.remove(temp);
+                        break;
+                    }
+                String foldername = FileUtil.getFoldername(projectIdx, null);
+                //folder name 받기
+                File file = new File(foldername);
+                if (!file.exists())
+                    if (file.mkdirs())
+                        logger.info("폴더 새로 생성");
 
-            mv = new ModelAndView("/project");
-            mv.addObject("projects", lpj);
-            mv.addObject("users", lu);
-            mv.addObject("user", user);
-            mv.addObject("alarm", la);
-            mv.addObject("minutes", lm);
-            mv.addObject("project", project);
-            mv.addObject("img", img);
-            mv.addObject("todolist", lt);
-        }
-        else{
-            List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
-            List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
-            List<MemberGraph> lg= pjs.getMemberGraph(project); // 멤버 참석율 반환
-            List<String> username= new ArrayList<>();
-            List<Integer> participant =new ArrayList<>();
-            List<Integer> percentage = new ArrayList<>();
-            for(MemberGraph temp : lg){ // 그래프 값 분리
-                username.add("\""+temp.getName()+"\"");
-                if(temp.getParticipate()!=null)
-                    participant.add(temp.getParticipate().intValue()); //참가율
-                else
-                    participant.add(0);
-                if(temp.getPercentage()!=null)
-                    percentage.add(temp.getPercentage().intValue()); //달성율
-                else
-                    percentage.add(0);
+                mv = new ModelAndView("/project");
+                mv.addObject("projects", lpj);
+                mv.addObject("users", lu);
+                mv.addObject("user", user);
+                mv.addObject("alarm", la);
+                mv.addObject("minutes", lm);
+                mv.addObject("project", project);
+                mv.addObject("img", img);
+                mv.addObject("todolist", lt);
+            } else {
+                List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
+                List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
+                List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
+                List<String> username = new ArrayList<>();
+                List<Integer> participant = new ArrayList<>();
+                List<Integer> percentage = new ArrayList<>();
+                for (MemberGraph temp : lg) { // 그래프 값 분리
+                    username.add("\"" + temp.getName() + "\"");
+                    if (temp.getParticipate() != null)
+                        participant.add(temp.getParticipate().intValue()); //참가율
+                    else
+                        participant.add(0);
+                    if (temp.getPercentage() != null)
+                        percentage.add(temp.getPercentage().intValue()); //달성율
+                    else
+                        percentage.add(0);
+                }
+                mv = new ModelAndView("/document");
+                mv.addObject("user", user);
+                mv.addObject("schedules", ls);
+                mv.addObject("projects", lpj);
+                mv.addObject("project", project);
+                mv.addObject("users", lu);
+                mv.addObject("alarm", la);
+                mv.addObject("todolist", lt);
+                mv.addObject("meetingmember", lm);
+                mv.addObject("usersname", username);
+                mv.addObject("participant", participant);
+                mv.addObject("percentage", percentage);
             }
-            mv = new ModelAndView("/document");
-            mv.addObject("user", user);
-            mv.addObject("schedules", ls);
-            mv.addObject("projects", lpj);
-            mv.addObject("project", project);
-            mv.addObject("users", lu);
-            mv.addObject("alarm", la);
-            mv.addObject("todolist", lt);
-            mv.addObject("meetingmember",lm);
-            mv.addObject("usersname",username);
-            mv.addObject("participant",participant);
-            mv.addObject("percentage",percentage);
+            return mv;
         }
-        return mv;
+        return null;
     }
 
     @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
@@ -195,6 +198,7 @@ public class HomeController {
         mv.addObject("alarm", la);
         mv.addObject("img", img);
         mv.addObject("todolist", lt);
+        mv.addObject("date",new Date());
         return mv;
     }
 

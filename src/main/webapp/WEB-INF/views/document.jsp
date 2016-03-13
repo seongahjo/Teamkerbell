@@ -240,7 +240,7 @@
                 <div class="col-xs-12">
                     <h2 class="page-header">
                         <i class="fa fa-globe"></i> ${project.name}
-                        <small class="pull-right">Date :</small>
+                        <small class="pull-right">Date : ${date}</small>
                     </h2>
                 </div>
                 <!-- /.col -->

@@ -232,10 +232,10 @@
                 <div class="col-md-10">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"> Project room List</h3>
+                            <h3 class="box-title"> 과제방 목록</h3>
                             <div class="box-tools pull-left">
                                 <button type="button" class="btn btn-success pull-left" data-toggle="modal"
-                                        data-target="#AddModal">Add Project
+                                        data-target="#AddModal">프로젝트 추가
                                 </button>
                             </div>
                             <!-- /.box-tools -->
@@ -260,17 +260,29 @@
 
                                             <td class="mailbox-attachment">
                                                 <div class="btn-group pull-right">
+
                                                     <!--     <a href="document/${list.projectidx}">-->
+                                                    <c:choose>
+                                                    <c:when test="${list.processed!='0'}">
                                                     <button type="button" class="btn btn-default btn-flat"
+                                                            onclick="save_idx('${list.projectidx}')"
                                                             data-toggle="modal" data-target="#completePJ"><i
-                                                            class="fa fa-comment"></i>Doc
+                                                            class="fa fa-comment" ></i>Doc
                                                     </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button type="button" class="btn btn-default btn-flat"
+                                                                disabled><i
+                                                                class="fa fa-comment" ></i>Doc
+                                                        </button>
+                                                    </c:otherwise>
+                                                    </c:choose>
                                                     <!--  </a>-->
-                                                    <a href="#">
+                                                   <!-- <a href="#">
                                                         <button type="button" class="btn btn-default btn-flat"><i
                                                                 class="fa fa-gears"></i>Edit
                                                         </button>
-                                                    </a>
+                                                    </a>-->
                                                     <a href="#">
                                                         <button type="button" class="btn btn-default btn-flat"
                                                                 onclick="leave('${list.projectidx}')"><i
@@ -338,16 +350,13 @@
                 <div class="modal-body">
 
                     <div class="box-body">
-                        <h4> If you Press the "Make Document" button, </h4>
-                        <h4> This Project will be finished. </h4>
-
+                        <h4> 프로젝트를 종료합니다 </h4>
+                        <h4> 확인 버튼을 누르시면 이전 상태로 돌아갈 수 없습니다 </h4>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="document/${list.projectidx}">
-                        <button type="submit" class="btn btn-primary" onclick="finish()">Make Document</button>
-                    </a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="finish()">확인</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">종료</button>
                 </div>
         </div>
     </div>
@@ -395,6 +404,7 @@
 <script src="js/icheck.min.js"></script>
 <!-- Page Script -->
 <script>
+    var idx;
     $(function () {
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
@@ -428,6 +438,10 @@
 
         });
     });
+    function save_idx(value){
+        idx=value;
+        console.log(idx);
+    }
     function leave(projectIdx) {
         console.log("DELTE");
         $.ajax({
@@ -437,15 +451,16 @@
                 location.reload();
             }
         });
-        function finish(projectIdx){
-            $.ajax({
-                url:"room/"+projectIdx,
-                type:'PUT',
-                success:function(){
-                    location.reload();
-                }
-            })
-        }
+
+    }
+    function finish(){
+        $.ajax({
+            url:"room/"+idx,
+            type:'PUT',
+            success:function(){
+                location.reload();
+            }
+        })
     }
 </script>
 
