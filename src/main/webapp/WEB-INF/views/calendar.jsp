@@ -321,7 +321,6 @@
                                     <th>To Do</th>
                                     <th>Place</th>
                                     <th>Time</th>
-                                    <th>ConfirmDate</th>
                                 </tr>
                                 <c:forEach var="list" items="${schedules}">
                                     <tr>
@@ -351,20 +350,6 @@
                                         <td>${list.content}</td>
                                         <td>${list.place}</td>
                                         <td>${list.time}</td>
-                                        <td>
-                                            <c:forEach var="ap" items="${list.appointments}">
-                                                <c:choose>
-                                                    <c:when test="${ap.state=='1' }">
-                                                        ${ap.date} : ${ap.user.name}
-                                                        <br>
-                                                    </c:when>
-                                                    <c:when test="${ap.state=='3' }">
-                                                        <strong>${ap.date} </strong>
-                                                        <br>
-                                                    </c:when>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </td>
                                     </tr>
                                 </c:forEach>
 
