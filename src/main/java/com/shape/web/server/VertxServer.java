@@ -47,9 +47,9 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"), event.getString("userId"), event.getString("userName"), event.getString("userImg"), socket.getId());
                 Clients.put(socket.getId(), su); // Socket에 해당하는 Room저장
                 if (!projectIdx.equals("")) {
-                    logger.info("방 아이디 : " + projectIdx + " 접속 " + socket.getId());
+                    logger.info("Room Idx : " + projectIdx + " Connect " + socket.getId());
                     if (Rooms.get(projectIdx) != null)//방이 존재할경우
-                        logger.info("방 접속 ");
+                        logger.info("Entering room succeed");
                     else {
                         //방이 존재하지 않을경우
                         Rooms.put(projectIdx, -1);

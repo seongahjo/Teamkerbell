@@ -25,6 +25,7 @@ public class AlarmService {
     public Alarm get(Integer id) {
         Session session=sessionFactory.openSession();
         Alarm alarm=(Alarm)session.get(Alarm.class,id);
+        session.close();
         return alarm;
     }
     public Alarm save(Alarm Alarm) {

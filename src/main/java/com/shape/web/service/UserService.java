@@ -161,15 +161,6 @@ public class UserService implements UserDetailsService {
      */
     public Alarm getOneAlarm(Integer userIdx) {
         Session session = sessionFactory.openSession();
-       /* Alarm alarm=(Alarm)session.createCriteria(Alarm.class)
-                .createAlias("user","user")
-                .add(Restrictions.eq("user.useridx",userIdx))
-                .add(Restrictions.eq("isshow",true))
-                .add(Restrictions.eq("contentid",0))
-                .addOrder(Order.asc("date"))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setMaxResults(1)
-                .uniqueResult();*/
         Query query = session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  with User.useridx = :useridx where  Alarm.contentid=0 and Alarm.isshow=true order by Alarm.date desc");
         query.setParameter("useridx", userIdx, StandardBasicTypes.INTEGER);
         query.setMaxResults(1);
@@ -183,15 +174,6 @@ public class UserService implements UserDetailsService {
      */
     public List<Alarm> getTimeline(User user) {
         Session session = sessionFactory.openSession();
-       /* List<Alarm> la=session.createCriteria(Alarm.class)
-                .createAlias("user","user")
-                .add(Restrictions.eq("user.useridx",user.getUseridx()))
-                .add(Restrictions.eq("isshow",true))
-                .add(Restrictions.ne("contentid",0))
-                .addOrder(Order.desc("date"))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setMaxResults(15)
-                .list();*/
         Query query = session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  where User.useridx = :useridx  and Alarm.isshow = true and Alarm.contentid!=0 order by Alarm.date desc");
         query.setParameter("useridx", user.getUseridx(), StandardBasicTypes.INTEGER);
         query.setMaxResults(15);

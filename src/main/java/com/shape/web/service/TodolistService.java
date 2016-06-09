@@ -15,6 +15,7 @@ public class TodolistService {
     public Todolist get(Integer id) {
         Session session=sessionFactory.openSession();
         Todolist todolist= (Todolist)session.get(Todolist.class,id);
+        session.close();
         return todolist;
     }
 

@@ -65,13 +65,6 @@ public class AppointmentService {
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
 
-      /*  Integer num=(Integer)session.createCriteria(Appointment.class)
-                .createAlias("schedule","schedule")
-                .add(Restrictions.eq("schedule.scheduleidx",scheduleIdx))
-                .add(Restrictions.eq("date",date))
-                .setProjection(Projections.rowCount())
-                .uniqueResult();
-    */
         if (lap.size() == size) {
             for (Appointment ap : lap) {
                 ap.setState(1);

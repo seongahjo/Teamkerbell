@@ -18,6 +18,7 @@ public class FileDBService {
     public FileDB get(Integer id) {
         Session session = sessionFactory.openSession();
         FileDB filedb = (FileDB) session.get(FileDB.class, id);
+        session.close();
         return filedb;
     }
 
@@ -40,6 +41,7 @@ public class FileDBService {
     public FileDB getByStoredname(String filename) {
         Session session = sessionFactory.openSession();
         FileDB filedb = (FileDB) session.createCriteria(FileDB.class).add(Restrictions.eq("storedname", filename)).uniqueResult();
+        session.close();
         return filedb;
     }
 
@@ -55,6 +57,7 @@ public class FileDBService {
                 .add(Restrictions.eq("path",path))
                 .add(Restrictions.eq("originalname", filename))
                 .uniqueResult();
+        session.close();
         return filedb;
     }
 }
