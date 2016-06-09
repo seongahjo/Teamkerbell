@@ -39,7 +39,7 @@
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="../css/cal_demo.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/top_calendar.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../css/top_calendar.css"/>-->
     <link rel="stylesheet" type="text/css" href="../css/custom_2.css"/>
     <!-- daterange picker -->
     <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
@@ -47,14 +47,15 @@
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
-
+    <link rel="stylesheet" href="../css/fullcalendar.css">
+    <link rel="stylesheet" href="../css/fullcalendar.print.css" media='print'>
     <!-- iCheck for checkboxes and radio inputs -->
 
     <link href="../css/check_style.css" rel="stylesheet">
 
     <!-- Select2 -->
     <link rel="stylesheet" href="../css/select2.min.css">
-        <!--gallery-->
+    <!--gallery-->
     <link rel="stylesheet" href="../css/ImageZoom.css"/>
 </head>
 
@@ -83,37 +84,37 @@
                 <ul class="nav navbar-nav">
 
                     <li data-toggle="modal" data-target="#photoModal">
-                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Gallery">
                             <i class="fa fa-picture-o"></i>
                         </a>
                     </li>
 
 
-                    <li data-toggle="modal" data-target="#todoList" >
-                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
+                    <li data-toggle="modal" data-target="#todoList">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Todo lists">
                             <i class="fa fa-edit"></i>
                         </a>
                     </li>
 
-                    <li  onclick="location.href='../filemanager/${project.projectidx}';">
-                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
+                    <li onclick="location.href='../filemanager/${project.projectidx}';">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="File Manager">
                             <i class="fa fa-file-text-o"></i>
                         </a>
 
                     </li>
 
                     <li onclick="location.href='../calendar/${project.projectidx}';">
-                        <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Calendar">
                             <i class="fa fa-calendar-o"></i>
                         </a>
                     </li>
                     <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
-                            <i class="fa fa-bell-o"  id="alarm"></i>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon">
+                            <i class="fa fa-bell-o" id="alarm"></i>
                             <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header" id="alarm-content" >You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
                                 <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
@@ -151,7 +152,8 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:90px;height:90px">
+                                <img src="../${user.img}" class="img-circle" alt="User Image"
+                                     style="width:90px;height:90px">
                                 <p>
                                     ${user.id}
                                 </p>
@@ -160,10 +162,12 @@
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo
+                                            Edit</a>
                                     </div>
 
                                 </div>
@@ -206,8 +210,9 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                   
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
+                        </li>
+
                     </ul>
                 </li>
 
@@ -224,7 +229,7 @@
 
                     </ul>
                 </li>
-                
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -241,21 +246,19 @@
                 <!--calendar-->
                 <div class="col-md-6">
 
-                    <section class="main">
+                    <!--<section class="main">
                         <div class="custom-calendar-wrap">
                             <div id="custom-inner" class="custom-inner">
-                                <div class="custom-header clearfix">
-                                    <nav>
-                                        <span id="custom-prev" class="custom-prev"></span>
-                                        <span id="custom-next" class="custom-next"></span>
-                                    </nav>
-                                    <h2 id="custom-month" class="custom-month"></h2>
-                                    <h3 id="custom-year" class="custom-year"></h3>
-                                </div>
-                                <div id="calendar" class="fc-calendar-container"></div>
-                            </div>
+                                <div class="custom-header clearfix"></div>
+
+
+
                         </div>
-                    </section>
+                            </div>
+                    </section>-->
+                    <div class="box">
+                        <div id="calendar"></div>
+                    </div>
                 </div>
 
                 <section class="col-md-6 ">
@@ -287,8 +290,6 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-
-
                 </section>
             </div>
 
@@ -297,8 +298,8 @@
                     <div class="box">
                         <div class="box-header add-header">
                             <h3 class="box-title"> 미팅 일정 추가 <i class="fa fa-calendar-plus-o"
-                                                                           data-toggle="modal"
-                                                                           data-target="#myModal3"></i></h3>
+                                                               data-toggle="modal"
+                                                               data-target="#myModal3"></i></h3>
 
                             <div class="box-tools">
                                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -498,7 +499,7 @@
                                 <!-- /.input group -->
                             </div>
                             <!-- /.form group -->
-                        </div>            
+                        </div>
                         <div class="form-group has-success">
                             <label class="control-label" for="inputSuccess"><i class="fa fa-map-marker"></i> Write where
                                 you want to meet</label>
@@ -558,19 +559,19 @@
             <form>
                 <div class="modal-body">
 
-     <div class="box-body">
-            
-            <div class="gallery">
+                    <div class="box-body">
 
-                <c:forEach var="list" items="${img}">
-                    <a href="../loadImg?name=${list.storedname}" class="zoom">
-                        <img src="../loadImg?name=${list.storedname}" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
-                    </a>
-                </c:forEach>
-           
-			</div>
-      </div>
-                    
+                        <div class="gallery">
+
+                            <c:forEach var="list" items="${img}">
+                                <a href="../loadImg?name=${list.storedname}" class="zoom">
+                                    <img src="../loadImg?name=${list.storedname}" width="170" height="120"
+                                         alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                                </a>
+                            </c:forEach>
+
+                        </div>
+                    </div>
 
 
                 </div>
@@ -581,7 +582,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -604,13 +604,14 @@
                                     <li>
                                 </c:otherwise>
                             </c:choose>
-                            <img src="../${list.user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                            <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
                         <span class="username">
                           <span>${list.user.id}</span>
                         </span>
-                            <span class="text" >${list.content}</span>
+                            <span class="text">${list.content}</span>
                             <!-- Emphasis label -->
-                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}</small>
+                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}
+                            </small>
                             <!-- General tools such as edit or delete-->
                             </li>
                         </c:forEach>
@@ -635,7 +636,9 @@
 <script src="../js/app.min.js"></script>
 <script src="../js/modernizr.custom.63321.js"></script>
 <script src="../js/prettydate.min.js"></script>
-<script src="../js/jquery.calendario.js"></script>
+<!--<script src="../js/jquery.calendario.js"></script>-->
+
+
 <script src="../js/modernizr.custom.63321.js"></script>
 <!-- date -->
 <script src="../js/date.js"></script>
@@ -647,6 +650,7 @@
 <script src="../js/daterangepicker.js"></script>
 <!-- tag-->
 <script src="../js/addtags.js"></script>
+<script src="../js/fullcalendar.min.js"></script>
 <!-- bootstrap time picker -->
 <script src="../js/bootstrap-timepicker.min.js"></script>
 <!-- iCheck 1.0.1 -->
@@ -676,15 +680,34 @@
     $(function () {
         //Initialize Select Elements
         $("a.zoom").imageZoom({scale: 0.75});
-        
+
+
         $(".select2").select2();
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+
+            events: [<c:forEach var="list" items="${schedules}">
+                {
+                    title: '${list.content}',
+                    start: '${list.startdate}',
+                    end: '${list.enddate}'
+                },
+
+                </c:forEach>]
+        });
+
 
         table = $('#file').DataTable({
             "ajax": {
                 "url": "../selectDate",
                 "type": "GET",
                 "data": function (d) {
-                    d.projectIdx=${project.projectidx};
+                    d.projectIdx =${project.projectidx};
                     d.date = clickDate;
                 },
                 "columns": [
@@ -702,78 +725,80 @@
             "autoWidth": false
         });
 
-        $.ajax({
-            url: "../getEvent",
-            data: param,
-            dataType: 'json',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function (data) {
-                Events = data;
-                var transEndEventNames = {
-                            'WebkitTransition': 'webkitTransitionEnd',
-                            'MozTransition': 'transitionend',
-                            'OTransition': 'oTransitionEnd',
-                            'msTransition': 'MSTransitionEnd',
-                            'transition': 'transitionend'
-                        },
-                        transEndEventName = transEndEventNames[Modernizr.prefixed('transition')],
-                        $wrapper = $('#custom-inner'),
-                        $calendar = $('#calendar'),
-                        cal = $calendar.calendario({
-                            onDayClick: function ($el, data, dateProperties) {
-                                clickDate = dateProperties.year + "-" + dateProperties.month + "-" + dateProperties.day;
-                                table.ajax.reload();
-                                if (data.content.length > 0) {
-                                    showEvents(data.content, dateProperties);
+        /*$.ajax({
+         url: "../getEvent",
+         data: param,
+         dataType: 'json',
+         async: true,
+         processData: false,
+         contentType: false,
+         type: 'GET',
+         success: function (data) {
+         Events = data;
+         var transEndEventNames = {
+         'WebkitTransition': 'webkitTransitionEnd',
+         'MozTransition': 'transitionend',
+         'OTransition': 'oTransitionEnd',
+         'msTransition': 'MSTransitionEnd',
+         'transition': 'transitionend'
+         },
+         transEndEventName = transEndEventNames[Modernizr.prefixed('transition')],
+         $wrapper = $('#custom-inner'),
+         $calendar = $('#calendar'),
+         cal = $calendar.calendario({
+         onDayClick: function ($el, data, dateProperties) {
+         clickDate = dateProperties.year + "-" + dateProperties.month + "-" + dateProperties.day;
+         table.ajax.reload();
+         if (data.content.length > 0) {
+         showEvents(data.content, dateProperties);
 
-                                }
-                            },
-                            caldata: Events,
-                            testdata: Events,
-                            displayWeekAbbr: true,
-                            events: 'click'
-                        }),
-                        $month = $('#custom-month').html(cal.getMonthName()),
-                        $year = $('#custom-year').html(cal.getYear());
+         }
+         },
+         caldata: Events,
+         testdata: Events,
+         displayWeekAbbr: true,
+         events: 'click'
+         }),
+         $month = $('#custom-month').html(cal.getMonthName()),
+         $year = $('#custom-year').html(cal.getYear());
 
-                $('#custom-next').on('click', function () {
-                    cal.gotoNextMonth(updateMonthYear);
-                });
+         $('#custom-next').on('click', function () {
+         cal.gotoNextMonth(updateMonthYear);
+         });
 
-                $('#custom-prev').on('click', function () {
-                    cal.gotoPreviousMonth(updateMonthYear);
-                });
+         $('#custom-prev').on('click', function () {
+         cal.gotoPreviousMonth(updateMonthYear);
+         });
 
-                function updateMonthYear() {
-                    $month.html(cal.getMonthName());
-                    $year.html(cal.getYear());
-                }
+         function updateMonthYear() {
+         $month.html(cal.getMonthName());
+         $year.html(cal.getYear());
+         }
 
-                // just an example..
-                function showEvents(contentEl, dateProperties) {
-                    hideEvents();
-                    var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>Events for ' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'),
-                            $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
-                    $events.append(contentEl.join(''), $close).insertAfter($wrapper);
-                    setTimeout(function () {
-                        $events.css('top', '0%');
-                    }, 25);
-                }
+         // just an example..
+         function showEvents(contentEl, dateProperties) {
+         hideEvents();
+         var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>Events for ' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'),
+         $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
+         $events.append(contentEl.join(''), $close).insertAfter($wrapper);
+         setTimeout(function () {
+         $events.css('top', '0%');
+         }, 25);
+         }
 
-                function hideEvents() {
-                    var $events = $('#custom-content-reveal');
-                    if ($events.length > 0) {
-                        $events.css('top', '100%');
-                        Modernizr.csstransitions ? $events.on(transEndEventName, function () {
-                            $(this).remove();
-                        }) : $events.remove();
-                    }
-                }
-            }
-        });
+         function hideEvents() {
+         var $events = $('#custom-content-reveal');
+         if ($events.length > 0) {
+         $events.css('top', '100%');
+         Modernizr.csstransitions ? $events.on(transEndEventName, function () {
+         $(this).remove();
+         }) : $events.remove();
+         }
+         }
+         }
+         });*/
+
+
         //Initialize Select Elements
         // $(".select2").select2();
 
@@ -918,7 +943,7 @@
         scheuldIdx = _scheduleIdx;
     }
     function finish() {
-        var param = "scheduleIdx=" + scheuldIdx + "&ids=" +$("#select").val();
+        var param = "scheduleIdx=" + scheuldIdx + "&ids=" + $("#select").val();
         $.ajax({
             url: "../finishMeeting",
             data: param,

@@ -187,15 +187,15 @@ public class CalendarController {
     public Map getEvent(@RequestParam("projectIdx") Integer projectIdx) {
         Project project = pjs.get(projectIdx);
         SimpleDateFormat transFormat = new SimpleDateFormat("MM-dd-yyyy");
-        List<Schedule> ls = pjs.getSchedules(projectIdx); // 프로젝트에 있는 모든 스케쥴들
+        //List<Schedule> ls = pjs.getSchedules(projectIdx); // 프로젝트에 있는 모든 스케쥴들
         Map<String, String> event = new HashMap<String, String>(); //반환할 JSON
-        for (Schedule s : ls)
+        /*for (Schedule s : ls)
             if (s.getState() >= 2) // 확정된 미팅일경우
                 event.put(transFormat.format(s.getStartdate()), "<span> Meeting! <br>" +
                         "To do - " + s.getContent() + "<br>" +
                         "Place - " + s.getPlace() + "<br>" +
                         "Time - " + s.getTime() + "</span>");
-
+*/
         return event;
     }
 

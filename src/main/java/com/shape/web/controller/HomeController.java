@@ -144,7 +144,7 @@ public class HomeController {
                 mv.addObject("img", img);
                 mv.addObject("todolist", lt);
             } else {
-                List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
+                //List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
                 List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
                 List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
                 List<String> username = new ArrayList<>();
@@ -163,7 +163,7 @@ public class HomeController {
                 }
                 mv = new ModelAndView("/document");
                 mv.addObject("user", user);
-                mv.addObject("schedules", ls);
+                //mv.addObject("schedules", ls);
                 mv.addObject("projects", lpj);
                 mv.addObject("project", project);
                 mv.addObject("users", lu);
@@ -185,14 +185,14 @@ public class HomeController {
         int userIdx = user.getUseridx();
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
-        List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
+        List<Schedule> lcs = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
         List<User> lu = pjs.getUsers(project); // 유저 객체 반환
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
         List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
         ModelAndView mv = new ModelAndView("/calendar");
         mv.addObject("user", user);
-        mv.addObject("schedules", ls);
+        mv.addObject("schedules", lcs);
         mv.addObject("projects", lpj);
         mv.addObject("project", project);
         mv.addObject("users", lu);

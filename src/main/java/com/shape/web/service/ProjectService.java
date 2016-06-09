@@ -14,7 +14,6 @@ import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Member;
 import java.util.Date;
 import java.util.List;
 
@@ -80,6 +79,7 @@ public class ProjectService {
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
         session.close();
+
         return ls;
     }
 
