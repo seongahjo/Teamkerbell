@@ -361,7 +361,54 @@
                 </div>
 
             </div>
+            <div class="row">
+                <div class="col-md-12">
 
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="bs-example">
+                                <div class="form-group" >
+                                    <a href="#"><i class="fa fa-search fa-2x pull-right" style="float:left;padding-right:26%" onclick="search()"></i></a>
+                                    <input type="text" class="form-control" style="width:70%;float:left" id="tokenfield-typeahead" placeholder="Type something and hit enter for tags" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Date</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="list" items="${files}">
+                                    <tr>
+                                        <td><a href="../file?name=${list.storedname}">${list.originalname}</a></td>
+                                        <td>${list.user.name}</td>
+                                        <td>${list.date}</td>
+                                        <td>${list.tag}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Date</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- /.content -->
     </div>
@@ -379,6 +426,7 @@
 
 
     <div class="control-sidebar-bg"></div>
+
 </div>
 <!-- ./wrapper -->
 
