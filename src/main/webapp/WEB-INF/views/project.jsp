@@ -77,7 +77,7 @@
                         </a>
                     </li>
 
-                    <li  onclick="location.href='../filemanager/${project.projectidx}';">
+                    <!--<li  onclick="location.href='../filemanager/${project.projectidx}';">
                         <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
                             <i class="fa fa-file-text-o"></i>
                         </a>
@@ -88,7 +88,7 @@
                         <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
                             <i class="fa fa-calendar-o"></i>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
                             <i class="fa fa-bell-o"  id="alarm"></i>
