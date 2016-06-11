@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
@@ -31,6 +33,11 @@
     <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
     <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
+
+    <!-- fullcalendar-->
+    <link rel="stylesheet" href="../css/fullcalendar.css">
+    <link rel="stylesheet" href="../css/fullcalendar.print.css" media='print'>
+
     <!-- tag -->
     <link rel="stylesheet" href="../css/addtag.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -65,32 +72,32 @@
 
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
-               
-                <ul class="nav navbar-nav">
-                
-                
-                <li class="dash-icon">
-                <a class="dash-nav">
-              	<i class="fa fa-picture-o"></i></a>
-            	</li>
-            	
-           	
-            	<li class="dash-icon">
-            	<a class="dash-nav">
-              	<i class="fa fa-edit"></i>
-              	</a>
-            	</li>
 
-            	 <li class="dash-icon">
-            	 <a class="dash-nav">
-              	<i class="fa fa-file-text-o"></i> 
-              	 </a>          	
-           	   </li>
-           	   <li class="dash-icon">
-           	   <a class="dash-nav">
-              	<i class="fa fa-calendar-o"></i>   
-              	</a>         	
-           	   </li>
+                <ul class="nav navbar-nav">
+
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-picture-o"></i></a>
+                    </li>
+
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </li>
+
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    </li>
+                    <li class="dash-icon">
+                        <a class="dash-nav">
+                            <i class="fa fa-calendar-o"></i>
+                        </a>
+                    </li>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -137,7 +144,8 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image"style="width:90px;height:90px">
+                                <img src="../${user.img}" class="img-circle" alt="User Image"
+                                     style="width:90px;height:90px">
                                 <p>
                                     ${user.id}
                                 </p>
@@ -220,7 +228,7 @@
                         </li>
                     </ul>
                 </li>
-                
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -243,7 +251,7 @@
         <!-- Main content -->
         <section class="content">
 
- 
+
             <div class="row">
                 <div class="col-md-8">
                     <div class="box box-success time-line">
@@ -258,7 +266,7 @@
                                 </div>
                             </div> <!-- status -->
                         </div> <!-- header -->
-                              
+
                         <c:forEach var="list" items="${timeline}">
                             <div class="box-body chat" id="chat-box">
                                 <!-- chat item -->
@@ -324,7 +332,7 @@
                             <!-- /.chat -->
                         </c:forEach>
                         <c:if test="${timeline.size()==0}">
-                        <img class="notime" src="../img/Notime.png">
+                            <img class="notime" src="../img/Notime.png">
                         </c:if>
                     </div>
                 </div>
@@ -348,26 +356,26 @@
                         <div class="box-body">
                             <ul class="todo-list">
                                 <c:forEach var="list" items="${todolist}">
-                                    <c:choose>
-                                        <c:when test="${list.ok=='0'}">
-                                            <li class="done">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <li>
-                                        </c:otherwise>
+                                <c:choose>
+                                <c:when test="${list.ok=='0'}">
+                                <li class="done">
+                                    </c:when>
+                                    <c:otherwise>
+                                <li>
+                                    </c:otherwise>
                                     </c:choose>
                       <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-                     
+
                                     <c:choose>
-                                        <c:when test="${list.ok=='0'}">
-                                            <input type="checkbox" class="cb" checked value="${list.todolistidx}">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="checkbox" class="cb" value="${list.todolistidx}">
-                                        </c:otherwise>
+                                    <c:when test="${list.ok=='0'}">
+                                    <input type="checkbox" class="cb" checked value="${list.todolistidx}">
+                                    </c:when>
+                                    <c:otherwise>
+                                    <input type="checkbox" class="cb" value="${list.todolistidx}">
+                                    </c:otherwise>
                                     </c:choose>
                                     <span> ${list.project.name}</span>
                                     <span class="text">${list.content}</span>
@@ -375,11 +383,11 @@
                                     <small class="label label-danger" prettydate><i
                                             class="fa fa-clock-o"></i>${list.enddate}</small>
 
-                                    <div class="tools">                                       
+                                    <div class="tools">
                                         <i class="fa fa-trash-o"></i>
                                     </div>
-                                  
-                                </c:forEach>
+
+                                    </c:forEach>
                             </ul>
                         </div>
                     </div>
@@ -394,9 +402,11 @@
 
                             </div>
                         </div>
+
                         <!-- /.box-header -->
-                        <div class="box-body table-responsive no-padding" style=" height: 270px; overflow: auto">
-                            <table class="table table-hover">
+                        <div id="calendar" class="box-body table-responsive no-padding"
+                        >
+                            <!--  <table class="table table-hover">
                                 <tr>
                                     <th>Project</th>
                                     <th>Duration</th>
@@ -420,11 +430,11 @@
                                     </c:choose>
                                 </c:forEach>
                             </table>
+                        </div>-->
+                            <!-- /.box-body -->
+
+
                         </div>
-                        <!-- /.box-body -->
-
-
-                    </div>
 
                 </section>
 
@@ -503,10 +513,13 @@
 <!-- date-range-picker -->
 <script src="../js/moment.min.js"></script>
 <script src="../js/daterangepicker.js"></script>
+<!-- full calendar -->
+<script src="../js/fullcalendar.min.js"></script>
 <!-- tag-->
 <script src="../js/addtags.js"></script>
 <!--alarm-->
 <script src="../js/alarm.js"></script>
+<script src="../js/json2.js"></script>
 <!-- bootstrap time picker -->
 <script src="../js/bootstrap-timepicker.min.js"></script>
 <script>
@@ -514,43 +527,106 @@
     var registerEndDate;
     var socket;
     /*$(document).ready(function () {
-        socket = io.connect("http://192.168.0.45:9999");
-        socket.emit('join', {
-            projectIdx: "${project.projectidx}",
-            userIdx:${user.useridx},
-            userName: "${user.name}",
-            userId: "${user.id}",
-            userImg: "${user.img}"
-        });
+     socket = io.connect("http://192.168.0.45:9999");
+     socket.emit('join', {
+     projectIdx: "${project.projectidx}",
+     userIdx:${user.useridx},
+     userName: "${user.name}",
+     userId: "${user.id}",
+     userImg: "${user.img}"
+     });
 
-        socket.on('alarm', function (data) {
-            var par = "userIdx=" +${user.useridx};
+     socket.on('alarm', function (data) {
+     var par = "userIdx=" +${user.useridx};
+     $.ajax({
+     url: "../updateAlarm",
+     data: par,
+     dataType: 'json',
+     type: 'GET',
+     success: function (data) {
+     var size = parseInt($("#alarm-size").text()) + 1;
+     $("#alarm").effect("bounce",{direction:'left',distance:13, times:3},500);
+     $("#alarm-size").text(size);
+     $("#alarm-content").text('You have ' + size + 'notifications');
+     $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+     '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+     'has invited you to <strong>' + data.projectname + '</strong>' +
+     '<div style="float:right;">' +
+     ' <button type="button" class="btn btn-primary btn-xs"' +
+     'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+     '<button type="button" class="btn btn-default btn-xs"' +
+     'onclick=decline("' + data.alarmidx + '")>Cancel' +
+     '</button>' +
+     '</div>' +
+     '</a>' +
+     '</li>');
+     }
+     });
+     });
+     });// socket end*/
+
+    // fullcalendar
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: ''
+        },
+        height: 500,
+        selectable: true,
+        editable: true,
+        eventDrop: function (event, delta, revertFunc) {
+            var param = {scheduleidx: event.id, enddate: event.end.format(), startdate: event.start.format()};
+            var datas = JSON.stringify(param);
             $.ajax({
-                url: "../updateAlarm",
-                data: par,
-                dataType: 'json',
-                type: 'GET',
+                url: "../schedule",
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: datas,
+                processData: false,
                 success: function (data) {
-                    var size = parseInt($("#alarm-size").text()) + 1;
-                    $("#alarm").effect("bounce",{direction:'left',distance:13, times:3},500);
-                    $("#alarm-size").text(size);
-                    $("#alarm-content").text('You have ' + size + 'notifications');
-                    $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-                            '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-                            'has invited you to <strong>' + data.projectname + '</strong>' +
-                            '<div style="float:right;">' +
-                            ' <button type="button" class="btn btn-primary btn-xs"' +
-                            'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-                            '<button type="button" class="btn btn-default btn-xs"' +
-                            'onclick=decline("' + data.alarmidx + '")>Cancel' +
-                            '</button>' +
-                            '</div>' +
-                            '</a>' +
-                            '</li>');
                 }
-            });
-        });
-    });// socket end*/
+
+            })
+
+        },
+        eventResize: function (event, delta, revertFunc) {
+
+            var param = {scheduleidx: event.id, enddate: event.end.format(), startdate: event.start.format()};
+            var datas = JSON.stringify(param);
+            $.ajax({
+                url: "../schedule",
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: datas,
+                processData: false,
+                success: function (data) {
+                }
+
+            })
+        },
+        dayClick: function (date, jsEvent, view) {
+            /*
+             생성할거임ㅎㅎ
+             */
+
+        },
+        events: [<c:forEach var="list" items="${schedules}">
+            {
+                id: ${list.scheduleidx},
+                title: '${list.content}',
+                start: '${list.startdate}',
+                place: '${list.place}',
+                end: '${list.enddate}'
+            },
+
+            </c:forEach>],
+        eventClick: function (event) {
+            alert(event.place);
+        }
+
+    });
+
     //Date range picker with time picker
     $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'YYYY-MM-DD h:mm A'});
     //Date range as a button

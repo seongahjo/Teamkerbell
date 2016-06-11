@@ -49,7 +49,7 @@ public class CalendarController {
       */
     @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Map<String, Object> GetDate(@RequestParam(value="projectIdx") Integer projectIdx,@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    public Map<String, Object> GetDate(@RequestParam(value = "projectIdx") Integer projectIdx, @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         Map<String, Object> map = new HashMap<String, Object>();
         List data = new ArrayList();
 
@@ -59,7 +59,7 @@ public class CalendarController {
         if (dir.listFiles() != null) {
             for (File f : dir.listFiles()) {
                 logger.info(f.getName() + "FILENAME!!!");
-                FileDB fd = fs.getByOriginalname(date, f.getName(),foldername);
+                FileDB fd = fs.getByOriginalname(date, f.getName(), foldername);
                 if (fd != null) {
                     List<String> temp = new ArrayList<String>();
                     temp.add("<a href='../file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
@@ -165,13 +165,13 @@ public class CalendarController {
         Schedule schedule = ss.get(scheduleIdx);
         schedule.setState(3);
         ss.save(schedule);
-        List<Appointment> appointments=ss.getAppointments(schedule,2);
+        List<Appointment> appointments = ss.getAppointments(schedule, 2);
         logger.info("Meeting 종료");
-        logger.info("ids"+ids);
+        logger.info("ids" + ids);
         for (int i = 0; i < ids.size(); i++)
             for (Appointment a : appointments)
                 if (a.getUser().getId().equals(ids.get(i))) {
-                    logger.info(a.getDate()+" "+a.getUser().getId()+"vs"+ids.get(i));
+                    logger.info(a.getDate() + " " + a.getUser().getId() + "vs" + ids.get(i));
                     a.setState(3); // 참가 확정
                     aps.save(a);
                     break;
@@ -197,6 +197,29 @@ public class CalendarController {
                         "Time - " + s.getTime() + "</span>");
 */
         return event;
+    }
+
+    @RequestMapping(value = "/schedule", method = RequestMethod.PUT)
+    @ResponseBody
+    public void updateSchedule(@RequestBody  Schedule schedule) {
+
+        Schedule s=ss.get(schedule.getScheduleidx());
+        if(schedule.getEnddate()!=null)
+        s.setEnddate(schedule.getEnddate());
+        if(schedule.getStartdate()!=null)
+        s.setStartdate(schedule.getStartdate());
+        if(schedule.getState()!=null)
+            s.setState(schedule.getState());
+
+        logger.info("modifying schedule");
+        ss.save(s);
+    }
+
+    @RequestMapping(value = "/schedule", method = RequestMethod.POST)
+    @ResponseBody
+    public void makeSchedule(@RequestBody  Schedule schedule) {
+
+
     }
 
 }
