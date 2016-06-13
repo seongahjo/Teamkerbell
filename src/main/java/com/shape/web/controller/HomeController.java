@@ -54,12 +54,13 @@ public class HomeController {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value = "/joinus", method = RequestMethod.GET)
-    public ModelAndView JoinUs() {
-        ModelAndView mv = new ModelAndView("/joinus");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
-        return mv;
-    }
-
+    /*
+        @RequestMapping(value = "/joinus", method = RequestMethod.GET)
+        public ModelAndView JoinUs() {
+            ModelAndView mv = new ModelAndView("/joinus");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
+            return mv;
+        }
+    */
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String goDashboard(Authentication authentication) {
         return "redirect:/dashboard/" + authentication.getName();
@@ -133,7 +134,7 @@ public class HomeController {
                 File file = new File(foldername);
                 if (!file.exists())
                     if (file.mkdirs())
-                        logger.info("폴더 새로 생성");
+                        logger.info("folder created " + foldername);
 
                 mv = new ModelAndView("/project");
                 mv.addObject("projects", lpj);
@@ -145,6 +146,9 @@ public class HomeController {
                 mv.addObject("img", img);
                 mv.addObject("todolist", lt);
             } else {
+                /*
+                Source below is to documentation
+                 */
                 //List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
                 List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
                 List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
@@ -244,7 +248,7 @@ public class HomeController {
 
     }*/
 
-
+/*
     @RequestMapping(value = "/courseInfo/{userId}", method = RequestMethod.GET)
     public ModelAndView CourseInfo(@PathVariable("userId") String userId) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
@@ -254,4 +258,5 @@ public class HomeController {
         mv.addObject("projects", lpj);
         return mv;
     }
+    */
 }

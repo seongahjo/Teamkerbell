@@ -1,7 +1,6 @@
 package com.shape.web.service;
 
 import com.shape.web.entity.*;
-import com.shape.web.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -9,9 +8,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +25,7 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     @Resource
     private SessionFactory sessionFactory;
 
@@ -127,7 +131,7 @@ public class UserService implements UserDetailsService {
     /*
     User가 가지고 있는 Project 객체들을 반환
      */
-    public List<Project> getProjects(User user){
+    public List<Project> getProjects(User user) {
         Session session = sessionFactory.openSession();
         List<Project> lp = session.createCriteria(Project.class)
                 .createAlias("users", "users")
@@ -183,7 +187,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
         Session session = sessionFactory.openSession();
@@ -224,29 +227,38 @@ public class UserService implements UserDetailsService {
         }
         return authorities;
     }
+
     public Collection<? extends GrantedAuthority> getAuthorities(Integer role) {
         List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
         return authList;
     }
+
     /*
     Spring Security에서 로그인 인증을 위한 함수
      */
     @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Session session = sessionFactory.openSession();
-        User u = (User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
-        session.close();
+    public UserDetails loadUserByUsername(String id) {
         boolean enabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
+        try {
+            Session session = sessionFactory.openSession();
+            User u = (User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
+            session.close();
+            logger.info("["+id+"] Login Process Start ");
+            return new org.springframework.security.core.userdetails.User(u.getId(),
+                    u.getPw(),
+                    enabled,
+                    accountNonExpired,
+                    credentialsNonExpired,
+                    accountNonLocked,
+                    getAuthorities(0));
+        } catch (NullPointerException e) {
+        } catch (UsernameNotFoundException e) {
 
-        return new org.springframework.security.core.userdetails.User(u.getId(),
-                u.getPw(),
-                enabled,
-                accountNonExpired,
-                credentialsNonExpired,
-                accountNonLocked,
-                getAuthorities(0));
+        }
+        return new org.springframework.security.core.userdetails.User("null", "null", false, false, false, false, getAuthorities(0));
+
     }
 }

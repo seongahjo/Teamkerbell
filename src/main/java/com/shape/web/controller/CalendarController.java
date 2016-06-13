@@ -47,6 +47,7 @@ public class CalendarController {
     /*
       To get appropriate file data when user select the date
       */
+    /*
     @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Map<String, Object> GetDate(@RequestParam(value = "projectIdx") Integer projectIdx, @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
@@ -73,7 +74,7 @@ public class CalendarController {
         map.put("data", data);
         return map;
     }
-
+    */
     /*
    To make schedule
    */

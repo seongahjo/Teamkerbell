@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
@@ -87,17 +87,17 @@
                             <i class="fa fa-edit"></i>
                         </a>
                     </li>
-<!--
-                    <li class="dash-icon">
-                        <a class="dash-nav">
-                            <i class="fa fa-file-text-o"></i>
-                        </a>
-                    </li>
-                    <li class="dash-icon">
-                        <a class="dash-nav">
-                            <i class="fa fa-calendar-o"></i>
-                        </a>
-                    </li>-->
+                    <!--
+                                        <li class="dash-icon">
+                                            <a class="dash-nav">
+                                                <i class="fa fa-file-text-o"></i>
+                                            </a>
+                                        </li>
+                                        <li class="dash-icon">
+                                            <a class="dash-nav">
+                                                <i class="fa fa-calendar-o"></i>
+                                            </a>
+                                        </li>-->
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -266,12 +266,12 @@
                                 </div>
                             </div> <!-- status -->
                         </div> <!-- header -->
-
+                        <c:if test="${empty timeline}">
+                            <img class="notime" src="../img/Notime.png">
+                        </c:if>
                         <c:forEach var="list" items="${timeline}">
                             <div class="box-body chat" id="chat-box">
-                                <!-- chat item -->
                                 <!--타임라인 시작 -->
-
 
                                 <c:choose>
                                     <c:when test="${list.contentid=='1'}">
@@ -324,16 +324,12 @@
                                         <!-- 파일 -->
 
                                     </c:when>
-                                    <c:otherwise>
-                                    </c:otherwise>
                                 </c:choose>
 
                             </div>
                             <!-- /.chat -->
                         </c:forEach>
-                        <c:if test="${timeline.size()==0}">
-                            <img class="notime" src="../img/Notime.png">
-                        </c:if>
+
                     </div>
                 </div>
                 <!-- TOdo -->
@@ -346,9 +342,7 @@
 
                             <div class="box-tools pull-right vec">
                                 <ul class="pagination pagination-sm inline vec">
-                                    <li><a href="#">&laquo;</a></li>
 
-                                    <li><a href="#">&raquo;</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -396,7 +390,7 @@
                     <div class="box">
                         <div class="box-header add-header">
                             <i class="fa fa-calendar-plus-o"></i>
-                            <h3 class="box-title"> 확인해야하는 스케쥴</h3>
+                            <h3 class="box-title"> 스케쥴</h3>
 
                             <div class="box-tools">
 
@@ -523,6 +517,7 @@
 <!-- bootstrap time picker -->
 <script src="../js/bootstrap-timepicker.min.js"></script>
 <script>
+    console.log(<spring:eval expression="@config.getProperty('app.socket.url')"/>);
     var registerStartDate;
     var registerEndDate;
     var socket;

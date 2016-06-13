@@ -43,6 +43,16 @@ public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
+
+    /*
+    RESTFUL DOCUMENTATION
+    ROOM
+        POST : CREATE
+        DELETE : DELETE
+
+    InviteUser
+        POST :
+     */
     /*
     To make project room
     */
@@ -115,7 +125,7 @@ public class ProjectController {
     /*
     To make to-do list
     */
-    @RequestMapping(value = "/makeTodolist", method = RequestMethod.GET)
+    @RequestMapping(value = "/Todolist", method = RequestMethod.POST)
     @ResponseBody
     public String makeTodolist(@RequestParam("projectIdx") Integer projectIdx, @RequestParam("userId") String userId, @ModelAttribute("todolist") Todolist todolist) {
         Project project = pjs.get(projectIdx);

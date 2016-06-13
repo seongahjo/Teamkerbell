@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -38,7 +38,7 @@
 
     <!--gallery-->
     <link rel="stylesheet" href="../css/ImageZoom.css"/>
-   <link rel="stylesheet" href="../css/wait2.css">
+    <link rel="stylesheet" href="../css/wait2.css">
 
 </head>
 
@@ -65,14 +65,14 @@
                 <ul class="nav navbar-nav">
 
                     <li data-toggle="modal" data-target="#photoModal">
-                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Gallery">
                             <i class="fa fa-picture-o"></i>
                         </a>
                     </li>
 
 
-                    <li data-toggle="modal" data-target="#todoList" >
-                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
+                    <li data-toggle="modal" data-target="#todoList">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Todo lists">
                             <i class="fa fa-edit"></i>
                         </a>
                     </li>
@@ -90,12 +90,12 @@
                         </a>
                     </li>-->
                     <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
-                            <i class="fa fa-bell-o"  id="alarm"></i>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon">
+                            <i class="fa fa-bell-o" id="alarm"></i>
                             <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header" id="alarm-content" >You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
                                 <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
@@ -133,7 +133,8 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:90px;height:90px">
+                                <img src="../${user.img}" class="img-circle" alt="User Image"
+                                     style="width:90px;height:90px">
                                 <p>
                                     ${user.id}
                                 </p>
@@ -142,10 +143,12 @@
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo
+                                            Edit</a>
                                     </div>
 
                                 </div>
@@ -176,7 +179,8 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle main-img" alt="User Image" style="width:100px;height:100px">
+                    <img src="../${user.img}" class="img-circle main-img" alt="User Image"
+                         style="width:100px;height:100px">
                 </div>
             </div>
             <div class="user-panel">
@@ -196,8 +200,9 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                      
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
+                        </li>
+
                     </ul>
                 </li>
 
@@ -205,14 +210,14 @@
                     <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
-                            <c:forEach var="list" items="${projects}"> 
+                            <c:forEach var="list" items="${projects}">
                                 <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
                 </li>
-                
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -266,12 +271,14 @@
                             <button type="button" type="button" class="btn btn-primary btn-flat" onClick="sendMsg()">
                                 Send
                             </button>
-                            <span onclick="selectFile()" >
-                            <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="File Upload" style="margin-left:3px;height:34px">
+                            <span onclick="selectFile()">
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
+                                    data-original-title="File Upload" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-paperclip fa-2x"></i></button>
                  			 </span>
-                 			  <span data-toggle="modal" data-target="#todoMadal" >
-                 			  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="Add TodoList" style="margin-left:3px;height:34px">
+                 			  <span data-toggle="modal" data-target="#todoMadal">
+                 			  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
+                                      data-original-title="Add TodoList" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
                  			 </span>
                           </span>
@@ -315,7 +322,7 @@
                                 <button id="savebutton" type="button" class="btn btn-primary hidden"
                                         onClick="save_memo()"><i class="fa fa-floppy-o"></i> 저장
                                 </button>
-                            </div>	
+                            </div>
                         </div>
                         <!-- /.box-footer -->
                     </div>
@@ -327,7 +334,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">사용자들</h3><i class="fa fa-user-plus fa-3x pull-right"
-                                                                     data-toggle="modal" data-target="#InviteUser"></i>
+                                                              data-toggle="modal" data-target="#InviteUser"></i>
 
                             <div class="box-tools pull-right">
 
@@ -338,7 +345,7 @@
                             <ul class="products-list product-list-in-box">
                                 <c:forEach var="list" items="${users}">
                                     <li class="item">
-                                        <img src="../${list.img}" alt="User Image"style="width:30px;height:30px">
+                                        <img src="../${list.img}" alt="User Image" style="width:30px;height:30px">
                                         <a class="users-list-name user-st-name">${list.id}</a>
                                         <i id="user${list.id}on"
                                            class="fa fa-circle st-cir text-success pull-right hidden"
@@ -367,9 +374,12 @@
                     <div class="box">
                         <div class="box-header">
                             <div class="bs-example">
-                                <div class="form-group" >
-                                    <a href="#"><i class="fa fa-search fa-2x pull-right" style="float:left;padding-right:26%" onclick="search()"></i></a>
-                                    <input type="text" class="form-control" style="width:70%;float:left" id="tokenfield-typeahead" placeholder="Type something and hit enter for tags" />
+                                <div class="form-group">
+                                    <a href="#"><i class="fa fa-search fa-2x pull-right"
+                                                   style="float:left;padding-right:26%" onclick="search()"></i></a>
+                                    <input type="text" class="form-control" style="width:70%;float:left"
+                                           id="tokenfield-typeahead"
+                                           placeholder="Type something and hit enter for tags"/>
                                 </div>
                             </div>
 
@@ -470,7 +480,6 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 
-
 <div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -481,30 +490,31 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-             <ul class="todo-list pro-todo">
-                 <c:forEach var="list" items="${todolist}">
-                     <c:choose>
-                         <c:when test="${list.ok=='0'}">
-                             <li class="done">
-                         </c:when>
-                         <c:otherwise>
-                             <li>
-                         </c:otherwise>
-                     </c:choose>
-                 <img src="../${list.user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                    <ul class="todo-list pro-todo">
+                        <c:forEach var="list" items="${todolist}">
+                            <c:choose>
+                                <c:when test="${list.ok=='0'}">
+                                    <li class="done">
+                                </c:when>
+                                <c:otherwise>
+                                    <li>
+                                </c:otherwise>
+                            </c:choose>
+                            <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
                         <span class="username">
                           <span>${list.user.id}</span>
                         </span>
-                  <span class="text" >${list.content}</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}</small>
-                  <!-- General tools such as edit or delete-->
-                </li>
-                     </c:forEach>
-                <!-- todolist end-->
-                </ul>
- 			
-            
+                            <span class="text">${list.content}</span>
+                            <!-- Emphasis label -->
+                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}
+                            </small>
+                            <!-- General tools such as edit or delete-->
+                            </li>
+                        </c:forEach>
+                        <!-- todolist end-->
+                    </ul>
+
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -525,19 +535,19 @@
             <form>
                 <div class="modal-body">
 
-     <div class="box-body">
-            
-            <div class="gallery">
+                    <div class="box-body">
 
-                <c:forEach var="list" items="${img}">
-                    <a href="../loadImg?name=${list.storedname}" class="zoom">
-                        <img src="../loadImg?name=${list.storedname}" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
-                    </a>
-                </c:forEach>
-           
-			</div>
-      </div>
-                    
+                        <div class="gallery">
+
+                            <c:forEach var="list" items="${img}">
+                                <a href="../loadImg?name=${list.storedname}" class="zoom">
+                                    <img src="../loadImg?name=${list.storedname}" width="170" height="120"
+                                         alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                                </a>
+                            </c:forEach>
+
+                        </div>
+                    </div>
 
 
                 </div>
@@ -548,7 +558,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div class="modal fade" id="todoMadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -741,31 +750,31 @@
             Tminute = memo;
         });
         socket.on('alarm', function (data) {
-                var par="userIdx="+${user.useridx};
-                $.ajax({
-                    url: "../updateAlarm",
-                    data: par,
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        var size=parseInt($("#alarm-size").text())+1;
-                        $("#alarm").effect("bounce",{direction:'left',distance:13, times:3},500);
-                        $("#alarm-size").text(size);
-                        $("#alarm-content").text('You have '+size+'notifications');
-                        $("#alarm-list").prepend('<li id="alarm-"'+data.alarmidx+'><a href="#">'+
-                                                '<i class="fa fa-users text-aqua"></i><strong>'+data.actorid+'</strong>'+
-                                                'has invited you to <strong>'+data.projectname+'</strong>'+
-                                                '<div style="float:right;">'+
-                                                   ' <button type="button" class="btn btn-primary btn-xs"'+
-                                                            'onclick=accept("'+data.alarmidx+'")>Ok</button>'+
-                                                    '<button type="button" class="btn btn-default btn-xs"'+
-                                                            'onclick=decline("'+data.alarmidx+'")>Cancel'+
-                                                    '</button>'+
-                                                '</div>'+
-                                            '</a>'+
-                                        '</li>');
-                    }
-                });
+            var par = "userIdx=" +${user.useridx};
+            $.ajax({
+                url: "../updateAlarm",
+                data: par,
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    var size = parseInt($("#alarm-size").text()) + 1;
+                    $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
+                    $("#alarm-size").text(size);
+                    $("#alarm-content").text('You have ' + size + 'notifications');
+                    $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                            '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                            'has invited you to <strong>' + data.projectname + '</strong>' +
+                            '<div style="float:right;">' +
+                            ' <button type="button" class="btn btn-primary btn-xs"' +
+                            'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                            '<button type="button" class="btn btn-default btn-xs"' +
+                            'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                            '</button>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>');
+                }
+            });
         });
         $('#file').hover(function (event) {
             $('#file_over').addClass('front_hover');
@@ -803,7 +812,7 @@
     }
 
     function invite() {
-        var par = "userId=" + inviteU+"&projectIdx=${project.projectidx}";
+        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
         $.ajax({
             url: "../inviteUser",
             data: par,
@@ -813,14 +822,14 @@
             contentType: false,
             type: 'GET',
             success: function (data) {
-                socket.emit('invite', {userIdx:data});
-                console.log(data+"Invite");
+                socket.emit('invite', {userIdx: data});
+                console.log(data + "Invite");
                 $("#InviteUser").modal('hide');
             }
         });
     }
     function search() {
-        var par = "userId=" + $("#inviteForm #inviteId").val()+"&projectIdx=${project.projectidx}";
+        var par = "userId=" + $("#inviteForm #inviteId").val() + "&projectIdx=${project.projectidx}";
         $.ajax({
             url: "../inviteUser",
             type: 'POST',
@@ -828,9 +837,9 @@
             data: par,
             success: function (data) {
                 inviteU = data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="'+"../"+ data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
             },
-            error : function(){
+            error: function () {
                 $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
             }
         });
@@ -865,12 +874,18 @@
 
 
     function makeTodolist() {
+        var param = {scheduleidx: event.id, enddate: event.end.format(), startdate: event.start.format()};
+        var datas = JSON.stringify(param);
 
-        var param = "projectIdx=${project.projectidx}&userId=" + $("#todoselect").children("option:selected").val()
-                + "&startdate=" + scheduleStart.format('YYYY-MM-DD') + "&enddate=" + scheduleEnd.format('YYYY-MM-DD')
-                + "&content=" + $("#todocontent").val();
+        var param = {
+            projectIdx: ${project.projectidx},
+            userId: $("#todoselect").children("option:selected").val(),
+            startdate: scheduleStart.format('YYYY-MM-DD'),
+            enddate : scheduleEnd.format('YYYY-MM-DD'),
+            content : $("#todocontent").val()
+        };
         $.ajax({
-            url: "../makeTodolist",
+            url: "../Todolist",
             data: param,
             dataType: 'text',
             async: true,
@@ -899,7 +914,12 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                    socket.emit("file", {msg: data, user: "${user.name}", date: new Date().toString('HH:mm'),type:data.type});
+                socket.emit("file", {
+                    msg: data,
+                    user: "${user.name}",
+                    date: new Date().toString('HH:mm'),
+                    type: data.type
+                });
             }
         });
     }
