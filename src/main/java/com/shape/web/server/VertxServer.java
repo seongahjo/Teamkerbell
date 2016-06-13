@@ -1,7 +1,6 @@
 package com.shape.web.server;
 
 import com.nhncorp.mods.socket.io.SocketIOServer;
-import com.nhncorp.mods.socket.io.SocketIOSocket;
 import com.nhncorp.mods.socket.io.impl.DefaultSocketIOServer;
 import com.nhncorp.mods.socket.io.spring.DefaultEmbeddableVerticle;
 import com.shape.web.VO.ServerUser;
@@ -15,10 +14,8 @@ import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.http.HttpServer;
-import org.vertx.java.core.json.JsonObject;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -47,17 +44,18 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 ServerUser su = new ServerUser(projectIdx, event.getInteger("userIdx"), event.getString("userId"), event.getString("userName"), event.getString("userImg"), socket.getId());
                 Clients.put(socket.getId(), su); // Socket에 해당하는 Room저장
                 if (!projectIdx.equals("")) {
-                    logger.info("Room Idx : " + projectIdx + " Connect " + socket.getId());
+                    logger.info("[ROOM "+projectIdx+"] Trying to Enter the room [USER " + su.getId()+"]");
                     if (Rooms.get(projectIdx) != null)//방이 존재할경우
-                        logger.info("Entering room succeed");
+                        logger.info("[ROOM "+projectIdx+"] Room exist");
                     else {
                         //방이 존재하지 않을경우
                         Rooms.put(projectIdx, -1);
-                        logger.info("방 생성");
+                        logger.info("[ROOM "+projectIdx+"] Room is created");
                     }
                     socket.join(projectIdx);
                     for (ServerUser temp : Clients.values())
                         io.sockets().in(temp.getProjectIdx()).emit("adduser", temp.getId());
+                    logger.info("[ROOM "+projectIdx+"] Entering room succeed [USER "+su.getId()+"]");
                 }
             }); //Join End
 
@@ -65,34 +63,35 @@ public class VertxServer extends DefaultEmbeddableVerticle {
             socket.onDisconnect(event -> {
                 boolean flag = true;
                 ServerUser su = Clients.get(socket.getId());
-                    if (su != null) {
-                        if (!su.getProjectIdx().equals("")) {
+                if (su != null) {
+                    if (!su.getProjectIdx().equals("")) {
                         String projectIdx = su.getProjectIdx();
-                        logger.info("방나감 :: " + projectIdx + socket.getId());
+                        logger.info("[ROOM "+projectIdx+"] Trying to Exit the room [USER " + su.getId()+"]");
                         socket.leave(projectIdx);
-                            Clients.remove(socket.getId());
+                        Clients.remove(socket.getId());
                         //su ==> 나가는 사람
                         for (ServerUser temp : Clients.values()) {   // 남아있는 Client들
                             //새로고침시 방 삭제 방지
-                            flag=true;
-                            logger.info(temp.getName() + " vs " + su.getName());
-                            logger.info(temp.getProjectIdx() + " vs " + su.getProjectIdx());
+                            flag = true;
+                           /* logger.info("Remain : ["+temp.getId()+"]" + " vs Exit new name : [" + su.getId()+"]");
+                            logger.info("Remain : ["+temp.getProjectIdx()+"]" + " vs Exit new project : [" + su.getProjectIdx()+"]");*/
+
                             if ((temp.getName().equals(su.getName())) && (temp.getProjectIdx().equals(su.getProjectIdx()))) {
                                 flag = false;
                                 break;
                             }
                         }
-                            if (flag) {
-                                logger.info("나감 : " + su.getName());
-                                io.sockets().in(projectIdx).emit("deleteuser", su.getName());
-                            }
+                        if (flag) {
+                            logger.info("[ROOM "+projectIdx+"] Succeeding to Exit Room [USER "+su.getId()+"]");
+                            io.sockets().in(projectIdx).emit("deleteuser", su.getName());
+                        }
                         if (Rooms.get(projectIdx) == (su.getUserIdx())) {
-                            logger.info("writer 초기화");
                             Rooms.replace(projectIdx, -1);
+                            logger.info("[ROOM "+projectIdx+"] Writer Initialize");
                         }
                         if (io.sockets().clients(projectIdx) == null) {
-                            logger.info("방삭제");
                             Rooms.remove(projectIdx);
+                            logger.info("[ROOM "+projectIdx+"] Room is deleted");
                         }
                     }
                 }
@@ -104,11 +103,11 @@ public class VertxServer extends DefaultEmbeddableVerticle {
             socket.on("msg", event -> {
                 ServerUser su = Clients.get(socket.getId());
                 String projectIdx = su.getProjectIdx();
-                logger.info("메세지 : " + event.getString("msg"));
                 event.putString("msg", CommonUtils.encodeContent(event.getString("msg")));
                 event.putString("img", su.getImg());
                 event.putString("user", su.getName());
                 io.sockets().in(projectIdx).emit("response", event);
+                logger.info("[ROOM "+projectIdx+"] Sending Message : [" + event.getString("msg")+"] [USER "+su.getId()+"]");
             }); //Msg End
 
             socket.on("file", event -> {
@@ -117,23 +116,30 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 String projectIdx = su.getProjectIdx();
                 event.putString("img", su.getImg());
                 event.putString("user", su.getName());
-                if(event.getString("type").equals("img"))
-                event.putString("msg", "<img src=../loadImg?name=" + event.getElement("msg").asObject().getString("stored") + " style=\'width:200px;height:150px\'>");
+
+
+                if (event.getString("type").equals("img"))
+                    event.putString("msg", "<img src=../loadImg?name=" + event.getElement("msg").asObject().getString("stored") + " style=\'width:200px;height:150px\'>");
                 else
-                event.putString("msg","<i class='fa fa-file-text-o fa-2x'></i>"+"<a href='file?name="+event.getElement("msg").asObject().getString("stored")+"'><span class='file_name_tag' style='color:#ffffff;'> "+event.getElement("msg").asObject().getString("original")+"</span></a>");
+                    event.putString("msg", "<i class='fa fa-file-text-o fa-2x'></i>" + "<a href='file?name=" + event.getElement("msg").asObject().getString("stored") + "'><span class='file_name_tag' style='color:#ffffff;'> " + event.getElement("msg").asObject().getString("original") + "</span></a>");
                 io.sockets().in(projectIdx).emit("response", event);
+                logger.info("[ROOM "+projectIdx+"] Sending File [USER "+su.getId()+"]");
             });//img end
 
             socket.on("writer", event -> {
+
                 ServerUser su = Clients.get(socket.getId());
                 String projectIdx = su.getProjectIdx();
                 Integer writer_id = su.getUserIdx();
+                logger.info("["+projectIdx + "] Trying to be writer ["+su.getId()+"]");
                 if (Rooms.get(projectIdx) != -1) {
                     socket.emit("write", "no");
+                    logger.info("["+su.getId() + "] Failing to be writer");
                 } else {
                     Rooms.replace(projectIdx, writer_id); //쓰는 사람의 id로 변경
                     socket.emit("write", "yes");
                     io.sockets().in(projectIdx).except(socket.getId()).emit("write", "no");
+                    logger.info("["+projectIdx + "] Succeeding to be writer [USER "+ su.getId()+"]");
                 }
             }); //writer end
 
@@ -149,16 +155,21 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 String memo = event.getString("memo");
                 Project pj = pjs.get(Integer.parseInt(projectIdx));
                 pj.setMinute(memo);
+                logger.info("[ROOM "+projectIdx+"] Trying to save memo [" + memo + "] [USER "+su.getId()+"]");
+
+                /*
+                Create Minute
+                 */
                 Minute minute = ms.getByDate(new Date());
                 if (minute == null) {
                     minute = new Minute(memo, new Date());
-                    logger.info("새로 생성했다!");
+                    logger.info("[ROOM "+projectIdx+"] Minute is Created");
                 }
                 minute.setContent(memo);
                 minute.setDate(new Date());
                 minute.setProject(pj);
-                logger.info("메모장 : " + memo);
                 ms.save(minute);
+
                 pjs.save(pj);
                 Rooms.replace(projectIdx, -1);
                 try {
@@ -169,6 +180,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                     e.printStackTrace();
                 }
                 io.sockets().in(projectIdx).emit("refresh", memo);
+                logger.info("[ROOM "+projectIdx+"] Succeeding to save memo [" + memo + "] [USER "+su.getId()+"]");
             }); //save end
 
             socket.on("invite", event -> {
