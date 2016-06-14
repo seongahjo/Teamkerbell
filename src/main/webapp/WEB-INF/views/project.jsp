@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -657,6 +658,9 @@
 <script src="../js/daterangepicker.js"></script>
 <!-- Select -->
 <script src="../js/select2.full.min.js"></script>
+<!-- json2 -->
+<script src="../js/json2.js"></script>
+
 <script src="../js/alarm.js"></script>
 <script src="../js/socket.io.js"></script>
 <script src="../js/prettydate.min.js"></script>
@@ -674,255 +678,247 @@
         //Initialize Select Elements
         $(".select2").select();
         //Date range picker
-        $('#reservation').daterangepicker({}, function (start, end) {
-            scheduleStart = start;
-            scheduleEnd = end;
+
+        $('#reservation').daterangepicker();
+        $("#reservation").on('apply.daterangepicker', function (ev, picker) {
+            scheduleStart = picker.startDate.format('YYYY-MM-DD');
+            scheduleEnd = picker.endDate.format('YYYY-MM-DD');
         });
-        //Date range picker with time picker
-        $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'YYYY-MM-DD h:mm A'});
-        //Date range as a button
-        $('#daterange-btn').daterangepicker(
-                {
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')]
-                    },
-                    startDate: moment().subtract(29, 'days'),
-                    endDate: moment()
-                },
-                function (start, end) {
-                    $('#reportrange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-                }
-        );
-        $(".timepicker").timepicker({
-            showInputs: false
-        });
+
         $('#InviteUser').on('hidden.bs.modal', function (e) {
             $("#user").html('');
             $("#inviteForm #inviteId").val('');
-
         })
-    });
-    var option = "Today";
-    var Tminute = "${project.minute}";
-    var socket;
-    $(document).ready(function () {
-        socket = io.connect("http://localhost:9999");
-        socket.emit('join', {
-            projectIdx: "${project.projectidx}",
-            userIdx:${user.useridx},
-            userName: "${user.name}",
-            userId: "${user.id}",
-            userImg: "${user.img}"
-        });
-        socket.on('response', function (data) {
-            console.log(data);
-            if (data.user == "${user.id}") {
-                $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
-            }
-            else
-                $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
+        $('#todoMadal').on('hidden.bs.modal', function (e) {
+            $("#todocontent").val('');
+            $("#reservation").val('');
+        })
 
-            <!--  $('#didiv').scrollTop($('#didiv')[0].scrollHeight);-->
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        });
-        socket.on('write', function (flag) {
-            if (flag == "yes") {
-                $("#memo").prop("disabled", false);
-                $("#writebutton").addClass("hidden");
-                $("#savebutton").removeClass("hidden");
-            }
-            else {
-                $("#memo").prop("disabled", true);
+        var option = "Today";
+        var Tminute = "${project.minute}";
+        var socket;
+        $(document).ready(function () {
+            socket = io.connect('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
+            socket.emit('join', {
+                projectIdx: "${project.projectidx}",
+                userIdx:${user.useridx},
+                userName: "${user.name}",
+                userId: "${user.id}",
+                userImg: "${user.img}"
+            });
+            socket.on('response', function (data) {
+                console.log(data);
+                if (data.user == "${user.id}") {
+                    $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
+                }
+                else
+                    $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
 
-            }
-        });
-        socket.on('adduser', function (id) {
-            $("#user" + id + "off").addClass("hidden");
-            $("#user" + id + "on").removeClass("hidden");
-        });
-        socket.on('deleteuser', function (id) {
-            $("#user" + id + "off").removeClass("hidden");
-            $("#user" + id + "on").addClass("hidden");
-        });
-        socket.on('refresh', function (memo) {
-            $("#memo").val(memo);
-            Tminute = memo;
-        });
-        socket.on('alarm', function (data) {
-            var par = "userIdx=" +${user.useridx};
-            $.ajax({
-                url: "../updateAlarm",
-                data: par,
-                dataType: 'json',
-                type: 'GET',
-                success: function (data) {
-                    var size = parseInt($("#alarm-size").text()) + 1;
-                    $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
-                    $("#alarm-size").text(size);
-                    $("#alarm-content").text('You have ' + size + 'notifications');
-                    $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-                            '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-                            'has invited you to <strong>' + data.projectname + '</strong>' +
-                            '<div style="float:right;">' +
-                            ' <button type="button" class="btn btn-primary btn-xs"' +
-                            'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-                            '<button type="button" class="btn btn-default btn-xs"' +
-                            'onclick=decline("' + data.alarmidx + '")>Cancel' +
-                            '</button>' +
-                            '</div>' +
-                            '</a>' +
-                            '</li>');
+                <!--  $('#didiv').scrollTop($('#didiv')[0].scrollHeight);-->
+                $('#chat').scrollTop($('#chat')[0].scrollHeight);
+            });
+            socket.on('write', function (flag) {
+                if (flag == "yes") {
+                    $("#memo").prop("disabled", false);
+                    $("#writebutton").addClass("hidden");
+                    $("#savebutton").removeClass("hidden");
+                }
+                else {
+                    $("#memo").prop("disabled", true);
+
                 }
             });
+            socket.on('adduser', function (id) {
+                $("#user" + id + "off").addClass("hidden");
+                $("#user" + id + "on").removeClass("hidden");
+            });
+            socket.on('deleteuser', function (id) {
+                $("#user" + id + "off").removeClass("hidden");
+                $("#user" + id + "on").addClass("hidden");
+            });
+            socket.on('refresh', function (memo) {
+                $("#memo").val(memo);
+                Tminute = memo;
+            });
+            socket.on('alarm', function (data) {
+                var par = "userIdx=" +${user.useridx};
+                $.ajax({
+                    url: "../updateAlarm",
+                    data: par,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        var size = parseInt($("#alarm-size").text()) + 1;
+                        $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
+                        $("#alarm-size").text(size);
+                        $("#alarm-content").text('You have ' + size + 'notifications');
+                        $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                                '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                                'has invited you to <strong>' + data.projectname + '</strong>' +
+                                '<div style="float:right;">' +
+                                ' <button type="button" class="btn btn-primary btn-xs"' +
+                                'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                                '<button type="button" class="btn btn-default btn-xs"' +
+                                'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                                '</button>' +
+                                '</div>' +
+                                '</a>' +
+                                '</li>');
+                    }
+                });
+            });
+
+
+        }); // document function
+        function save_memo() {
+            socket.emit('save', {memo: $("#memo").val()});
+            Tminute = $("#memo").val();
+            $("#writebutton").removeClass("hidden");
+            $("#savebutton").addClass("hidden");
+            $("#memo").prop("disabled", true);
+            $("#selectBox").attr("disabled", false);
+        }
+
+        function write_memo() {
+            if (option == "Today") {
+                socket.emit('writer');
+                $("#selectBox").attr("disabled", true);
+            }
+        }
+
+        $('#memo').keyup(function (event) {
+            if (event.keyCode != 8)
+                socket.emit('refreshToAll', {memo: $("#memo").val()});
         });
+
+        function sendMsg() {
+            var dates = new Date().toShortTimeString();
+            socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
+            $("#typing").val("");
+            $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        }
+
+        function invite() {
+            var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
+            $.ajax({
+                url: "../inviteUser",
+                data: par,
+                dataType: 'text',
+                async: true,
+                processData: false,
+                contentType: false,
+                type: 'GET',
+                success: function (data) {
+                    socket.emit('invite', {userIdx: data});
+                    console.log(data + "Invite");
+                    $("#InviteUser").modal('hide');
+                }
+            });
+        }
+
+        /*
+         socket 관련함수 끝
+         */
+        function search() {
+            var par = "userId=" + $("#inviteForm #inviteId").val() + "&projectIdx=${project.projectidx}";
+            $.ajax({
+                url: "../inviteUser",
+                type: 'POST',
+                dataType: 'json',
+                data: par,
+                success: function (data) {
+                    inviteU = data.userId;
+                    $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+                },
+                error: function () {
+                    $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
+                }
+            });
+        }
+
+        function test() {
+            var file = $("#file")[0].files[0];
+            $("#fakeFileTxt").val(file.name);
+        }
+
+        function selectFile() {
+            document.getElementById("file").click();
+        }
+
+        $("#selectBox").change(function () {
+            option = $(this).children("option:selected").text();
+            if (option == "Today")
+                $("#memo").val(Tminute);
+            else
+                $("#memo").val($(this).children("option:selected").val());
+        });
+        //11시 59분에 저장하고 새로고침하는 함수 추가예정
+
+
+        $("#inviteId").keydown(function (key) {
+            if (key.keyCode == 13) {
+                search();
+            }
+        });
+
         $('#file').hover(function (event) {
             $('#file_over').addClass('front_hover');
         }, function () {
             $('#file_over').removeClass('front_hover');
         });
 
-    }); // document function
-    function save_memo() {
-        socket.emit('save', {memo: $("#memo").val()});
-        Tminute = $("#memo").val();
-        $("#writebutton").removeClass("hidden");
-        $("#savebutton").addClass("hidden");
-        $("#memo").prop("disabled", true);
-        $("#selectBox").attr("disabled", false);
-    }
+        function makeTodolist() {
 
-    function write_memo() {
-        if (option == "Today") {
-            socket.emit('writer');
-            $("#selectBox").attr("disabled", true);
+            console.log($("#reservation"));
+            var param = {
+                projectIdx: ${project.projectidx},
+                userId: $("#todoselect").children("option:selected").val(),
+                startdate: scheduleStart.format('YYYY-MM-DD'),
+                enddate: scheduleEnd.format('YYYY-MM-DD'),
+                content: $("#todocontent").val()
+            };
+            var querystring = $.param(param);
+
+
+            $.ajax({
+                url: "../Todolist",
+                type: 'POST',
+                data: querystring,
+                processData: false,
+                success: function (response) {
+                    $("#todoMadal").modal('hide');
+                },
+                error: function () {
+                }
+            });
+
         }
-    }
 
-    $('#memo').keyup(function (event) {
-        if (event.keyCode != 8)
-            socket.emit('refreshToAll', {memo: $("#memo").val()});
-    });
-
-    function sendMsg() {
-        var dates = new Date().toShortTimeString();
-        socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
-        $("#typing").val("");
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
-    }
-
-    function invite() {
-        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
-        $.ajax({
-            url: "../inviteUser",
-            data: par,
-            dataType: 'text',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function (data) {
-                socket.emit('invite', {userIdx: data});
-                console.log(data + "Invite");
-                $("#InviteUser").modal('hide');
-            }
-        });
-    }
-    function search() {
-        var par = "userId=" + $("#inviteForm #inviteId").val() + "&projectIdx=${project.projectidx}";
-        $.ajax({
-            url: "../inviteUser",
-            type: 'POST',
-            dataType: 'json',
-            data: par,
-            success: function (data) {
-                inviteU = data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
-            },
-            error: function () {
-                $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
-            }
-        });
-    }
-    /*
-     socket 관련함수 끝
-     */
-    function test() {
-        var file = $("#file")[0].files[0];
-        $("#fakeFileTxt").val(file.name);
-    }
-
-    function selectFile() {
-        document.getElementById("file").click();
-    }
-
-    $("#selectBox").change(function () {
-        option = $(this).children("option:selected").text();
-        if (option == "Today")
-            $("#memo").val(Tminute);
-        else
-            $("#memo").val($(this).children("option:selected").val());
-    });
-    //11시 59분에 저장하고 새로고침하는 함수 추가예정
-
-
-    $("#inviteId").keydown(function (key) {
-        if (key.keyCode == 13) {
-            search();
+        function endsWith(str, suffix) {
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
         }
-    });
 
-
-    function makeTodolist() {
-        var param = {scheduleidx: event.id, enddate: event.end.format(), startdate: event.start.format()};
-        var datas = JSON.stringify(param);
-
-        var param = {
-            projectIdx: ${project.projectidx},
-            userId: $("#todoselect").children("option:selected").val(),
-            startdate: scheduleStart.format('YYYY-MM-DD'),
-            enddate : scheduleEnd.format('YYYY-MM-DD'),
-            content : $("#todocontent").val()
-        };
-        $.ajax({
-            url: "../Todolist",
-            data: param,
-            dataType: 'text',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function (response) {
-                location.reload();
-            },
-            error: function () {
-            }
-        });
-
-    }
-    function endsWith(str, suffix) {
-        return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    }
-    function upload() {
-        var form = $("#uploadForm")[0];
-        var formData = new FormData(form);
-        $.ajax({
-            url: "../file",
-            type: "POST",
-            dataType: "json",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                socket.emit("file", {
-                    msg: data,
-                    user: "${user.name}",
-                    date: new Date().toString('HH:mm'),
-                    type: data.type
-                });
-            }
-        });
-    }
+        function upload() {
+            var form = $("#uploadForm")[0];
+            var formData = new FormData(form);
+            $.ajax({
+                url: "../file",
+                type: "POST",
+                dataType: "json",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    socket.emit("file", {
+                        msg: data,
+                        user: "${user.name}",
+                        date: new Date().toString('HH:mm'),
+                        type: data.type
+                    });
+                }
+            });
+        }
+    })
 
 </script>
 </body>

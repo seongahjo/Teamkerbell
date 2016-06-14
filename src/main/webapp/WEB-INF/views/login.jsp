@@ -115,7 +115,7 @@
         </div>
         <p class="login-box-msg">Register a new membership</p>
 
-        <form action="register" method="post" id="registerForm" enctype="multipart/form-data" onsubmit="register()">
+        <form action="user" method="post" id="registerForm" enctype="multipart/form-data" onsubmit="register()">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="name" placeholder="Full name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>

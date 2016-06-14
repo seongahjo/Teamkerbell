@@ -47,11 +47,12 @@ public class ProjectController {
     /*
     RESTFUL DOCUMENTATION
     ROOM
-        POST : CREATE
+        POST : CREATE (PROJECT)
         DELETE : DELETE
 
     InviteUser
-        POST :
+        POST : SEARCH
+        GET : INVITE
      */
     /*
     To make project room
@@ -86,7 +87,8 @@ public class ProjectController {
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap searchUser(@RequestParam(value = "userId") String userId,@RequestParam("projectIdx") Integer projectIdx) {
+    public HashMap searchUser(@RequestParam(value = "userId") String userId,
+                              @RequestParam("projectIdx") Integer projectIdx) {
         logger.info("Search Member");
         Project project = pjs.get(projectIdx);
         User user = us.getById(userId);
@@ -108,7 +110,9 @@ public class ProjectController {
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
     @ResponseBody
-    public String InviteMember(@RequestParam(value = "userId") String userId, @RequestParam("projectIdx") Integer projectIdx,Authentication authentication) {
+    public String InviteMember(@RequestParam(value = "userId") String userId,
+                               @RequestParam("projectIdx") Integer projectIdx,
+                               Authentication authentication) {
         logger.info("Invite Member");
         User actor=us.getById(authentication.getName()); //초대한 사람
         User user = us.getById(userId); // 초대받은 사람
@@ -127,7 +131,9 @@ public class ProjectController {
     */
     @RequestMapping(value = "/Todolist", method = RequestMethod.POST)
     @ResponseBody
-    public String makeTodolist(@RequestParam("projectIdx") Integer projectIdx, @RequestParam("userId") String userId, @ModelAttribute("todolist") Todolist todolist) {
+    public String makeTodolist(@RequestParam("projectIdx") Integer projectIdx,
+                               @RequestParam("userId") String userId,
+                               @ModelAttribute("todolist") Todolist todolist) {
         Project project = pjs.get(projectIdx);
         User user = us.getById(userId);
         todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가

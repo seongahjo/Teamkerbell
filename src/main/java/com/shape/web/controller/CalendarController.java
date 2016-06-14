@@ -2,7 +2,6 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.*;
 import com.shape.web.service.*;
-import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by seongahjo on 2016. 2. 7..
@@ -75,10 +75,11 @@ public class CalendarController {
         return map;
     }
     */
+
     /*
    To make schedule
    */
-    @RequestMapping(value = "/makeSchedule", method = RequestMethod.GET)
+    @RequestMapping(value = "/schedule", method = RequestMethod.POST)
     @ResponseBody
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
         Project project = pjs.get(projectIdx);
@@ -89,12 +90,31 @@ public class CalendarController {
         List<User> lu = pjs.getUsers(project);
         for (User u : lu) {
             alarm.setAlarmidx(null);
-            logger.info(u.getUseridx() + " make");
+            logger.info("[USER " + u.getUseridx() + "] Make Alarm");
             alarm.setUser(u);
             as.save(alarm);
         }
-        logger.info("Schedule 만듬");
+        logger.info("[ROOM " + projectIdx + "] Make Schedule ");
     }
+
+    @RequestMapping(value = "/schedule", method = RequestMethod.PUT)
+    @ResponseBody
+    public void updateSchedule(@RequestBody Schedule schedule) {
+
+        Schedule s = ss.get(schedule.getScheduleidx());
+        if (schedule.getEnddate() != null)
+            s.setEnddate(schedule.getEnddate());
+        if (schedule.getStartdate() != null)
+            s.setStartdate(schedule.getStartdate());
+        if (schedule.getState() != null)
+            s.setState(schedule.getState());
+
+        logger.info("modifying schedule");
+        ss.save(s);
+    }
+    /*
+        밑에는 기존 Calendar 이를 바꿀예정임
+     */
 
     /*
    To register the date you want to participate & prepare to make meeting when all users make a choice
@@ -131,6 +151,7 @@ public class CalendarController {
         }
         logger.info("appointment 만듬");
     }
+
 
     /*
       To make meeting when all users make a choice
@@ -183,6 +204,7 @@ public class CalendarController {
     /*
  To get meetings
   */
+    /*
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
     @ResponseBody
     public Map getEvent(@RequestParam("projectIdx") Integer projectIdx) {
@@ -196,31 +218,10 @@ public class CalendarController {
                         "To do - " + s.getContent() + "<br>" +
                         "Place - " + s.getPlace() + "<br>" +
                         "Time - " + s.getTime() + "</span>");
-*/
+
         return event;
     }
+*/
 
-    @RequestMapping(value = "/schedule", method = RequestMethod.PUT)
-    @ResponseBody
-    public void updateSchedule(@RequestBody  Schedule schedule) {
-
-        Schedule s=ss.get(schedule.getScheduleidx());
-        if(schedule.getEnddate()!=null)
-        s.setEnddate(schedule.getEnddate());
-        if(schedule.getStartdate()!=null)
-        s.setStartdate(schedule.getStartdate());
-        if(schedule.getState()!=null)
-            s.setState(schedule.getState());
-
-        logger.info("modifying schedule");
-        ss.save(s);
-    }
-
-    @RequestMapping(value = "/schedule", method = RequestMethod.POST)
-    @ResponseBody
-    public void makeSchedule(@RequestBody  Schedule schedule) {
-
-
-    }
 
 }

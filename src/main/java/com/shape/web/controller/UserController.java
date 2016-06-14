@@ -37,7 +37,7 @@ public class UserController {
     @Autowired
     FileDBService fs;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
     public String register(@ModelAttribute("tempUser") User tempUser, @RequestParam("file") MultipartFile file,BindingResult result) {
         if(!result.hasErrors()) {
             User user = us.getById(tempUser.getId());

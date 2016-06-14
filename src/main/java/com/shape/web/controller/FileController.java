@@ -48,6 +48,12 @@ public class FileController {
     FileDBService fs;
 
     /*
+    RESTFUL DOCUMENTATION
+    FILE
+       GET : DOWNLOAD (name)
+       POST : UPLOAD ( idx, useridx, file)
+     */
+    /*
      To uploading file
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)

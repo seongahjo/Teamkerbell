@@ -513,11 +513,13 @@
 <script src="../js/addtags.js"></script>
 <!--alarm-->
 <script src="../js/alarm.js"></script>
+<!--json2-->
 <script src="../js/json2.js"></script>
 <!-- bootstrap time picker -->
 <script src="../js/bootstrap-timepicker.min.js"></script>
 <script>
-    console.log(<spring:eval expression="@config.getProperty('app.socket.url')"/>);
+    console.log('<spring:message code="test"/> ');
+    console.log('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
     var registerStartDate;
     var registerEndDate;
     var socket;
