@@ -668,257 +668,245 @@
 
 <!-- gallery-->
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
+<script id="socket" type="text/javascript">
+    var socket;
+    socket = io.connect('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
+    socket.emit('join', {
+        projectIdx: "${project.projectidx}",
+        userIdx:${user.useridx},
+        userName: "${user.name}",
+        userId: "${user.id}",
+        userImg: "${user.img}"
+    });
+    socket.on('response', function (data) {
+        if (data.user == "${user.id}") {
+            $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
+        }
+        else
+            $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
+
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    });
+    socket.on('write', function (flag) {
+        if (flag == "yes") {
+            $("#memo").prop("disabled", false);
+            $("#writebutton").addClass("hidden");
+            $("#savebutton").removeClass("hidden");
+        }
+        else {
+            $("#memo").prop("disabled", true);
+
+        }
+    });
+    socket.on('adduser', function (id) {
+        $("#user" + id + "off").addClass("hidden");
+        $("#user" + id + "on").removeClass("hidden");
+    });
+    socket.on('deleteuser', function (id) {
+        $("#user" + id + "off").removeClass("hidden");
+        $("#user" + id + "on").addClass("hidden");
+    });
+    socket.on('refresh', function (memo) {
+        $("#memo").val(memo);
+        Tminute = memo;
+    });
+    socket.on('alarm', function (data) {
+        var par = "userIdx=" +${user.useridx};
+        $.ajax({
+            url: "../updateAlarm",
+            data: par,
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                var size = parseInt($("#alarm-size").text()) + 1;
+                $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
+                $("#alarm-size").text(size);
+                $("#alarm-content").text('You have ' + size + 'notifications');
+                $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                        '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                        'has invited you to <strong>' + data.projectname + '</strong>' +
+                        '<div style="float:right;">' +
+                        ' <button type="button" class="btn btn-primary btn-xs"' +
+                        'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                        '<button type="button" class="btn btn-default btn-xs"' +
+                        'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                        '</button>' +
+                        '</div>' +
+                        '</a>' +
+                        '</li>');
+            }
+        });
+    });
+
+    function save_memo() {
+        socket.emit('save', {memo: $("#memo").val()});
+        Tminute = $("#memo").val();
+        $("#writebutton").removeClass("hidden");
+        $("#savebutton").addClass("hidden");
+        $("#memo").prop("disabled", true);
+        $("#selectBox").attr("disabled", false);
+    }
+
+    function write_memo() {
+        if (option == "Today") {
+            socket.emit('writer');
+            $("#selectBox").attr("disabled", true);
+        }
+    }
+
+    $('#memo').keyup(function (event) {
+        if (event.keyCode != 8)
+            socket.emit('refreshToAll', {memo: $("#memo").val()});
+    });
+
+    function sendMsg() {
+        var dates = new Date().toShortTimeString();
+        socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
+        $("#typing").val("");
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    }
+
+    function invite() {
+        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
+        $.ajax({
+            url: "../inviteUser",
+            data: par,
+            dataType: 'text',
+            async: true,
+            processData: false,
+            contentType: false,
+            type: 'GET',
+            success: function (data) {
+                socket.emit('invite', {userIdx: data});
+                console.log(data + "Invite");
+                $("#InviteUser").modal('hide');
+            }
+        });
+    }
+</script>
+
 <script>
+    var invited;
     var scheduleStart;
     var scheduleEnd;
-    var inviteU;
-    $(function () {
+    var option = "Today";
+    var Tminute = "${project.minute}";
 
-        $("a.zoom").imageZoom({scale: 0.75});
-        //Initialize Select Elements
-        $(".select2").select();
-        //Date range picker
-
-        $('#reservation').daterangepicker();
-        $("#reservation").on('apply.daterangepicker', function (ev, picker) {
-            scheduleStart = picker.startDate.format('YYYY-MM-DD');
-            scheduleEnd = picker.endDate.format('YYYY-MM-DD');
-        });
-
-        $('#InviteUser').on('hidden.bs.modal', function (e) {
-            $("#user").html('');
-            $("#inviteForm #inviteId").val('');
-        })
-        $('#todoMadal').on('hidden.bs.modal', function (e) {
-            $("#todocontent").val('');
-            $("#reservation").val('');
-        })
-
-        var option = "Today";
-        var Tminute = "${project.minute}";
-        var socket;
-        $(document).ready(function () {
-            socket = io.connect('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
-            socket.emit('join', {
-                projectIdx: "${project.projectidx}",
-                userIdx:${user.useridx},
-                userName: "${user.name}",
-                userId: "${user.id}",
-                userImg: "${user.img}"
-            });
-            socket.on('response', function (data) {
-                console.log(data);
-                if (data.user == "${user.id}") {
-                    $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
-                }
-                else
-                    $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
-
-                <!--  $('#didiv').scrollTop($('#didiv')[0].scrollHeight);-->
-                $('#chat').scrollTop($('#chat')[0].scrollHeight);
-            });
-            socket.on('write', function (flag) {
-                if (flag == "yes") {
-                    $("#memo").prop("disabled", false);
-                    $("#writebutton").addClass("hidden");
-                    $("#savebutton").removeClass("hidden");
-                }
-                else {
-                    $("#memo").prop("disabled", true);
-
-                }
-            });
-            socket.on('adduser', function (id) {
-                $("#user" + id + "off").addClass("hidden");
-                $("#user" + id + "on").removeClass("hidden");
-            });
-            socket.on('deleteuser', function (id) {
-                $("#user" + id + "off").removeClass("hidden");
-                $("#user" + id + "on").addClass("hidden");
-            });
-            socket.on('refresh', function (memo) {
-                $("#memo").val(memo);
-                Tminute = memo;
-            });
-            socket.on('alarm', function (data) {
-                var par = "userIdx=" +${user.useridx};
-                $.ajax({
-                    url: "../updateAlarm",
-                    data: par,
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        var size = parseInt($("#alarm-size").text()) + 1;
-                        $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
-                        $("#alarm-size").text(size);
-                        $("#alarm-content").text('You have ' + size + 'notifications');
-                        $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-                                '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-                                'has invited you to <strong>' + data.projectname + '</strong>' +
-                                '<div style="float:right;">' +
-                                ' <button type="button" class="btn btn-primary btn-xs"' +
-                                'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-                                '<button type="button" class="btn btn-default btn-xs"' +
-                                'onclick=decline("' + data.alarmidx + '")>Cancel' +
-                                '</button>' +
-                                '</div>' +
-                                '</a>' +
-                                '</li>');
-                    }
-                });
-            });
-
-
-        }); // document function
-        function save_memo() {
-            socket.emit('save', {memo: $("#memo").val()});
-            Tminute = $("#memo").val();
-            $("#writebutton").removeClass("hidden");
-            $("#savebutton").addClass("hidden");
-            $("#memo").prop("disabled", true);
-            $("#selectBox").attr("disabled", false);
-        }
-
-        function write_memo() {
-            if (option == "Today") {
-                socket.emit('writer');
-                $("#selectBox").attr("disabled", true);
-            }
-        }
-
-        $('#memo').keyup(function (event) {
-            if (event.keyCode != 8)
-                socket.emit('refreshToAll', {memo: $("#memo").val()});
-        });
-
-        function sendMsg() {
-            var dates = new Date().toShortTimeString();
-            socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
-            $("#typing").val("");
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        }
-
-        function invite() {
-            var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
-            $.ajax({
-                url: "../inviteUser",
-                data: par,
-                dataType: 'text',
-                async: true,
-                processData: false,
-                contentType: false,
-                type: 'GET',
-                success: function (data) {
-                    socket.emit('invite', {userIdx: data});
-                    console.log(data + "Invite");
-                    $("#InviteUser").modal('hide');
-                }
-            });
-        }
-
-        /*
-         socket 관련함수 끝
-         */
-        function search() {
-            var par = "userId=" + $("#inviteForm #inviteId").val() + "&projectIdx=${project.projectidx}";
-            $.ajax({
-                url: "../inviteUser",
-                type: 'POST',
-                dataType: 'json',
-                data: par,
-                success: function (data) {
-                    inviteU = data.userId;
-                    $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
-                },
-                error: function () {
-                    $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
-                }
-            });
-        }
-
-        function test() {
-            var file = $("#file")[0].files[0];
-            $("#fakeFileTxt").val(file.name);
-        }
-
-        function selectFile() {
-            document.getElementById("file").click();
-        }
-
-        $("#selectBox").change(function () {
-            option = $(this).children("option:selected").text();
-            if (option == "Today")
-                $("#memo").val(Tminute);
-            else
-                $("#memo").val($(this).children("option:selected").val());
-        });
-        //11시 59분에 저장하고 새로고침하는 함수 추가예정
-
-
-        $("#inviteId").keydown(function (key) {
-            if (key.keyCode == 13) {
-                search();
-            }
-        });
-
-        $('#file').hover(function (event) {
-            $('#file_over').addClass('front_hover');
-        }, function () {
-            $('#file_over').removeClass('front_hover');
-        });
-
-        function makeTodolist() {
-
-            console.log($("#reservation"));
-            var param = {
-                projectIdx: ${project.projectidx},
-                userId: $("#todoselect").children("option:selected").val(),
-                startdate: scheduleStart.format('YYYY-MM-DD'),
-                enddate: scheduleEnd.format('YYYY-MM-DD'),
-                content: $("#todocontent").val()
-            };
-            var querystring = $.param(param);
-
-
-            $.ajax({
-                url: "../Todolist",
-                type: 'POST',
-                data: querystring,
-                processData: false,
-                success: function (response) {
-                    $("#todoMadal").modal('hide');
-                },
-                error: function () {
-                }
-            });
-
-        }
-
-        function endsWith(str, suffix) {
-            return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        }
-
-        function upload() {
-            var form = $("#uploadForm")[0];
-            var formData = new FormData(form);
-            $.ajax({
-                url: "../file",
-                type: "POST",
-                dataType: "json",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    socket.emit("file", {
-                        msg: data,
-                        user: "${user.name}",
-                        date: new Date().toString('HH:mm'),
-                        type: data.type
-                    });
-                }
-            });
-        }
+    $("a.zoom").imageZoom({scale: 0.75});
+    //Initialize Select Elements
+    $(".select2").select();
+    //Date range picker
+    $('#reservation').daterangepicker();
+    $("#reservation").on('apply.daterangepicker', function (ev, picker) {
+        scheduleStart = picker.startDate.format('YYYY-MM-DD');
+        scheduleEnd = picker.endDate.format('YYYY-MM-DD');
+    });
+    $('#InviteUser').on('hidden.bs.modal', function (e) {
+        $("#user").html('');
+        $("#inviteForm #inviteId").val('');
     })
+    $('#todoMadal').on('hidden.bs.modal', function (e) {
+        $("#todocontent").val('');
+        $("#reservation").val('');
+    })
+
+    function search() {
+        var par = "userId=" + $("#inviteForm #inviteId").val() + "&projectIdx=${project.projectidx}";
+        $.ajax({
+            url: "../inviteUser",
+            type: 'POST',
+            dataType: 'json',
+            data: par,
+            success: function (data) {
+                invited = data.userId;
+                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+            },
+            error: function () {
+                $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
+            }
+        });
+    }
+
+    function test() {
+        var file = $("#file")[0].files[0];
+        $("#fakeFileTxt").val(file.name);
+    }
+
+    function selectFile() {
+        document.getElementById("file").click();
+    }
+
+    $("#selectBox").change(function () {
+        option = $(this).children("option:selected").text();
+        if (option == "Today")
+            $("#memo").val(Tminute);
+        else
+            $("#memo").val($(this).children("option:selected").val());
+    });
+
+    $("#inviteId").keydown(function (key) {
+        if (key.keyCode == 13) {
+            search();
+        }
+    });
+
+    $('#file').hover(function (event) {
+        $('#file_over').addClass('front_hover');
+    }, function () {
+        $('#file_over').removeClass('front_hover');
+    });
+
+    function makeTodolist() {
+
+        console.log($("#reservation"));
+        var param = {
+            projectIdx: ${project.projectidx},
+            userId: $("#todoselect").children("option:selected").val(),
+            startdate: scheduleStart.format('YYYY-MM-DD'),
+            enddate: scheduleEnd.format('YYYY-MM-DD'),
+            content: $("#todocontent").val()
+        };
+        var querystring = $.param(param);
+
+        $.ajax({
+            url: "../Todolist",
+            type: 'POST',
+            data: querystring,
+            processData: false,
+            success: function (response) {
+                $("#todoMadal").modal('hide');
+            },
+            error: function () {
+            }
+        });
+
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+
+    function upload() {
+        var form = $("#uploadForm")[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: "../file",
+            type: "POST",
+            dataType: "json",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                socket.emit("file", {
+                    msg: data,
+                    user: "${user.name}",
+                    date: new Date().toString('HH:mm'),
+                    type: data.type
+                });
+            }
+        });
+    }
+
 
 </script>
 </body>
