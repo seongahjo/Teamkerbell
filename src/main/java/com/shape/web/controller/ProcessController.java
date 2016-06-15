@@ -35,8 +35,6 @@ public class ProcessController {
     @Autowired
     ProjectService pjs;
 
-    @Autowired
-    TodolistService ts;
 
     @Autowired
     AlarmService as;
@@ -49,17 +47,6 @@ public class ProcessController {
 
     @Autowired
     AppointmentService aps;
-
-    /*
-      To accomplish to-do list
-      */
-    @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
-    @ResponseBody
-    public void todocheck(@RequestParam(value = "id") Integer id) {
-        Todolist todolist = ts.get(id);
-        todolist.setOk(!todolist.getOk());
-        ts.save(todolist);
-    }
 
 
     /*
@@ -85,7 +72,6 @@ public class ProcessController {
             // file 존재 안할시
         }
     }
-
 
 
     /*

@@ -869,7 +869,7 @@
         var querystring = $.param(param);
 
         $.ajax({
-            url: "../Todolist",
+            url: "../todolist",
             type: 'POST',
             data: querystring,
             processData: false,

@@ -100,17 +100,16 @@ public class CalendarController {
     @RequestMapping(value = "/schedule", method = RequestMethod.PUT)
     @ResponseBody
     public void updateSchedule(@RequestBody Schedule schedule) {
-
         Schedule s = ss.get(schedule.getScheduleidx());
-        if (schedule.getEnddate() != null)
-            s.setEnddate(schedule.getEnddate());
         if (schedule.getStartdate() != null)
             s.setStartdate(schedule.getStartdate());
+        if (schedule.getEnddate() != null)
+        s.setEnddate(schedule.getEnddate());
         if (schedule.getState() != null)
-            s.setState(schedule.getState());
-
-        logger.info("modifying schedule");
+        s.setState(schedule.getState());
         ss.save(s);
+        logger.info("modifying schedule");
+
     }
     /*
         밑에는 기존 Calendar 이를 바꿀예정임

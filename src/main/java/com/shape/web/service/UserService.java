@@ -120,7 +120,7 @@ public class UserService implements UserDetailsService {
                 .createAlias("project", "project")
                 .createAlias("project.users", "users")
                 .add(Restrictions.eq("users.useridx", user.getUseridx()))
-                .add(Restrictions.ge("enddate", new Date()))
+                //.add(Restrictions.ge("enddate", new Date()))
                 .addOrder(Order.desc("scheduleidx"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();

@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
@@ -523,44 +523,7 @@
     var registerStartDate;
     var registerEndDate;
     var socket;
-    /*$(document).ready(function () {
-     socket = io.connect("http://192.168.0.45:9999");
-     socket.emit('join', {
-     projectIdx: "${project.projectidx}",
-     userIdx:${user.useridx},
-     userName: "${user.name}",
-     userId: "${user.id}",
-     userImg: "${user.img}"
-     });
 
-     socket.on('alarm', function (data) {
-     var par = "userIdx=" +${user.useridx};
-     $.ajax({
-     url: "../updateAlarm",
-     data: par,
-     dataType: 'json',
-     type: 'GET',
-     success: function (data) {
-     var size = parseInt($("#alarm-size").text()) + 1;
-     $("#alarm").effect("bounce",{direction:'left',distance:13, times:3},500);
-     $("#alarm-size").text(size);
-     $("#alarm-content").text('You have ' + size + 'notifications');
-     $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-     '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-     'has invited you to <strong>' + data.projectname + '</strong>' +
-     '<div style="float:right;">' +
-     ' <button type="button" class="btn btn-primary btn-xs"' +
-     'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-     '<button type="button" class="btn btn-default btn-xs"' +
-     'onclick=decline("' + data.alarmidx + '")>Cancel' +
-     '</button>' +
-     '</div>' +
-     '</a>' +
-     '</li>');
-     }
-     });
-     });
-     });// socket end*/
 
     // fullcalendar
     $('#calendar').fullCalendar({
@@ -573,34 +536,64 @@
         selectable: true,
         editable: true,
         eventDrop: function (event, delta, revertFunc) {
-            var param = {scheduleidx: event.id, enddate: event.end.format(), startdate: event.start.format()};
-            var datas = JSON.stringify(param);
-            $.ajax({
-                url: "../schedule",
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                data: datas,
-                processData: false,
-                success: function (data) {
-                }
-
-            })
-
+            if (event.type == 'schedule') {
+                var param = {scheduleidx: event.sid, enddate: event.end.format(),
+                    startdate: event.start.format()};
+                var datas = JSON.stringify(param);
+                $.ajax({
+                    url: "../schedule",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: datas,
+                    processData: false,
+                    success: function (data) {
+                    }
+                })
+            }
+            else if(event.type=='todolist'){
+                var param = {todolistidx: event.tid, enddate: event.end.format(),
+                    startdate: event.start.format()};
+                var datas = JSON.stringify(param);
+                $.ajax({
+                    url: "../todolist",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: datas,
+                    processData: false,
+                    success: function (data) {
+                    }
+                })
+            }
         },
         eventResize: function (event, delta, revertFunc) {
-
-            var param = {scheduleidx: event.id, enddate: event.end.format(), startdate: event.start.format()};
-            var datas = JSON.stringify(param);
-            $.ajax({
-                url: "../schedule",
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                data: datas,
-                processData: false,
-                success: function (data) {
-                }
-
-            })
+            if (event.type == 'schedule') {
+                var param = {scheduleidx: event.sid, enddate: event.end.format(),
+                    startdate: event.start.format()};
+                var datas = JSON.stringify(param);
+                $.ajax({
+                    url: "../schedule",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: datas,
+                    processData: false,
+                    success: function (data) {
+                    }
+                })
+            }
+            else if(event.type=='todolist'){
+                var param = {todolistidx: event.tid, enddate: event.end.format(),
+                    startdate: event.start.format()};
+                var datas = JSON.stringify(param);
+                $.ajax({
+                    url: "../todolist",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: datas,
+                    processData: false,
+                    success: function (data) {
+                    }
+                })
+            }
         },
         dayClick: function (date, jsEvent, view) {
             /*
@@ -610,16 +603,57 @@
         },
         events: [<c:forEach var="list" items="${schedules}">
             {
-                id: ${list.scheduleidx},
-                title: '${list.content}',
+                sid: ${list.scheduleidx},
+                title: '[${list.project.name}] ${list.content}',
                 start: '${list.startdate}',
                 place: '${list.place}',
-                end: '${list.enddate}'
+                end: '${list.enddate}',
+                type: 'schedule'
+
             },
 
+            </c:forEach>
+                <c:forEach var="list" items="${todolist}">{
+                tid:${list.todolistidx},
+                title: '[${list.project.name}] ${list.content}',
+                start: '${list.startdate}',
+                end: '${list.enddate}',
+                <c:choose>
+                <c:when test="${list.ok=='0'}">
+                color: '#EAEAEA',
+                </c:when>
+                <c:otherwise>
+                color: '#5CD1E5',
+                </c:otherwise>
+                </c:choose>
+
+                type: 'todolist'
+            },
             </c:forEach>],
         eventClick: function (event) {
+            if(event.type=='schedule')
             alert(event.place);
+            else if(event.type=='todolist'){
+               var par="id="+event.tid;
+                $.ajax({
+                    url: "../todocheck",
+                    data: par,
+                    dataType: 'text',
+                    async: true,
+                    processData: false,
+                    contentType: false,
+                    type: 'GET',
+                    success: function () {
+                        if(event.color=='#EAEAEA')
+                        event.color='#5CD1E5';
+                        else
+                            event.color='#EAEAEA'
+                        $('#calendar').fullCalendar('updateEvent', event);
+                    }
+                });
+
+
+            }
         }
 
     });
@@ -684,20 +718,23 @@
     $(".cb").change(function () {
         var check = $(this);
         var par = "id=" + $(this).val();
+            $.ajax({
+                url: "../todocheck",
+                data: par,
+                dataType: 'text',
+                async: true,
+                processData: false,
+                contentType: false,
+                type: 'GET',
+                success: function () {
+                    check.parent().toggleClass("done");
 
-        $.ajax({
-            url: "../todocheck",
-            data: par,
-            dataType: 'text',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function () {
-                check.parent().toggleClass("done");
-            }
-        });
+                }
+            });
     });
+    function changeT(event){
+
+    }
 
 
 </script>
