@@ -522,8 +522,6 @@
     console.log('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
     var registerStartDate;
     var registerEndDate;
-    var socket;
-
 
     // fullcalendar
     $('#calendar').fullCalendar({
@@ -632,9 +630,9 @@
             </c:forEach>],
         eventClick: function (event) {
             if(event.type=='schedule')
-            alert(event.place);
+                alert(event.place);
             else if(event.type=='todolist'){
-               var par="id="+event.tid;
+                var par="id="+event.tid;
                 $.ajax({
                     url: "../todocheck",
                     data: par,
@@ -645,7 +643,7 @@
                     type: 'GET',
                     success: function () {
                         if(event.color=='#EAEAEA')
-                        event.color='#5CD1E5';
+                            event.color='#5CD1E5';
                         else
                             event.color='#EAEAEA'
                         $('#calendar').fullCalendar('updateEvent', event);
@@ -718,19 +716,19 @@
     $(".cb").change(function () {
         var check = $(this);
         var par = "id=" + $(this).val();
-            $.ajax({
-                url: "../todocheck",
-                data: par,
-                dataType: 'text',
-                async: true,
-                processData: false,
-                contentType: false,
-                type: 'GET',
-                success: function () {
-                    check.parent().toggleClass("done");
+        $.ajax({
+            url: "../todocheck",
+            data: par,
+            dataType: 'text',
+            async: true,
+            processData: false,
+            contentType: false,
+            type: 'GET',
+            success: function () {
+                check.parent().toggleClass("done");
 
-                }
-            });
+            }
+        });
     });
     function changeT(event){
 

@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="../css/select2.min.css">
+    <!-- dropzone-->
+    <link rel="stylesheet" href="../css/dropzone.css">
+    <link rel="stylesheet" href="../css/basic.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -255,12 +258,18 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <!-- Conversations are loaded here -->
-                            <div class="direct-chat-messages chatbox" id="chat">
-                            </div>
-                        </div> <!-- box body-->
+                        <form action="../file" class="dropzone" id="dropzone" method="POST"
+                              enctype="multipart/form-data">
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <!-- Conversations are loaded here -->
+                                <div class="direct-chat-messages chatbox" id="chat">
+                                </div>
+                                <input type="hidden" name="idx" value="${project.projectidx}"/>
+                                <input type="hidden" name="userIdx" value="${user.useridx}"/>
+
+                            </div> <!-- box body-->
+                        </form>
                     </div> <!-- box -->
 
                     <!-- /.box-body -->
@@ -660,11 +669,16 @@
 <script src="../js/select2.full.min.js"></script>
 <!-- json2 -->
 <script src="../js/json2.js"></script>
-
+<!-- alarm -->
 <script src="../js/alarm.js"></script>
+<!-- SocketIO -->
 <script src="../js/socket.io.js"></script>
+<!-- prettydate -->
 <script src="../js/prettydate.min.js"></script>
+<!-- filepicker -->
 <script src="../js/jquery.filepicker.js"></script>
+<!-- dropzone -->
+<script src="../js/dropzone.js"></script>
 
 <!-- gallery-->
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
@@ -811,12 +825,16 @@
     })
 
     function search() {
-        var par = "userId=" + $("#inviteForm #inviteId").val() + "&projectIdx=${project.projectidx}";
+        var par = {
+            userId: $("#inviteForm #inviteId").val(),
+            projectIdx: ${project.projectidx}
+        };
+        var querystring = $.param(par);
         $.ajax({
             url: "../inviteUser",
             type: 'POST',
             dataType: 'json',
-            data: par,
+            data: querystring,
             success: function (data) {
                 invited = data.userId;
                 $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
@@ -858,7 +876,6 @@
 
     function makeTodolist() {
 
-        console.log($("#reservation"));
         var param = {
             projectIdx: ${project.projectidx},
             userId: $("#todoselect").children("option:selected").val(),
@@ -908,6 +925,23 @@
     }
 
 
+    Dropzone.options.dropzone={
+        clickable: false,
+        maxThumbnailFilesize: 5,
+        init: function () {
+
+            this.on('success', function (file, json) {
+            });
+
+            this.on('addedfile', function (file) {
+
+            });
+
+            this.on('drop', function (file) {
+
+            });
+        }
+    };
 </script>
 </body>
 </html>
