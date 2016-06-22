@@ -28,8 +28,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:*-context.xml
-            classpath:appServlet-servlet.xml
+            /WEB-INF/classes/*-context.xml
+            /WEB-INF/appServlet-servlet.xml
         </param-value>
     </context-param>
 
