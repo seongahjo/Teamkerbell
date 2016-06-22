@@ -290,8 +290,14 @@
                  			  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
                                       data-original-title="Add TodoList" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
+
                  			 </span>
-                          </span>
+                             <span>
+                              <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
+                                      data-original-title="Add Meeting" style="margin-left:3px;height:34px">
+                 			 <i class="fa fa-calendar-plus-o fa-2x"></i></button>
+                                </span>
+                            </span>
                         </div>
                     </div>
                     <!-- /.box-footer-->
@@ -925,7 +931,7 @@
     }
 
 
-    Dropzone.options.dropzone={
+    Dropzone.options.dropzone = {
         clickable: false,
         maxThumbnailFilesize: 5,
         init: function () {

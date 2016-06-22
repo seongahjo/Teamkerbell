@@ -331,6 +331,7 @@
                         </c:forEach>
 
                     </div>
+                    <button class="btn btn-primary btn-sm btn-flat" onclick="moreView()">more</button>
                 </div>
                 <!-- TOdo -->
                 <section class="col-md-4 connectedSortable">
@@ -398,8 +399,7 @@
                         </div>
 
                         <!-- /.box-header -->
-                        <div id="calendar" class="box-body table-responsive no-padding"
-                        >
+                        <div id="calendar" class="box-body table-responsive no-padding">
                             <!--  <table class="table table-hover">
                                 <tr>
                                     <th>Project</th>
@@ -429,7 +429,7 @@
 
 
                         </div>
-
+                    </div>
                 </section>
 
 
@@ -522,6 +522,7 @@
     console.log('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
     var registerStartDate;
     var registerEndDate;
+    var moreview = ${timeline.size()};
 
     // fullcalendar
     $('#calendar').fullCalendar({
@@ -535,8 +536,10 @@
         editable: true,
         eventDrop: function (event, delta, revertFunc) {
             if (event.type == 'schedule') {
-                var param = {scheduleidx: event.sid, enddate: event.end.format(),
-                    startdate: event.start.format()};
+                var param = {
+                    scheduleidx: event.sid, enddate: event.end.format(),
+                    startdate: event.start.format()
+                };
                 var datas = JSON.stringify(param);
                 $.ajax({
                     url: "../schedule",
@@ -548,9 +551,11 @@
                     }
                 })
             }
-            else if(event.type=='todolist'){
-                var param = {todolistidx: event.tid, enddate: event.end.format(),
-                    startdate: event.start.format()};
+            else if (event.type == 'todolist') {
+                var param = {
+                    todolistidx: event.tid, enddate: event.end.format(),
+                    startdate: event.start.format()
+                };
                 var datas = JSON.stringify(param);
                 $.ajax({
                     url: "../todolist",
@@ -565,8 +570,10 @@
         },
         eventResize: function (event, delta, revertFunc) {
             if (event.type == 'schedule') {
-                var param = {scheduleidx: event.sid, enddate: event.end.format(),
-                    startdate: event.start.format()};
+                var param = {
+                    scheduleidx: event.sid, enddate: event.end.format(),
+                    startdate: event.start.format()
+                };
                 var datas = JSON.stringify(param);
                 $.ajax({
                     url: "../schedule",
@@ -578,9 +585,11 @@
                     }
                 })
             }
-            else if(event.type=='todolist'){
-                var param = {todolistidx: event.tid, enddate: event.end.format(),
-                    startdate: event.start.format()};
+            else if (event.type == 'todolist') {
+                var param = {
+                    todolistidx: event.tid, enddate: event.end.format(),
+                    startdate: event.start.format()
+                };
                 var datas = JSON.stringify(param);
                 $.ajax({
                     url: "../todolist",
@@ -629,23 +638,21 @@
             },
             </c:forEach>],
         eventClick: function (event) {
-            if(event.type=='schedule')
+            if (event.type == 'schedule')
                 alert(event.place);
-            else if(event.type=='todolist'){
-                var par="id="+event.tid;
+            else if (event.type == 'todolist') {
+                var par = "id=" + event.tid;
                 $.ajax({
                     url: "../todocheck",
                     data: par,
                     dataType: 'text',
                     async: true,
-                    processData: false,
-                    contentType: false,
                     type: 'GET',
                     success: function () {
-                        if(event.color=='#EAEAEA')
-                            event.color='#5CD1E5';
+                        if (event.color == '#EAEAEA')
+                            event.color = '#5CD1E5';
                         else
-                            event.color='#EAEAEA'
+                            event.color = '#EAEAEA'
                         $('#calendar').fullCalendar('updateEvent', event);
                     }
                 });
@@ -693,26 +700,28 @@
     $("#Rgmodal").on('hidden.bs.modal', function () {
         $('#reservation').val('');
     });
-    function register() {
-        console.log(registerStartDate + " " + registerEndDate);
-        var param = "userIdx=${user.useridx} &scheduleIdx=" + scheduleIdx + "&startdate=" + registerStartDate.format('YYYY-MM-DD') + "&enddate=" + registerEndDate.format('YYYY-MM-DD') + "&state=0";
 
-        $.ajax({
-            url: "../makeRegister",
-            data: param,
-            dataType: 'text',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function () {
-                location.reload();
-            },
-            error: function () {
-            }
-        });
-    }
+    /*
+     function register() {
+     console.log(registerStartDate + " " + registerEndDate);
+     var param = "userIdx=${user.useridx} &scheduleIdx=" + scheduleIdx + "&startdate=" + registerStartDate.format('YYYY-MM-DD') + "&enddate=" + registerEndDate.format('YYYY-MM-DD') + "&state=0";
 
+     $.ajax({
+     url: "../makeRegister",
+     data: param,
+     dataType: 'text',
+     async: true,
+     processData: false,
+     contentType: false,
+     type: 'GET',
+     success: function () {
+     location.reload();
+     },
+     error: function () {
+     }
+     });
+     }
+     */
     $(".cb").change(function () {
         var check = $(this);
         var par = "id=" + $(this).val();
@@ -721,8 +730,6 @@
             data: par,
             dataType: 'text',
             async: true,
-            processData: false,
-            contentType: false,
             type: 'GET',
             success: function () {
                 check.parent().toggleClass("done");
@@ -730,8 +737,23 @@
             }
         });
     });
-    function changeT(event){
+    function moreView() {
+        var par = "first=" + moreview;
+        $.ajax({
+            url: "../moreTimeline",
+            data: par,
+            dataType: 'json',
+            async: true,
+            type: 'GET',
+            success: function (data) {
+                moreview += data.length;
+            },
+            error: function () {
 
+            }
+
+
+        })
     }
 
 

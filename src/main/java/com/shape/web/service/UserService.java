@@ -176,11 +176,12 @@ public class UserService implements UserDetailsService {
     /*
     User가 가지고 있는 Timeline을 반환
      */
-    public List<Alarm> getTimeline(User user) {
+    public List<Alarm> getTimeline(User user,Integer first) {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  where User.useridx = :useridx  and Alarm.isshow = true and Alarm.contentid!=0 order by Alarm.date desc");
         query.setParameter("useridx", user.getUseridx(), StandardBasicTypes.INTEGER);
         query.setMaxResults(15);
+        query.setFirstResult(first);
         List<Alarm> la = query.list();
         session.close();
         return la;

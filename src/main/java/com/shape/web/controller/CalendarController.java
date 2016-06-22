@@ -6,8 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,9 +79,11 @@ public class CalendarController {
     }
     */
 
+
     /*
    To make schedule
    */
+
     @RequestMapping(value = "/schedule", method = RequestMethod.POST)
     @ResponseBody
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
@@ -104,13 +109,16 @@ public class CalendarController {
         if (schedule.getStartdate() != null)
             s.setStartdate(schedule.getStartdate());
         if (schedule.getEnddate() != null)
-        s.setEnddate(schedule.getEnddate());
+            s.setEnddate(schedule.getEnddate());
         if (schedule.getState() != null)
-        s.setState(schedule.getState());
+            s.setState(schedule.getState());
         ss.save(s);
         logger.info("modifying schedule");
 
     }
+
+
+
     /*
         밑에는 기존 Calendar 이를 바꿀예정임
      */

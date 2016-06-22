@@ -2,7 +2,6 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Project;
-import com.shape.web.entity.Todolist;
 import com.shape.web.entity.User;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
@@ -15,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

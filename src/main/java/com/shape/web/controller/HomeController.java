@@ -82,7 +82,7 @@ public class HomeController {
     public ModelAndView Dashboard(@PathVariable("userId") String userId) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환
-        List<Alarm> tlla = us.getTimeline(user); // 타임라인 리스트를 반환
+        List<Alarm> tlla = us.getTimeline(user,0); // 타임라인 리스트를 반환
         List<Todolist> lt = us.getTodolist(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = us.getScheudles(user); // 스케쥴 리스트를 반환
         List<Alarm> la = us.getAlarms(user.getUseridx()); // 알람 리스트를 반환
