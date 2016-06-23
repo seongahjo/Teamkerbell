@@ -5,26 +5,29 @@ Teamkerbell
 * Youtube : https://www.youtube.com/watch?v=76V_DYsX0VQ 
 * SlideShare : http://www.slideshare.net/seongside/teamkerbell
 
-How To Use
+How To Use in MAC
 =====
- * ```/src/main/resources/spring.properties```를 설정합니다. 
+```  
  
-``` 
+ * brew install mysql
+ 
+ * git clone https://github.com/seongahjo/Teamkerbell.git
+ 
+ * cd Teamkerbell
+ 
+ * /src/main/resources/spring.properties를 설정합니다. 
   app.jdbc.driverClassName=com.mysql.jdbc.Driver
   app.jdbc.url=jdbc:mysql://주소
   app.jdbc.username=ID
   app.jdbc.password=PASSWORD
-  ```
+  
+  app.socket.url=localhost 혹은 자기 자신 IP
  
- * project.jsp의 소켓 연결 주소를 자신의 서버 주소로 변경 (로컬환경에서 테스트를 할경우에는 localhost여도 상관없음)
+ * ./mvnw tomcat7:run
  
-  ```
-  $(document).ready(function () {
-        socket = io.connect("http://주소:9999");
-        ...
-   ```
+ * 실행후 http://localhost:8080 에 접속
 
- * 실행후 ```http://localhost:8080``` 에 접속
+ ```
  
 #####오픈소스 개발툴 IntelliJ를 통해 개발되었습니다. 
 
