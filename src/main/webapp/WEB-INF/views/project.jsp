@@ -929,11 +929,10 @@
             }
         });
     }
-
-
     Dropzone.options.dropzone = {
         clickable: false,
         maxThumbnailFilesize: 5,
+        dictDefaultMessage : '',
         init: function () {
 
             this.on('success', function (file, json) {
