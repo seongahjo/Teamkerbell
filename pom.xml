@@ -6,7 +6,7 @@
     <artifactId>web</artifactId>
     <name>Shape</name>
     <packaging>war</packaging>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <properties>
         <java-version>1.8</java-version>
         <org.springframework-version>4.0.4.RELEASE</org.springframework-version>
@@ -223,6 +223,8 @@
                     </configuration>
                 </plugin>-->
 
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -243,7 +245,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/</path>
-                </configuration>
+                    </configuration>
             </plugin>
         </plugins>
     </build>

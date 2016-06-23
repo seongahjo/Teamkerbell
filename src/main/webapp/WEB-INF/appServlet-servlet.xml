@@ -32,10 +32,9 @@
     </beans:bean>
 
     <util:properties id="config" location="classpath:spring.properties"/>
-    <context:component-scan base-package="com.shape.web.controller"/>
     <context:component-scan base-package="com.shape.web.entity"/>
     <context:component-scan base-package="com.shape.web.service"/>
-    <context:component-scan base-package="com.shape.web.server"/>
+    <context:component-scan base-package="com.shape.web.controller"/>
     <context:component-scan base-package="com.shape.web.util"/>
     <context:component-scan base-package="com.shape.web.VO"/>
 

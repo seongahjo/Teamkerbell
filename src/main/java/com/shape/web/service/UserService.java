@@ -25,7 +25,6 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     @Resource
     private SessionFactory sessionFactory;
 
@@ -247,7 +246,6 @@ public class UserService implements UserDetailsService {
             Session session = sessionFactory.openSession();
             User u = (User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
             session.close();
-            logger.info("["+id+"] Login Process Start ");
             return new org.springframework.security.core.userdetails.User(u.getId(),
                     u.getPw(),
                     enabled,
