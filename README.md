@@ -15,13 +15,13 @@ How To Use in MAC
  
  * cd Teamkerbell
  
- * /src/main/resources/spring.properties를 설정합니다. 
-  app.jdbc.driverClassName=com.mysql.jdbc.Driver
-  app.jdbc.url=jdbc:mysql://주소
-  app.jdbc.username=ID
-  app.jdbc.password=PASSWORD
-  
-  app.socket.url=localhost 혹은 자기 자신 IP
+ * vi src/main/resources/spring.properties
+ 
+   app.jdbc.driverClassName=com.mysql.jdbc.Driver
+   app.jdbc.url=jdbc:mysql://주소
+   app.jdbc.username=ID
+   app.jdbc.password=PASSWORD
+   app.socket.url=localhost 혹은 자기 자신 IP
  
  * ./mvnw tomcat7:run
  
