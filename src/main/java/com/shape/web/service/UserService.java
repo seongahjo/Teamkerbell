@@ -1,7 +1,6 @@
 package com.shape.web.service;
 
 import com.shape.web.entity.*;
-import com.shape.web.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -9,9 +8,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -116,7 +119,7 @@ public class UserService implements UserDetailsService {
                 .createAlias("project", "project")
                 .createAlias("project.users", "users")
                 .add(Restrictions.eq("users.useridx", user.getUseridx()))
-                .add(Restrictions.ge("enddate", new Date()))
+                //.add(Restrictions.ge("enddate", new Date()))
                 .addOrder(Order.desc("scheduleidx"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
@@ -127,7 +130,7 @@ public class UserService implements UserDetailsService {
     /*
     User가 가지고 있는 Project 객체들을 반환
      */
-    public List<Project> getProjects(User user){
+    public List<Project> getProjects(User user) {
         Session session = sessionFactory.openSession();
         List<Project> lp = session.createCriteria(Project.class)
                 .createAlias("users", "users")
@@ -161,15 +164,6 @@ public class UserService implements UserDetailsService {
      */
     public Alarm getOneAlarm(Integer userIdx) {
         Session session = sessionFactory.openSession();
-       /* Alarm alarm=(Alarm)session.createCriteria(Alarm.class)
-                .createAlias("user","user")
-                .add(Restrictions.eq("user.useridx",userIdx))
-                .add(Restrictions.eq("isshow",true))
-                .add(Restrictions.eq("contentid",0))
-                .addOrder(Order.asc("date"))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setMaxResults(1)
-                .uniqueResult();*/
         Query query = session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  with User.useridx = :useridx where  Alarm.contentid=0 and Alarm.isshow=true order by Alarm.date desc");
         query.setParameter("useridx", userIdx, StandardBasicTypes.INTEGER);
         query.setMaxResults(1);
@@ -181,25 +175,16 @@ public class UserService implements UserDetailsService {
     /*
     User가 가지고 있는 Timeline을 반환
      */
-    public List<Alarm> getTimeline(User user) {
+    public List<Alarm> getTimeline(User user,Integer first) {
         Session session = sessionFactory.openSession();
-       /* List<Alarm> la=session.createCriteria(Alarm.class)
-                .createAlias("user","user")
-                .add(Restrictions.eq("user.useridx",user.getUseridx()))
-                .add(Restrictions.eq("isshow",true))
-                .add(Restrictions.ne("contentid",0))
-                .addOrder(Order.desc("date"))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .setMaxResults(15)
-                .list();*/
         Query query = session.createQuery("select Alarm from Alarm as Alarm JOIN Alarm.user as User  where User.useridx = :useridx  and Alarm.isshow = true and Alarm.contentid!=0 order by Alarm.date desc");
         query.setParameter("useridx", user.getUseridx(), StandardBasicTypes.INTEGER);
         query.setMaxResults(15);
+        query.setFirstResult(first);
         List<Alarm> la = query.list();
         session.close();
         return la;
     }
-
 
 
     @SuppressWarnings("unchecked")
@@ -242,29 +227,37 @@ public class UserService implements UserDetailsService {
         }
         return authorities;
     }
+
     public Collection<? extends GrantedAuthority> getAuthorities(Integer role) {
         List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
         return authList;
     }
+
     /*
     Spring Security에서 로그인 인증을 위한 함수
      */
     @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Session session = sessionFactory.openSession();
-        User u = (User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
-        session.close();
+    public UserDetails loadUserByUsername(String id) {
         boolean enabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
+        try {
+            Session session = sessionFactory.openSession();
+            User u = (User) session.createCriteria(User.class).add(Restrictions.eq("id", id)).uniqueResult();
+            session.close();
+            return new org.springframework.security.core.userdetails.User(u.getId(),
+                    u.getPw(),
+                    enabled,
+                    accountNonExpired,
+                    credentialsNonExpired,
+                    accountNonLocked,
+                    getAuthorities(0));
+        } catch (NullPointerException e) {
+        } catch (UsernameNotFoundException e) {
 
-        return new org.springframework.security.core.userdetails.User(u.getId(),
-                u.getPw(),
-                enabled,
-                accountNonExpired,
-                credentialsNonExpired,
-                accountNonLocked,
-                getAuthorities(0));
+        }
+        return new org.springframework.security.core.userdetails.User("null", "null", false, false, false, false, getAuthorities(0));
+
     }
 }

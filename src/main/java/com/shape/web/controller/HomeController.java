@@ -54,12 +54,13 @@ public class HomeController {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value = "/joinus", method = RequestMethod.GET)
-    public ModelAndView JoinUs() {
-        ModelAndView mv = new ModelAndView("/joinus");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
-        return mv;
-    }
-
+    /*
+        @RequestMapping(value = "/joinus", method = RequestMethod.GET)
+        public ModelAndView JoinUs() {
+            ModelAndView mv = new ModelAndView("/joinus");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
+            return mv;
+        }
+    */
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String goDashboard(Authentication authentication) {
         return "redirect:/dashboard/" + authentication.getName();
@@ -81,7 +82,7 @@ public class HomeController {
     public ModelAndView Dashboard(@PathVariable("userId") String userId) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환
-        List<Alarm> tlla = us.getTimeline(user); // 타임라인 리스트를 반환
+        List<Alarm> tlla = us.getTimeline(user,0); // 타임라인 리스트를 반환
         List<Todolist> lt = us.getTodolist(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = us.getScheudles(user); // 스케쥴 리스트를 반환
         List<Alarm> la = us.getAlarms(user.getUseridx()); // 알람 리스트를 반환
@@ -114,6 +115,7 @@ public class HomeController {
 
             List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
             List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
+            List<FileDB> lfd = pjs.getFiles(project); // 파일 받아오기
             if (project.isProcessed()) {
                 List<Minute> lm = pjs.getMinutes(project); // 회의록 객체 반환
                 List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
@@ -132,7 +134,7 @@ public class HomeController {
                 File file = new File(foldername);
                 if (!file.exists())
                     if (file.mkdirs())
-                        logger.info("폴더 새로 생성");
+                        logger.info("folder created " + foldername);
 
                 mv = new ModelAndView("/project");
                 mv.addObject("projects", lpj);
@@ -144,7 +146,10 @@ public class HomeController {
                 mv.addObject("img", img);
                 mv.addObject("todolist", lt);
             } else {
-                List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
+                /*
+                Source below is to documentation
+                 */
+                //List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
                 List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
                 List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
                 List<String> username = new ArrayList<>();
@@ -163,13 +168,14 @@ public class HomeController {
                 }
                 mv = new ModelAndView("/document");
                 mv.addObject("user", user);
-                mv.addObject("schedules", ls);
+                //mv.addObject("schedules", ls);
                 mv.addObject("projects", lpj);
                 mv.addObject("project", project);
                 mv.addObject("users", lu);
                 mv.addObject("alarm", la);
                 mv.addObject("todolist", lt);
                 mv.addObject("meetingmember", lm);
+                mv.addObject("files", lfd);
                 mv.addObject("usersname", username);
                 mv.addObject("participant", participant);
                 mv.addObject("percentage", percentage);
@@ -178,21 +184,21 @@ public class HomeController {
         }
         return null;
     }
-
+/*
     @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
         User user = us.getById(authentication.getName()); //유저 객체 반환
         int userIdx = user.getUseridx();
         Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
-        List<Schedule> ls = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
+        List<Schedule> lcs = pjs.getSchedules(projectIdx); // 스케쥴 객체 반환
         List<User> lu = pjs.getUsers(project); // 유저 객체 반환
         List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
         List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
         List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
         ModelAndView mv = new ModelAndView("/calendar");
         mv.addObject("user", user);
-        mv.addObject("schedules", ls);
+        mv.addObject("schedules", lcs);
         mv.addObject("projects", lpj);
         mv.addObject("project", project);
         mv.addObject("users", lu);
@@ -201,7 +207,27 @@ public class HomeController {
         mv.addObject("todolist", lt);
         mv.addObject("date", new Date());
         return mv;
+    }*/
+
+    /*
+    @RequestMapping(value = "/filemanager/{projectIdx}", method = RequestMethod.GET)
+    public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
+        Project project = pjs.get(projectIdx);
+        User user = us.getById(authentication.getName()); //유저 객체 반환
+        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
+        List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
+        List<FileDB> lfd = pjs.getFiles(project); // 파일 받아오기
+        List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
+        ModelAndView mv = new ModelAndView("/filemanager");
+        mv.addObject("user", user);
+        mv.addObject("projects", lpj);
+        mv.addObject("project", project);
+        mv.addObject("files", lfd);
+        mv.addObject("img", img);
+        mv.addObject("todolist", lt);
+        return mv;
     }
+*/
 
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
     public ModelAndView manager(Authentication authentication) {
@@ -222,24 +248,7 @@ public class HomeController {
 
     }*/
 
-    @RequestMapping(value = "/filemanager/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView fileManager(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
-        Project project = pjs.get(projectIdx);
-        User user = us.getById(authentication.getName()); //유저 객체 반환
-        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 객체 반환
-        List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
-        List<FileDB> lfd = pjs.getFiles(project); // 파일 받아오기
-        List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
-        ModelAndView mv = new ModelAndView("/filemanager");
-        mv.addObject("user", user);
-        mv.addObject("projects", lpj);
-        mv.addObject("project", project);
-        mv.addObject("files", lfd);
-        mv.addObject("img", img);
-        mv.addObject("todolist", lt);
-        return mv;
-    }
-
+/*
     @RequestMapping(value = "/courseInfo/{userId}", method = RequestMethod.GET)
     public ModelAndView CourseInfo(@PathVariable("userId") String userId) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
@@ -249,4 +258,5 @@ public class HomeController {
         mv.addObject("projects", lpj);
         return mv;
     }
+    */
 }

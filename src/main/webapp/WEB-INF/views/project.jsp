@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -28,6 +29,9 @@
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="../css/select2.min.css">
+    <!-- dropzone-->
+    <link rel="stylesheet" href="../css/dropzone.css">
+    <link rel="stylesheet" href="../css/basic.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -38,7 +42,7 @@
 
     <!--gallery-->
     <link rel="stylesheet" href="../css/ImageZoom.css"/>
-   <link rel="stylesheet" href="../css/wait2.css">
+    <link rel="stylesheet" href="../css/wait2.css">
 
 </head>
 
@@ -65,19 +69,19 @@
                 <ul class="nav navbar-nav">
 
                     <li data-toggle="modal" data-target="#photoModal">
-                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Gallery">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Gallery">
                             <i class="fa fa-picture-o"></i>
                         </a>
                     </li>
 
 
-                    <li data-toggle="modal" data-target="#todoList" >
-                        <a data-toggle="tooltip" title=""  data-placement="bottom" data-original-title="Todo lists">
+                    <li data-toggle="modal" data-target="#todoList">
+                        <a data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Todo lists">
                             <i class="fa fa-edit"></i>
                         </a>
                     </li>
 
-                    <li  onclick="location.href='../filemanager/${project.projectidx}';">
+                    <!--<li  onclick="location.href='../filemanager/${project.projectidx}';">
                         <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="File Manager">
                             <i class="fa fa-file-text-o"></i>
                         </a>
@@ -88,14 +92,14 @@
                         <a data-toggle="tooltip" title="" data-placement="bottom"data-original-title="Calendar">
                             <i class="fa fa-calendar-o"></i>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon" >
-                            <i class="fa fa-bell-o"  id="alarm"></i>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdwon">
+                            <i class="fa fa-bell-o" id="alarm"></i>
                             <span class="label label-warning" id="alarm-size">${alarm.size()}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header" id="alarm-content" >You have ${alarm.size()} notifications</li>
+                            <li class="header" id="alarm-content">You have ${alarm.size()} notifications</li>
                             <li>
                                 <ul class="menu" style="max-height:400px;overflow-y:auto" id="alarm-list">
                                     <c:forEach var="list" items="${alarm}">
@@ -133,7 +137,8 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="../${user.img}" class="img-circle" alt="User Image" style="width:90px;height:90px">
+                                <img src="../${user.img}" class="img-circle" alt="User Image"
+                                     style="width:90px;height:90px">
                                 <p>
                                     ${user.id}
                                 </p>
@@ -142,10 +147,12 @@
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-6 text-center" style="border-right:1px solid;">
-                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project Edit</a>
+                                        <a href="../projectmanager"><i class="fa fa-pencil-square-o"></i> Project
+                                            Edit</a>
                                     </div>
                                     <div class="col-xs-6 text-center">
-                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo Edit</a>
+                                        <a href="../userInfo/${user.id}"><i class="fa fa-info-circle"></i> MyInfo
+                                            Edit</a>
                                     </div>
 
                                 </div>
@@ -176,7 +183,8 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../${user.img}" class="img-circle main-img" alt="User Image" style="width:100px;height:100px">
+                    <img src="../${user.img}" class="img-circle main-img" alt="User Image"
+                         style="width:100px;height:100px">
                 </div>
             </div>
             <div class="user-panel">
@@ -196,8 +204,9 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-user"></i><span> My Profile</span></a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a></li>
-                      
+                        <li class="active"><a href=../userInfo/${user.id}><i class="fa fa-key"></i> Change user Info</a>
+                        </li>
+
                     </ul>
                 </li>
 
@@ -205,14 +214,14 @@
                     <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
-                            <c:forEach var="list" items="${projects}"> 
+                            <c:forEach var="list" items="${projects}">
                                 <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
                             </c:forEach>
                             <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
                         </li>
                     </ul>
                 </li>
-                
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -249,12 +258,18 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <!-- Conversations are loaded here -->
-                            <div class="direct-chat-messages chatbox" id="chat">
-                            </div>
-                        </div> <!-- box body-->
+                        <form action="../file" class="dropzone" id="dropzone" method="POST"
+                              enctype="multipart/form-data">
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <!-- Conversations are loaded here -->
+                                <div class="direct-chat-messages chatbox" id="chat">
+                                </div>
+                                <input type="hidden" name="idx" value="${project.projectidx}"/>
+                                <input type="hidden" name="userIdx" value="${user.useridx}"/>
+
+                            </div> <!-- box body-->
+                        </form>
                     </div> <!-- box -->
 
                     <!-- /.box-body -->
@@ -266,15 +281,23 @@
                             <button type="button" type="button" class="btn btn-primary btn-flat" onClick="sendMsg()">
                                 Send
                             </button>
-                            <span onclick="selectFile()" >
-                            <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="File Upload" style="margin-left:3px;height:34px">
+                            <span onclick="selectFile()">
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
+                                    data-original-title="File Upload" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-paperclip fa-2x"></i></button>
                  			 </span>
-                 			  <span data-toggle="modal" data-target="#todoMadal" >
-                 			  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="" data-original-title="Add TodoList" style="margin-left:3px;height:34px">
+                 			  <span data-toggle="modal" data-target="#todoMadal">
+                 			  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
+                                      data-original-title="Add TodoList" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
+
                  			 </span>
-                          </span>
+                             <span>
+                              <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
+                                      data-original-title="Add Meeting" style="margin-left:3px;height:34px">
+                 			 <i class="fa fa-calendar-plus-o fa-2x"></i></button>
+                                </span>
+                            </span>
                         </div>
                     </div>
                     <!-- /.box-footer-->
@@ -315,7 +338,7 @@
                                 <button id="savebutton" type="button" class="btn btn-primary hidden"
                                         onClick="save_memo()"><i class="fa fa-floppy-o"></i> 저장
                                 </button>
-                            </div>	
+                            </div>
                         </div>
                         <!-- /.box-footer -->
                     </div>
@@ -327,7 +350,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">사용자들</h3><i class="fa fa-user-plus fa-3x pull-right"
-                                                                     data-toggle="modal" data-target="#InviteUser"></i>
+                                                              data-toggle="modal" data-target="#InviteUser"></i>
 
                             <div class="box-tools pull-right">
 
@@ -338,7 +361,7 @@
                             <ul class="products-list product-list-in-box">
                                 <c:forEach var="list" items="${users}">
                                     <li class="item">
-                                        <img src="../${list.img}" alt="User Image"style="width:30px;height:30px">
+                                        <img src="../${list.img}" alt="User Image" style="width:30px;height:30px">
                                         <a class="users-list-name user-st-name">${list.id}</a>
                                         <i id="user${list.id}on"
                                            class="fa fa-circle st-cir text-success pull-right hidden"
@@ -361,7 +384,57 @@
                 </div>
 
             </div>
+            <div class="row">
+                <div class="col-md-12">
 
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="bs-example">
+                                <div class="form-group">
+                                    <a href="#"><i class="fa fa-search fa-2x pull-right"
+                                                   style="float:left;padding-right:26%" onclick="search()"></i></a>
+                                    <input type="text" class="form-control" style="width:70%;float:left"
+                                           id="tokenfield-typeahead"
+                                           placeholder="Type something and hit enter for tags"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Date</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="list" items="${files}">
+                                    <tr>
+                                        <td><a href="../file?name=${list.storedname}">${list.originalname}</a></td>
+                                        <td>${list.user.name}</td>
+                                        <td>${list.date}</td>
+                                        <td>${list.tag}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Date</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- /.content -->
     </div>
@@ -379,6 +452,7 @@
 
 
     <div class="control-sidebar-bg"></div>
+
 </div>
 <!-- ./wrapper -->
 
@@ -422,7 +496,6 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 
-
 <div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -433,30 +506,31 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-             <ul class="todo-list pro-todo">
-                 <c:forEach var="list" items="${todolist}">
-                     <c:choose>
-                         <c:when test="${list.ok=='0'}">
-                             <li class="done">
-                         </c:when>
-                         <c:otherwise>
-                             <li>
-                         </c:otherwise>
-                     </c:choose>
-                 <img src="../${list.user.img}"  class="img-circle img-bordered-sm"  alt="user image">
+                    <ul class="todo-list pro-todo">
+                        <c:forEach var="list" items="${todolist}">
+                            <c:choose>
+                                <c:when test="${list.ok=='0'}">
+                                    <li class="done">
+                                </c:when>
+                                <c:otherwise>
+                                    <li>
+                                </c:otherwise>
+                            </c:choose>
+                            <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
                         <span class="username">
                           <span>${list.user.id}</span>
                         </span>
-                  <span class="text" >${list.content}</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}</small>
-                  <!-- General tools such as edit or delete-->
-                </li>
-                     </c:forEach>
-                <!-- todolist end-->
-                </ul>
- 			
-            
+                            <span class="text">${list.content}</span>
+                            <!-- Emphasis label -->
+                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}
+                            </small>
+                            <!-- General tools such as edit or delete-->
+                            </li>
+                        </c:forEach>
+                        <!-- todolist end-->
+                    </ul>
+
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -477,19 +551,19 @@
             <form>
                 <div class="modal-body">
 
-     <div class="box-body">
-            
-            <div class="gallery">
+                    <div class="box-body">
 
-                <c:forEach var="list" items="${img}">
-                    <a href="../loadImg?name=${list.storedname}" class="zoom">
-                        <img src="../loadImg?name=${list.storedname}" width="170" height="120" alt="An elegant profile" style="margin-top:3%;margin-right:1%">
-                    </a>
-                </c:forEach>
-           
-			</div>
-      </div>
-                    
+                        <div class="gallery">
+
+                            <c:forEach var="list" items="${img}">
+                                <a href="../loadImg?name=${list.storedname}" class="zoom">
+                                    <img src="../loadImg?name=${list.storedname}" width="170" height="120"
+                                         alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                                </a>
+                            </c:forEach>
+
+                        </div>
+                    </div>
 
 
                 </div>
@@ -500,7 +574,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div class="modal fade" id="todoMadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -600,132 +673,91 @@
 <script src="../js/daterangepicker.js"></script>
 <!-- Select -->
 <script src="../js/select2.full.min.js"></script>
+<!-- json2 -->
+<script src="../js/json2.js"></script>
+<!-- alarm -->
 <script src="../js/alarm.js"></script>
+<!-- SocketIO -->
 <script src="../js/socket.io.js"></script>
+<!-- prettydate -->
 <script src="../js/prettydate.min.js"></script>
+<!-- filepicker -->
 <script src="../js/jquery.filepicker.js"></script>
+<!-- dropzone -->
+<script src="../js/dropzone.js"></script>
 
 <!-- gallery-->
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
-<script>
-    var scheduleStart;
-    var scheduleEnd;
-    var inviteU;
-    $(function () {
-
-        $("a.zoom").imageZoom({scale: 0.75});
-        //Initialize Select Elements
-        $(".select2").select();
-        //Date range picker
-        $('#reservation').daterangepicker({}, function (start, end) {
-            scheduleStart = start;
-            scheduleEnd = end;
-        });
-        //Date range picker with time picker
-        $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'YYYY-MM-DD h:mm A'});
-        //Date range as a button
-        $('#daterange-btn').daterangepicker(
-                {
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')]
-                    },
-                    startDate: moment().subtract(29, 'days'),
-                    endDate: moment()
-                },
-                function (start, end) {
-                    $('#reportrange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-                }
-        );
-        $(".timepicker").timepicker({
-            showInputs: false
-        });
-        $('#InviteUser').on('hidden.bs.modal', function (e) {
-            $("#user").html('');
-            $("#inviteForm #inviteId").val('');
-
-        })
-    });
-    var option = "Today";
-    var Tminute = "${project.minute}";
+<script id="socket" type="text/javascript">
     var socket;
-    $(document).ready(function () {
-        socket = io.connect("http://192.168.0.45:9999");
-        socket.emit('join', {
-            projectIdx: "${project.projectidx}",
-            userIdx:${user.useridx},
-            userName: "${user.name}",
-            userId: "${user.id}",
-            userImg: "${user.img}"
-        });
-        socket.on('response', function (data) {
-            console.log(data);
-            if (data.user == "${user.id}") {
-                $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
-            }
-            else
-                $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
+    socket = io.connect('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
+    socket.emit('join', {
+        projectIdx: "${project.projectidx}",
+        userIdx:${user.useridx},
+        userName: "${user.name}",
+        userId: "${user.id}",
+        userImg: "${user.img}"
+    });
+    socket.on('response', function (data) {
+        if (data.user == "${user.id}") {
+            $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
+        }
+        else
+            $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
 
-            <!--  $('#didiv').scrollTop($('#didiv')[0].scrollHeight);-->
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        });
-        socket.on('write', function (flag) {
-            if (flag == "yes") {
-                $("#memo").prop("disabled", false);
-                $("#writebutton").addClass("hidden");
-                $("#savebutton").removeClass("hidden");
-            }
-            else {
-                $("#memo").prop("disabled", true);
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    });
+    socket.on('write', function (flag) {
+        if (flag == "yes") {
+            $("#memo").prop("disabled", false);
+            $("#writebutton").addClass("hidden");
+            $("#savebutton").removeClass("hidden");
+        }
+        else {
+            $("#memo").prop("disabled", true);
 
+        }
+    });
+    socket.on('adduser', function (id) {
+        $("#user" + id + "off").addClass("hidden");
+        $("#user" + id + "on").removeClass("hidden");
+    });
+    socket.on('deleteuser', function (id) {
+        $("#user" + id + "off").removeClass("hidden");
+        $("#user" + id + "on").addClass("hidden");
+    });
+    socket.on('refresh', function (memo) {
+        $("#memo").val(memo);
+        Tminute = memo;
+    });
+    socket.on('alarm', function (data) {
+        var par = "userIdx=" +${user.useridx};
+        $.ajax({
+            url: "../updateAlarm",
+            data: par,
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                var size = parseInt($("#alarm-size").text()) + 1;
+                $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
+                $("#alarm-size").text(size);
+                $("#alarm-content").text('You have ' + size + 'notifications');
+                $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                        '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                        'has invited you to <strong>' + data.projectname + '</strong>' +
+                        '<div style="float:right;">' +
+                        ' <button type="button" class="btn btn-primary btn-xs"' +
+                        'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                        '<button type="button" class="btn btn-default btn-xs"' +
+                        'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                        '</button>' +
+                        '</div>' +
+                        '</a>' +
+                        '</li>');
             }
         });
-        socket.on('adduser', function (id) {
-            $("#user" + id + "off").addClass("hidden");
-            $("#user" + id + "on").removeClass("hidden");
-        });
-        socket.on('deleteuser', function (id) {
-            $("#user" + id + "off").removeClass("hidden");
-            $("#user" + id + "on").addClass("hidden");
-        });
-        socket.on('refresh', function (memo) {
-            $("#memo").val(memo);
-            Tminute = memo;
-        });
-        socket.on('alarm', function (data) {
-                var par="userIdx="+${user.useridx};
-                $.ajax({
-                    url: "../updateAlarm",
-                    data: par,
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        var size=parseInt($("#alarm-size").text())+1;
-                        $("#alarm").effect("bounce",{direction:'left',distance:13, times:3},500);
-                        $("#alarm-size").text(size);
-                        $("#alarm-content").text('You have '+size+'notifications');
-                        $("#alarm-list").prepend('<li id="alarm-"'+data.alarmidx+'><a href="#">'+
-                                                '<i class="fa fa-users text-aqua"></i><strong>'+data.actorid+'</strong>'+
-                                                'has invited you to <strong>'+data.projectname+'</strong>'+
-                                                '<div style="float:right;">'+
-                                                   ' <button type="button" class="btn btn-primary btn-xs"'+
-                                                            'onclick=accept("'+data.alarmidx+'")>Ok</button>'+
-                                                    '<button type="button" class="btn btn-default btn-xs"'+
-                                                            'onclick=decline("'+data.alarmidx+'")>Cancel'+
-                                                    '</button>'+
-                                                '</div>'+
-                                            '</a>'+
-                                        '</li>');
-                    }
-                });
-        });
-        $('#file').hover(function (event) {
-            $('#file_over').addClass('front_hover');
-        }, function () {
-            $('#file_over').removeClass('front_hover');
-        });
+    });
 
-    }); // document function
     function save_memo() {
         socket.emit('save', {memo: $("#memo").val()});
         Tminute = $("#memo").val();
@@ -755,7 +787,7 @@
     }
 
     function invite() {
-        var par = "userId=" + inviteU+"&projectIdx=${project.projectidx}";
+        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
         $.ajax({
             url: "../inviteUser",
             data: par,
@@ -765,31 +797,60 @@
             contentType: false,
             type: 'GET',
             success: function (data) {
-                socket.emit('invite', {userIdx:data});
-                console.log(data+"Invite");
+                socket.emit('invite', {userIdx: data});
+                console.log(data + "Invite");
                 $("#InviteUser").modal('hide');
             }
         });
     }
+</script>
+
+<script>
+    var invited;
+    var scheduleStart;
+    var scheduleEnd;
+    var option = "Today";
+    var Tminute = "${project.minute}";
+
+    $("a.zoom").imageZoom({scale: 0.75});
+    //Initialize Select Elements
+    $(".select2").select();
+    //Date range picker
+    $('#reservation').daterangepicker();
+    $("#reservation").on('apply.daterangepicker', function (ev, picker) {
+        scheduleStart = picker.startDate.format('YYYY-MM-DD');
+        scheduleEnd = picker.endDate.format('YYYY-MM-DD');
+    });
+    $('#InviteUser').on('hidden.bs.modal', function (e) {
+        $("#user").html('');
+        $("#inviteForm #inviteId").val('');
+    })
+    $('#todoMadal').on('hidden.bs.modal', function (e) {
+        $("#todocontent").val('');
+        $("#reservation").val('');
+    })
+
     function search() {
-        var par = "userId=" + $("#inviteForm #inviteId").val()+"&projectIdx=${project.projectidx}";
+        var par = {
+            userId: $("#inviteForm #inviteId").val(),
+            projectIdx: ${project.projectidx}
+        };
+        var querystring = $.param(par);
         $.ajax({
             url: "../inviteUser",
             type: 'POST',
             dataType: 'json',
-            data: par,
+            data: querystring,
             success: function (data) {
-                inviteU = data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="'+"../"+ data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+                invited = data.userId;
+                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
             },
-            error : function(){
+            error: function () {
                 $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
             }
         });
     }
-    /*
-     socket 관련함수 끝
-     */
+
     function test() {
         var file = $("#file")[0].files[0];
         $("#fakeFileTxt").val(file.name);
@@ -806,8 +867,6 @@
         else
             $("#memo").val($(this).children("option:selected").val());
     });
-    //11시 59분에 저장하고 새로고침하는 함수 추가예정
-
 
     $("#inviteId").keydown(function (key) {
         if (key.keyCode == 13) {
@@ -815,31 +874,41 @@
         }
     });
 
+    $('#file').hover(function (event) {
+        $('#file_over').addClass('front_hover');
+    }, function () {
+        $('#file_over').removeClass('front_hover');
+    });
 
     function makeTodolist() {
 
-        var param = "projectIdx=${project.projectidx}&userId=" + $("#todoselect").children("option:selected").val()
-                + "&startdate=" + scheduleStart.format('YYYY-MM-DD') + "&enddate=" + scheduleEnd.format('YYYY-MM-DD')
-                + "&content=" + $("#todocontent").val();
+        var param = {
+            projectIdx: ${project.projectidx},
+            userId: $("#todoselect").children("option:selected").val(),
+            startdate: scheduleStart.format('YYYY-MM-DD'),
+            enddate: scheduleEnd.format('YYYY-MM-DD'),
+            content: $("#todocontent").val()
+        };
+        var querystring = $.param(param);
+
         $.ajax({
-            url: "../makeTodolist",
-            data: param,
-            dataType: 'text',
-            async: true,
+            url: "../todolist",
+            type: 'POST',
+            data: querystring,
             processData: false,
-            contentType: false,
-            type: 'GET',
             success: function (response) {
-                location.reload();
+                $("#todoMadal").modal('hide');
             },
             error: function () {
             }
         });
 
     }
+
     function endsWith(str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
+
     function upload() {
         var form = $("#uploadForm")[0];
         var formData = new FormData(form);
@@ -851,11 +920,34 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                    socket.emit("file", {msg: data, user: "${user.name}", date: new Date().toString('HH:mm'),type:data.type});
+                socket.emit("file", {
+                    msg: data,
+                    user: "${user.name}",
+                    date: new Date().toString('HH:mm'),
+                    type: data.type
+                });
             }
         });
     }
 
+
+    Dropzone.options.dropzone = {
+        clickable: false,
+        maxThumbnailFilesize: 5,
+        init: function () {
+
+            this.on('success', function (file, json) {
+            });
+
+            this.on('addedfile', function (file) {
+
+            });
+
+            this.on('drop', function (file) {
+
+            });
+        }
+    };
 </script>
 </body>
 </html>

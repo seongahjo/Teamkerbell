@@ -1,5 +1,7 @@
 package com.shape.web.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,13 +15,17 @@ public class User {
     @Column(name = "USERIDX")
     private Integer useridx;
 
+
     @Column(name = "ID")
+    @NotEmpty
     private String id;
 
     @Column(name = "PW")
+    @NotEmpty
     private String pw;
 
     @Column(name = "NAME")
+    @NotEmpty
     private String name;
 
     @Column(name = "IMG")

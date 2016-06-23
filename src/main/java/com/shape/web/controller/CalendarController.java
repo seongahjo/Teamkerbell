@@ -2,18 +2,21 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.*;
 import com.shape.web.service.*;
-import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by seongahjo on 2016. 2. 7..
@@ -47,9 +50,10 @@ public class CalendarController {
     /*
       To get appropriate file data when user select the date
       */
+    /*
     @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Map<String, Object> GetDate(@RequestParam(value="projectIdx") Integer projectIdx,@RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    public Map<String, Object> GetDate(@RequestParam(value = "projectIdx") Integer projectIdx, @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         Map<String, Object> map = new HashMap<String, Object>();
         List data = new ArrayList();
 
@@ -59,7 +63,7 @@ public class CalendarController {
         if (dir.listFiles() != null) {
             for (File f : dir.listFiles()) {
                 logger.info(f.getName() + "FILENAME!!!");
-                FileDB fd = fs.getByOriginalname(date, f.getName(),foldername);
+                FileDB fd = fs.getByOriginalname(date, f.getName(), foldername);
                 if (fd != null) {
                     List<String> temp = new ArrayList<String>();
                     temp.add("<a href='../file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
@@ -73,11 +77,14 @@ public class CalendarController {
         map.put("data", data);
         return map;
     }
+    */
+
 
     /*
    To make schedule
    */
-    @RequestMapping(value = "/makeSchedule", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/schedule", method = RequestMethod.POST)
     @ResponseBody
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
         Project project = pjs.get(projectIdx);
@@ -88,12 +95,33 @@ public class CalendarController {
         List<User> lu = pjs.getUsers(project);
         for (User u : lu) {
             alarm.setAlarmidx(null);
-            logger.info(u.getUseridx() + " make");
+            logger.info("[USER " + u.getUseridx() + "] Make Alarm");
             alarm.setUser(u);
             as.save(alarm);
         }
-        logger.info("Schedule 만듬");
+        logger.info("[ROOM " + projectIdx + "] Make Schedule ");
     }
+
+    @RequestMapping(value = "/schedule", method = RequestMethod.PUT)
+    @ResponseBody
+    public void updateSchedule(@RequestBody Schedule schedule) {
+        Schedule s = ss.get(schedule.getScheduleidx());
+        if (schedule.getStartdate() != null)
+            s.setStartdate(schedule.getStartdate());
+        if (schedule.getEnddate() != null)
+            s.setEnddate(schedule.getEnddate());
+        if (schedule.getState() != null)
+            s.setState(schedule.getState());
+        ss.save(s);
+        logger.info("modifying schedule");
+
+    }
+
+
+
+    /*
+        밑에는 기존 Calendar 이를 바꿀예정임
+     */
 
     /*
    To register the date you want to participate & prepare to make meeting when all users make a choice
@@ -131,6 +159,7 @@ public class CalendarController {
         logger.info("appointment 만듬");
     }
 
+
     /*
       To make meeting when all users make a choice
    */
@@ -165,13 +194,13 @@ public class CalendarController {
         Schedule schedule = ss.get(scheduleIdx);
         schedule.setState(3);
         ss.save(schedule);
-        List<Appointment> appointments=ss.getAppointments(schedule,2);
+        List<Appointment> appointments = ss.getAppointments(schedule, 2);
         logger.info("Meeting 종료");
-        logger.info("ids"+ids);
+        logger.info("ids" + ids);
         for (int i = 0; i < ids.size(); i++)
             for (Appointment a : appointments)
                 if (a.getUser().getId().equals(ids.get(i))) {
-                    logger.info(a.getDate()+" "+a.getUser().getId()+"vs"+ids.get(i));
+                    logger.info(a.getDate() + " " + a.getUser().getId() + "vs" + ids.get(i));
                     a.setState(3); // 참가 확정
                     aps.save(a);
                     break;
@@ -182,14 +211,15 @@ public class CalendarController {
     /*
  To get meetings
   */
+    /*
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
     @ResponseBody
     public Map getEvent(@RequestParam("projectIdx") Integer projectIdx) {
         Project project = pjs.get(projectIdx);
         SimpleDateFormat transFormat = new SimpleDateFormat("MM-dd-yyyy");
-        List<Schedule> ls = pjs.getSchedules(projectIdx); // 프로젝트에 있는 모든 스케쥴들
+        //List<Schedule> ls = pjs.getSchedules(projectIdx); // 프로젝트에 있는 모든 스케쥴들
         Map<String, String> event = new HashMap<String, String>(); //반환할 JSON
-        for (Schedule s : ls)
+        /*for (Schedule s : ls)
             if (s.getState() >= 2) // 확정된 미팅일경우
                 event.put(transFormat.format(s.getStartdate()), "<span> Meeting! <br>" +
                         "To do - " + s.getContent() + "<br>" +
@@ -198,5 +228,7 @@ public class CalendarController {
 
         return event;
     }
+*/
+
 
 }

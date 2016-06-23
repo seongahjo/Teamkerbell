@@ -10,25 +10,27 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 
-
 @Service
 public class MinuteService {
     @Resource
     private SessionFactory sessionFactory;
-    public Minute getByDate(Date date){
-        Session session=sessionFactory.openSession();
-       Minute minute= (Minute)session.createCriteria(Minute.class).add(Restrictions.eq("date",date)).uniqueResult();
+
+    public Minute getByDate(Date date) {
+        Session session = sessionFactory.openSession();
+        Minute minute = (Minute) session.createCriteria(Minute.class).add(Restrictions.eq("date", date)).uniqueResult();
         session.close();
         return minute;
     }
+
     public Minute get(Integer id) {
-        Session session=sessionFactory.openSession();
-        Minute minute=(Minute)session.get(Minute.class,id);
+        Session session = sessionFactory.openSession();
+        Minute minute = (Minute) session.get(Minute.class, id);
+        session.close();
         return minute;
     }
 
     public Minute save(Minute Minute) {
-        Session session=sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         session.saveOrUpdate(Minute);
         session.flush();
         session.close();
