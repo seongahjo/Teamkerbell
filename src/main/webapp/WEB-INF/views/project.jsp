@@ -26,12 +26,19 @@
     <!-- daterange picker -->
     <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
     <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
-    <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
+
+    <!--tags-->
+    <link href="../css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
+    <!-- end tags-->
+    <!--Files-->
+    <link href="../css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
     <!-- Select2 -->
     <link rel="stylesheet" href="../css/select2.min.css">
     <!-- dropzone-->
     <link rel="stylesheet" href="../css/dropzone.css">
     <link rel="stylesheet" href="../css/basic.css">
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -412,6 +419,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <!--
                                 <c:forEach var="list" items="${files}">
                                     <tr>
                                         <td><a href="../file?name=${list.storedname}">${list.originalname}</a></td>
@@ -420,6 +428,7 @@
                                         <td>${list.tag}</td>
                                     </tr>
                                 </c:forEach>
+                                -->
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -686,6 +695,16 @@
 <!-- dropzone -->
 <script src="../js/dropzone.js"></script>
 
+
+<!--Table-->
+<script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/dataTables.bootstrap.min.js"></script>
+
+<!-- tag -->
+<script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
+
 <!-- gallery-->
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
 <script id="socket" type="text/javascript">
@@ -699,6 +718,8 @@
         userImg: "${user.img}"
     });
     socket.on('response', function (data) {
+        if(data.type=='img' || data.type=='file')
+            table.ajax.reload();
         if (data.user == "${user.id}") {
             $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
         }
@@ -811,6 +832,7 @@
     var scheduleEnd;
     var option = "Today";
     var Tminute = "${project.minute}";
+    var table;
 
     $("a.zoom").imageZoom({scale: 0.75});
     //Initialize Select Elements
@@ -824,11 +846,11 @@
     $('#InviteUser').on('hidden.bs.modal', function (e) {
         $("#user").html('');
         $("#inviteForm #inviteId").val('');
-    })
+    });
     $('#todoMadal').on('hidden.bs.modal', function (e) {
         $("#todocontent").val('');
         $("#reservation").val('');
-    })
+    });
 
     function search() {
         var par = {
@@ -879,6 +901,10 @@
     }, function () {
         $('#file_over').removeClass('front_hover');
     });
+
+    function getfile() {
+
+    }
 
     function makeTodolist() {
 
@@ -932,10 +958,16 @@
     Dropzone.options.dropzone = {
         clickable: false,
         maxThumbnailFilesize: 5,
-        dictDefaultMessage : '',
+        dictDefaultMessage: '',
         init: function () {
 
             this.on('success', function (file, json) {
+                socket.emit("file", {
+                    msg: json,
+                    user: "${user.name}",
+                    date: new Date().toString('HH:mm'),
+                    type: json.type
+                });
             });
 
             this.on('addedfile', function (file) {
@@ -947,6 +979,24 @@
             });
         }
     };
+
+    table = $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "ajax": {
+            'url': '../file/${project.projectidx}'
+        }
+    });
+    function search() {
+        var search_val = $("#tokenfield-typeahead").val();
+        search_val = search_val.replace(/,/gi, "");
+        console.log(search_val);
+        table.search(search_val).draw();
+    }
 </script>
 </body>
 </html>

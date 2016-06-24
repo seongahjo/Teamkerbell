@@ -15,12 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.vertx.java.core.json.JsonArray;
+import org.vertx.java.core.json.JsonObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +64,7 @@ public class FileController {
         User user = us.get(Integer.parseInt(userIdx));
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
-        HashMap<String,String> result=null;
+        HashMap<String, String> result = null;
         String originalFileName = null;
         String originalFileExtension = null;
         String storedFileName = null;
@@ -81,7 +80,7 @@ public class FileController {
 
             if (!multipartFile.isEmpty()) {
                 try {
-                    result= new HashMap<>();
+                    result = new HashMap<>();
                     originalFileName = multipartFile.getOriginalFilename();
                     originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
                     storedFileName = CommonUtils.getRandomString() + originalFileExtension;
@@ -94,15 +93,15 @@ public class FileController {
 
                     multipartFile.transferTo(file);
                     String tag = null;
-                    ArrayList<String> Tag=Tagging.Tag(file);
-                    if(Tag!=null) {
-                        tag=new String();
+                    ArrayList<String> Tag = Tagging.Tag(file);
+                    if (Tag != null) {
+                        tag = new String();
                         for (String temp : Tag) {
                             tag += temp + ",";
                         }
                         tag = tag.substring(0, tag.length() - 1);
                     }
-                    FileDB fd = new FileDB(storedFileName, originalFileName, type, filePath,tag, new Date());
+                    FileDB fd = new FileDB(storedFileName, originalFileName, type, filePath, tag, new Date());
 
                     fd.setUser(user);
                     fd.setProject(project);
@@ -117,19 +116,40 @@ public class FileController {
                     }
 
                     logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
-                    result.put("stored",storedFileName);
-                    result.put("type",type);
-                    result.put("original",originalFileName);
-                    result.put("size",String.valueOf(file.length()));
+                    result.put("stored", storedFileName);
+                    result.put("type", type);
+                    result.put("original", originalFileName);
+                    result.put("size", String.valueOf(file.length()));
                 } catch (IOException e) {
                     // file io error
-                }catch(NullPointerException e){
+                } catch (NullPointerException e) {
                     logger.info("NULL!!!!!!");
                 }
             }
         }
 
         return result;
+    }
+
+    /*
+        get files from corresponding project
+     */
+    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET,produces = {"application/json"})
+    @ResponseBody
+    public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
+        ArrayList<FileDB> filedb = (ArrayList)pjs.getFiles(pjs.get(projectIdx));
+        JsonObject jsonObject=new JsonObject();
+        JsonArray array= new JsonArray();
+        for(FileDB temp : filedb){
+            JsonArray arraytemp = new JsonArray();
+            arraytemp.add(temp.getOriginalname());
+            arraytemp.add(temp.getUser().getName());
+            arraytemp.add(temp.getDate().toString());
+            arraytemp.add(temp.getTag());
+            array.addArray(arraytemp);
+        }
+        jsonObject.putArray("data",array);
+        return jsonObject.toString();
     }
 
     /*

@@ -82,7 +82,7 @@ public class HomeController {
     public ModelAndView Dashboard(@PathVariable("userId") String userId) {
         User user = us.getById(userId);    //유저 아이디로 유저레코드 검색
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트를 반환
-        List<Alarm> tlla = us.getTimeline(user,0); // 타임라인 리스트를 반환
+        List<Alarm> tlla = us.getTimeline(user, 0); // 타임라인 리스트를 반환
         List<Todolist> lt = us.getTodolist(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = us.getScheudles(user); // 스케쥴 리스트를 반환
         List<Alarm> la = us.getAlarms(user.getUseridx()); // 알람 리스트를 반환
@@ -105,6 +105,7 @@ public class HomeController {
         String time = formatter.format(new Date());
         User user = us.getById(authentication.getName());
         int userIdx = user.getUseridx();
+        mv = new ModelAndView("redirect");
         /*
         공통된 객체 반환
          */
@@ -112,7 +113,6 @@ public class HomeController {
         List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
         if (lpj.contains(project)) {
             List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
-
             List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
             List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
             List<FileDB> lfd = pjs.getFiles(project); // 파일 받아오기
@@ -142,6 +142,7 @@ public class HomeController {
                 mv.addObject("user", user);
                 mv.addObject("alarm", la);
                 mv.addObject("minutes", lm);
+                mv.addObject("files", lfd);
                 mv.addObject("project", project);
                 mv.addObject("img", img);
                 mv.addObject("todolist", lt);
@@ -168,7 +169,6 @@ public class HomeController {
                 }
                 mv = new ModelAndView("/document");
                 mv.addObject("user", user);
-                //mv.addObject("schedules", ls);
                 mv.addObject("projects", lpj);
                 mv.addObject("project", project);
                 mv.addObject("users", lu);
