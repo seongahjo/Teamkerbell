@@ -5,8 +5,10 @@ import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
 import com.shape.web.parser.Tagging;
-import com.shape.web.service.AlarmService;
-import com.shape.web.service.FileDBService;
+import com.shape.web.repository.AlarmRepository;
+import com.shape.web.repository.FileDBRepository;
+import com.shape.web.repository.ProjectRepository;
+import com.shape.web.repository.UserRepository;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
@@ -35,17 +37,13 @@ public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     @Autowired
-    AlarmService as;
-
+    ProjectRepository projectRepository;
     @Autowired
-    UserService us;
-
+    UserRepository userRepository;
     @Autowired
-    ProjectService pjs;
-
+    FileDBRepository fileDBRepository;
     @Autowired
-    FileDBService fs;
-
+    AlarmRepository alarmRepository;
     /*
     RESTFUL DOCUMENTATION
     FILE
@@ -60,8 +58,8 @@ public class FileController {
     public Map Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-        Project project = pjs.get(Integer.parseInt(projectIdx));
-        User user = us.get(Integer.parseInt(userIdx));
+        Project project = projectRepository.findOne(Integer.parseInt(projectIdx));
+        User user = userRepository.findOne(Integer.parseInt(userIdx));
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
         HashMap<String, String> result = null;
@@ -105,14 +103,14 @@ public class FileController {
 
                     fd.setUser(user);
                     fd.setProject(project);
-                    fs.save(fd);
+                    fileDBRepository.save(fd);
 
                     for (User u : project.getUsers()) {
                         Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date());
                         alarm.setUser(u);
                         alarm.setActor(user);
                         alarm.setProject(project);
-                        as.save(alarm);
+                        alarmRepository.save(alarm);
                     }
 
                     logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
@@ -137,7 +135,7 @@ public class FileController {
     @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET,produces = {"application/json"})
     @ResponseBody
     public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
-        ArrayList<FileDB> filedb = (ArrayList)pjs.getFiles(pjs.get(projectIdx));
+        ArrayList<FileDB> filedb = (ArrayList)fileDBRepository.findByProjectOrderByDateDesc(projectRepository.findOne(projectIdx));
         JsonObject jsonObject=new JsonObject();
         JsonArray array= new JsonArray();
         for(FileDB temp : filedb){
@@ -161,7 +159,7 @@ public class FileController {
             InputStream in = null;
             OutputStream os = null;
             String client = "";
-            FileDB fd = fs.getByStoredname(name);
+            FileDB fd = fileDBRepository.findByOriginalname(name);
             name = fd.getOriginalname();
             String folder = fd.getPath();
             File file = new File(folder + "/" + name);

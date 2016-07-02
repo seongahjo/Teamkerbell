@@ -6,7 +6,7 @@ import com.nhncorp.mods.socket.io.spring.DefaultEmbeddableVerticle;
 import com.shape.web.VO.ServerUser;
 import com.shape.web.entity.Minute;
 import com.shape.web.entity.Project;
-import com.shape.web.service.MinuteService;
+import com.shape.web.repository.*;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
@@ -26,11 +26,17 @@ public class VertxServer extends DefaultEmbeddableVerticle {
     private static HashMap<String, Integer> Rooms = new HashMap<String, Integer>(); //ProjectIdx / Wrjter_Id
     private static HashMap<String, ServerUser> Clients = new HashMap<String, ServerUser>(); // socketId,User
     @Autowired
-    ProjectService pjs;
+    UserRepository userRepository;
     @Autowired
-    MinuteService ms;
+    ProjectRepository projectRepository;
     @Autowired
-    UserService us;
+    AlarmRepository alarmRepository;
+    @Autowired
+    TodolistRepository todolistRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
+    @Autowired
+    MinuteRepository minuteRepository;
 
     @Override
     public void start(Vertx vertx) {
@@ -152,14 +158,14 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 ServerUser su = Clients.get(socket.getId());
                 String projectIdx = su.getProjectIdx();
                 String memo = event.getString("memo");
-                Project pj = pjs.get(Integer.parseInt(projectIdx));
+                Project pj = projectRepository.findOne(Integer.parseInt(projectIdx));
                 pj.setMinute(memo);
                 logger.info("[ROOM "+projectIdx+"] Trying to save memo [" + memo + "] [USER "+su.getId()+"]");
 
                 /*
                 Create Minute
                  */
-                Minute minute = ms.getByDate(new Date());
+                Minute minute = minuteRepository.findByProjectAndDate(pj,new Date());
                 if (minute == null) {
                     minute = new Minute(memo, new Date());
                     logger.info("[ROOM "+projectIdx+"] Minute is Created");
@@ -167,9 +173,9 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 minute.setContent(memo);
                 minute.setDate(new Date());
                 minute.setProject(pj);
-                ms.save(minute);
+                minuteRepository.save(minute);
 
-                pjs.save(pj);
+                projectRepository.save(pj);
                 Rooms.replace(projectIdx, -1);
                 try {
                     FileUtil.MakeMinute(Integer.parseInt(projectIdx), memo);

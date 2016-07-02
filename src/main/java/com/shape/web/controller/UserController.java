@@ -3,7 +3,8 @@ package com.shape.web.controller;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Role;
 import com.shape.web.entity.User;
-import com.shape.web.service.FileDBService;
+import com.shape.web.repository.FileDBRepository;
+import com.shape.web.repository.UserRepository;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import org.slf4j.Logger;
@@ -32,15 +33,14 @@ import java.util.Date;
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
-    UserService us;
-
+    UserRepository userRepository;
     @Autowired
-    FileDBService fs;
+    FileDBRepository fileDBRepository;
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public String register(@ModelAttribute("tempUser") User tempUser, @RequestParam("file") MultipartFile file,BindingResult result) {
-        if(!result.hasErrors()) {
-            User user = us.getById(tempUser.getId());
+    public String register(@ModelAttribute("tempUser") User tempUser, @RequestParam("file") MultipartFile file, BindingResult result) {
+        if (!result.hasErrors()) {
+            User user = userRepository.findById(tempUser.getId());
             if (user == null)
                 user = new User();
 
@@ -62,11 +62,11 @@ public class UserController {
                 File transFile = new File(filePath + "/" + originalFileName); // 전송된 파일
                 logger.info("FILE NAME = " + file.getOriginalFilename());
                 file.transferTo(transFile);
-                fs.save(filedb); // 파일 내용을 디비에 저장
+                fileDBRepository.save(filedb); // 파일 내용을 디비에 저장
                 user.setImg("loadImg?name=" + storedFileName);
 
                 filedb.setUser(user);
-                us.save(user);
+                userRepository.save(user);
                 logger.info("Register Success " + user.getName());
             } catch (IOException ioe) {
 
@@ -74,7 +74,7 @@ public class UserController {
                 if (user.getImg() == null)
                     user.setImg("img/default.jpg");
                 //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
-                us.save(user);
+                userRepository.save(user);
                 logger.info("Register Success " + user.getName());
             }
         }

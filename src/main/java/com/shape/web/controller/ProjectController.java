@@ -3,9 +3,8 @@ package com.shape.web.controller;
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
-import com.shape.web.service.AlarmService;
+import com.shape.web.repository.*;
 import com.shape.web.service.ProjectService;
-import com.shape.web.service.TodolistService;
 import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,20 +26,17 @@ import java.util.List;
  */
 @Controller
 public class ProjectController {
-    @Autowired
-    UserService us;
-
-    @Autowired
-    ProjectService pjs;
-
-    @Autowired
-    AlarmService as;
-
-    @Autowired
-    TodolistService ts;
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
+
+
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ProjectRepository projectRepository;
+    @Autowired
+    AlarmRepository alarmRepository;
 
     /*
     RESTFUL DOCUMENTATION
@@ -57,10 +53,11 @@ public class ProjectController {
     */
     @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
     public String MakeRoom(@RequestParam(value = "name") String name, Authentication authentication) {
-        User user = us.getById(authentication.getName()); //유저 객체 반환
+        User user = userRepository.findById(authentication.getName()); //유저 객체 반환
         Integer userIdx = user.getUseridx();
         Project project = new Project(name, userIdx, "");
-        us.addProject(userIdx, project);
+        user.addProject(project);
+        userRepository.save(user);
         return "redirect:/projectmanager";
     }
 
@@ -70,15 +67,15 @@ public class ProjectController {
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
     @ResponseBody
     public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
-        us.deleteProject(projectIdx);
+        projectRepository.delete(projectIdx);
     }
 
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
     @ResponseBody
     public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx) {
-        Project project = pjs.get(projectIdx);
+        Project project = projectRepository.findOne(projectIdx);
         project.setProcessed(false);
-        pjs.save(project);
+        projectRepository.save(project);
     }
 
     /*
@@ -89,10 +86,10 @@ public class ProjectController {
     public HashMap searchUser(@RequestParam(value = "userId") String userId,
                               @RequestParam("projectIdx") Integer projectIdx) {
         logger.info("Search Member");
-        Project project = pjs.get(projectIdx);
-        User user = us.getById(userId);
+        Project project = projectRepository.findOne(projectIdx);
+        User user = userRepository.findById(userId);
         logger.info(project.getName());
-        List<Project> lp = us.getProjects(user); // 유저가 참가중인 프로젝트
+        List<Project> lp = projectRepository.findByUsers(user); // 유저가 참가중인 프로젝트
         for (Project p : lp)
             if (p.getProjectidx() == project.getProjectidx())
                 return null;
@@ -113,14 +110,14 @@ public class ProjectController {
                                @RequestParam("projectIdx") Integer projectIdx,
                                Authentication authentication) {
         logger.info("Invite Member");
-        User actor = us.getById(authentication.getName()); //초대한 사람
-        User user = us.getById(userId); // 초대받은 사람
-        Project project = pjs.get(projectIdx); // 초대받은 프로젝트
+        User actor = userRepository.findById(authentication.getName()); //초대한 사람
+        User user = userRepository.findById(userId); // 초대받은 사람
+        Project project = projectRepository.findOne(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date());
         alarm.setUser(user);
         alarm.setActor(actor);
         alarm.setProject(project);
-        as.save(alarm); //알람 생성
+        alarmRepository.save(alarm); //알람 생성
         return String.valueOf(user.getUseridx());
     }
 

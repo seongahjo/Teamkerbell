@@ -1,6 +1,7 @@
 package com.shape.web.controller;
 
 import com.shape.web.entity.*;
+import com.shape.web.repository.*;
 import com.shape.web.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,24 +34,17 @@ public class ProcessController {
     private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
 
     @Autowired
-    UserService us;
-
+    UserRepository userRepository;
     @Autowired
-    ProjectService pjs;
-
-
+    ProjectRepository projectRepository;
     @Autowired
-    AlarmService as;
-
+    AlarmRepository alarmRepository;
     @Autowired
-    FileDBService fs;
-
+    TodolistRepository todolistRepository;
     @Autowired
-    ScheduleService ss;
-
+    ScheduleRepository scheduleRepository;
     @Autowired
-    AppointmentService aps;
-
+    FileDBRepository fileDBRepository;
 
     /*
        To load uploaded Image
@@ -59,7 +53,7 @@ public class ProcessController {
     @ResponseBody
     public void loadImg(@RequestParam(value = "name") String name, HttpServletResponse response) {
         try {
-            FileDB file = fs.getByStoredname(name);
+            FileDB file = fileDBRepository.findByStoredname(name);
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + file.getOriginalname()));
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(512);
             int imageByte;
@@ -83,11 +77,9 @@ public class ProcessController {
     @RequestMapping(value = "/loadTime", method = RequestMethod.GET)
     @ResponseBody
     public List loadTime(@RequestParam("scheduleIdx") Integer scheduleIdx) {
-        Schedule schedule = ss.get(scheduleIdx);
+        Schedule schedule = scheduleRepository.findOne(scheduleIdx);
         List<String> ls = new ArrayList<String>();
-        List<Appointment> la = ss.getAppointments(schedule, 1);
-        for (Appointment ap : la)
-            ls.add(ap.getDate().toString());
+
         return ls;
     }
 
@@ -97,12 +89,12 @@ public class ProcessController {
     @RequestMapping(value = "/acceptRequest", method = RequestMethod.GET)
     @ResponseBody
     public void acceptRequest(@RequestParam("alarmIdx") Integer alarmIdx, @RequestParam("type") Integer type) {
-        Alarm alarm = as.get(alarmIdx);
+        Alarm alarm = alarmRepository.findOne(alarmIdx);
         alarm.setIsshow(false);
         if (type == 1)
             alarm.getUser().addProject(alarm.getProject());
-        us.save(alarm.getUser());
-        as.save(alarm);
+        userRepository.save(alarm.getUser());
+        alarmRepository.save(alarm);
     }
 
     /*
@@ -111,7 +103,7 @@ public class ProcessController {
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
     @ResponseBody
     public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
-        Alarm alarm = us.getOneAlarm(userIdx);
+        Alarm alarm = alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0,userRepository.findOne(userIdx));
         Map<String, String> data = new HashMap<String, String>();
         if (alarm != null) {
             data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
@@ -124,8 +116,9 @@ public class ProcessController {
     @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
     @ResponseBody
     public List moreSchedule(@RequestParam("first") Integer first, Authentication authentication) {
-        User u = us.getById(authentication.getName());
-        List schedules= us.getTimeline(u, first);
+        User u = userRepository.findById(authentication.getName());
+        List schedules=null;
+                //scheduleRepository.findByUsers(u);
        /* if(schedules.size()==0)
             throw new HttpClientErrorException(HttpStatus.NO_CONTENT);*/
         return schedules;

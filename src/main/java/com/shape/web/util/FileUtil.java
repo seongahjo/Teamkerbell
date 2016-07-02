@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.shape.web.entity.FileDB;
-import com.shape.web.service.FileDBService;
+import com.shape.web.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class FileUtil {
     // Static 메소드로만 만들기
-    @Autowired
-    static FileDBService fs;
+   @Autowired
+   static FileDBRepository fileDBRepository;
 
     public static String getFoldername(int project_id, Date date) {
         Date dates = null;
@@ -36,7 +36,7 @@ public class FileUtil {
         fw.close();
     }
     public static String DecodeFile(String storedFileName){
-       FileDB fd=fs.getByStoredname(storedFileName);
+       FileDB fd=fileDBRepository.findByStoredname(storedFileName);
         return fd.getOriginalname();
     }
     public static boolean IsImage(String filename){
