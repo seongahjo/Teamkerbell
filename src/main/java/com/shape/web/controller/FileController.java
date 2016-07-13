@@ -103,14 +103,14 @@ public class FileController {
 
                     fd.setUser(user);
                     fd.setProject(project);
-                    fileDBRepository.save(fd);
+                    fileDBRepository.saveAndFlush(fd);
 
                     for (User u : project.getUsers()) {
                         Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date());
                         alarm.setUser(u);
                         alarm.setActor(user);
                         alarm.setProject(project);
-                        alarmRepository.save(alarm);
+                        alarmRepository.saveAndFlush(alarm);
                     }
 
                     logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");

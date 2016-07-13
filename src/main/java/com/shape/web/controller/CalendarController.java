@@ -83,7 +83,7 @@ public class CalendarController {
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
         Project project = projectRepository.findOne(projectIdx);
         schedule.setProject(project);
-        scheduleRepository.save(schedule);
+        scheduleRepository.saveAndFlush(schedule);
         Alarm alarm = new Alarm(1, null, null, new Date());
         alarm.setProject(project);
         List<User> lu = userRepository.findByProjects(project);
@@ -91,7 +91,7 @@ public class CalendarController {
             alarm.setAlarmidx(null);
             logger.info("[USER " + u.getUseridx() + "] Make Alarm");
             alarm.setUser(u);
-            alarmRepository.save(alarm);
+            alarmRepository.saveAndFlush(alarm);
         }
         logger.info("[ROOM " + projectIdx + "] Make Schedule ");
     }
@@ -106,7 +106,7 @@ public class CalendarController {
             s.setEnddate(schedule.getEnddate());
         if (schedule.getState() != null)
             s.setState(schedule.getState());
-        scheduleRepository.save(s);
+        scheduleRepository.saveAndFlush(s);
         logger.info("modifying schedule");
 
     }

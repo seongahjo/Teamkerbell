@@ -37,7 +37,7 @@ public class TodolistController {
         User user = userRepository.findById(userId);
         todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
         todolist.setUser(user); // todolist가 누구것인가
-        todolistRepository.save(todolist); // todolist 생성
+        todolistRepository.saveAndFlush(todolist); // todolist 생성
         logger.info("todolist 만듬");
         return "Ok";
     }
@@ -52,7 +52,7 @@ public class TodolistController {
             t.setEnddate(todolist.getEnddate());
         if (todolist.getContent() != null)
             t.setContent(t.getContent());
-        todolistRepository.save(t);
+        todolistRepository.saveAndFlush(t);
 
     }
 
@@ -64,6 +64,6 @@ public class TodolistController {
     public void todocheck(@RequestParam(value = "id") Integer id) {
         Todolist todolist = todolistRepository.findOne(id);
         todolist.setOk(!todolist.getOk());
-        todolistRepository.save(todolist);
+        todolistRepository.saveAndFlush(todolist);
     }
 }

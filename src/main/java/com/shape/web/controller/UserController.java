@@ -62,11 +62,11 @@ public class UserController {
                 File transFile = new File(filePath + "/" + originalFileName); // 전송된 파일
                 logger.info("FILE NAME = " + file.getOriginalFilename());
                 file.transferTo(transFile);
-                fileDBRepository.save(filedb); // 파일 내용을 디비에 저장
+                fileDBRepository.saveAndFlush(filedb); // 파일 내용을 디비에 저장
                 user.setImg("loadImg?name=" + storedFileName);
 
                 filedb.setUser(user);
-                userRepository.save(user);
+                userRepository.saveAndFlush(user);
                 logger.info("Register Success " + user.getName());
             } catch (IOException ioe) {
 
@@ -74,7 +74,7 @@ public class UserController {
                 if (user.getImg() == null)
                     user.setImg("img/default.jpg");
                 //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
-                userRepository.save(user);
+                userRepository.saveAndFlush(user);
                 logger.info("Register Success " + user.getName());
             }
         }

@@ -57,7 +57,9 @@ public class ProjectController {
         Integer userIdx = user.getUseridx();
         Project project = new Project(name, userIdx, "");
         user.addProject(project);
-        userRepository.save(user);
+        project.addUser(user);
+        projectRepository.saveAndFlush(project);
+        userRepository.saveAndFlush(user);
         return "redirect:/projectmanager";
     }
 
@@ -75,7 +77,7 @@ public class ProjectController {
     public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx) {
         Project project = projectRepository.findOne(projectIdx);
         project.setProcessed(false);
-        projectRepository.save(project);
+        projectRepository.saveAndFlush(project);
     }
 
     /*
@@ -117,7 +119,7 @@ public class ProjectController {
         alarm.setUser(user);
         alarm.setActor(actor);
         alarm.setProject(project);
-        alarmRepository.save(alarm); //알람 생성
+        alarmRepository.saveAndFlush(alarm); //알람 생성
         return String.valueOf(user.getUseridx());
     }
 

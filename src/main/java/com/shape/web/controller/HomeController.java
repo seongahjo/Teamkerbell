@@ -1,7 +1,11 @@
 package com.shape.web.controller;
 
+import com.shape.web.VO.MeetingMember;
+import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
 import com.shape.web.repository.*;
+import com.shape.web.service.ProjectService;
+import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +40,11 @@ public class HomeController {
     TodolistRepository todolistRepository;
     @Autowired
     ScheduleRepository scheduleRepository;
+    @Autowired
+    FileDBRepository fileDBRepository;
+    @Autowired
+    MinuteRepository minuteRepository;
+
 
     /**
      * Simply selects the home view to render by returning its name.
@@ -75,7 +88,7 @@ public class HomeController {
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmRepository.findFirst15ByUserOrderByDateDesc(user, null); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistRepository.findByUser(user); // 투두리스트 리스트를 반환
-        //List<Schedule> ls = scheduleRepository.findByUsers(user); // 스케쥴 리스트를 반환
+        List<Schedule> ls = scheduleRepository.findByProject_Users(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user,0,true); // 알람 리스트를 반환
 
         ModelAndView mv = new ModelAndView("/dashboard");
@@ -87,25 +100,25 @@ public class HomeController {
       //  mv.addObject("schedules", ls);
         return mv;
     }
-/*
+
     @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
         ModelAndView mv = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String time = formatter.format(new Date());
-        User user = us.getById(authentication.getName());
+        User user = userRepository.findById(authentication.getName());
         int userIdx = user.getUseridx();
         mv = new ModelAndView("redirect");
-        Project project = pjs.get(projectIdx); // 프로젝트 객체 반환
-        List<Project> lpj = us.getProjects(user); // 프로젝트 리스트 반환
+        Project project = projectRepository.findOne(projectIdx); // 프로젝트 객체 반환
+        List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트 반환
         if (lpj.contains(project)) {
-            List<Todolist> lt = pjs.getTodolists(projectIdx); // 투두리스트 리스트를 반환
-            List<Alarm> la = us.getAlarms(userIdx); // 알람 리스트를 반환
-            List<User> lu = pjs.getUsers(project); // 유저 리스트 반환
-            List<FileDB> lfd = pjs.getFiles(project); // 파일 받아오기
+            List<Todolist> lt = todolistRepository.findByProject(project); // 투두리스트 리스트를 반환
+            List<Alarm> la = alarmRepository.findByUser(user); // 알람 리스트를 반환
+            List<User> lu = userRepository.findByProjects(project); // 유저 리스트 반환
+            List<FileDB> lfd = fileDBRepository.findByProjectOrderByDateDesc(project); // 파일 받아오기
             if (project.isProcessed()) {
-                List<Minute> lm = pjs.getMinutes(project); // 회의록 객체 반환
-                List<FileDB> img = pjs.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
+                List<Minute> lm = minuteRepository.findByProject(project); // 회의록 객체 반환
+                List<FileDB> img = fileDBRepository.findByProjectAndTypeOrderByDateDesc(project,"img"); // 파일디비 리스트중 이미지 리스트 반환
                 project.setMinute(" "); //회의록 초기화
                 for (Minute temp : lm)
 
@@ -132,7 +145,7 @@ public class HomeController {
                 mv.addObject("img", img);
                 mv.addObject("todolist", lt);
             } else {
-
+                ProjectService pjs = new ProjectService();
                  List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
                 List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
                 List<String> username = new ArrayList<>();
@@ -165,7 +178,7 @@ public class HomeController {
             return mv;
         }
         return null;
-    }*/
+    }
 /*
     @RequestMapping(value = "/calendar/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView calendar(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {

@@ -55,7 +55,7 @@ public class User {
     )
     private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "Participate",
             joinColumns = @JoinColumn(name = "USERIDX"),

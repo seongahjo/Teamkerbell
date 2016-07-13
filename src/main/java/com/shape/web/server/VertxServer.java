@@ -173,9 +173,9 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 minute.setContent(memo);
                 minute.setDate(new Date());
                 minute.setProject(pj);
-                minuteRepository.save(minute);
+                minuteRepository.saveAndFlush(minute);
 
-                projectRepository.save(pj);
+                projectRepository.saveAndFlush(pj);
                 Rooms.replace(projectIdx, -1);
                 try {
                     FileUtil.MakeMinute(Integer.parseInt(projectIdx), memo);

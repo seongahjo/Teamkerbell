@@ -31,7 +31,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                          invalidate-session="true" />
         <session-management >
             <!--invalid-session-url="/invalidSession.htm"-->
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />
         </session-management>
     </http>
 
@@ -39,5 +39,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <authentication-provider user-service-ref="userService">
             </authentication-provider>
     </authentication-manager>
+
     <beans:bean id="userService" class="com.shape.web.service.UserService"/>
 </beans:beans>

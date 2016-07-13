@@ -25,16 +25,20 @@
     </filter-mapping>
 
 
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:spring-context.xml
+            classpath:redis-context.xml
             classpath:security-context.xml
             /WEB-INF/appServlet-servlet.xml
 
         </param-value>
     </context-param>
-
     <!-- Creates the Spring Container shared by all Servlets and Filters -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -52,12 +56,25 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <!--스프링 보안 세션 -->
+
+
+   <!--스프링 보안 세션 -->
     <listener>
         <listener-class>
             org.springframework.security.web.session.HttpSessionEventPublisher
         </listener-class>
     </listener>
+
+    <filter>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
     <!-- 스프링 보안 필터 -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -68,6 +85,7 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
 
     <!--    <servlet>
             <servlet-name>appSocket</servlet-name>

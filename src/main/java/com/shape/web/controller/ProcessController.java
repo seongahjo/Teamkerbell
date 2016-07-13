@@ -93,8 +93,8 @@ public class ProcessController {
         alarm.setIsshow(false);
         if (type == 1)
             alarm.getUser().addProject(alarm.getProject());
-        userRepository.save(alarm.getUser());
-        alarmRepository.save(alarm);
+        userRepository.saveAndFlush(alarm.getUser());
+        alarmRepository.saveAndFlush(alarm);
     }
 
     /*
