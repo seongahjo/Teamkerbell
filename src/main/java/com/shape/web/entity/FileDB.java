@@ -1,11 +1,12 @@
 package com.shape.web.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "FileDB")
-public class FileDB {
+public class FileDB implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "FILEDBIDX")

@@ -37,41 +37,7 @@ public class CalendarController {
     @Autowired
     AlarmRepository alarmRepository;
     @Autowired
-    TodolistRepository todolistRepository;
-    @Autowired
     ScheduleRepository scheduleRepository;
-
-    /*
-      To get appropriate file data when user select the date
-      */
-    /*
-    @RequestMapping(value = "/selectDate", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public Map<String, Object> GetDate(@RequestParam(value = "projectIdx") Integer projectIdx, @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        List data = new ArrayList();
-
-        File dir;
-        String foldername = FileUtil.getFoldername(projectIdx, date);
-        dir = new File(foldername);
-        if (dir.listFiles() != null) {
-            for (File f : dir.listFiles()) {
-                logger.info(f.getName() + "FILENAME!!!");
-                FileDB fd = fs.getByOriginalname(date, f.getName(), foldername);
-                if (fd != null) {
-                    List<String> temp = new ArrayList<String>();
-                    temp.add("<a href='../file?name=" + fd.getStoredname() + "'>" + fd.getOriginalname() + "</a>");
-                    temp.add(fd.getUser().getName());
-                    temp.add(fd.getDate().toString());
-                    data.add(temp);
-                } else
-                    logger.info(f.getName() + "!!!ERROR!!!");
-            }
-        }
-        map.put("data", data);
-        return map;
-    }
-    */
 
 
     /*
@@ -110,13 +76,5 @@ public class CalendarController {
         logger.info("modifying schedule");
 
     }
-
-
-
-    /*
-        밑에는 기존 Calendar 이를 바꿀예정임
-     */
-
-
 
 }

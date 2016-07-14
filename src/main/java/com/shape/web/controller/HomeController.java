@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +46,6 @@ public class HomeController {
     @Autowired
     MinuteRepository minuteRepository;
 
-
     /**
      * Simply selects the home view to render by returning its name.
      */
@@ -53,20 +53,15 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
     public String Home(Authentication authentication) {
+
         if (authentication == null)
             return "login";
         return "redirect:/dashboard";
     }
 
-    /*
-        @RequestMapping(value = "/joinus", method = RequestMethod.GET)
-        public ModelAndView JoinUs() {
-            ModelAndView mv = new ModelAndView("/joinus");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
-            return mv;
-        }
-    */
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String goDashboard(Authentication authentication) {
+
         return "redirect:/dashboard/" + authentication.getName();
 
     }
@@ -82,10 +77,12 @@ public class HomeController {
         return mv;
     }
 
-    @RequestMapping(value = "/dashboard/{userId}", method = RequestMethod.GET)
-    public ModelAndView Dashboard(@PathVariable("userId") String userId) {
 
-        User user = userRepository.findById(userId);    //유저 아이디로 유저레코드 검색
+
+    @RequestMapping(value = "/dashboard/{userId}", method = RequestMethod.GET)
+    public ModelAndView Dashboard(@PathVariable("userId") String userId,HttpSession session) {
+
+        User user = (User)session.getAttribute("user");
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmRepository.findFirst15ByUserOrderByDateDesc(user, null); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistRepository.findByUser(user); // 투두리스트 리스트를 반환
@@ -98,16 +95,16 @@ public class HomeController {
         mv.addObject("alarm", la);
         mv.addObject("projects", lpj);
         mv.addObject("todolist", lt);
-          mv.addObject("schedules", ls);
+        mv.addObject("schedules", ls);
         return mv;
     }
 
     @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, Authentication authentication) {
+    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
         ModelAndView mv = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String time = formatter.format(new Date());
-        User user = userRepository.findById(authentication.getName());
+        User user = (User)session.getAttribute("user");
         int userIdx = user.getUseridx();
         mv = new ModelAndView("redirect");
         Project project = projectRepository.findOne(projectIdx); // 프로젝트 객체 반환
@@ -183,8 +180,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
-    public ModelAndView manager(Authentication authentication) {
-        User user = userRepository.findById(authentication.getName()); //유저 객체 반환
+    public ModelAndView manager(HttpSession session) {
+        User user = (User)session.getAttribute("user");
         int userIdx = user.getUseridx();
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트 객체 반환
 

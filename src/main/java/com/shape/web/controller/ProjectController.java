@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +29,6 @@ import java.util.List;
 public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
-
-
 
     @Autowired
     UserRepository userRepository;
@@ -110,9 +109,9 @@ public class ProjectController {
     @ResponseBody
     public String InviteMember(@RequestParam(value = "userId") String userId,
                                @RequestParam("projectIdx") Integer projectIdx,
-                               Authentication authentication) {
+                               HttpSession session) {
         logger.info("Invite Member");
-        User actor = userRepository.findById(authentication.getName()); //초대한 사람
+        User actor = (User)session.getAttribute("user"); //초대한 사람
         User user = userRepository.findById(userId); // 초대받은 사람
         Project project = projectRepository.findOne(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date());

@@ -709,7 +709,7 @@
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
 <script id="socket" type="text/javascript">
     var socket;
-    socket = io.connect('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
+    socket = io.connect('127.0.0.1:9999');
     socket.emit('join', {
         projectIdx: "${project.projectidx}",
         userIdx:${user.useridx},

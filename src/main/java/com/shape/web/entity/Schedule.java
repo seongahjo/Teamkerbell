@@ -4,6 +4,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Schedule")
-public class Schedule {
+public class Schedule implements Serializable {
 
     @Id
     @GeneratedValue

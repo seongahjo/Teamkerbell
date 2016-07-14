@@ -4,11 +4,12 @@ import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "Todolist")
-public class Todolist {
+public class Todolist implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "TODOLISTIDX")

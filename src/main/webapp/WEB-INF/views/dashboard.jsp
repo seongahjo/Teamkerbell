@@ -359,7 +359,7 @@
                                 <li>
                                     </c:otherwise>
                                     </c:choose>
-                      <span class="handle">
+                                    <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
@@ -519,7 +519,6 @@
 <script src="../js/bootstrap-timepicker.min.js"></script>
 <script>
     console.log('<spring:message code="test"/> ');
-   // console.log('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
 
     var registerStartDate;
     var registerEndDate;

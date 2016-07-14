@@ -3,11 +3,12 @@ package com.shape.web.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "Minute")
-public class Minute {
+public class Minute implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "MINUTEIDX")

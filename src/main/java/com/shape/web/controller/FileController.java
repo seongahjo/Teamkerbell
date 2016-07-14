@@ -25,6 +25,7 @@ import org.vertx.java.core.json.JsonObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.*;
 
@@ -55,11 +56,11 @@ public class FileController {
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
-    public Map Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) {
+    public Map Upload(@RequestParam(value = "idx") String projectIdx, HttpSession session, HttpServletRequest HSrequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = projectRepository.findOne(Integer.parseInt(projectIdx));
-        User user = userRepository.findOne(Integer.parseInt(userIdx));
+       User user = (User)session.getAttribute("user");
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
         HashMap<String, String> result = null;
@@ -154,7 +155,7 @@ public class FileController {
     To download file
     */
     @RequestMapping(value = "/file", method = RequestMethod.GET)
-    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response) {
+    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletResponse response) {
         try {
             InputStream in = null;
             OutputStream os = null;

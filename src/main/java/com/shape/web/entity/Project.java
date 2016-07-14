@@ -3,12 +3,13 @@ package com.shape.web.entity;
 import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "Project")
-public class Project {
+public class Project implements Serializable{
     @Id
     @GeneratedValue
     @Column(name = "PROJECTIDX")

@@ -6,6 +6,7 @@ import com.shape.web.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -72,18 +74,6 @@ public class ProcessController {
 
 
     /*
-       To find out the date all users choose
-    */
-    @RequestMapping(value = "/loadTime", method = RequestMethod.GET)
-    @ResponseBody
-    public List loadTime(@RequestParam("scheduleIdx") Integer scheduleIdx) {
-        Schedule schedule = scheduleRepository.findOne(scheduleIdx);
-        List<String> ls = new ArrayList<String>();
-
-        return ls;
-    }
-
-    /*
     To accept invite request
      */
     @RequestMapping(value = "/acceptRequest", method = RequestMethod.GET)
@@ -103,7 +93,7 @@ public class ProcessController {
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
     @ResponseBody
     public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
-        Alarm alarm = alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0,userRepository.findOne(userIdx));
+        Alarm alarm = alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0, userRepository.findOne(userIdx));
         Map<String, String> data = new HashMap<String, String>();
         if (alarm != null) {
             data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
@@ -115,12 +105,10 @@ public class ProcessController {
 
     @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
     @ResponseBody
-    public List moreSchedule(@RequestParam("first") Integer first, Authentication authentication) {
-        User u = userRepository.findById(authentication.getName());
-        List schedules=null;
-                //scheduleRepository.findByUsers(u);
-       /* if(schedules.size()==0)
-            throw new HttpClientErrorException(HttpStatus.NO_CONTENT);*/
-        return schedules;
+    public List moreSchedule(@RequestParam("first") Integer first, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List schedules = null;
+       List timeline= alarmRepository.findFirst15ByUserOrderByDateDesc(user,new PageRequest(first,first+20));
+        return timeline;
     }
 }

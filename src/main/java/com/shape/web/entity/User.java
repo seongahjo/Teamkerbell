@@ -3,13 +3,14 @@ package com.shape.web.entity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 
 @Table(name = "User")
-public class User {
+public class User implements Serializable{
     @Id
     @GeneratedValue
     @Column(name = "USERIDX")
