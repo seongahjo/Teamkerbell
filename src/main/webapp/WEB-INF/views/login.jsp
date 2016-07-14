@@ -67,7 +67,7 @@
         <img class="fairy" src="img/fairy.png">
         <div class="entry_log_form" role="document">
             <h1>Sign in to start your session</h1>
-            <form action="loginprocess" method="post" id="loginForm">
+            <form action="login" method="post" id="loginForm">
                 <div class="form-group has-feedback first_log_form">
                     <input style="height:45px" type="ID" name="userId" class="form-control log_input" placeholder="ID">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>

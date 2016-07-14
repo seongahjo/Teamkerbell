@@ -519,7 +519,8 @@
 <script src="../js/bootstrap-timepicker.min.js"></script>
 <script>
     console.log('<spring:message code="test"/> ');
-    console.log('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
+   // console.log('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
+
     var registerStartDate;
     var registerEndDate;
     var moreview = ${timeline.size()};
