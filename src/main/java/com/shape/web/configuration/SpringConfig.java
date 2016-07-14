@@ -1,5 +1,6 @@
 package com.shape.web.configuration;
 
+import com.shape.web.server.VertxServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,10 @@ public class SpringConfig {
     @Autowired
     private Environment env;
 
+    @Bean
+    VertxServer vertxServer(){
+        return new VertxServer();
+    }
 
     @Bean
     MultipartResolver multipartResolver(){
