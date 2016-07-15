@@ -9,6 +9,7 @@ import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,7 +89,7 @@ public class HomeController {
 
         User user = (User)session.getAttribute("user");
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트를 반환
-        List<Alarm> tlla = alarmRepository.findFirst15ByUserOrderByDateDesc(user, null); // 타임라인 리스트를 반환
+        List<Alarm> tlla = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(1,15)); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistRepository.findByUser(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = scheduleRepository.findByProject_Users(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user, 0, true); // 알람 리스트를 반환
@@ -186,9 +187,7 @@ public class HomeController {
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
     public ModelAndView manager(HttpSession session) {
         User user = (User)session.getAttribute("user");
-        int userIdx = user.getUseridx();
-        List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트 객체 반환
-
+        List<Project> lpj = projectRepository.findByUsers(user,new PageRequest(0,10)); // 프로젝트 리스트 객체 10개 반환
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);

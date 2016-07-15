@@ -4,6 +4,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,15 +28,17 @@ public class Todolist implements Serializable {
     @Column(name = "OK")
     private boolean ok = true;
 
-
+    @NotNull
     @Column(name = "CONTENT", columnDefinition = "TEXT")
     private String content;
 
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "STARTDATE")
     @Type(type = "date")
     private Date startdate;
 
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "ENDDATE")
     @Type(type = "date")

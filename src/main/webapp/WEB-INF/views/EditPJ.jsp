@@ -238,9 +238,6 @@
                         <div class="box-header with-border">
                             <h3 class="box-title"> 과제방 목록</h3>
                             <div class="box-tools pull-left">
-                                <button type="button" class="btn btn-success pull-left" data-toggle="modal"
-                                        data-target="#AddModal">프로젝트 추가
-                                </button>
                             </div>
                             <!-- /.box-tools -->
                         </div>
@@ -307,13 +304,18 @@
                         <!-- /.box-body -->
                         <div class="box-footer no-padding">
                             <div class="mailbox-controls">
-
                                 <div class="pull-right">
+                                    <button type="button" class="btn btn-success pull-left" data-toggle="modal"
+                                            data-target="#AddModal">프로젝트 추가
+                                    </button>
+                                </div>
+                                <div class="pull-left">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-sm"><i
-                                                class="fa fa-chevron-left"></i></button>
-                                        <button type="button" class="btn btn-default btn-sm"><i
+                                        <button type="button" class="btn btn-default btn-sm" onclick="leftpage()"><i
+                                                class="fa fa-chevron-left" ></i></button>
+                                        <button type="button" class="btn btn-default btn-sm" onclick="rightpage()"><i
                                                 class="fa fa-chevron-right"></i></button>
+
                                     </div>
                                     <!-- /.btn-group -->
                                 </div>
@@ -409,6 +411,7 @@
 <!-- Page Script -->
 <script>
     var idx;
+    var number= ${projects.size()};
     $(function () {
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
@@ -464,6 +467,47 @@
             success:function(){
                 location.reload();
             }
+        })
+    }
+    function leftpage(){
+        console.log(number)
+        var param=null;
+        if(number!=0)
+        param= "page="+(number-1);
+        else
+            param= "page="+number;
+        console.log(param);
+        $.ajax({
+            url:'room',
+            data:param,
+            type:'GET',
+            dataType: 'json',
+            success:function(data){
+                number-=1;
+                console.log(data);
+            },
+            error:function(){
+
+            }
+
+        })
+    }
+    function rightpage(){
+
+        var param="page="+(number+1);
+        $.ajax({
+            url:'room',
+            data:param,
+            type:'GET',
+            dataType: 'json',
+            success:function(data){
+                number+=1;
+                console.log(data);
+            },
+            error:function(){
+
+            }
+
         })
     }
 </script>

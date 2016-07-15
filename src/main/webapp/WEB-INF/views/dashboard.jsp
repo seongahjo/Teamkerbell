@@ -331,7 +331,7 @@
                         </c:forEach>
 
                     </div>
-                    <button class="btn btn-primary btn-sm btn-flat" onclick="moreView()">more</button>
+                    <button class="btn btn-primary btn-sm btn-flat" onclick="more()">more</button>
                 </div>
                 <!-- TOdo -->
                 <section class="col-md-4 connectedSortable">
@@ -520,9 +520,7 @@
 <script>
     console.log('<spring:message code="test"/> ');
 
-    var registerStartDate;
-    var registerEndDate;
-    var moreview = ${timeline.size()};
+    var page = 0;
 
     // fullcalendar
     $('#calendar').fullCalendar({
@@ -663,65 +661,6 @@
 
     });
 
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'YYYY-MM-DD h:mm A'});
-    //Date range as a button
-    $('#daterange-btn').daterangepicker({
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')]
-                }
-
-            },
-            function (start, end) {
-                scheduleStart = start;
-                scheduleEnd = end;
-                $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-            }
-    );
-
-    function toregister(_scheduleIdx, startdate, enddate) {
-        scheduleIdx = _scheduleIdx;
-
-        $('#reservation').daterangepicker({
-            dateFormat: 'yyyy-MM-dd',
-            minDate: new Date(startdate),
-            maxDate: new Date(enddate),
-            startDate: new Date(startdate),
-            endDate: new Date(enddate)
-        }, function (start, end) {
-            registerStartDate = start;
-            registerEndDate = end;
-        });
-    }
-    $('#reservation').on('cancel.daterangepicker', function (ev, picker) {
-        $(this).val('');
-    });
-    $("#Rgmodal").on('hidden.bs.modal', function () {
-        $('#reservation').val('');
-    });
-
-    /*
-     function register() {
-     console.log(registerStartDate + " " + registerEndDate);
-     var param = "userIdx=${user.useridx} &scheduleIdx=" + scheduleIdx + "&startdate=" + registerStartDate.format('YYYY-MM-DD') + "&enddate=" + registerEndDate.format('YYYY-MM-DD') + "&state=0";
-
-     $.ajax({
-     url: "../makeRegister",
-     data: param,
-     dataType: 'text',
-     async: true,
-     processData: false,
-     contentType: false,
-     type: 'GET',
-     success: function () {
-     location.reload();
-     },
-     error: function () {
-     }
-     });
-     }
-     */
     $(".cb").change(function () {
         var check = $(this);
         var par = "id=" + $(this).val();
@@ -737,8 +676,8 @@
             }
         });
     });
-    function moreView() {
-        var par = "first=" + moreview;
+    function more() {
+        var par = "page=" + page;
         $.ajax({
             url: "../moreTimeline",
             data: par,
@@ -746,7 +685,7 @@
             async: true,
             type: 'GET',
             success: function (data) {
-                moreview += data.length;
+                page +=1;
             },
             error: function () {
 

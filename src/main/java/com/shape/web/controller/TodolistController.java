@@ -9,8 +9,13 @@ import com.shape.web.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by seongahjo on 2016. 6. 14..
@@ -32,16 +37,20 @@ public class TodolistController {
    */
     @RequestMapping(value = "/todolist", method = RequestMethod.POST)
     @ResponseBody
-    public String makeTodolist(@RequestParam("projectIdx") Integer projectIdx,
-                               @RequestParam("userId") String userId,
-                               @ModelAttribute("todolist") Todolist todolist) {
-        Project project = projectRepository.findOne(projectIdx);
-        User user = userRepository.findById(userId);
-        todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
-        todolist.setUser(user); // todolist가 누구것인가
-        todolistRepository.saveAndFlush(todolist); // todolist 생성
-        logger.info("todolist 만듬");
-        return "Ok";
+    public ResponseEntity makeTodolist(@RequestParam("projectIdx") Integer projectIdx,
+                                       @RequestParam("userId") String userId,
+                                       @ModelAttribute("todolist") @Valid Todolist todolist,
+                                       BindingResult result) {
+        if(!result.hasErrors()) {
+            Project project = projectRepository.findOne(projectIdx);
+            User user = userRepository.findById(userId);
+            todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
+            todolist.setUser(user); // todolist가 누구것인가
+            todolistRepository.saveAndFlush(todolist); // todolist 생성
+            logger.info("todolist 만듬");
+            return new ResponseEntity(HttpStatus.CREATED);
+        }else
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/todolist", method = RequestMethod.PUT)

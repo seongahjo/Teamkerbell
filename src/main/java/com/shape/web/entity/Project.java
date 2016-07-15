@@ -1,5 +1,8 @@
 package com.shape.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;
@@ -8,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectidx")
 @Table(name = "Project")
 public class Project implements Serializable{
     @Id
@@ -30,21 +34,21 @@ public class Project implements Serializable{
     @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<Alarm> alarms = new HashSet<Alarm>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<FileDB> filedbs = new HashSet<FileDB>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "project")
-    private Set<Minute> minutes = new HashSet<Minute>();
+    private Set<Minute> minutes;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "project")
     @Sort
     private Set<Schedule> schedules = new HashSet<Schedule>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<Todolist> todolists = new HashSet<Todolist>();
 
@@ -65,12 +69,14 @@ public class Project implements Serializable{
     }
 
     public Project() {
+        minutes = new HashSet<Minute>();
     }
 
     public Project(String name, Integer leaderidx, String minute) {
         this.name = name;
         this.leaderidx = leaderidx;
         this.minute = minute;
+        minutes = new HashSet<Minute>();
     }
 
     public Integer getProjectidx() {

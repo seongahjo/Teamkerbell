@@ -1,5 +1,8 @@
 package com.shape.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -9,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "useridx")
 @Table(name = "User")
 public class User implements Serializable{
     @Id
@@ -35,23 +38,22 @@ public class User implements Serializable{
     @Column(name = "IMG")
     private String img;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL)
     private Set<Alarm> alarmsactor = new HashSet<Alarm>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Alarm> alarmsuser = new HashSet<Alarm>();
-
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Todolist> todolists = new HashSet<Todolist>();
-
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<FileDB> filedbs = new HashSet<FileDB>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<Appointment>();
-
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "useridx")},

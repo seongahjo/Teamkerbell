@@ -9,6 +9,9 @@ import com.shape.web.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -47,12 +50,22 @@ public class ProjectController {
         POST : SEARCH
         GET : INVITE
      */
+
+    @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 개설
+    @ResponseBody
+    public List getRoom(@RequestParam(value = "page") Integer page, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List<Project> projects = projectRepository.findByUsers(user, new PageRequest(page,10));
+        logger.info("room paging");
+        return projects;
+    }
+
     /*
     To make project room
     */
     @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
-    public String MakeRoom(@RequestParam(value = "name") String name, Authentication authentication) {
-        User user = userRepository.findById(authentication.getName()); //유저 객체 반환
+    public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
+        User user = (User) session.getAttribute("user");
         Integer userIdx = user.getUseridx();
         Project project = new Project(name, userIdx, "");
         user.addProject(project);

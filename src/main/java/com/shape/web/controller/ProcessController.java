@@ -102,10 +102,11 @@ public class ProcessController {
 
     @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
     @ResponseBody
-    public List moreSchedule(@RequestParam("first") Integer first, HttpSession session) {
+    public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List schedules = null;
-        List timeline = alarmRepository.findFirst15ByUserOrderByDateDesc(user, new PageRequest(first, first + 20));
+        List timeline = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(page+1,20));
+        logger.info("REQUEST more timeline");
         return timeline;
     }
 }

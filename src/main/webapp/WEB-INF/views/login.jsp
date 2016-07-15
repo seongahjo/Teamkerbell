@@ -121,7 +121,16 @@
                     <i class="fa fa-user fa-1x login-fa-user"></i>
                 </div>
                 <p class="login-box-msg">Register a new membership</p>
-
+                <div id="error-message" class="alert alert-danger collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Please Enter your information correctly
+                </div>
+                <div id="success-message" class="alert alert-info collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Info:</span>
+                    Register Success
+                </div>
                 <form:form commandName="tempUser" action="user" method="post" id="registerForm"
                            enctype="multipart/form-data">
                     <!--onsubmit="register()"-->
@@ -293,6 +302,7 @@
         $("#signupModal #file").val('');
         $("#signupModal #prev_preimage").attr("hidden", "true");
         $("#signupModal #check").prop('checked', false);
+        $("#error-message").hide();
     });
 
     function register() {
@@ -307,7 +317,15 @@
                     processData: false,
                     contentType: false,
                     success: function () {
-                        $("#signupModal").modal('hide');
+                        $("#error-message").hide();
+                        $("#success-message").fadeIn(1000,function () {
+                            $("#signupModal").modal('hide');
+                        });
+                    },
+                    error: function () {
+                        $("#error-message").fadeIn(600, function () {
+                            $("#error-message").fadeOut(800);
+                        });
                     }
                 });
                 // return true;

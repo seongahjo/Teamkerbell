@@ -41,7 +41,6 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
-        logger.info("Register Begin");
         if (!result.hasErrors()) {
             User user = userRepository.findById(tempUser.getId());
             if (user == null)
@@ -84,7 +83,7 @@ public class UserController {
             }
         } // hasErrors end
         else {
-            logger.info("어쨰서 안나오는걸까...");
+            logger.info("Register Error");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }

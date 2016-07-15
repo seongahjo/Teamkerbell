@@ -284,7 +284,7 @@
                         <div class="input-group">
                             <input type="text" id="typing" name="message" placeholder="Type Message ..."
                                    class="form-control" onkeypress="if(event.keyCode==13)sendMsg()">
-                          <span class="input-group-btn">
+                            <span class="input-group-btn">
                             <button type="button" type="button" class="btn btn-primary btn-flat" onClick="sendMsg()">
                                 Send
                             </button>
@@ -526,7 +526,7 @@
                                 </c:otherwise>
                             </c:choose>
                             <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
-                        <span class="username">
+                            <span class="username">
                           <span>${list.user.id}</span>
                         </span>
                             <span class="text">${list.content}</span>
@@ -595,7 +595,17 @@
             </div>
             <form id="todoform">
                 <div class="modal-body">
+                    <div id="success-message" class="alert alert-info collapse" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Info:</span>
+                        Enroll Success
+                    </div>
 
+                    <div id="error-message" class="alert alert-danger collapse" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        Failed!
+                    </div>
                     <div class="form-group">
                         <label>Date range:</label>
 
@@ -648,7 +658,7 @@
                     <div id="inviteForm" class="sidebar-form">
                         <div class="input-group">
                             <input type="text" id="inviteId" class="form-control" placeholder=" User ID Search...">
-             		 <span class="input-group-btn">
+                            <span class="input-group-btn">
                 	<button type="button" class="btn btn-flat" onClick="search()"><i
                             class="fa fa-search"></i>
                     </button>
@@ -718,7 +728,7 @@
         userImg: "${user.img}"
     });
     socket.on('response', function (data) {
-        if(data.type=='img' || data.type=='file')
+        if (data.type == 'img' || data.type == 'file')
             table.ajax.reload();
         if (data.user == "${user.id}") {
             $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
@@ -814,8 +824,6 @@
             data: par,
             dataType: 'text',
             async: true,
-            processData: false,
-            contentType: false,
             type: 'GET',
             success: function (data) {
                 socket.emit('invite', {userIdx: data});
@@ -907,12 +915,11 @@
     }
 
     function makeTodolist() {
-
         var param = {
             projectIdx: ${project.projectidx},
             userId: $("#todoselect").children("option:selected").val(),
-            startdate: scheduleStart.format('YYYY-MM-DD'),
-            enddate: scheduleEnd.format('YYYY-MM-DD'),
+            startdate: scheduleStart,
+            enddate: scheduleEnd,
             content: $("#todocontent").val()
         };
         var querystring = $.param(param);
@@ -922,10 +929,15 @@
             type: 'POST',
             data: querystring,
             processData: false,
-            success: function (response) {
-                $("#todoMadal").modal('hide');
+            success: function () {
+                $("#todoform").find($("#success-message")).fadeIn(1000, function () {
+                    $("#todoMadal").modal('hide');
+                })
             },
             error: function () {
+                $("#todoform").find($("#error-message")).fadeIn(600, function () {
+                    $("#todoform").find($("#error-message")).fadeOut(800);
+                });
             }
         });
 

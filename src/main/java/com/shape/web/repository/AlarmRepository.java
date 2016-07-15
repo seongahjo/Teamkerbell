@@ -19,7 +19,7 @@ public interface AlarmRepository extends JpaRepository<Alarm,Integer> {
     Alarm findFirstByContentidAndUserOrderByDateDesc(Integer contentid,User user); // 알람 하나
 
 
-    List<Alarm> findFirst15ByUserOrderByDateDesc(User user,Pageable pageable); // 타임 라인
+    List<Alarm> findByUserOrderByDateDesc(User user,Pageable pageable); // 타임 라인
 
     List<Alarm> findByUserAndContentidAndIsshowOrderByDateDesc(User user,Integer contentid,Boolean isshow); // 특정 종류 알람
 
