@@ -1,6 +1,7 @@
 package com.shape.web.configuration;
 
 import com.shape.web.server.VertxServer;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,6 +60,7 @@ public class SpringConfig {
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPersistenceProvider(new HibernatePersistenceProvider());
         factory.setPackagesToScan("com.shape.web.entity");
         factory.setDataSource(dataSource());
         Properties jpaProperties= new Properties();

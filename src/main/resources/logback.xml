@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>
-				[%p][%C{4}][%m][%method:%line][%d]%n
-			</pattern>
-		</layout>
-	</appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                [%p][%C{4}][%m][%method:%line][%d]%n
+            </pattern>
+        </layout>
+    </appender>
 
-	<appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>LOG/all.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>LOG/all.%d{yyyy-MM-dd}.log</fileNamePattern>
-			<!-- 30일 지난 파일은 삭제한다.  -->
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>
-				[%p][%C{4}][%m][%method:%line][%d]%n
-			</pattern>
-		</encoder>
-	</appender>
+    <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>LOG/all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>LOG/all.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 30일 지난 파일은 삭제한다.  -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                [%p][%C{4}][%m][%method:%line][%d]%n
+            </pattern>
+        </encoder>
+    </appender>
 
-	<!--    RULES for logging DEBUG < INFO < WARN < ERROR < FATAL.-->
-	<!--<logger name="com.shape.web">
-		<level value="DEBUG"/>
-	</logger>-->
-	<!--
-	<logger name="org.springframework">
-		<level value="DEBUG"/>
-	</logger>
-	<logger name="org.hibernate">
-		<level value="DEBUG"/>
-	</logger>
--->
-	<root>
-		<level value="INFO" />
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="LOGFILE"/>
-	</root>
+    <!--    RULES for logging DEBUG < INFO < WARN < ERROR < FATAL.-->
+    <!--<logger name="com.shape.web">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="org.hibernate">
+        <level value="DEBUG"/>
+    </logger>-->
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOGFILE"/>
+    </root>
 
 </configuration>

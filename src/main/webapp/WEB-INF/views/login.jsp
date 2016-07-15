@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -121,18 +122,23 @@
                 </div>
                 <p class="login-box-msg">Register a new membership</p>
 
-                <form action="user" method="post" id="registerForm" enctype="multipart/form-data">
+                <form:form commandName="tempUser" action="user" method="post" id="registerForm"
+                           enctype="multipart/form-data">
                     <!--onsubmit="register()"-->
+
                     <div class="form-group has-feedback">
-                        <input type="text" id="name" class="form-control" name="name" placeholder="Full name">
+                        <form:input path="name" type="text" id="name" class="form-control" name="name"
+                                    placeholder="Full name"/>
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
+
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="id" id="id" class="form-control" name="id" placeholder="ID">
+                        <form:input path="id" type="id" id="id" class="form-control" name="id" placeholder="ID"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" id="pw" name="pw" placeholder="Password">
+                        <form:input path="pw" type="password" class="form-control" id="pw" name="pw"
+                                    placeholder="Password"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -161,7 +167,7 @@
                         </div>
                         <!-- /.col -->
                     </div>
-                </form>
+                </form:form>
                 <div class="social-auth-links text-center">
 
                 </div>
@@ -285,9 +291,10 @@
         $("#signupModal #pw2").val('');
         $("#signupModal #name").val('');
         $("#signupModal #file").val('');
-        $("#signupModal #prev_preimage").attr("hidden","true");
-        $("#signupModal #check").prop('checked',false);
+        $("#signupModal #prev_preimage").attr("hidden", "true");
+        $("#signupModal #check").prop('checked', false);
     });
+
     function register() {
         if (($("#pw").val()) == ($("#pw2").val())) {
             if ($("#check").prop('checked') == true) {

@@ -45,6 +45,7 @@ public class FileController {
     FileDBRepository fileDBRepository;
     @Autowired
     AlarmRepository alarmRepository;
+
     /*
     RESTFUL DOCUMENTATION
     FILE
@@ -60,7 +61,7 @@ public class FileController {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = projectRepository.findOne(Integer.parseInt(projectIdx));
-       User user = (User)session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
         HashMap<String, String> result = null;
@@ -133,13 +134,13 @@ public class FileController {
     /*
         get files from corresponding project
      */
-    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET,produces = {"application/json"})
+    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseBody
     public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
-        ArrayList<FileDB> filedb = (ArrayList)fileDBRepository.findByProjectOrderByDateDesc(projectRepository.findOne(projectIdx));
-        JsonObject jsonObject=new JsonObject();
-        JsonArray array= new JsonArray();
-        for(FileDB temp : filedb){
+        ArrayList<FileDB> filedb = (ArrayList) fileDBRepository.findByProjectOrderByDateDesc(projectRepository.findOne(projectIdx));
+        JsonObject jsonObject = new JsonObject();
+        JsonArray array = new JsonArray();
+        for (FileDB temp : filedb) {
             JsonArray arraytemp = new JsonArray();
             arraytemp.add(temp.getOriginalname());
             arraytemp.add(temp.getUser().getName());
@@ -147,7 +148,7 @@ public class FileController {
             arraytemp.add(temp.getTag());
             array.addArray(arraytemp);
         }
-        jsonObject.putArray("data",array);
+        jsonObject.putArray("data", array);
         return jsonObject.toString();
     }
 

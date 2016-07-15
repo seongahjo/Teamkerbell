@@ -5,11 +5,12 @@ import com.shape.web.entity.Role;
 import com.shape.web.entity.User;
 import com.shape.web.repository.FileDBRepository;
 import com.shape.web.repository.UserRepository;
-import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -38,7 +40,8 @@ public class UserController {
     FileDBRepository fileDBRepository;
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public String register(@ModelAttribute("tempUser") User tempUser, @RequestParam("file") MultipartFile file, BindingResult result) {
+    public ResponseEntity register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
+        logger.info("Register Begin");
         if (!result.hasErrors()) {
             User user = userRepository.findById(tempUser.getId());
             if (user == null)
@@ -76,9 +79,14 @@ public class UserController {
                 //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
                 userRepository.saveAndFlush(user);
                 logger.info("Register Success " + user.getName());
+            } finally {
+                return new ResponseEntity(HttpStatus.CREATED);
             }
+        } // hasErrors end
+        else {
+            logger.info("어쨰서 안나오는걸까...");
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        return "redirect:/";
     }
 
 

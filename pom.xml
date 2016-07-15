@@ -12,6 +12,7 @@
         <org.springframework-version>4.3.0.RELEASE</org.springframework-version>
         <org.aspectj-version>1.6.10</org.aspectj-version>
         <poi.version>3.10-FINAL</poi.version>
+        <org.hibernate-version>5.1.0.Final</org.hibernate-version>
     </properties>
     <repositories>
         <repository>
@@ -168,13 +169,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.0.Final</version>
+            <version>${org.hibernate-version}</version>
         </dependency>
         <!--vaildator -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
+            <version>1.1.0.Final</version>
         </dependency>
 
 
@@ -182,13 +183,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>4.3.0.Final</version>
+            <version>${org.hibernate-version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.0.Final</version>
+            <version>${org.hibernate-version}</version>
         </dependency>
 
         <!-- Microsoft Office 파서  -->

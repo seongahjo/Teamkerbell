@@ -1,20 +1,18 @@
 package com.shape.web.controller;
 
-import com.shape.web.entity.*;
+import com.shape.web.entity.Alarm;
+import com.shape.web.entity.FileDB;
+import com.shape.web.entity.User;
 import com.shape.web.repository.*;
-import com.shape.web.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +20,6 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +105,7 @@ public class ProcessController {
     public List moreSchedule(@RequestParam("first") Integer first, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List schedules = null;
-       List timeline= alarmRepository.findFirst15ByUserOrderByDateDesc(user,new PageRequest(first,first+20));
+        List timeline = alarmRepository.findFirst15ByUserOrderByDateDesc(user, new PageRequest(first, first + 20));
         return timeline;
     }
 }

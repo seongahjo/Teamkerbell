@@ -3,9 +3,9 @@ package com.shape.web.controller;
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
-import com.shape.web.repository.*;
-import com.shape.web.service.ProjectService;
-import com.shape.web.service.UserService;
+import com.shape.web.repository.AlarmRepository;
+import com.shape.web.repository.ProjectRepository;
+import com.shape.web.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +111,7 @@ public class ProjectController {
                                @RequestParam("projectIdx") Integer projectIdx,
                                HttpSession session) {
         logger.info("Invite Member");
-        User actor = (User)session.getAttribute("user"); //초대한 사람
+        User actor = (User) session.getAttribute("user"); //초대한 사람
         User user = userRepository.findById(userId); // 초대받은 사람
         Project project = projectRepository.findOne(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date());

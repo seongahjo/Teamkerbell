@@ -52,11 +52,15 @@ public class HomeController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
-    public String Home(Authentication authentication) {
-
-        if (authentication == null)
-            return "login";
-        return "redirect:/dashboard";
+    public ModelAndView Home(Authentication authentication) {
+        ModelAndView mv = null;
+        if (authentication == null) {
+            mv = new ModelAndView("/login");
+            mv.addObject("tempUser",new User());
+        }
+        else
+            mv=new ModelAndView("redirect:/dashboard");
+        return mv;
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
