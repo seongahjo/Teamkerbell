@@ -253,16 +253,20 @@
         <section class="content">
 
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="box box-primary direct-chat direct-chat-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">회의 공간</h3>
 
                             <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="chat-pane-toggle">
+                                    <i class="fa fa-plus"></i>
+                                </button>
                                 <span data-toggle="tooltip" title="New Messages" class="badge bg-light-blue"></span>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                         class="fa fa-minus"></i>
                                 </button>
+
                             </div>
                         </div>
                         <form action="../file" class="dropzone" id="dropzone" method="POST"
@@ -271,11 +275,38 @@
                             <div class="box-body">
                                 <!-- Conversations are loaded here -->
                                 <div class="direct-chat-messages chatbox" id="chat">
-                                </div>
-                                <input type="hidden" name="idx" value="${project.projectidx}"/>
-                                <input type="hidden" name="userIdx" value="${user.useridx}"/>
 
-                            </div> <!-- box body-->
+                                </div>
+                                <div class="direct-chat-contacts">
+
+                                    <!-- /.box-header -->
+                                    <ul class="contacts-list">
+                                        <c:forEach var="list" items="${users}">
+                                            <li class="item" style="margin-right:5px">
+                                                <img class="contacts-list-img" src="../${list.img}" alt="User Image"
+                                                     style="margin-left:2px; width:30px;height:30px">
+                                                <div class="contacts-list-info">
+                                                    <span class="contacts-list-name"> ${list.id} </span>
+                                                    <span class="contacts-list-msg pull-left">
+                                                        He is ${list.name}
+                                                        <i id="user${list.id}on"
+                                                               class="fa fa-circle st-cir text-success pull-right hidden"
+                                                            ></i>
+                                                            <i id="user${list.id}off"
+                                                               class="fa fa-circle st-cir text-warning pull-right"></i>
+                                                            </span>
+                                                </div>
+                                            </li>
+                                        </c:forEach>
+
+                                        <!-- /.item -->
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <input type="hidden" name="idx" value="${project.projectidx}"/>
+                            <input type="hidden" name="userIdx" value="${user.useridx}"/>
+
                         </form>
                     </div> <!-- box -->
 
@@ -313,10 +344,9 @@
 
                 <!-- memo -->
 
-                <section class="col-md-3 connectedSortable">
-
+                <div class="col-md-4 ">
                     <div class="box box-primary">
-                        <div class="box-header with-border">
+                        <div class="box-header with border">
                             <h3 class="box-title">회의록</h3>
                         </div>
                         <!-- /.box-header -->
@@ -349,48 +379,13 @@
                         </div>
                         <!-- /.box-footer -->
                     </div>
+
                     <!-- /. box -->
-                </section>
-
-
-                <div class="col-md-2">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">사용자들</h3><i class="fa fa-user-plus fa-3x pull-right"
-                                                              data-toggle="modal" data-target="#InviteUser"></i>
-
-                            <div class="box-tools pull-right">
-
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body state-body">
-                            <ul class="products-list product-list-in-box">
-                                <c:forEach var="list" items="${users}">
-                                    <li class="item">
-                                        <img src="../${list.img}" alt="User Image" style="width:30px;height:30px">
-                                        <a class="users-list-name user-st-name">${list.id}</a>
-                                        <i id="user${list.id}on"
-                                           class="fa fa-circle st-cir text-success pull-right hidden"
-                                        ></i>
-                                        <i id="user${list.id}off"
-                                           class="fa fa-circle st-cir text-warning pull-right"></i>
-                                    </li>
-                                </c:forEach>
-
-                                <!-- /.item -->
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer text-center">
-
-                        </div>
-                        <!-- /.box-footer -->
-                    </div>
-
                 </div>
 
+
             </div>
+
             <div class="row">
                 <div class="col-md-12">
 
@@ -419,16 +414,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!--
-                                <c:forEach var="list" items="${files}">
-                                    <tr>
-                                        <td><a href="../file?name=${list.storedname}">${list.originalname}</a></td>
-                                        <td>${list.user.name}</td>
-                                        <td>${list.date}</td>
-                                        <td>${list.tag}</td>
-                                    </tr>
-                                </c:forEach>
-                                -->
+
                                 </tbody>
                                 <tfoot>
                                 <tr>
