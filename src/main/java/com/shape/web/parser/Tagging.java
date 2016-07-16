@@ -1,10 +1,7 @@
 package com.shape.web.parser;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.*;
 
 public class Tagging {
     private static HashMap<String,Integer> Push(String value){
@@ -56,6 +53,16 @@ public class Tagging {
         return Reduce(Push(content),3);
         else
             return null;
+    }
+
+    public static String TagbyString(File file){
+       List<String> list=Tag(file);
+        String tag = new String();
+        for (String temp : list) {
+            tag += temp + ",";
+        }
+        tag = tag.substring(0, tag.length() - 1);
+        return tag;
     }
     public static ArrayList<String> Tag(String content, int count){
         return Reduce(Push(content),count);

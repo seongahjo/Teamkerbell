@@ -13,11 +13,11 @@ public class FileUtil {
     // Static 메소드로만 만들기
    @Autowired
    static FileDBRepository fileDBRepository;
-
+/*
     public static String getFoldername(Integer projectIdx){
         return RepositoryUtil.repositoryPrefix+"."+projectIdx;
-    }
-/*
+    }*/
+
     public static String getFoldername(int project_id, Date date) {
         Date dates = null;
 
@@ -31,10 +31,10 @@ public class FileUtil {
         filename += "_" + project_id;
 
         return filename;
-    }*/
+    }
 
     public static void MakeMinute(int project_id, String memo) throws Exception {
-        String filename = getFoldername(project_id);
+        String filename = getFoldername(project_id,null);
         FileWriter fw = new FileWriter(filename + "/minute.txt");
         fw.write(memo);
         fw.close();

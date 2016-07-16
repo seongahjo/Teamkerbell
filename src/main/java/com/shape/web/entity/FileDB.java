@@ -13,13 +13,14 @@ public class FileDB implements Serializable {
     @Column(name = "FILEDBIDX")
     private Integer filedbidx;
 
-    @ManyToOne
-    @JoinColumn(name="PROJECTIDX")
-    private Project project;
 
     @ManyToOne
     @JoinColumn(name="USERIDX")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name="PROJECTIDX")
+    private Project project;
 
     @Column(name = "STOREDNAME")
     private String storedname;
@@ -35,9 +36,6 @@ public class FileDB implements Serializable {
 
     @Column(name = "TAG")
     private String tag;
-
-    @Column(name = "DATE")
-    private Date date;
 
     @Column(name="CREATEDAT")
     private Date createdat;
@@ -104,14 +102,6 @@ public class FileDB implements Serializable {
         this.path = path;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public String getType() {
         return type;
     }
@@ -128,13 +118,30 @@ public class FileDB implements Serializable {
         this.tag = tag;
     }
 
-    public FileDB(String storedname, String originalname, String type, String path, String tag, Date date) {
+    public Date getCreatedat() {
+        return createdat;
+    }
+
+    public void setCreatedat(Date createdat) {
+        this.createdat = createdat;
+    }
+
+    public FileDB(String storedname, String originalname, String type, String path, String tag) {
         this.storedname = storedname;
         this.originalname = originalname;
         this.type = type;
         this.path = path;
         this.tag = tag;
-        this.date = date;
+    }
+
+    public FileDB(User user, Project project, String storedname, String originalname, String type, String path, String tag) {
+        this.user = user;
+        this.project = project;
+        this.storedname = storedname;
+        this.originalname = originalname;
+        this.type = type;
+        this.path = path;
+        this.tag = tag;
     }
 
     public FileDB() {

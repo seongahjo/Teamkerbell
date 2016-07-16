@@ -14,12 +14,12 @@ import java.util.List;
  */
 public interface FileDBRepository extends JpaRepository<FileDB,Integer> {
     //@Cacheable("files")
-    List<FileDB> findByProjectOrderByDateDesc(Project project);
+    List<FileDB> findByProjectOrderByCreatedatDesc(Project project);
     //@Cacheable("files-store")
     FileDB findByStoredname(String storedname);
     //@Cacheable("files-original")
     FileDB findByOriginalname(String originalname);
     //@Cacheable("imgs")
-    List<FileDB> findByProjectAndTypeOrderByDateDesc(Project project,String type);
+    List<FileDB> findByProjectAndTypeOrderByCreatedatDesc(Project project,String type);
 
 }

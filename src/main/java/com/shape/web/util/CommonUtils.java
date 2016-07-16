@@ -1,5 +1,7 @@
 package com.shape.web.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class CommonUtils {
@@ -29,5 +31,14 @@ public class CommonUtils {
             e.printStackTrace();
         }
         return ret;
+    }
+
+    public static String DateFormat(Date date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+    public static String DateTimeFormat(Date date){
+        SimpleDateFormat format=new SimpleDateFormat("yyy-MM-dd hh:mm:ss");
+        return format.format(date);
     }
 }

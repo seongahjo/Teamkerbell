@@ -1,5 +1,6 @@
 package com.shape.web.controller;
 
+import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
@@ -9,16 +10,13 @@ import com.shape.web.repository.AlarmRepository;
 import com.shape.web.repository.FileDBRepository;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
-import com.shape.web.service.ProjectService;
-import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
-import com.shape.web.util.RepositoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -64,7 +62,7 @@ public class FileController {
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = projectRepository.findOne(Integer.parseInt(projectIdx));
         User user = (User) session.getAttribute("user");
-        String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx)); //프로젝트아이디, 날짜
+        String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx),null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
         HashMap<String, String> result = null;
         String originalFileName = null;
@@ -85,35 +83,23 @@ public class FileController {
                     result = new HashMap<>();
                     originalFileName = multipartFile.getOriginalFilename();
                     originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                    originalFileName=originalFileName.substring(0,originalFileName.lastIndexOf("."));
                     storedFileName = CommonUtils.getRandomString() + originalFileExtension;
                     if (FileUtil.IsImage(originalFileName))
                         type = "img";
                     else
                         type = "file";
 
-                    file = new File(filePath + "/" + originalFileName);
+                    file = new File(filePath + "/" + originalFileName+originalFileExtension);
 
                     multipartFile.transferTo(file);
-                    String tag = null;
-                    ArrayList<String> Tag = Tagging.Tag(file);
-                    if (Tag != null) {
-                        tag = new String();
-                        for (String temp : Tag) {
-                            tag += temp + ",";
-                        }
-                        tag = tag.substring(0, tag.length() - 1);
-                    }
-                    FileDB fd = new FileDB(storedFileName, originalFileName, type, filePath, tag, new Date());
+                    String tag = Tagging.TagbyString(file);
 
-                    fd.setUser(user);
-                    fd.setProject(project);
+                    FileDB fd = new FileDB(user, project, storedFileName, originalFileName, type, filePath, tag);
                     fileDBRepository.saveAndFlush(fd);
 
                     for (User u : project.getUsers()) {
-                        Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date());
-                        alarm.setUser(u);
-                        alarm.setActor(user);
-                        alarm.setProject(project);
+                        Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, u, user);
                         alarmRepository.saveAndFlush(alarm);
                     }
 
@@ -122,11 +108,10 @@ public class FileController {
                     result.put("type", type);
                     result.put("original", originalFileName);
                     result.put("size", String.valueOf(file.length()));
-                    RepositoryUtil.commit(Integer.parseInt(projectIdx));
                 } catch (IOException e) {
                     // file io error
                 } catch (NullPointerException e) {
-                    logger.info("NULL!!!!!!");
+                    logger.info("FILE UPLOAD NULL");
                 }
             }
         }
@@ -137,21 +122,23 @@ public class FileController {
     /*
         get files from corresponding project
      */
-    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces ="application/json")
     @ResponseBody
     public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
-        ArrayList<FileDB> filedb = (ArrayList) fileDBRepository.findByProjectOrderByDateDesc(projectRepository.findOne(projectIdx));
+        ArrayList<FileDB> filedb = (ArrayList) fileDBRepository.findByProjectOrderByCreatedatDesc(projectRepository.findOne(projectIdx));
         JsonObject jsonObject = new JsonObject();
         JsonArray array = new JsonArray();
         for (FileDB temp : filedb) {
+            String type="<a href=../file?name="+temp.getStoredname()+">"+temp.getOriginalname()+"</a>";
             JsonArray arraytemp = new JsonArray();
-            arraytemp.add(temp.getOriginalname());
+            arraytemp.add(type);
             arraytemp.add(temp.getUser().getName());
-            arraytemp.add(temp.getDate().toString());
+            arraytemp.add(CommonUtils.DateTimeFormat(temp.getCreatedat()));
             arraytemp.add(temp.getTag());
             array.addArray(arraytemp);
         }
         jsonObject.putArray("data", array);
+
         return jsonObject.toString();
     }
 
@@ -164,7 +151,7 @@ public class FileController {
             InputStream in = null;
             OutputStream os = null;
             String client = "";
-            FileDB fd = fileDBRepository.findByOriginalname(name);
+            FileDB fd = fileDBRepository.findByStoredname(name);
             name = fd.getOriginalname();
             String folder = fd.getPath();
             File file = new File(folder + "/" + name);

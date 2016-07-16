@@ -37,8 +37,12 @@ public class LogServiceImpl implements LogService {
            Log l = logRepositry.findFirstByIpAndCreatedatBetweenOrderByCreatedat(ip,time,nextTime);
            if (l == null) {
                l = new Log(ip, u);
-               logRepositry.saveAndFlush(l);
            }
+           else{
+               l.setUpdatedat(new Date());
+           }
+               logRepositry.saveAndFlush(l);
+
        }catch(ParseException e){
 
        }

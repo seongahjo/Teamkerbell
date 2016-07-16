@@ -138,6 +138,16 @@ public class Alarm {
         this.date = date;
     }
 
+    public Alarm(Integer contentid, String filename, String fileurl, Date date, Project project, User user, User actor) {
+        this.contentid = contentid;
+        this.filename = filename;
+        this.fileurl = fileurl;
+        this.date = date;
+        this.project = project;
+        this.user = user;
+        this.actor = actor;
+    }
+
     public Alarm() {
     }
 

@@ -56,6 +56,14 @@ public class Log {
         this.ip = ip;
     }
 
+    public Date getUpdatedat() {
+        return updatedat;
+    }
+
+    public void setUpdatedat(Date updatedat) {
+        this.updatedat = updatedat;
+    }
+
     @PrePersist
     protected void onCreate() {
         updatedat = createdat = new Date();

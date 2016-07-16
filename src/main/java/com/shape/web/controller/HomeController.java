@@ -6,8 +6,6 @@ import com.shape.web.entity.*;
 import com.shape.web.repository.*;
 import com.shape.web.service.ProjectService;
 import com.shape.web.util.FileUtil;
-import com.shape.web.util.RepositoryUtil;
-import org.eclipse.jgit.api.Git;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +59,9 @@ public class HomeController {
         ModelAndView mv = null;
         if (authentication == null) {
             mv = new ModelAndView("/login");
-            mv.addObject("tempUser",new User());
-        }
-        else
-            mv=new ModelAndView("redirect:/dashboard");
+            mv.addObject("tempUser", new User());
+        } else
+            mv = new ModelAndView("redirect:/dashboard");
         return mv;
     }
 
@@ -87,13 +84,12 @@ public class HomeController {
     }
 
 
-
     @RequestMapping(value = "/dashboard/{userId}", method = RequestMethod.GET)
-    public ModelAndView Dashboard(@PathVariable("userId") String userId,HttpSession session) {
+    public ModelAndView Dashboard(@PathVariable("userId") String userId, HttpSession session) {
 
-        User user = (User)session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트를 반환
-        List<Alarm> tlla = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(0,15)); // 타임라인 리스트를 반환
+        List<Alarm> tlla = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(0, 15)); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistRepository.findByUser(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = scheduleRepository.findByProject_Users(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user, 0, true); // 알람 리스트를 반환
@@ -113,51 +109,53 @@ public class HomeController {
         ModelAndView mv = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String time = formatter.format(new Date());
-        User user = (User)session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         int userIdx = user.getUseridx();
-        mv = new ModelAndView("redirect");
+        mv = new ModelAndView("redirect:/");
         Project project = projectRepository.findOne(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트 반환
-        if (lpj.contains(project)) {
-            List<Todolist> lt = todolistRepository.findByProject(project); // 투두리스트 리스트를 반환
-            List<Alarm> la = alarmRepository.findByUser(user); // 알람 리스트를 반환
-            List<User> lu = userRepository.findByProjects(project); // 유저 리스트 반환
-            List<FileDB> lfd = fileDBRepository.findByProjectOrderByDateDesc(project); // 파일 받아오기
-            if (project.isProcessed()) {
-                List<Minute> lm = minuteRepository.findByProject(project); // 회의록 객체 반환
-                List<FileDB> img = fileDBRepository.findByProjectAndTypeOrderByDateDesc(project, "img"); // 파일디비 리스트중 이미지 리스트 반환
-                project.setMinute(" "); //회의록 초기화
-                for (Minute temp : lm)
+        if (!lpj.contains(project)) { // 자기 자신의 프로젝트가 아닐경우
+            return mv;
+        }
+        List<Todolist> lt = todolistRepository.findByProject(project); // 투두리스트 리스트를 반환
+        List<Alarm> la = alarmRepository.findByUser(user); // 알람 리스트를 반환
+        List<User> lu = userRepository.findByProjects(project); // 유저 리스트 반환
+        List<FileDB> lfd = fileDBRepository.findByProjectOrderByCreatedatDesc(project); // 파일 받아오기
 
-                    if (time.equals((temp.getDate().toString()))) {
-                        project.setMinute(temp.getContent());
-                        lm.remove(temp);
-                        break;
-                    }
-              //  String foldername = FileUtil.getFoldername(projectIdx, null);
-                String foldername= FileUtil.getFoldername(projectIdx);
-                //folder name 받기
-                File file = new File(foldername);
-                if (!file.exists())
-                    if (file.mkdirs()) {
-                        logger.info("folder created " + file);
-                        RepositoryUtil.createRepository(projectIdx);
+        if (project.isProcessed()) {
+            List<Minute> lm = minuteRepository.findByProject(project); // 회의록 객체 반환
+            List<FileDB> img = fileDBRepository.findByProjectAndTypeOrderByCreatedatDesc(project, "img"); // 파일디비 리스트중 이미지 리스트 반환
+            project.setMinute(" "); //회의록 초기화
+
+            for (Minute temp : lm)
+                if (time.equals((temp.getDate().toString()))) {
+                    project.setMinute(temp.getContent());
+                    lm.remove(temp);
+                    break;
                 }
-                mv = new ModelAndView("/project");
-                mv.addObject("projects", lpj);
-                mv.addObject("users", lu);
-                mv.addObject("user", user);
-                mv.addObject("alarm", la);
-                mv.addObject("minutes", lm);
-                mv.addObject("files", lfd);
-                mv.addObject("project", project);
-                mv.addObject("img", img);
-                mv.addObject("todolist", lt);
-            } else {
-                ProjectService pjs = new ProjectService();
-                List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
-                List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
-                List<String> username = new ArrayList<>();
+
+            String foldername = FileUtil.getFoldername(projectIdx,null);
+            File file = new File(foldername);
+            if (!file.exists())
+                if (file.mkdirs()) {
+                    logger.info("folder created " + file);
+                }
+            mv = new ModelAndView("/project");
+            mv.addObject("projects", lpj);
+            mv.addObject("users", lu);
+            mv.addObject("user", user);
+            mv.addObject("alarm", la);
+            mv.addObject("minutes", lm);
+            mv.addObject("files", lfd);
+            mv.addObject("project", project);
+            mv.addObject("img", img);
+            mv.addObject("todolist", lt);
+        } else { // 위 ProjectRoom, 아래 Documentation
+            ProjectService pjs = new ProjectService();
+            List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
+            List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
+            List<String> username = new ArrayList<>();
+
               /*  List<Integer> participant = new ArrayList<>();
                 List<Integer> percentage = new ArrayList<>();
                 for (MemberGraph temp : lg) { // 그래프 값 분리
@@ -172,40 +170,40 @@ public class HomeController {
                         percentage.add(0);
                 }*/
 
-                mv = new ModelAndView("/document");
-                mv.addObject("user", user);
-                mv.addObject("projects", lpj);
-                mv.addObject("project", project);
-                mv.addObject("users", lu);
-                mv.addObject("alarm", la);
-                mv.addObject("todolist", lt);
-                mv.addObject("meetingmember", lm);
-                mv.addObject("files", lfd);
-                mv.addObject("usersname", username);
-                //mv.addObject("participant", participant);
-                //mv.addObject("percentage", percentage);
-            }
-            return mv;
-        }
-        return null;
+
+            mv.addObject("user", user);
+            mv.addObject("projects", lpj);
+            mv.addObject("project", project);
+            mv.addObject("users", lu);
+            mv.addObject("alarm", la);
+            mv.addObject("todolist", lt);
+            mv.addObject("meetingmember", lm);
+            mv.addObject("files", lfd);
+            mv.addObject("usersname", username);
+            //mv.addObject("participant", participant);
+            //mv.addObject("percentage", percentage);
+        } // Documentation 끝
+        return mv;
+
     }
+
 
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
     public ModelAndView manager(HttpSession session) {
-        User user = (User)session.getAttribute("user");
-        List<Project> lpj = projectRepository.findByUsers(user,new PageRequest(0,5)); // 프로젝트 리스트 객체 10개 반환
+        User user = (User) session.getAttribute("user");
+        List<Project> lpj = projectRepository.findByUsers(user, new PageRequest(0, 5)); // 프로젝트 리스트 객체 10개 반환
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
         return mv;
     }
 
-    @RequestMapping(value="/admin", method=RequestMethod.GET)
-    public ModelAndView admin(HttpSession session){
-        List<Log> logs=logRepository.findAll();
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public ModelAndView admin(HttpSession session) {
+        List<Log> logs = logRepository.findAll();
 
         ModelAndView mv = new ModelAndView("/admin");
-       // mv.addObject("logs",logs);
+        // mv.addObject("logs",logs);
         return mv;
     }
 
