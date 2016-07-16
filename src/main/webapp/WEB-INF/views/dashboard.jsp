@@ -253,7 +253,7 @@
 
 
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6 col-md-offset-1">
                     <div class="box box-success time-line">
                         <div class="box-header">
                             <i class="fa fa-comments-o"></i>

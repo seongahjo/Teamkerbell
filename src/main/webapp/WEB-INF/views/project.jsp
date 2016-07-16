@@ -253,12 +253,17 @@
         <section class="content">
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-10 col-md-offset-1" >
 
                     <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">파일 관리자</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-minus"></i>
+                                </button>
 
+                            </div>
 
                         </div>
                         <!-- /.box-header -->
@@ -268,13 +273,13 @@
                                     <input type="text" class="form-control" style="width:250px"
                                            id="tokenfield-typeahead"
                                            placeholder="Type something and hit enter for tags"/>
-                                    </div>
-                                    <a href="#"><i class="fa fa-search fa-2x"
-                                                  onclick="search()"></i></a>
-
                                 </div>
+                                <a href="#"><i class="fa fa-search fa-2x"
+                                               onclick="search()"></i></a>
 
                             </div>
+
+
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
@@ -295,15 +300,16 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <!-- /.box-body -->
                     </div>
+                    <!-- /.box-body -->
                 </div>
+            </div>
 
 
             <!-- /.content-wrapper -->
 
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-8 col-md-offset-1">
                     <div class="box box-primary direct-chat direct-chat-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">회의 공간</h3>
@@ -312,7 +318,6 @@
                                 <button type="button" class="btn btn-box-tool" data-widget="chat-pane-toggle">
                                     <i class="fa fa-plus"></i>
                                 </button>
-                                <span data-toggle="tooltip" title="New Messages" class="badge bg-light-blue"></span>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                         class="fa fa-minus"></i>
                                 </button>
@@ -394,7 +399,7 @@
 
                 <!-- memo -->
 
-                <div class="col-md-4 ">
+                <div class="col-md-2" >
                     <div class="box box-primary">
                         <div class="box-header with border">
                             <h3 class="box-title">회의록</h3>
