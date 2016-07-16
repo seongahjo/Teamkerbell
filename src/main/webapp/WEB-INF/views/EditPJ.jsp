@@ -78,17 +78,17 @@
                             <i class="fa fa-edit"></i>
                         </a>
                     </li>
-<!--
-                    <li class="dash-icon">
-                        <a class="dash-nav">
-                            <i class="fa fa-file-text-o"></i>
-                        </a>
-                    </li>
-                    <li class="dash-icon">
-                        <a class="dash-nav">
-                            <i class="fa fa-calendar-o"></i>
-                        </a>
-                    </li>-->
+                    <!--
+                                        <li class="dash-icon">
+                                            <a class="dash-nav">
+                                                <i class="fa fa-file-text-o"></i>
+                                            </a>
+                                        </li>
+                                        <li class="dash-icon">
+                                            <a class="dash-nav">
+                                                <i class="fa fa-calendar-o"></i>
+                                            </a>
+                                        </li>-->
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -246,7 +246,7 @@
 
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
-                                    <tbody>
+                                    <tbody id="projects">
                                     <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
                                         <tr>
                                             <td class="mailbox-name"><a href="chat/${list.projectidx}"
@@ -264,26 +264,20 @@
 
                                                     <!--     <a href="document/${list.projectidx}">-->
                                                     <c:choose>
-                                                    <c:when test="${list.processed!='0'}">
-                                                    <button type="button" class="btn btn-default btn-flat"
-                                                            onclick="save_idx('${list.projectidx}')"
-                                                            data-toggle="modal" data-target="#completePJ"><i
-                                                            class="fa fa-comment" ></i>Doc
-                                                    </button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <button type="button" class="btn btn-default btn-flat"
-                                                                disabled><i
-                                                                class="fa fa-comment" ></i>Doc
-                                                        </button>
-                                                    </c:otherwise>
+                                                        <c:when test="${list.processed!='0'}">
+                                                            <button type="button" class="btn btn-default btn-flat"
+                                                                    onclick="save_idx('${list.projectidx}')"
+                                                                    data-toggle="modal" data-target="#completePJ"><i
+                                                                    class="fa fa-comment"></i>Doc
+                                                            </button>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <button type="button" class="btn btn-default btn-flat"
+                                                                    disabled><i
+                                                                    class="fa fa-comment"></i>Doc
+                                                            </button>
+                                                        </c:otherwise>
                                                     </c:choose>
-                                                    <!--  </a>-->
-                                                   <!-- <a href="#">
-                                                        <button type="button" class="btn btn-default btn-flat"><i
-                                                                class="fa fa-gears"></i>Edit
-                                                        </button>
-                                                    </a>-->
                                                     <a href="#">
                                                         <button type="button" class="btn btn-default btn-flat"
                                                                 onclick="leave('${list.projectidx}')"><i
@@ -312,7 +306,7 @@
                                 <div class="pull-left">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default btn-sm" onclick="leftpage()"><i
-                                                class="fa fa-chevron-left" ></i></button>
+                                                class="fa fa-chevron-left"></i></button>
                                         <button type="button" class="btn btn-default btn-sm" onclick="rightpage()"><i
                                                 class="fa fa-chevron-right"></i></button>
 
@@ -353,17 +347,17 @@
 <div class="modal fade" id="completePJ" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-                <div class="modal-body">
+            <div class="modal-body">
 
-                    <div class="box-body">
-                        <h4> 프로젝트를 종료합니다 </h4>
-                        <h4> 확인 버튼을 누르시면 이전 상태로 돌아갈 수 없습니다 </h4>
-                    </div>
+                <div class="box-body">
+                    <h4> 프로젝트를 종료합니다 </h4>
+                    <h4> 확인 버튼을 누르시면 이전 상태로 돌아갈 수 없습니다 </h4>
                 </div>
-                <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" onclick="finish()">확인</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">종료</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="finish()">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">종료</button>
+            </div>
         </div>
     </div>
 </div>
@@ -411,7 +405,7 @@
 <!-- Page Script -->
 <script>
     var idx;
-    var number= ${projects.size()};
+    var number = 0;
     $(function () {
         //Enable iCheck plugin for checkboxes
         //iCheck for checkbox and radio inputs
@@ -445,8 +439,8 @@
 
         });
     });
-    function save_idx(value){
-        idx=value;
+    function save_idx(value) {
+        idx = value;
         console.log(idx);
     }
     function leave(projectIdx) {
@@ -460,55 +454,83 @@
         });
 
     }
-    function finish(){
+    function finish() {
         $.ajax({
-            url:"room/"+idx,
-            type:'PUT',
-            success:function(){
+            url: "room/" + idx,
+            type: 'PUT',
+            success: function () {
                 location.reload();
             }
         })
     }
-    function leftpage(){
+    function leftpage() {
         console.log(number)
-        var param=null;
-        if(number!=0)
-        param= "page="+(number-1);
-        else
-            param= "page="+number;
-        console.log(param);
+        var param = null;
+        if (number != 0) {
+            param = "page=" + (number - 1);
+            $.ajax({
+                url: 'room',
+                data: param,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    number -= 1;
+                    display(data);
+                },
+                error: function () {
+
+                }
+
+            })
+        }
+    }
+    function rightpage() {
+
+        var param = "page=" + (number + 1);
         $.ajax({
-            url:'room',
-            data:param,
-            type:'GET',
+            url: 'room',
+            data: param,
+            type: 'GET',
             dataType: 'json',
-            success:function(data){
-                number-=1;
-                console.log(data);
+            success: function (data) {
+                number += 1;
+                display(data);
             },
-            error:function(){
+            error: function () {
 
             }
 
         })
     }
-    function rightpage(){
+    function display(data) {
+        var append='';
+        console.log(data);
+        $.each(data, function (index, temp) {
+            var username = '';
+            $.each(temp.users, function (index, user) {
 
-        var param="page="+(number+1);
-        $.ajax({
-            url:'room',
-            data:param,
-            type:'GET',
-            dataType: 'json',
-            success:function(data){
-                number+=1;
-                console.log(data);
-            },
-            error:function(){
+                username += user.name;
+                if (index != temp.users.length - 1)
+                    username += ",";
+            })
+            append += '<tr>' +
+                    '<td class="mailbox-name"><a href="chat/' + temp.projectidx + '\"' +
+                    'style="font-weight:bold">' + temp.name + '</a>' +
+                    '</td> <td class="mailbox-subject">' +
+                    username +
+                    '</td> <td class="mailbox-attachment"> <div class="btn-group pull-right">' +
+                    '<a href="#">';
+            if (temp.processed === true)
+                append += '<button type="button" class="btn btn-default btn-flat"' +
+                        'onclick="save_idx(' + temp.projectidx + ')"' +
+                        'data-toggle="modal" data-target="#completePJ"><i class="fa fa-comment" ></i>Doc </button>';
+            else
+                append += '<button type="button" class="btn btn-default btn-flat" disabled><i class="fa fa-comment" ></i>Doc</button>';
+            append += '<button type="button" class="btn btn-default btn-flat"' +
+                    'onclick="leave(' + temp.projectidx + ')"><i class="fa fa-sign-out"></i>Leave </button> </a> </div> </td> </tr>';
 
-            }
-
-        })
+        });
+        $("#projects").html(append);
     }
 </script>
 

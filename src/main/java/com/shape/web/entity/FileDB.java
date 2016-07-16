@@ -7,6 +7,7 @@ import java.util.Date;
 @Entity
 @Table(name = "FileDB")
 public class FileDB implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "FILEDBIDX")
@@ -37,6 +38,23 @@ public class FileDB implements Serializable {
 
     @Column(name = "DATE")
     private Date date;
+
+    @Column(name="CREATEDAT")
+    private Date createdat;
+
+    @Column(name="UPDATEDAT")
+    private Date updatedat;
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
+
 
     public Integer getFiledbidx() {
         return filedbidx;

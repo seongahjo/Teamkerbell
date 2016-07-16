@@ -64,8 +64,8 @@ public class SpringConfig {
         factory.setPackagesToScan("com.shape.web.entity");
         factory.setDataSource(dataSource());
         Properties jpaProperties= new Properties();
-        jpaProperties.put("show_sql",false);
-        jpaProperties.put("hbm2ddl.auto","update");
+        jpaProperties.put("hibernate.show_sql",false);
+        jpaProperties.put("hibernate.hbm2ddl.auto","update");
         jpaProperties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
         factory.setJpaProperties(jpaProperties);
         factory.afterPropertiesSet();

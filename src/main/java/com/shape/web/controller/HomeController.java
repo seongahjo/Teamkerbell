@@ -6,6 +6,8 @@ import com.shape.web.entity.*;
 import com.shape.web.repository.*;
 import com.shape.web.service.ProjectService;
 import com.shape.web.util.FileUtil;
+import com.shape.web.util.RepositoryUtil;
+import org.eclipse.jgit.api.Git;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,8 @@ public class HomeController {
     FileDBRepository fileDBRepository;
     @Autowired
     MinuteRepository minuteRepository;
+    @Autowired
+    LogRepository logRepository;
 
     /**
      * Simply selects the home view to render by returning its name.
@@ -89,7 +93,7 @@ public class HomeController {
 
         User user = (User)session.getAttribute("user");
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트를 반환
-        List<Alarm> tlla = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(1,15)); // 타임라인 리스트를 반환
+        List<Alarm> tlla = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(0,15)); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistRepository.findByUser(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = scheduleRepository.findByProject_Users(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user, 0, true); // 알람 리스트를 반환
@@ -130,13 +134,15 @@ public class HomeController {
                         lm.remove(temp);
                         break;
                     }
-                String foldername = FileUtil.getFoldername(projectIdx, null);
+              //  String foldername = FileUtil.getFoldername(projectIdx, null);
+                String foldername= FileUtil.getFoldername(projectIdx);
                 //folder name 받기
                 File file = new File(foldername);
                 if (!file.exists())
-                    if (file.mkdirs())
-                        logger.info("folder created " + foldername);
-
+                    if (file.mkdirs()) {
+                        logger.info("folder created " + file);
+                        RepositoryUtil.createRepository(projectIdx);
+                }
                 mv = new ModelAndView("/project");
                 mv.addObject("projects", lpj);
                 mv.addObject("users", lu);
@@ -187,10 +193,19 @@ public class HomeController {
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
     public ModelAndView manager(HttpSession session) {
         User user = (User)session.getAttribute("user");
-        List<Project> lpj = projectRepository.findByUsers(user,new PageRequest(0,10)); // 프로젝트 리스트 객체 10개 반환
+        List<Project> lpj = projectRepository.findByUsers(user,new PageRequest(0,5)); // 프로젝트 리스트 객체 10개 반환
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
+        return mv;
+    }
+
+    @RequestMapping(value="/admin", method=RequestMethod.GET)
+    public ModelAndView admin(HttpSession session){
+        List<Log> logs=logRepository.findAll();
+
+        ModelAndView mv = new ModelAndView("/admin");
+       // mv.addObject("logs",logs);
         return mv;
     }
 

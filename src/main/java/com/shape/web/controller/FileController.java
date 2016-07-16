@@ -13,10 +13,12 @@ import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
+import com.shape.web.util.RepositoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -62,7 +64,7 @@ public class FileController {
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = projectRepository.findOne(Integer.parseInt(projectIdx));
         User user = (User) session.getAttribute("user");
-        String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
+        String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx)); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
         HashMap<String, String> result = null;
         String originalFileName = null;
@@ -120,6 +122,7 @@ public class FileController {
                     result.put("type", type);
                     result.put("original", originalFileName);
                     result.put("size", String.valueOf(file.length()));
+                    RepositoryUtil.commit(Integer.parseInt(projectIdx));
                 } catch (IOException e) {
                     // file io error
                 } catch (NullPointerException e) {

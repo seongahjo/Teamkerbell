@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Table(name = "Alarm")
 public class Alarm {
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "ALARMIDX")
@@ -29,6 +29,12 @@ public class Alarm {
     @Column(name = "ISSHOW")
     private boolean isshow=true ;
 
+    @Column(name="CREATEDAT")
+    private Date createdat;
+
+    @Column(name="UPDATEDAT")
+    private Date updatedat;
+
     @ManyToOne
     @JoinColumn(name = "PROJECTIDX")
     private Project project;
@@ -41,6 +47,16 @@ public class Alarm {
     @JoinColumn(name = "ACTORIDX")
     private User actor;
 
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
 
     public Project getProject() {
         return project;

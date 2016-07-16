@@ -13,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Schedule")
 public class Schedule implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
@@ -47,6 +48,22 @@ public class Schedule implements Serializable {
     @Column(name = "ENDDATE")
     @Type(type = "date")
     private Date enddate;
+
+    @Column(name="CREATEDAT")
+    private Date createdat;
+
+    @Column(name="UPDATEDAT")
+    private Date updatedat;
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
 
     @OneToMany(mappedBy = "schedule",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Appointment> appointments = new HashSet<Appointment>();

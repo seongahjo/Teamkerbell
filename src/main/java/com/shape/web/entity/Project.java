@@ -1,24 +1,25 @@
 package com.shape.web.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectidx")
 @Table(name = "Project")
 public class Project implements Serializable{
+    private static final long serialVersionUID = 7463383057597003838L;
     @Id
     @GeneratedValue
     @Column(name = "PROJECTIDX")
     private Integer projectidx;
 
+    @NotNull
     @Column(name = "NAME")
     private String name;
 
@@ -31,6 +32,13 @@ public class Project implements Serializable{
     @Column(name = "PROCESSED")
     private boolean processed = true;
 
+    @Column(name="CREATEDAT")
+    private Date createdat;
+
+    @Column(name="UPDATEDAT")
+    private Date updatedat;
+
+    @JsonManagedReference
     @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
@@ -51,6 +59,16 @@ public class Project implements Serializable{
     @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<Todolist> todolists = new HashSet<Todolist>();
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
 
     public Set<Alarm> getAlarms() {
         return alarms;

@@ -1,6 +1,7 @@
 package com.shape.web.configuration;
 
 import com.shape.web.security.CustomAuthenticationSucessHandler;
+import com.shape.web.service.LogService;
 import com.shape.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,11 +20,12 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.shape.web.service")
+@ComponentScan({"com.shape.web.service","com.shape.web.serviceImpl"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserService userService;
+
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CustomAuthenticationSucessHandler authenticationHandler(){return new CustomAuthenticationSucessHandler();}
+    public CustomAuthenticationSucessHandler authenticationHandler( ){return new CustomAuthenticationSucessHandler();}
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement()

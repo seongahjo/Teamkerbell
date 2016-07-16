@@ -55,7 +55,7 @@ public class ProjectController {
     @ResponseBody
     public List getRoom(@RequestParam(value = "page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<Project> projects = projectRepository.findByUsers(user, new PageRequest(page,10));
+        List<Project> projects = projectRepository.findByUsers(user, new PageRequest(page,5));
         logger.info("room paging");
         return projects;
     }

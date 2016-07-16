@@ -11,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "Todolist")
 public class Todolist implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "TODOLISTIDX")
@@ -43,6 +44,22 @@ public class Todolist implements Serializable {
     @Column(name = "ENDDATE")
     @Type(type = "date")
     private Date enddate;
+
+    @Column(name="CREATEDAT")
+    private Date createdat;
+
+    @Column(name="UPDATEDAT")
+    private Date updatedat;
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
 
     public Todolist() {
     }
