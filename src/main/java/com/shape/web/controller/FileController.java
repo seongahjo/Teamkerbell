@@ -1,6 +1,5 @@
 package com.shape.web.controller;
 
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
@@ -15,7 +14,6 @@ import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,14 +81,13 @@ public class FileController {
                     result = new HashMap<>();
                     originalFileName = multipartFile.getOriginalFilename();
                     originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-                    originalFileName=originalFileName.substring(0,originalFileName.lastIndexOf("."));
                     storedFileName = CommonUtils.getRandomString() + originalFileExtension;
                     if (FileUtil.IsImage(originalFileName))
                         type = "img";
                     else
                         type = "file";
 
-                    file = new File(filePath + "/" + originalFileName+originalFileExtension);
+                    file = new File(filePath + "/" + storedFileName);
 
                     multipartFile.transferTo(file);
                     String tag = Tagging.TagbyString(file);
@@ -120,29 +117,6 @@ public class FileController {
     }
 
     /*
-        get files from corresponding project
-     */
-    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces ="application/json")
-    @ResponseBody
-    public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
-        ArrayList<FileDB> filedb = (ArrayList) fileDBRepository.findByProjectOrderByCreatedatDesc(projectRepository.findOne(projectIdx));
-        JsonObject jsonObject = new JsonObject();
-        JsonArray array = new JsonArray();
-        for (FileDB temp : filedb) {
-            String type="<a href=../file?name="+temp.getStoredname()+">"+temp.getOriginalname()+"</a>";
-            JsonArray arraytemp = new JsonArray();
-            arraytemp.add(type);
-            arraytemp.add(temp.getUser().getName());
-            arraytemp.add(CommonUtils.DateTimeFormat(temp.getCreatedat()));
-            arraytemp.add(temp.getTag());
-            array.addArray(arraytemp);
-        }
-        jsonObject.putArray("data", array);
-
-        return jsonObject.toString();
-    }
-
-    /*
     To download file
     */
     @RequestMapping(value = "/file", method = RequestMethod.GET)
@@ -152,18 +126,18 @@ public class FileController {
             OutputStream os = null;
             String client = "";
             FileDB fd = fileDBRepository.findByStoredname(name);
-            name = fd.getOriginalname();
+            String originalName = fd.getOriginalname();
             String folder = fd.getPath();
             File file = new File(folder + "/" + name);
             response.reset();
             /*
             Header Setting
              */
-            response.setHeader("Content-Disposition", "attachment;filename=\"" + name + "\"" + ";");
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + originalName + "\"" + ";");
             if (client.contains("MSIE"))
-                response.setHeader("Content-Disposition", "attachment; filename=" + new String(name.getBytes("KSC5601"), "ISO8859_1"));
+                response.setHeader("Content-Disposition", "attachment; filename=" + new String(originalName.getBytes("KSC5601"), "ISO8859_1"));
             else {  // IE 이외
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(name, "UTF-8") + "\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(originalName, "UTF-8") + "\"");
                 response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
             }    //response 헤더 설정해서
 
@@ -189,4 +163,45 @@ public class FileController {
         }
 
     }
+
+    /*
+       get files from corresponding project
+    */
+    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces ="application/json")
+    @ResponseBody
+    public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
+        List<Object[]> filedb = fileDBRepository.groupbytest(projectIdx);
+        JsonObject jsonObject = new JsonObject();
+        JsonArray array = new JsonArray();
+          for(Object[] temp : filedb){
+              String type2="<a href='#' onclick='openFile(\""+temp[0]+"\")' data-toggle=\"modal\" data-target=\"#downloadModal\" >"+ temp[0]+"</a>";
+            JsonArray arraytemp = new JsonArray();
+            arraytemp.add(type2);
+            arraytemp.add(temp[1]);
+            arraytemp.add(temp[2]);
+            array.addArray(arraytemp);
+        }
+        jsonObject.putArray("data", array);
+
+        return jsonObject.toString();
+    }
+
+    @RequestMapping(value= "/file/{projectIdx}/name",method=RequestMethod.GET,produces="application/json")
+    @ResponseBody
+    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx,@RequestParam("name") String name){
+        List<FileDB> fileDBs= fileDBRepository.findByProjectAndOriginalnameOrderByCreatedatDesc(projectRepository.findOne(projectIdx),name);
+        List<Map<String,String>> jsonar=new ArrayList();
+        int count=0;
+        for (FileDB temp : fileDBs) {
+            Map<String,String> json=new HashMap<>();
+            json.put("count",String.valueOf(++count));
+            json.put("file","<i class= 'fa fa-file'>"+"file"+"</i>");
+            json.put("uploader",temp.getUser().getName());
+            json.put("date",CommonUtils.DateTimeFormat(temp.getCreatedat()));
+            jsonar.add(json);
+        }
+        return jsonar;
+    }
+
+
 }

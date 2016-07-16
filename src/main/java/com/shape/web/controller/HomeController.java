@@ -118,9 +118,9 @@ public class HomeController {
             return mv;
         }
         List<Todolist> lt = todolistRepository.findByProject(project); // 투두리스트 리스트를 반환
-        List<Alarm> la = alarmRepository.findByUser(user); // 알람 리스트를 반환
+        List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user,0,true); // 알람 리스트를 반환
         List<User> lu = userRepository.findByProjects(project); // 유저 리스트 반환
-        List<FileDB> lfd = fileDBRepository.findByProjectOrderByCreatedatDesc(project); // 파일 받아오기
+        //List<FileDB> lfd = fileDBRepository.groupbytest(project); // 파일 받아오기
 
         if (project.isProcessed()) {
             List<Minute> lm = minuteRepository.findByProject(project); // 회의록 객체 반환
@@ -146,7 +146,6 @@ public class HomeController {
             mv.addObject("user", user);
             mv.addObject("alarm", la);
             mv.addObject("minutes", lm);
-            mv.addObject("files", lfd);
             mv.addObject("project", project);
             mv.addObject("img", img);
             mv.addObject("todolist", lt);
@@ -178,7 +177,7 @@ public class HomeController {
             mv.addObject("alarm", la);
             mv.addObject("todolist", lt);
             mv.addObject("meetingmember", lm);
-            mv.addObject("files", lfd);
+           // mv.addObject("files", lfd);
             mv.addObject("usersname", username);
             //mv.addObject("participant", participant);
             //mv.addObject("percentage", percentage);

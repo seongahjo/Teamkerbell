@@ -253,6 +253,56 @@
         <section class="content">
 
             <div class="row">
+                <div class="col-md-12">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">파일 관리자</h3>
+
+
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="form-inline" style="float:left">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" style="width:250px"
+                                           id="tokenfield-typeahead"
+                                           placeholder="Type something and hit enter for tags"/>
+                                    </div>
+                                    <a href="#"><i class="fa fa-search fa-2x"
+                                                  onclick="search()"></i></a>
+
+                                </div>
+
+                            </div>
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+
+
+            <!-- /.content-wrapper -->
+
+            <div class="row">
                 <div class="col-md-8">
                     <div class="box box-primary direct-chat direct-chat-primary">
                         <div class="box-header with-border">
@@ -290,8 +340,8 @@
                                                     <span class="contacts-list-msg pull-left">
                                                         He is ${list.name}
                                                         <i id="user${list.id}on"
-                                                               class="fa fa-circle st-cir text-success pull-right hidden"
-                                                            ></i>
+                                                           class="fa fa-circle st-cir text-success pull-right hidden"
+                                                        ></i>
                                                             <i id="user${list.id}off"
                                                                class="fa fa-circle st-cir text-warning pull-right"></i>
                                                             </span>
@@ -330,7 +380,7 @@
                  			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
 
                  			 </span>
-                             <span>
+                             <span data-toggle="modal" data-target="#downloadModal">
                               <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
                                       data-original-title="Add Meeting" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-calendar-plus-o fa-2x"></i></button>
@@ -385,56 +435,8 @@
 
 
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-
-                    <div class="box">
-                        <div class="box-header">
-                            <div class="bs-example">
-                                <div class="form-group">
-                                    <a href="#"><i class="fa fa-search fa-2x pull-right"
-                                                   style="float:left;padding-right:26%" onclick="search()"></i></a>
-                                    <input type="text" class="form-control" style="width:70%;float:left"
-                                           id="tokenfield-typeahead"
-                                           placeholder="Type something and hit enter for tags"/>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Uploader</th>
-                                    <th>Date</th>
-                                    <th>Main Contents</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Uploader</th>
-                                    <th>Date</th>
-                                    <th>Main Contents</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-            </div>
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
     <!-- Main Footer -->
     <footer class="main-footer">
         <!-- To the right -->
@@ -448,553 +450,625 @@
 
     <div class="control-sidebar-bg"></div>
 
-</div>
-<!-- ./wrapper -->
 
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content file_content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">File Upload</h4>
-            </div>
-            <form id="uploadForm" method="POST" enctype="multipart/form-data">
-                <div class="modal-body file_body">
-                    <div class="form-group">
-                        <div id="up_field">
-                            <input type="hidden" id="idx" name="idx" value="${project.projectidx}"/>
-                            <input type="hidden" name="userIdx" value="${user.useridx}"/>
-                            <div class="form-group">
+    <!-- /.content -->
+
+    <!-- ./wrapper -->
+
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content file_content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">File Upload</h4>
+                </div>
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body file_body">
+                        <div class="form-group">
+                            <div id="up_field">
+                                <input type="hidden" id="idx" name="idx" value="${project.projectidx}"/>
+                                <input type="hidden" name="userIdx" value="${user.useridx}"/>
+                                <div class="form-group">
 
 
-                                <input type="text" id="fakeFileTxt" class="fakeFileTxt" readonly="readonly" multiple>
-                                <div class="fileDiv">
-                                    <input type="button" value="Select File" onclick="selectFile()" class="buttonImg"/>
-                                    <input type="file" id="file" class="realFile" onChange="upload()" name="File[]"/>
+                                    <input type="text" id="fakeFileTxt" class="fakeFileTxt" readonly="readonly"
+                                           multiple>
+                                    <div class="fileDiv">
+                                        <input type="button" value="Select File" onclick="selectFile()"
+                                               class="buttonImg"/>
+                                        <input type="file" id="file" class="realFile" onChange="upload()"
+                                               name="File[]"/>
+                                    </div>
+
+
                                 </div>
 
-
                             </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="upload()">Upload</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="upload()">Upload</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- REQUIRED JS SCRIPTS -->
+    <!-- REQUIRED JS SCRIPTS -->
 
 
-<div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Project To Do List</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <ul class="todo-list pro-todo">
-                        <c:forEach var="list" items="${todolist}">
-                            <c:choose>
-                                <c:when test="${list.ok=='0'}">
-                                    <li class="done">
-                                </c:when>
-                                <c:otherwise>
-                                    <li>
-                                </c:otherwise>
-                            </c:choose>
-                            <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
-                            <span class="username">
+    <div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Project To Do List</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <ul class="todo-list pro-todo">
+                            <c:forEach var="list" items="${todolist}">
+                                <c:choose>
+                                    <c:when test="${list.ok=='0'}">
+                                        <li class="done">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
+                                <span class="username">
                           <span>${list.user.id}</span>
                         </span>
-                            <span class="text">${list.content}</span>
-                            <!-- Emphasis label -->
-                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}
-                            </small>
-                            <!-- General tools such as edit or delete-->
-                            </li>
-                        </c:forEach>
-                        <!-- todolist end-->
-                    </ul>
-
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
-            </div>
-            <form>
-                <div class="modal-body">
-
-                    <div class="box-body">
-
-                        <div class="gallery">
-
-                            <c:forEach var="list" items="${img}">
-                                <a href="../loadImg?name=${list.storedname}" class="zoom">
-                                    <img src="../loadImg?name=${list.storedname}" width="170" height="120"
-                                         alt="An elegant profile" style="margin-top:3%;margin-right:1%">
-                                </a>
+                                <span class="text">${list.content}</span>
+                                <!-- Emphasis label -->
+                                <small class="label label-danger" prettydate><i
+                                        class="fa fa-clock-o"></i>${list.enddate}
+                                </small>
+                                <!-- General tools such as edit or delete-->
+                                </li>
                             </c:forEach>
+                            <!-- todolist end-->
+                        </ul>
 
-                        </div>
+
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
 
+    <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
+                </div>
+                <form>
+                    <div class="modal-body">
 
-<div class="modal fade" id="todoMadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Enroll TodoList</h4>
-            </div>
-            <form id="todoform">
-                <div class="modal-body">
-                    <div id="success-message" class="alert alert-info collapse" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Info:</span>
-                        Enroll Success
-                    </div>
+                        <div class="box-body">
 
-                    <div id="error-message" class="alert alert-danger collapse" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span>
-                        Failed!
-                    </div>
-                    <div class="form-group">
-                        <label>Date range:</label>
+                            <div class="gallery">
 
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
+                                <c:forEach var="list" items="${img}">
+                                    <a href="../loadImg?name=${list.storedname}" class="zoom">
+                                        <img src="../loadImg?name=${list.storedname}" width="170" height="120"
+                                             alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                                    </a>
+                                </c:forEach>
+
                             </div>
-                            <input type="text" class="form-control pull-right" id="reservation">
                         </div>
-                        <br>
-                        <label> User name</label>
-                        <select class="form-control select2" data-placeholder="Select a State"
-                                style="width: 100%;" id="todoselect"> <!-- multiple = "multiple" -->
-                            <c:forEach var="list" items="${users}">
-                                <option value="${list.id}">${list.name}</option>
-                            </c:forEach>
-                        </select>
-                        <br>
-                        <br>
-                        <div class="form-group has-success">
-                            <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> List what you
-                                have to do</label>
-                            <input type="text" id="todocontent" class="form-control" id="inputSuccess"
-                                   placeholder="To do ...">
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="todoMadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Enroll TodoList</h4>
+                </div>
+                <form id="todoform">
+                    <div class="modal-body">
+                        <div id="success-message" class="alert alert-info collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Info:</span>
+                            Enroll Success
+                        </div>
+
+                        <div id="error-message" class="alert alert-danger collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            Failed!
+                        </div>
+                        <div class="form-group">
+                            <label>Date range:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="reservation">
+                            </div>
+                            <br>
+                            <label> User name</label>
+                            <select class="form-control select2" data-placeholder="Select a State"
+                                    style="width: 100%;" id="todoselect"> <!-- multiple = "multiple" -->
+                                <c:forEach var="list" items="${users}">
+                                    <option value="${list.id}">${list.name}</option>
+                                </c:forEach>
+                            </select>
+                            <br>
+                            <br>
+                            <div class="form-group has-success">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> List what
+                                    you
+                                    have to do</label>
+                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
+                                       placeholder="To do ...">
+                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="makeTodolist()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">File lists</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>File</th>
+                                <th>Uploader</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody id="filetable">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="makeTodolist()">Submit</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
 
 
-<div class="modal fade" id="InviteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Invite User</h4>
-            </div>
+    <div class="modal fade" id="InviteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Invite User</h4>
+                </div>
 
-            <div class="modal-body">
-                <div class="form-group">
-                    <!-- class="sidebar-form" -->
-                    <div id="inviteForm" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" id="inviteId" class="form-control" placeholder=" User ID Search...">
-                            <span class="input-group-btn">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!-- class="sidebar-form" -->
+                        <div id="inviteForm" class="sidebar-form">
+                            <div class="input-group">
+                                <input type="text" id="inviteId" class="form-control" placeholder=" User ID Search...">
+                                <span class="input-group-btn">
                 	<button type="button" class="btn btn-flat" onClick="search()"><i
                             class="fa fa-search"></i>
                     </button>
               		</span>
+                            </div>
+
+                            <!-- Profile Image -->
+                            <!-- at fist, not in here, after searching there will be -->
+                            <div id="user"></div>
+
                         </div>
-
-                        <!-- Profile Image -->
-                        <!-- at fist, not in here, after searching there will be -->
-                        <div id="user"></div>
-
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- jQuery 2.1.4 -->
-<script src="../js/jQuery-2.1.4.min.js"></script>
-<script src="../js/jquery-ui.min.js"></script>
-<!-- Bootstrap 3.3.5 -->
-<script src="../js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../js/app.min.js"></script>
-<script src="../js/date.js"></script>
-<!-- date-range-picker -->
-<script src="../js/moment.min.js"></script>
-<script src="../js/bootstrap-timepicker.min.js"></script>
-<script src="../js/daterangepicker.js"></script>
-<!-- Select -->
-<script src="../js/select2.full.min.js"></script>
-<!-- json2 -->
-<script src="../js/json2.js"></script>
-<!-- alarm -->
-<script src="../js/alarm.js"></script>
-<!-- SocketIO -->
-<script src="../js/socket.io.js"></script>
-<!-- prettydate -->
-<script src="../js/prettydate.min.js"></script>
-<!-- filepicker -->
-<script src="../js/jquery.filepicker.js"></script>
-<!-- dropzone -->
-<script src="../js/dropzone.js"></script>
+    <!-- jQuery 2.1.4 -->
+    <script src="../js/jQuery-2.1.4.min.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../js/app.min.js"></script>
+    <script src="../js/date.js"></script>
+    <!-- date-range-picker -->
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/bootstrap-timepicker.min.js"></script>
+    <script src="../js/daterangepicker.js"></script>
+    <!-- Select -->
+    <script src="../js/select2.full.min.js"></script>
+    <!-- json2 -->
+    <script src="../js/json2.js"></script>
+    <!-- alarm -->
+    <script src="../js/alarm.js"></script>
+    <!-- SocketIO -->
+    <script src="../js/socket.io.js"></script>
+    <!-- prettydate -->
+    <script src="../js/prettydate.min.js"></script>
+    <!-- filepicker -->
+    <script src="../js/jquery.filepicker.js"></script>
+    <!-- dropzone -->
+    <script src="../js/dropzone.js"></script>
 
 
-<!--Table-->
-<script src="../js/jquery.dataTables.min.js"></script>
-<script src="../js/dataTables.bootstrap.min.js"></script>
+    <!--Table-->
+    <script src="../js/jquery.dataTables.min.js"></script>
+    <script src="../js/dataTables.bootstrap.min.js"></script>
 
-<!-- tag -->
-<script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
-<script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
+    <!-- tag -->
+    <script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
 
-<!-- gallery-->
-<script type="text/javascript" src="../js/ImageZoom.js"></script>
-<script id="socket" type="text/javascript">
-    var socket;
-    socket = io.connect('127.0.0.1:9999');
-    socket.emit('join', {
-        projectIdx: "${project.projectidx}",
-        userIdx:${user.useridx},
-        userName: "${user.name}",
-        userId: "${user.id}",
-        userImg: "${user.img}"
-    });
-    socket.on('response', function (data) {
-        if (data.type == 'img' || data.type == 'file')
-            table.ajax.reload();
-        if (data.user == "${user.id}") {
-            $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
-        }
-        else
-            $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
+    <!-- gallery-->
+    <script type="text/javascript" src="../js/ImageZoom.js"></script>
+    <script id="socket" type="text/javascript">
+        var socket;
+        socket = io.connect('127.0.0.1:9999');
+        socket.emit('join', {
+            projectIdx: "${project.projectidx}",
+            userIdx:${user.useridx},
+            userName: "${user.name}",
+            userId: "${user.id}",
+            userImg: "${user.img}"
+        });
+        socket.on('response', function (data) {
+            if (data.type == 'img' || data.type == 'file')
+                table.ajax.reload();
+            if (data.user == "${user.id}") {
+                $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
+            }
+            else
+                $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
 
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
-    });
-    socket.on('write', function (flag) {
-        if (flag == "yes") {
-            $("#memo").prop("disabled", false);
-            $("#writebutton").addClass("hidden");
-            $("#savebutton").removeClass("hidden");
-        }
-        else {
+            $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        });
+        socket.on('write', function (flag) {
+            if (flag == "yes") {
+                $("#memo").prop("disabled", false);
+                $("#writebutton").addClass("hidden");
+                $("#savebutton").removeClass("hidden");
+            }
+            else {
+                $("#memo").prop("disabled", true);
+
+            }
+        });
+        socket.on('adduser', function (id) {
+            $("#user" + id + "off").addClass("hidden");
+            $("#user" + id + "on").removeClass("hidden");
+        });
+        socket.on('deleteuser', function (id) {
+            $("#user" + id + "off").removeClass("hidden");
+            $("#user" + id + "on").addClass("hidden");
+        });
+        socket.on('refresh', function (memo) {
+            $("#memo").val(memo);
+            Tminute = memo;
+        });
+        socket.on('alarm', function (data) {
+            var par = "userIdx=" +${user.useridx};
+            $.ajax({
+                url: "../updateAlarm",
+                data: par,
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    var size = parseInt($("#alarm-size").text()) + 1;
+                    $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
+                    $("#alarm-size").text(size);
+                    $("#alarm-content").text('You have ' + size + 'notifications');
+                    $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                            '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                            'has invited you to <strong>' + data.projectname + '</strong>' +
+                            '<div style="float:right;">' +
+                            ' <button type="button" class="btn btn-primary btn-xs"' +
+                            'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                            '<button type="button" class="btn btn-default btn-xs"' +
+                            'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                            '</button>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>');
+                }
+            });
+        });
+
+        function save_memo() {
+            socket.emit('save', {memo: $("#memo").val()});
+            Tminute = $("#memo").val();
+            $("#writebutton").removeClass("hidden");
+            $("#savebutton").addClass("hidden");
             $("#memo").prop("disabled", true);
-
+            $("#selectBox").attr("disabled", false);
         }
-    });
-    socket.on('adduser', function (id) {
-        $("#user" + id + "off").addClass("hidden");
-        $("#user" + id + "on").removeClass("hidden");
-    });
-    socket.on('deleteuser', function (id) {
-        $("#user" + id + "off").removeClass("hidden");
-        $("#user" + id + "on").addClass("hidden");
-    });
-    socket.on('refresh', function (memo) {
-        $("#memo").val(memo);
-        Tminute = memo;
-    });
-    socket.on('alarm', function (data) {
-        var par = "userIdx=" +${user.useridx};
-        $.ajax({
-            url: "../updateAlarm",
-            data: par,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                var size = parseInt($("#alarm-size").text()) + 1;
-                $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
-                $("#alarm-size").text(size);
-                $("#alarm-content").text('You have ' + size + 'notifications');
-                $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-                        '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-                        'has invited you to <strong>' + data.projectname + '</strong>' +
-                        '<div style="float:right;">' +
-                        ' <button type="button" class="btn btn-primary btn-xs"' +
-                        'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-                        '<button type="button" class="btn btn-default btn-xs"' +
-                        'onclick=decline("' + data.alarmidx + '")>Cancel' +
-                        '</button>' +
-                        '</div>' +
-                        '</a>' +
-                        '</li>');
+
+        function write_memo() {
+            if (option == "Today") {
+                socket.emit('writer');
+                $("#selectBox").attr("disabled", true);
+            }
+        }
+
+        $('#memo').keyup(function (event) {
+            if (event.keyCode != 8)
+                socket.emit('refreshToAll', {memo: $("#memo").val()});
+        });
+
+        function sendMsg() {
+            var dates = new Date().toShortTimeString();
+            socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
+            $("#typing").val("");
+            $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        }
+
+        function invite() {
+            var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
+            $.ajax({
+                url: "../inviteUser",
+                data: par,
+                dataType: 'text',
+                async: true,
+                type: 'GET',
+                success: function (data) {
+                    socket.emit('invite', {userIdx: data});
+                    console.log(data + "Invite");
+                    $("#InviteUser").modal('hide');
+                }
+            });
+        }
+    </script>
+
+    <script>
+        var invited;
+        var scheduleStart;
+        var scheduleEnd;
+        var option = "Today";
+        var Tminute = "${project.minute}";
+        var table;
+
+        $("a.zoom").imageZoom({scale: 0.75});
+        //Initialize Select Elements
+        $(".select2").select();
+        //Date range picker
+        $('#reservation').daterangepicker();
+        $("#reservation").on('apply.daterangepicker', function (ev, picker) {
+            scheduleStart = picker.startDate.format('YYYY-MM-DD');
+            scheduleEnd = picker.endDate.format('YYYY-MM-DD');
+        });
+        $('#InviteUser').on('hidden.bs.modal', function (e) {
+            $("#user").html('');
+            $("#inviteForm #inviteId").val('');
+        });
+        $('#todoMadal').on('hidden.bs.modal', function (e) {
+            $("#todocontent").val('');
+            $("#reservation").val('');
+        });
+
+        function search() {
+            var par = {
+                userId: $("#inviteForm #inviteId").val(),
+                projectIdx: ${project.projectidx}
+            };
+            var querystring = $.param(par);
+            $.ajax({
+                url: "../inviteUser",
+                type: 'POST',
+                dataType: 'json',
+                data: querystring,
+                success: function (data) {
+                    invited = data.userId;
+                    $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+                },
+                error: function () {
+                    $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
+                }
+            });
+        }
+
+        function test() {
+            var file = $("#file")[0].files[0];
+            $("#fakeFileTxt").val(file.name);
+        }
+
+        function selectFile() {
+            document.getElementById("file").click();
+        }
+
+        $("#selectBox").change(function () {
+            option = $(this).children("option:selected").text();
+            if (option == "Today")
+                $("#memo").val(Tminute);
+            else
+                $("#memo").val($(this).children("option:selected").val());
+        });
+
+        $("#inviteId").keydown(function (key) {
+            if (key.keyCode == 13) {
+                search();
             }
         });
-    });
 
-    function save_memo() {
-        socket.emit('save', {memo: $("#memo").val()});
-        Tminute = $("#memo").val();
-        $("#writebutton").removeClass("hidden");
-        $("#savebutton").addClass("hidden");
-        $("#memo").prop("disabled", true);
-        $("#selectBox").attr("disabled", false);
-    }
-
-    function write_memo() {
-        if (option == "Today") {
-            socket.emit('writer');
-            $("#selectBox").attr("disabled", true);
-        }
-    }
-
-    $('#memo').keyup(function (event) {
-        if (event.keyCode != 8)
-            socket.emit('refreshToAll', {memo: $("#memo").val()});
-    });
-
-    function sendMsg() {
-        var dates = new Date().toShortTimeString();
-        socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
-        $("#typing").val("");
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
-    }
-
-    function invite() {
-        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
-        $.ajax({
-            url: "../inviteUser",
-            data: par,
-            dataType: 'text',
-            async: true,
-            type: 'GET',
-            success: function (data) {
-                socket.emit('invite', {userIdx: data});
-                console.log(data + "Invite");
-                $("#InviteUser").modal('hide');
-            }
+        $('#file').hover(function (event) {
+            $('#file_over').addClass('front_hover');
+        }, function () {
+            $('#file_over').removeClass('front_hover');
         });
-    }
-</script>
 
-<script>
-    var invited;
-    var scheduleStart;
-    var scheduleEnd;
-    var option = "Today";
-    var Tminute = "${project.minute}";
-    var table;
+        function getfile() {
 
-    $("a.zoom").imageZoom({scale: 0.75});
-    //Initialize Select Elements
-    $(".select2").select();
-    //Date range picker
-    $('#reservation').daterangepicker();
-    $("#reservation").on('apply.daterangepicker', function (ev, picker) {
-        scheduleStart = picker.startDate.format('YYYY-MM-DD');
-        scheduleEnd = picker.endDate.format('YYYY-MM-DD');
-    });
-    $('#InviteUser').on('hidden.bs.modal', function (e) {
-        $("#user").html('');
-        $("#inviteForm #inviteId").val('');
-    });
-    $('#todoMadal').on('hidden.bs.modal', function (e) {
-        $("#todocontent").val('');
-        $("#reservation").val('');
-    });
+        }
 
-    function search() {
-        var par = {
-            userId: $("#inviteForm #inviteId").val(),
-            projectIdx: ${project.projectidx}
+        function makeTodolist() {
+            var param = {
+                projectIdx: ${project.projectidx},
+                userId: $("#todoselect").children("option:selected").val(),
+                startdate: scheduleStart,
+                enddate: scheduleEnd,
+                content: $("#todocontent").val()
+            };
+            var querystring = $.param(param);
+
+            $.ajax({
+                url: "../todolist",
+                type: 'POST',
+                data: querystring,
+                processData: false,
+                success: function () {
+                    $("#todoform").find($("#success-message")).fadeIn(1000, function () {
+                        $("#todoMadal").modal('hide');
+                    })
+                },
+                error: function () {
+                    $("#todoform").find($("#error-message")).fadeIn(600, function () {
+                        $("#todoform").find($("#error-message")).fadeOut(800);
+                    });
+                }
+            });
+
+        }
+
+        function endsWith(str, suffix) {
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+
+        function upload() {
+            var form = $("#uploadForm")[0];
+            var formData = new FormData(form);
+            $.ajax({
+                url: "../file",
+                type: "POST",
+                dataType: "json",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    socket.emit("file", {
+                        msg: data,
+                        user: "${user.name}",
+                        date: new Date().toString('HH:mm'),
+                        type: data.type
+                    });
+                }
+            });
+        }
+        Dropzone.options.dropzone = {
+            clickable: false,
+            maxThumbnailFilesize: 5,
+            dictDefaultMessage: '',
+            init: function () {
+
+                this.on('success', function (file, json) {
+                    socket.emit("file", {
+                        msg: json,
+                        user: "${user.name}",
+                        date: new Date().toString('HH:mm'),
+                        type: json.type
+                    });
+                });
+
+                this.on('addedfile', function (file) {
+
+                });
+
+                this.on('drop', function (file) {
+
+                });
+            }
         };
-        var querystring = $.param(par);
-        $.ajax({
-            url: "../inviteUser",
-            type: 'POST',
-            dataType: 'json',
-            data: querystring,
-            success: function (data) {
-                invited = data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
-            },
-            error: function () {
-                $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
+
+        table = $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "ajax": {
+                'url': '../file/${project.projectidx}'
             }
         });
-    }
-
-    function test() {
-        var file = $("#file")[0].files[0];
-        $("#fakeFileTxt").val(file.name);
-    }
-
-    function selectFile() {
-        document.getElementById("file").click();
-    }
-
-    $("#selectBox").change(function () {
-        option = $(this).children("option:selected").text();
-        if (option == "Today")
-            $("#memo").val(Tminute);
-        else
-            $("#memo").val($(this).children("option:selected").val());
-    });
-
-    $("#inviteId").keydown(function (key) {
-        if (key.keyCode == 13) {
-            search();
+        function search() {
+            var search_val = $("#tokenfield-typeahead").val();
+            search_val = search_val.replace(/,/gi, "");
+            console.log(search_val);
+            table.search(search_val).draw();
         }
-    });
 
-    $('#file').hover(function (event) {
-        $('#file_over').addClass('front_hover');
-    }, function () {
-        $('#file_over').removeClass('front_hover');
-    });
+        function openFile(name) {
+            var val = "";
+            var param = "name=" + name;
+            $.ajax({
+                url: "../file/${project.projectidx}/name",
+                type: 'GET',
+                dataType: 'json',
+                data: param,
+                success: function (data) {
+                    console.log(data);
+                    $.each(data, function (index, temp) {
+                        $("#downloadModal .modal-title").text(name);
+                        console.log(temp.count);
+                        val += "<tr>" +
+                                "<td>" + temp.count + "</td>" +
+                                "<td>" + temp.file + "</td>" +
+                                "<td>" + temp.uploader + "</td>" +
+                                "<td>" + temp.date + "</td>";
 
-    function getfile() {
+                    });
+                    $("#filetable").html(val);
+                },
+                error: function () {
 
-    }
-
-    function makeTodolist() {
-        var param = {
-            projectIdx: ${project.projectidx},
-            userId: $("#todoselect").children("option:selected").val(),
-            startdate: scheduleStart,
-            enddate: scheduleEnd,
-            content: $("#todocontent").val()
-        };
-        var querystring = $.param(param);
-
-        $.ajax({
-            url: "../todolist",
-            type: 'POST',
-            data: querystring,
-            processData: false,
-            success: function () {
-                $("#todoform").find($("#success-message")).fadeIn(1000, function () {
-                    $("#todoMadal").modal('hide');
-                })
-            },
-            error: function () {
-                $("#todoform").find($("#error-message")).fadeIn(600, function () {
-                    $("#todoform").find($("#error-message")).fadeOut(800);
-                });
-            }
-        });
-
-    }
-
-    function endsWith(str, suffix) {
-        return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    }
-
-    function upload() {
-        var form = $("#uploadForm")[0];
-        var formData = new FormData(form);
-        $.ajax({
-            url: "../file",
-            type: "POST",
-            dataType: "json",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                socket.emit("file", {
-                    msg: data,
-                    user: "${user.name}",
-                    date: new Date().toString('HH:mm'),
-                    type: data.type
-                });
-            }
-        });
-    }
-    Dropzone.options.dropzone = {
-        clickable: false,
-        maxThumbnailFilesize: 5,
-        dictDefaultMessage: '',
-        init: function () {
-
-            this.on('success', function (file, json) {
-                socket.emit("file", {
-                    msg: json,
-                    user: "${user.name}",
-                    date: new Date().toString('HH:mm'),
-                    type: json.type
-                });
-            });
-
-            this.on('addedfile', function (file) {
-
-            });
-
-            this.on('drop', function (file) {
-
-            });
+                }
+            })
         }
-    };
-
-    table = $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "ajax": {
-            'url': '../file/${project.projectidx}'
-        }
-    });
-    function search() {
-        var search_val = $("#tokenfield-typeahead").val();
-        search_val = search_val.replace(/,/gi, "");
-        console.log(search_val);
-        table.search(search_val).draw();
-    }
-</script>
+    </script>
 </body>
 </html>

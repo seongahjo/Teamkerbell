@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@NamedNativeQuery(name="FileDB.groupbytest",
+        query="select fd.originalname as Originalname, group_concat(distinct u.name) as Uploader, group_concat(distinct fd.tag) as tag from FileDB fd JOIN User u on fd.useridx=u.useridx JOIN Project p on fd.projectidx=p.projectidx where p.projectidx=?1 group by fd.originalname")
 @Table(name = "FileDB")
 public class FileDB implements Serializable {
     private static final long serialVersionUID = 1L;
