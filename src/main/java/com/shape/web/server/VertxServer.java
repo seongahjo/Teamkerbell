@@ -138,12 +138,12 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 Integer writer_id = su.getUserIdx();
                 logger.info("["+projectIdx + "] Trying to be writer ["+su.getId()+"]");
                 if (Rooms.get(projectIdx) != -1) {
-                    socket.emit("write", "no");
+                    socket.emit("write", "{\"flag\" : \"no\", \"writer\" : \""+su.getId()+"\"}");
                     logger.info("["+su.getId() + "] Failing to be writer");
                 } else {
                     Rooms.replace(projectIdx, writer_id); //쓰는 사람의 id로 변경
-                    socket.emit("write", "yes");
-                    io.sockets().in(projectIdx).except(socket.getId()).emit("write", "no");
+                    socket.emit("write", "{\"flag\" : \"yes\", \"writer\" : \""+su.getId()+"\"}");
+                    io.sockets().in(projectIdx).except(socket.getId()).emit("write", "{\"flag\" : \"no\", \"writer\" : \""+su.getId()+"\"}");
                     logger.info("["+projectIdx + "] Succeeding to be writer [USER "+ su.getId()+"]");
                 }
             }); //writer end
@@ -185,6 +185,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                     e.printStackTrace();
                 }
                 io.sockets().in(projectIdx).emit("refresh", memo);
+                io.sockets().in(projectIdx).emit("finish");
                 logger.info("[ROOM "+projectIdx+"] Succeeding to save memo [" + memo + "] [USER "+su.getId()+"]");
             }); //save end
 

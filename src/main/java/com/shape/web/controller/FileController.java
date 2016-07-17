@@ -14,6 +14,7 @@ import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -174,7 +175,7 @@ public class FileController {
         JsonObject jsonObject = new JsonObject();
         JsonArray array = new JsonArray();
           for(Object[] temp : filedb){
-              String type2="<a href='#' onclick='openFile(\""+temp[0]+"\")' data-toggle=\"modal\" data-target=\"#downloadModal\" >"+ temp[0]+"</a>";
+              String type2="<a href='#' onclick='openFile(\""+temp[0]+"\",0)' data-toggle=\"modal\" data-target=\"#downloadModal\" >"+ temp[0]+"</a>";
             JsonArray arraytemp = new JsonArray();
             arraytemp.add(type2);
             arraytemp.add(temp[1]);
@@ -188,14 +189,14 @@ public class FileController {
 
     @RequestMapping(value= "/file/{projectIdx}/name",method=RequestMethod.GET,produces="application/json")
     @ResponseBody
-    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx,@RequestParam("name") String name){
-        List<FileDB> fileDBs= fileDBRepository.findByProjectAndOriginalnameOrderByCreatedatDesc(projectRepository.findOne(projectIdx),name);
+    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx,@RequestParam("name") String name,@RequestParam("page")Integer page){
+        List<FileDB> fileDBs= fileDBRepository.findByProjectAndOriginalnameOrderByCreatedatDesc(projectRepository.findOne(projectIdx),name,new PageRequest(page,10));
         List<Map<String,String>> jsonar=new ArrayList();
-        int count=0;
+        int count=0+10*page;
         for (FileDB temp : fileDBs) {
             Map<String,String> json=new HashMap<>();
             json.put("count",String.valueOf(++count));
-            json.put("file","<i class= 'fa fa-file'>"+"file"+"</i>");
+            json.put("file","<a href=../file?name="+temp.getStoredname()+">"+"<i class= 'fa fa-file'>"+"file"+"</i></a>");
             json.put("uploader",temp.getUser().getName());
             json.put("date",CommonUtils.DateTimeFormat(temp.getCreatedat()));
             jsonar.add(json);

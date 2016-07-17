@@ -241,6 +241,7 @@
         <section class="content-header">
             <h1>
                 과제방
+                <i class="fa fa-user-plus" data-toggle="modal" data-target="#InviteUser"></i>
                 <small> ${project.name}</small>
             </h1>
             <ol class="breadcrumb">
@@ -253,7 +254,7 @@
         <section class="content">
 
             <div class="row">
-                <div class="col-md-10 col-md-offset-1" >
+                <div class="col-md-10 col-md-offset-1">
 
                     <div class="box">
                         <div class="box-header with-border">
@@ -268,7 +269,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <div class="form-inline" style="float:left">
+                            <div class="form-inline">
                                 <div class="form-group">
                                     <input type="text" class="form-control" style="width:250px"
                                            id="tokenfield-typeahead"
@@ -276,6 +277,7 @@
                                 </div>
                                 <a href="#"><i class="fa fa-search fa-2x"
                                                onclick="search()"></i></a>
+
 
                             </div>
 
@@ -316,7 +318,7 @@
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="chat-pane-toggle">
-                                    <i class="fa fa-plus"></i>
+                                    <i class="fa fa-list-ul"></i>
                                 </button>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                         class="fa fa-minus"></i>
@@ -337,19 +339,25 @@
                                     <!-- /.box-header -->
                                     <ul class="contacts-list">
                                         <c:forEach var="list" items="${users}">
-                                            <li class="item" style="margin-right:5px">
+                                            <li id="userlist-${list.id}" class="item" style="margin-right:5px">
                                                 <img class="contacts-list-img" src="../${list.img}" alt="User Image"
-                                                     style="margin-left:2px; width:30px;height:30px">
+                                                     style="margin-left:2px; width:40px;height:40px">
                                                 <div class="contacts-list-info">
-                                                    <span class="contacts-list-name"> ${list.id} </span>
-                                                    <span class="contacts-list-msg pull-left">
-                                                        He is ${list.name}
-                                                        <i id="user${list.id}on"
-                                                           class="fa fa-circle st-cir text-success pull-right hidden"
-                                                        ></i>
-                                                            <i id="user${list.id}off"
-                                                               class="fa fa-circle st-cir text-warning pull-right"></i>
-                                                            </span>
+
+                                                    <span class="contacts-list-name">
+                                                        ${list.id}
+                                                       <a href="#" style="margin-left:3px">
+                                                    <i id="user${list.id}on"
+                                                       class="fa fa-circle st-cir text-success hidden"></i>
+                                                    <i id="user${list.id}off"
+                                                       class="fa fa-circle st-cir text-warning"></i>
+                                                            </a>
+                                                    </span>
+
+
+                                                    <span class="contacts-list-msg pull-left" id="userstatus">
+                                                        His or Her name is ${list.name}
+                                                    </span>
                                                 </div>
                                             </li>
                                         </c:forEach>
@@ -363,7 +371,7 @@
                             <input type="hidden" name="userIdx" value="${user.useridx}"/>
 
                         </form>
-                    </div> <!-- box -->
+
 
                     <!-- /.box-body -->
                     <div class="box-footer">
@@ -393,13 +401,14 @@
                             </span>
                         </div>
                     </div>
+                    </div> <!-- box -->
                     <!-- /.box-footer-->
                 </div>    <!-- col -->
 
 
                 <!-- memo -->
 
-                <div class="col-md-2" >
+                <div class="col-md-2">
                     <div class="box box-primary">
                         <div class="box-header with border">
                             <h3 class="box-title">회의록</h3>
@@ -416,10 +425,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <textarea id="memo" class="form-control" style="height: 300px"
+                                <textarea id="memo" class="form-control"  rows="13"
                                           disabled>${project.minute}</textarea>
                             </div>
-
+                            Written by <kbd id="writer">?</kbd>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
@@ -669,11 +678,21 @@
                             </tbody>
                         </table>
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <ul class="pager">
+                        <li>
+                            <a class="previous" href="#" onclick="openFileFlag(1)">Previous</a>
+                        </li>
+                        <li>
+                            <a href="#" class="alert-success"data-dismiss="modal">Close</a>
+                        </li>
+                        <li>
+                            <a class="next" href="#" onclick="openFileFlag(2)">Next</a>
+                        </li>
+                    </ul>
+
+
                 </div>
             </div>
         </div>
@@ -715,365 +734,391 @@
             </div>
         </div>
     </div>
-    <!-- jQuery 2.1.4 -->
-    <script src="../js/jQuery-2.1.4.min.js"></script>
-    <script src="../js/jquery-ui.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../js/app.min.js"></script>
-    <script src="../js/date.js"></script>
-    <!-- date-range-picker -->
-    <script src="../js/moment.min.js"></script>
-    <script src="../js/bootstrap-timepicker.min.js"></script>
-    <script src="../js/daterangepicker.js"></script>
-    <!-- Select -->
-    <script src="../js/select2.full.min.js"></script>
-    <!-- json2 -->
-    <script src="../js/json2.js"></script>
-    <!-- alarm -->
-    <script src="../js/alarm.js"></script>
-    <!-- SocketIO -->
-    <script src="../js/socket.io.js"></script>
-    <!-- prettydate -->
-    <script src="../js/prettydate.min.js"></script>
-    <!-- filepicker -->
-    <script src="../js/jquery.filepicker.js"></script>
-    <!-- dropzone -->
-    <script src="../js/dropzone.js"></script>
+</div>
+<!-- jQuery 2.1.4 -->
+<script src="../js/jQuery-2.1.4.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="../js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../js/app.min.js"></script>
+<script src="../js/date.js"></script>
+<!-- date-range-picker -->
+<script src="../js/moment.min.js"></script>
+<script src="../js/bootstrap-timepicker.min.js"></script>
+<script src="../js/daterangepicker.js"></script>
+<!-- Select -->
+<script src="../js/select2.full.min.js"></script>
+<!-- json2 -->
+<script src="../js/json2.js"></script>
+<!-- alarm -->
+<script src="../js/alarm.js"></script>
+<!-- SocketIO -->
+<script src="../js/socket.io.js"></script>
+<!-- prettydate -->
+<script src="../js/prettydate.min.js"></script>
+<!-- filepicker -->
+<script src="../js/jquery.filepicker.js"></script>
+<!-- dropzone -->
+<script src="../js/dropzone.js"></script>
 
 
-    <!--Table-->
-    <script src="../js/jquery.dataTables.min.js"></script>
-    <script src="../js/dataTables.bootstrap.min.js"></script>
+<!--Table-->
+<script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/dataTables.bootstrap.min.js"></script>
 
-    <!-- tag -->
-    <script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
+<!-- tag -->
+<script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
 
-    <!-- gallery-->
-    <script type="text/javascript" src="../js/ImageZoom.js"></script>
-    <script id="socket" type="text/javascript">
-        var socket;
-        socket = io.connect('127.0.0.1:9999');
-        socket.emit('join', {
-            projectIdx: "${project.projectidx}",
-            userIdx:${user.useridx},
-            userName: "${user.name}",
-            userId: "${user.id}",
-            userImg: "${user.img}"
-        });
-        socket.on('response', function (data) {
-            if (data.type == 'img' || data.type == 'file')
-                table.ajax.reload();
-            if (data.user == "${user.id}") {
-                $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
-            }
-            else
-                $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
+<!-- gallery-->
+<script type="text/javascript" src="../js/ImageZoom.js"></script>
+<script id="socket" type="text/javascript">
+    var socket;
+    socket = io.connect('127.0.0.1:9999');
+    socket.emit('join', {
+        projectIdx: "${project.projectidx}",
+        userIdx:${user.useridx},
+        userName: "${user.name}",
+        userId: "${user.id}",
+        userImg: "${user.img}"
+    });
+    socket.on('response', function (data) {
+        if (data.type == 'img' || data.type == 'file')
+            table.ajax.reload();
+        if (data.user == "${user.id}") {
+            $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
+        }
+        else
+            $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
 
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        });
-        socket.on('write', function (flag) {
-            if (flag == "yes") {
-                $("#memo").prop("disabled", false);
-                $("#writebutton").addClass("hidden");
-                $("#savebutton").removeClass("hidden");
-            }
-            else {
-                $("#memo").prop("disabled", true);
-
-            }
-        });
-        socket.on('adduser', function (id) {
-            $("#user" + id + "off").addClass("hidden");
-            $("#user" + id + "on").removeClass("hidden");
-        });
-        socket.on('deleteuser', function (id) {
-            $("#user" + id + "off").removeClass("hidden");
-            $("#user" + id + "on").addClass("hidden");
-        });
-        socket.on('refresh', function (memo) {
-            $("#memo").val(memo);
-            Tminute = memo;
-        });
-        socket.on('alarm', function (data) {
-            var par = "userIdx=" +${user.useridx};
-            $.ajax({
-                url: "../updateAlarm",
-                data: par,
-                dataType: 'json',
-                type: 'GET',
-                success: function (data) {
-                    var size = parseInt($("#alarm-size").text()) + 1;
-                    $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
-                    $("#alarm-size").text(size);
-                    $("#alarm-content").text('You have ' + size + 'notifications');
-                    $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-                            '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-                            'has invited you to <strong>' + data.projectname + '</strong>' +
-                            '<div style="float:right;">' +
-                            ' <button type="button" class="btn btn-primary btn-xs"' +
-                            'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-                            '<button type="button" class="btn btn-default btn-xs"' +
-                            'onclick=decline("' + data.alarmidx + '")>Cancel' +
-                            '</button>' +
-                            '</div>' +
-                            '</a>' +
-                            '</li>');
-                }
-            });
-        });
-
-        function save_memo() {
-            socket.emit('save', {memo: $("#memo").val()});
-            Tminute = $("#memo").val();
-            $("#writebutton").removeClass("hidden");
-            $("#savebutton").addClass("hidden");
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    });
+    socket.on('write', function (response) {
+        response = JSON.parse(response);
+        if (response.flag == "yes") {
+            $("#memo").prop("disabled", false);
+            $("#writebutton").addClass("hidden");
+            $("#savebutton").removeClass("hidden");
+        }
+        else {
             $("#memo").prop("disabled", true);
-            $("#selectBox").attr("disabled", false);
         }
-
-        function write_memo() {
-            if (option == "Today") {
-                socket.emit('writer');
-                $("#selectBox").attr("disabled", true);
-            }
-        }
-
-        $('#memo').keyup(function (event) {
-            if (event.keyCode != 8)
-                socket.emit('refreshToAll', {memo: $("#memo").val()});
-        });
-
-        function sendMsg() {
-            var dates = new Date().toShortTimeString();
-            socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
-            $("#typing").val("");
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        }
-
-        function invite() {
-            var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
-            $.ajax({
-                url: "../inviteUser",
-                data: par,
-                dataType: 'text',
-                async: true,
-                type: 'GET',
-                success: function (data) {
-                    socket.emit('invite', {userIdx: data});
-                    console.log(data + "Invite");
-                    $("#InviteUser").modal('hide');
-                }
-            });
-        }
-    </script>
-
-    <script>
-        var invited;
-        var scheduleStart;
-        var scheduleEnd;
-        var option = "Today";
-        var Tminute = "${project.minute}";
-        var table;
-
-        $("a.zoom").imageZoom({scale: 0.75});
-        //Initialize Select Elements
-        $(".select2").select();
-        //Date range picker
-        $('#reservation').daterangepicker();
-        $("#reservation").on('apply.daterangepicker', function (ev, picker) {
-            scheduleStart = picker.startDate.format('YYYY-MM-DD');
-            scheduleEnd = picker.endDate.format('YYYY-MM-DD');
-        });
-        $('#InviteUser').on('hidden.bs.modal', function (e) {
-            $("#user").html('');
-            $("#inviteForm #inviteId").val('');
-        });
-        $('#todoMadal').on('hidden.bs.modal', function (e) {
-            $("#todocontent").val('');
-            $("#reservation").val('');
-        });
-
-        function search() {
-            var par = {
-                userId: $("#inviteForm #inviteId").val(),
-                projectIdx: ${project.projectidx}
-            };
-            var querystring = $.param(par);
-            $.ajax({
-                url: "../inviteUser",
-                type: 'POST',
-                dataType: 'json',
-                data: querystring,
-                success: function (data) {
-                    invited = data.userId;
-                    $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
-                },
-                error: function () {
-                    $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
-                }
-            });
-        }
-
-        function test() {
-            var file = $("#file")[0].files[0];
-            $("#fakeFileTxt").val(file.name);
-        }
-
-        function selectFile() {
-            document.getElementById("file").click();
-        }
-
-        $("#selectBox").change(function () {
-            option = $(this).children("option:selected").text();
-            if (option == "Today")
-                $("#memo").val(Tminute);
-            else
-                $("#memo").val($(this).children("option:selected").val());
-        });
-
-        $("#inviteId").keydown(function (key) {
-            if (key.keyCode == 13) {
-                search();
+        $("#writer").text(response.writer);
+    });
+    socket.on('adduser', function (id) {
+        $("#user" + id + "off").addClass("hidden");
+        $("#user" + id + "on").removeClass("hidden");
+        $("#userlist-" + id).find($("#userstatus")).text(id + " is now ONLINE");
+    });
+    socket.on('deleteuser', function (id) {
+        $("#user" + id + "off").removeClass("hidden");
+        $("#user" + id + "on").addClass("hidden");
+        $("#userlist-" + id).find($("#userstatus")).text(id + " is now OFFLINE");
+    });
+    socket.on('refresh', function (memo) {
+        $("#memo").val(memo);
+        Tminute = memo;
+    });
+    socket.on('alarm', function (data) {
+        var par = "userIdx=" +${user.useridx};
+        $.ajax({
+            url: "../updateAlarm",
+            data: par,
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                var size = parseInt($("#alarm-size").text()) + 1;
+                $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
+                $("#alarm-size").text(size);
+                $("#alarm-content").text('You have ' + size + 'notifications');
+                $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
+                        '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
+                        'has invited you to <strong>' + data.projectname + '</strong>' +
+                        '<div style="float:right;">' +
+                        ' <button type="button" class="btn btn-primary btn-xs"' +
+                        'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
+                        '<button type="button" class="btn btn-default btn-xs"' +
+                        'onclick=decline("' + data.alarmidx + '")>Cancel' +
+                        '</button>' +
+                        '</div>' +
+                        '</a>' +
+                        '</li>');
             }
         });
+    });
 
-        $('#file').hover(function (event) {
-            $('#file_over').addClass('front_hover');
-        }, function () {
-            $('#file_over').removeClass('front_hover');
-        });
+    socket.on('finish', function () {
+        $("#writebutton").removeClass("hidden");
+        $("#savebutton").addClass("hidden");
+        $("#memo").prop("disabled", true);
+        $("#writer").text("?");
+    })
+    // socket
 
-        function getfile() {
+    function save_memo() {
+        socket.emit('save', {memo: $("#memo").val()});
+        Tminute = $("#memo").val();
+        $("#selectBox").attr("disabled", false);
+    }
 
+    function write_memo() {
+        if (option == "Today") {
+            socket.emit('writer');
+            $("#selectBox").attr("disabled", true);
         }
+    }
 
-        function makeTodolist() {
-            var param = {
-                projectIdx: ${project.projectidx},
-                userId: $("#todoselect").children("option:selected").val(),
-                startdate: scheduleStart,
-                enddate: scheduleEnd,
-                content: $("#todocontent").val()
-            };
-            var querystring = $.param(param);
+    $('#memo').keyup(function (event) {
+        if (event.keyCode != 8)
+            socket.emit('refreshToAll', {memo: $("#memo").val()});
+    });
 
-            $.ajax({
-                url: "../todolist",
-                type: 'POST',
-                data: querystring,
-                processData: false,
-                success: function () {
-                    $("#todoform").find($("#success-message")).fadeIn(1000, function () {
-                        $("#todoMadal").modal('hide');
-                    })
-                },
-                error: function () {
-                    $("#todoform").find($("#error-message")).fadeIn(600, function () {
-                        $("#todoform").find($("#error-message")).fadeOut(800);
-                    });
-                }
-            });
+    function sendMsg() {
+        var dates = new Date().toShortTimeString();
+        socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
+        $("#typing").val("");
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    }
 
-        }
-
-        function endsWith(str, suffix) {
-            return str.indexOf(suffix, str.length - suffix.length) !== -1;
-        }
-
-        function upload() {
-            var form = $("#uploadForm")[0];
-            var formData = new FormData(form);
-            $.ajax({
-                url: "../file",
-                type: "POST",
-                dataType: "json",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    socket.emit("file", {
-                        msg: data,
-                        user: "${user.name}",
-                        date: new Date().toString('HH:mm'),
-                        type: data.type
-                    });
-                }
-            });
-        }
-        Dropzone.options.dropzone = {
-            clickable: false,
-            maxThumbnailFilesize: 5,
-            dictDefaultMessage: '',
-            init: function () {
-
-                this.on('success', function (file, json) {
-                    socket.emit("file", {
-                        msg: json,
-                        user: "${user.name}",
-                        date: new Date().toString('HH:mm'),
-                        type: json.type
-                    });
-                });
-
-                this.on('addedfile', function (file) {
-
-                });
-
-                this.on('drop', function (file) {
-
-                });
+    function invite() {
+        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
+        $.ajax({
+            url: "../inviteUser",
+            data: par,
+            dataType: 'text',
+            async: true,
+            type: 'GET',
+            success: function (data) {
+                socket.emit('invite', {userIdx: data});
+                console.log(data + "Invite");
+                $("#InviteUser").modal('hide');
             }
+        });
+    }
+</script>
+
+<script>
+    var invited;
+    var scheduleStart;
+    var scheduleEnd;
+    var option = "Today";
+    var Tminute = "${project.minute}";
+    var table;
+    var modalName;
+    var modalPage;
+
+    $("a.zoom").imageZoom({scale: 0.75});
+    //Initialize Select Elements
+    $(".select2").select();
+    //Date range picker
+    $('#reservation').daterangepicker();
+    $("#reservation").on('apply.daterangepicker', function (ev, picker) {
+        scheduleStart = picker.startDate.format('YYYY-MM-DD');
+        scheduleEnd = picker.endDate.format('YYYY-MM-DD');
+    });
+    $('#InviteUser').on('hidden.bs.modal', function (e) {
+        $("#user").html('');
+        $("#inviteForm #inviteId").val('');
+    });
+    $('#todoMadal').on('hidden.bs.modal', function (e) {
+        $("#todocontent").val('');
+        $("#reservation").val('');
+    });
+
+    function search() {
+        var par = {
+            userId: $("#inviteForm #inviteId").val(),
+            projectIdx: ${project.projectidx}
         };
-
-        table = $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": false,
-            "autoWidth": false,
-            "ajax": {
-                'url': '../file/${project.projectidx}'
+        var querystring = $.param(par);
+        $.ajax({
+            url: "../inviteUser",
+            type: 'POST',
+            dataType: 'json',
+            data: querystring,
+            success: function (data) {
+                invited = data.userId;
+                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+            },
+            error: function () {
+                $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
             }
         });
-        function search() {
-            var search_val = $("#tokenfield-typeahead").val();
-            search_val = search_val.replace(/,/gi, "");
-            console.log(search_val);
-            table.search(search_val).draw();
+    }
+
+    function test() {
+        var file = $("#file")[0].files[0];
+        $("#fakeFileTxt").val(file.name);
+    }
+
+    function selectFile() {
+        document.getElementById("file").click();
+    }
+
+    $("#selectBox").change(function () {
+        option = $(this).children("option:selected").text();
+        if (option == "Today")
+            $("#memo").val(Tminute);
+        else
+            $("#memo").val($(this).children("option:selected").val());
+    });
+
+    $("#inviteId").keydown(function (key) {
+        if (key.keyCode == 13) {
+            search();
         }
+    });
 
-        function openFile(name) {
-            var val = "";
-            var param = "name=" + name;
-            $.ajax({
-                url: "../file/${project.projectidx}/name",
-                type: 'GET',
-                dataType: 'json',
-                data: param,
-                success: function (data) {
-                    console.log(data);
-                    $.each(data, function (index, temp) {
-                        $("#downloadModal .modal-title").text(name);
-                        console.log(temp.count);
-                        val += "<tr>" +
-                                "<td>" + temp.count + "</td>" +
-                                "<td>" + temp.file + "</td>" +
-                                "<td>" + temp.uploader + "</td>" +
-                                "<td>" + temp.date + "</td>";
+    $('#file').hover(function (event) {
+        $('#file_over').addClass('front_hover');
+    }, function () {
+        $('#file_over').removeClass('front_hover');
+    });
 
-                    });
-                    $("#filetable").html(val);
-                },
-                error: function () {
+    function getfile() {
 
-                }
-            })
+    }
+
+    function makeTodolist() {
+        var param = {
+            projectIdx: ${project.projectidx},
+            userId: $("#todoselect").children("option:selected").val(),
+            startdate: scheduleStart,
+            enddate: scheduleEnd,
+            content: $("#todocontent").val()
+        };
+        var querystring = $.param(param);
+
+        $.ajax({
+            url: "../todolist",
+            type: 'POST',
+            data: querystring,
+            processData: false,
+            success: function () {
+                $("#todoform").find($("#success-message")).fadeIn(1000, function () {
+                    $("#todoMadal").modal('hide');
+                })
+            },
+            error: function () {
+                $("#todoform").find($("#error-message")).fadeIn(600, function () {
+                    $("#todoform").find($("#error-message")).fadeOut(800);
+                });
+            }
+        });
+
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+
+    function upload() {
+        var form = $("#uploadForm")[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: "../file",
+            type: "POST",
+            dataType: "json",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                socket.emit("file", {
+                    msg: data,
+                    user: "${user.name}",
+                    date: new Date().toString('HH:mm'),
+                    type: data.type
+                });
+            }
+        });
+    }
+    Dropzone.options.dropzone = {
+        clickable: false,
+        maxThumbnailFilesize: 5,
+        dictDefaultMessage: '',
+        init: function () {
+
+            this.on('success', function (file, json) {
+                socket.emit("file", {
+                    msg: json,
+                    user: "${user.name}",
+                    date: new Date().toString('HH:mm'),
+                    type: json.type
+                });
+            });
+
+            this.on('addedfile', function (file) {
+
+            });
+
+            this.on('drop', function (file) {
+
+            });
         }
-    </script>
+    };
+
+    table = $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": false,
+        "autoWidth": false,
+        "ajax": {
+            'url': '../file/${project.projectidx}'
+        }
+    });
+    function search() {
+        var search_val = $("#tokenfield-typeahead").val();
+        search_val = search_val.replace(/,/gi, "");
+        console.log(search_val);
+        table.search(search_val).draw();
+    }
+
+    function openFile(name, page) {
+        modalName = name;
+        modalPage = page;
+        openFileFlag(0);
+    }
+
+    function openFileFlag(flag) {
+        var val = "";
+        if (flag === 1) { // left
+            if (modalPage != 0) {
+                modalPage -= 1;
+                return;
+            }
+        }
+        if (flag === 2) //right
+            modalPage += 1;
+        var param = "name=" + modalName + "&page=" + modalPage;
+        $.ajax({
+            url: "../file/${project.projectidx}/name",
+            type: 'GET',
+            dataType: 'json',
+            data: param,
+            success: function (data) {
+                if (data == null && flag == 2)
+                    modalPage -= 1;
+                $.each(data, function (index, temp) {
+                    $("#downloadModal .modal-title").text(modalName);
+                    val += "<tr>" +
+                            "<td>" + temp.count + "</td>" +
+                            "<td>" + temp.file + "</td>" +
+                            "<td>" + temp.uploader + "</td>" +
+                            "<td>" + temp.date + "</td>";
+
+                });
+                $("#filetable").html(val);
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+</script>
 </body>
 </html>

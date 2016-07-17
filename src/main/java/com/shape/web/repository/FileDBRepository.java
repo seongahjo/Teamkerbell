@@ -2,6 +2,7 @@ package com.shape.web.repository;
 
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface FileDBRepository extends JpaRepository<FileDB,Integer> {
     //@Cacheable("files-store")
     FileDB findByStoredname(String storedname);
     //@Cacheable("files-original")
-    List<FileDB> findByProjectAndOriginalnameOrderByCreatedatDesc(Project project,String originalname);
+    List<FileDB> findByProjectAndOriginalnameOrderByCreatedatDesc(Project project,String originalname,Pageable pageable);
     //@Cacheable("imgs")
     List<FileDB> findByProjectAndTypeOrderByCreatedatDesc(Project project,String type);
 
