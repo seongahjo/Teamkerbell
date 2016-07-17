@@ -269,15 +269,15 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" style="width:250px"
+                            <div class="sidebar-form">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
                                            id="tokenfield-typeahead"
                                            placeholder="Type something and hit enter for tags"/>
+                                    <span class="input-group-btn">
+                                    <button type="button" class="btn btn-flat" onclick="search_table()">
+                                    <i class="fa fa-search fa-2x"></i></button></span>
                                 </div>
-                                <a href="#"><i class="fa fa-search fa-2x"
-                                               onclick="search()"></i></a>
-
 
                             </div>
 
@@ -373,12 +373,12 @@
                         </form>
 
 
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="input-group">
-                            <input type="text" id="typing" name="message" placeholder="Type Message ..."
-                                   class="form-control" onkeypress="if(event.keyCode==13)sendMsg()">
-                            <span class="input-group-btn">
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="input-group">
+                                <input type="text" id="typing" name="message" placeholder="Type Message ..."
+                                       class="form-control" onkeypress="if(event.keyCode==13)sendMsg()">
+                                <span class="input-group-btn">
                             <button type="button" type="button" class="btn btn-primary btn-flat" onClick="sendMsg()">
                                 Send
                             </button>
@@ -399,8 +399,8 @@
                  			 <i class="fa fa-calendar-plus-o fa-2x"></i></button>
                                 </span>
                             </span>
+                            </div>
                         </div>
-                    </div>
                     </div> <!-- box -->
                     <!-- /.box-footer-->
                 </div>    <!-- col -->
@@ -425,7 +425,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <textarea id="memo" class="form-control"  rows="13"
+                                <textarea id="memo" class="form-control" rows="13"
                                           disabled>${project.minute}</textarea>
                             </div>
                             Written by <kbd id="writer">?</kbd>
@@ -685,7 +685,7 @@
                             <a class="previous" href="#" onclick="openFileFlag(1)">Previous</a>
                         </li>
                         <li>
-                            <a href="#" class="alert-success"data-dismiss="modal">Close</a>
+                            <a href="#" class="alert-success" data-dismiss="modal">Close</a>
                         </li>
                         <li>
                             <a class="next" href="#" onclick="openFileFlag(2)">Next</a>
@@ -707,7 +707,16 @@
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Invite User</h4>
                 </div>
-
+                <div id="error-message" class="alert alert-danger collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Wrong Person!
+                </div>
+                <div id="success-message" class="alert alert-info collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Info:</span>
+                    Invite Success
+                </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <!-- class="sidebar-form" -->
@@ -943,7 +952,11 @@
                 $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
             },
             error: function () {
-                $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
+                $("#InviteUser").find("#error-message").fadeIn(600, function () {
+                    $("#InviteUser").find("#error-message").fadeOut(800);
+                });
+                console.log('error');
+                //$("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
             }
         });
     }
@@ -1070,10 +1083,10 @@
             'url': '../file/${project.projectidx}'
         }
     });
-    function search() {
+    function search_table() {
         var search_val = $("#tokenfield-typeahead").val();
         search_val = search_val.replace(/,/gi, "");
-        console.log(search_val);
+
         table.search(search_val).draw();
     }
 

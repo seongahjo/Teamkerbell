@@ -11,15 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by seongahjo on 2016. 2. 7..
@@ -97,16 +97,20 @@ public class ProjectController {
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap searchUser(@RequestParam(value = "userId") String userId,
-                              @RequestParam("projectIdx") Integer projectIdx) {
+    public Map searchUser(@RequestParam(value = "userId") String userId,
+                          @RequestParam("projectIdx") Integer projectIdx)  {
         logger.info("Search Member");
         Project project = projectRepository.findOne(projectIdx);
         User user = userRepository.findById(userId);
+        if(user==null){
+            throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+        }
         logger.info(project.getName());
         List<Project> lp = projectRepository.findByUsers(user); // 유저가 참가중인 프로젝트
         for (Project p : lp)
-            if (p.getProjectidx() == project.getProjectidx())
-                return null;
+            if (p.getProjectidx() == project.getProjectidx()) {
+                throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            }
 
         HashMap<String, String> Value = new HashMap<String, String>();
         Value.put("userId", user.getId());
