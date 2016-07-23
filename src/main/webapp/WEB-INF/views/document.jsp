@@ -206,10 +206,9 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="../chat/${list.projectidx}"
-                                   class="side-nav-button">name: ${list.name}</a>
+                        <li ><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i>  <span style="font-size:18px">${list.name} </span></a></li>
                             </c:forEach>
-                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                            <li><a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a></li>
                         </li>
                     </ul>
                 </li>

@@ -221,10 +221,10 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="../chat/${list.projectidx}"
-                                   class="side-nav-button">name: ${list.name}</a>
-                            </c:forEach>
-                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                        <li><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i> <span
+                                style="font-size:18px">${list.name} </span></a></li>
+                        </c:forEach>
+                        <li><a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a></li>
                         </li>
                     </ul>
                 </li>
@@ -254,7 +254,7 @@
 
             <div class="row">
                 <div class="col-md-6 col-md-offset-1">
-                    <div class="box box-success time-line">
+                    <div class="box box-success time-line" id="timelne-box">
                         <div class="box-header">
                             <i class="fa fa-comments-o"></i>
 
@@ -270,7 +270,7 @@
                             <img class="notime" src="../img/Notime.png">
                         </c:if>
                         <c:forEach var="list" items="${timeline}">
-                            <div class="box-body chat" id="chat-box">
+                            <div class="box-body chat">
                                 <!--타임라인 시작 -->
 
                                 <c:choose>
@@ -332,6 +332,11 @@
 
                     </div>
                     <button class="btn btn-primary btn-sm btn-flat" onclick="more()">more</button>
+                    <div id="error-message" class="alert alert-danger collapse" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        no more timeline
+                    </div>
                 </div>
                 <!-- TOdo -->
                 <section class="col-md-4 connectedSortable">
@@ -685,10 +690,24 @@
             async: true,
             type: 'GET',
             success: function (data) {
-                page +=1;
+                page += 1;
+                var append = '';
+                $.each(data, function (index, temp) {
+                    if (temp.contentid == 1) {
+                        append += ' <div class="box-body chat"><div class=“item”><img src=‘../img/default.jpg alt=“user image” class=“online”><p class=“message”><small class=“text-used pull-right”><i class=“fa fa-clock”></i><span class="prettydate">' + $.datepicker.formatDate('yy-mm-dd', new Date(temp.date)) + '</span></small><a href=“../chat/' + temp.project.projectidx + '”>' + temp.project.name + '</a>에 일정이 추가되었습니다</p></div></div>';
+                    }
+                    else if (temp.contentid == 2) {
+                        append += ' <div class="box-body chat"><div class="item"><img src="../' + temp.actor.img + '" alt="user image" class="online"><p class="message"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i><span class="prettydate">' + $.datepicker.formatDate('yy-mm-dd', new Date(temp.date)) + '</span></small>' + temp.actor.id + '님이 <a href="../chat/' + temp.project.projectidx + '">' + temp.project.name + '</a>에 파일 업로드를 하셨습니다</p><div class="attachment"><h4>파일:</h4> <p class="filename">' + temp.filename + ' </p>  <div class="pull-right"> <a href="../' + temp.fileurl + '"><button type="button" class="btn btn-primary btn-sm btn-flat">Open</button></a></div></div> </div></div>';
+                    }
+                });
+                $("#timelne-box").append(append);
+                $(".prettydate").prettydate();
+
             },
             error: function () {
-
+                $("#error-message").fadeIn(600, function () {
+                    ($("#error-message")).fadeOut(800);
+                });
             }
 
 

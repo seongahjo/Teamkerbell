@@ -23,4 +23,6 @@ public interface AlarmRepository extends JpaRepository<Alarm,Integer> {
 
     List<Alarm> findByUserAndContentidAndIsshowOrderByDateDesc(User user,Integer contentid,Boolean isshow); // 특정 종류 알람
 
+    Alarm findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(User user,User a,Integer contentid,Boolean isshow);
+
 }

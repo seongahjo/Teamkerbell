@@ -6,6 +6,7 @@ import com.shape.web.entity.User;
 import com.shape.web.repository.AlarmRepository;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
+import com.shape.web.service.AlarmService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,7 @@ public class ProjectController {
     @Autowired
     ProjectRepository projectRepository;
     @Autowired
-    AlarmRepository alarmRepository;
-
+    AlarmService alarmService;
     /*
     RESTFUL DOCUMENTATION
     ROOM
@@ -131,11 +131,8 @@ public class ProjectController {
         User actor = (User) session.getAttribute("user"); //초대한 사람
         User user = userRepository.findById(userId); // 초대받은 사람
         Project project = projectRepository.findOne(projectIdx); // 초대받은 프로젝트
-        Alarm alarm = new Alarm(0, null, null, new Date());
-        alarm.setUser(user);
-        alarm.setActor(actor);
-        alarm.setProject(project);
-        alarmRepository.saveAndFlush(alarm); //알람 생성
+        Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
+        alarmService.create(alarm);
         return String.valueOf(user.getUseridx());
     }
 

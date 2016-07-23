@@ -209,11 +209,8 @@
                     <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
-                            <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                                <a href="../chat/${list.projectidx}" class="side-nav-button">name
-                                    : ${list.name}</a>
-                            </c:forEach>
-                            <a href="#"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                        <li ><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i>  <span style="font-size:18px">${list.name} </span></a></li>
+                        <li><a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a></li>
                         </li>
                     </ul>
 
@@ -299,11 +296,11 @@
                         <div class="box-footer no-padding">
                             <div class="mailbox-controls">
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-success pull-left" data-toggle="modal"
+                                    <button type="button" class="btn btn-success"  data-toggle="modal"
                                             data-target="#AddModal">프로젝트 추가
                                     </button>
                                 </div>
-                                <div class="pull-left">
+                                <div style="text-align : center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default btn-sm" onclick="leftpage()"><i
                                                 class="fa fa-chevron-left"></i></button>

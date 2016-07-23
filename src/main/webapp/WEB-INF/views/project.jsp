@@ -222,9 +222,10 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}">
-                                <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
+                                <li ><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i>  <span style="font-size:18px">${list.name} </span></a></li>
                             </c:forEach>
-                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                        <li>
+                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span style="font-size:18px">Edit</span></a></li>
                         </li>
                     </ul>
                 </li>
@@ -892,7 +893,7 @@
     }
 
     function invite() {
-        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
+        var par = "userId=" + invited + "&projectIdx=${project.projectidx}";
         $.ajax({
             url: "../inviteUser",
             data: par,
@@ -1101,8 +1102,9 @@
         if (flag === 1) { // left
             if (modalPage != 0) {
                 modalPage -= 1;
-                return;
             }
+            else
+                return;
         }
         if (flag === 2) //right
             modalPage += 1;
