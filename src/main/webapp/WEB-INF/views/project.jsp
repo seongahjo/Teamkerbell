@@ -784,132 +784,18 @@
 
 <!-- gallery-->
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
-<script id="socket" type="text/javascript">
-    var socket;
-    socket = io.connect('127.0.0.1:9999');
-    socket.emit('join', {
-        projectIdx: "${project.projectidx}",
-        userIdx:${user.useridx},
-        userName: "${user.name}",
-        userId: "${user.id}",
-        userImg: "${user.img}"
-    });
-    socket.on('response', function (data) {
-        if (data.type == 'img' || data.type == 'file')
-            table.ajax.reload();
-        if (data.user == "${user.id}") {
-            $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
-        }
-        else
-            $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
 
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
-    });
-    socket.on('write', function (response) {
-        response = JSON.parse(response);
-        if (response.flag == "yes") {
-            $("#memo").prop("disabled", false);
-            $("#writebutton").addClass("hidden");
-            $("#savebutton").removeClass("hidden");
-        }
-        else {
-            $("#memo").prop("disabled", true);
-        }
-        $("#writer").text(response.writer);
-    });
-    socket.on('adduser', function (id) {
-        $("#user" + id + "off").addClass("hidden");
-        $("#user" + id + "on").removeClass("hidden");
-        $("#userlist-" + id).find($("#userstatus")).text(id + " is now ONLINE");
-    });
-    socket.on('deleteuser', function (id) {
-        $("#user" + id + "off").removeClass("hidden");
-        $("#user" + id + "on").addClass("hidden");
-        $("#userlist-" + id).find($("#userstatus")).text(id + " is now OFFLINE");
-    });
-    socket.on('refresh', function (memo) {
-        $("#memo").val(memo);
-        Tminute = memo;
-    });
-    socket.on('alarm', function (data) {
-        var par = "userIdx=" +${user.useridx};
-        $.ajax({
-            url: "../updateAlarm",
-            data: par,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                var size = parseInt($("#alarm-size").text()) + 1;
-                $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
-                $("#alarm-size").text(size);
-                $("#alarm-content").text('You have ' + size + 'notifications');
-                $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-                        '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-                        'has invited you to <strong>' + data.projectname + '</strong>' +
-                        '<div style="float:right;">' +
-                        ' <button type="button" class="btn btn-primary btn-xs"' +
-                        'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-                        '<button type="button" class="btn btn-default btn-xs"' +
-                        'onclick=decline("' + data.alarmidx + '")>Cancel' +
-                        '</button>' +
-                        '</div>' +
-                        '</a>' +
-                        '</li>');
-            }
-        });
-    });
-
-    socket.on('finish', function () {
-        $("#writebutton").removeClass("hidden");
-        $("#savebutton").addClass("hidden");
-        $("#memo").prop("disabled", true);
-        $("#writer").text("?");
-    })
-    // socket
-
-    function save_memo() {
-        socket.emit('save', {memo: $("#memo").val()});
-        Tminute = $("#memo").val();
-        $("#selectBox").attr("disabled", false);
-    }
-
-    function write_memo() {
-        if (option == "Today") {
-            socket.emit('writer');
-            $("#selectBox").attr("disabled", true);
-        }
-    }
-
-    $('#memo').keyup(function (event) {
-        if (event.keyCode != 8)
-            socket.emit('refreshToAll', {memo: $("#memo").val()});
-    });
-
-    function sendMsg() {
-        var dates = new Date().toShortTimeString();
-        socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
-        $("#typing").val("");
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
-    }
-
-    function invite() {
-        var par = "userId=" + invited + "&projectIdx=${project.projectidx}";
-        $.ajax({
-            url: "../inviteUser",
-            data: par,
-            dataType: 'text',
-            async: true,
-            type: 'GET',
-            success: function (data) {
-                socket.emit('invite', {userIdx: data});
-                console.log(data + "Invite");
-                $("#InviteUser").modal('hide');
-            }
-        });
-    }
-</script>
+<script type="text/javascript" src="../js/project/default.js"></script>
+<script type="text/javascript" src="../js/project/socket.js"></script>
 
 <script>
+    var projectIdx=${project.projectidx};
+    var user={
+        useridx:${user.useridx},
+        id:'${user.id}',
+        name:'${user.name}',
+        img:'${user.img}'
+    }
     var invited;
     var scheduleStart;
     var scheduleEnd;
@@ -919,28 +805,14 @@
     var modalName;
     var modalPage;
 
-    $("a.zoom").imageZoom({scale: 0.75});
-    //Initialize Select Elements
-    $(".select2").select();
-    //Date range picker
-    $('#reservation').daterangepicker();
-    $("#reservation").on('apply.daterangepicker', function (ev, picker) {
-        scheduleStart = picker.startDate.format('YYYY-MM-DD');
-        scheduleEnd = picker.endDate.format('YYYY-MM-DD');
-    });
-    $('#InviteUser').on('hidden.bs.modal', function (e) {
-        $("#user").html('');
-        $("#inviteForm #inviteId").val('');
-    });
-    $('#todoMadal').on('hidden.bs.modal', function (e) {
-        $("#todocontent").val('');
-        $("#reservation").val('');
-    });
+    init();
+    socket_init(user,projectIdx);
+
 
     function search() {
         var par = {
             userId: $("#inviteForm #inviteId").val(),
-            projectIdx: ${project.projectidx}
+            projectIdx: projectIdx
         };
         var querystring = $.param(par);
         $.ajax({
@@ -962,10 +834,23 @@
         });
     }
 
-    function test() {
-        var file = $("#file")[0].files[0];
-        $("#fakeFileTxt").val(file.name);
+
+    function invite() {
+        var par = "userId=" + invited + "&projectIdx="+projectIdx;
+        $.ajax({
+            url: "../inviteUser",
+            data: par,
+            dataType: 'text',
+            async: true,
+            type: 'GET',
+            success: function (data) {
+                socket.emit('invite', {userIdx: data});
+                console.log(data + "Invite");
+                $("#InviteUser").modal('hide');
+            }
+        });
     }
+
 
     function selectFile() {
         document.getElementById("file").click();
@@ -990,10 +875,6 @@
     }, function () {
         $('#file_over').removeClass('front_hover');
     });
-
-    function getfile() {
-
-    }
 
     function makeTodolist() {
         var param = {
@@ -1041,49 +922,15 @@
             success: function (data) {
                 socket.emit("file", {
                     msg: data,
-                    user: "${user.name}",
+                    user: user.name,
                     date: new Date().toString('HH:mm'),
                     type: data.type
                 });
             }
         });
     }
-    Dropzone.options.dropzone = {
-        clickable: false,
-        maxThumbnailFilesize: 5,
-        dictDefaultMessage: '',
-        init: function () {
 
-            this.on('success', function (file, json) {
-                socket.emit("file", {
-                    msg: json,
-                    user: "${user.name}",
-                    date: new Date().toString('HH:mm'),
-                    type: json.type
-                });
-            });
 
-            this.on('addedfile', function (file) {
-
-            });
-
-            this.on('drop', function (file) {
-
-            });
-        }
-    };
-
-    table = $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": false,
-        "autoWidth": false,
-        "ajax": {
-            'url': '../file/${project.projectidx}'
-        }
-    });
     function search_table() {
         var search_val = $("#tokenfield-typeahead").val();
         search_val = search_val.replace(/,/gi, "");
