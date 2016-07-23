@@ -222,10 +222,12 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}">
-                                <li ><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i>  <span style="font-size:18px">${list.name} </span></a></li>
-                            </c:forEach>
+                        <li><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i> <span
+                                style="font-size:18px">${list.name} </span></a></li>
+                        </c:forEach>
                         <li>
-                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span style="font-size:18px">Edit</span></a></li>
+                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span
+                                    style="font-size:18px">Edit</span></a></li>
                         </li>
                     </ul>
                 </li>
@@ -276,7 +278,7 @@
                                            id="tokenfield-typeahead"
                                            placeholder="Type something and hit enter for tags"/>
                                     <span class="input-group-btn">
-                                    <button type="button" class="btn btn-flat" onclick="search_table()">
+                                    <button type="button" class="btn btn-flat" onclick="searchTable()">
                                     <i class="fa fa-search fa-2x"></i></button></span>
                                 </div>
 
@@ -434,11 +436,11 @@
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <div class="pull-right">
-                                <button id="writebutton" type="button" class="btn btn-default" onClick="write_memo()"><i
+                                <button id="writebutton" type="button" class="btn btn-default" onClick="writeMemo()"><i
                                         class="fa fa-pencil"></i> 쓰기
                                 </button>
                                 <button id="savebutton" type="button" class="btn btn-primary hidden"
-                                        onClick="save_memo()"><i class="fa fa-floppy-o"></i> 저장
+                                        onClick="saveMemo()"><i class="fa fa-floppy-o"></i> 저장
                                 </button>
                             </div>
                         </div>
@@ -786,201 +788,22 @@
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
 
 <script type="text/javascript" src="../js/project/default.js"></script>
+<script type="text/javascript" src="../js/project/function.js"></script>
 <script type="text/javascript" src="../js/project/socket.js"></script>
 
 <script>
-    var projectIdx=${project.projectidx};
-    var user={
+    var projectIdx =${project.projectidx};
+    var user = {
         useridx:${user.useridx},
-        id:'${user.id}',
-        name:'${user.name}',
-        img:'${user.img}'
+        id: '${user.id}',
+        name: '${user.name}',
+        img: '${user.img}'
     }
-    var invited;
-    var scheduleStart;
-    var scheduleEnd;
-    var option = "Today";
-    var Tminute = "${project.minute}";
-    var table;
-    var modalName;
-    var modalPage;
-
+    var option = 'Today';
+    var currentMinute = '${project.minute}';
+    var socket,table;
     init();
-    socket_init(user,projectIdx);
-
-
-    function search() {
-        var par = {
-            userId: $("#inviteForm #inviteId").val(),
-            projectIdx: projectIdx
-        };
-        var querystring = $.param(par);
-        $.ajax({
-            url: "../inviteUser",
-            type: 'POST',
-            dataType: 'json',
-            data: querystring,
-            success: function (data) {
-                invited = data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
-            },
-            error: function () {
-                $("#InviteUser").find("#error-message").fadeIn(600, function () {
-                    $("#InviteUser").find("#error-message").fadeOut(800);
-                });
-                console.log('error');
-                //$("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
-            }
-        });
-    }
-
-
-    function invite() {
-        var par = "userId=" + invited + "&projectIdx="+projectIdx;
-        $.ajax({
-            url: "../inviteUser",
-            data: par,
-            dataType: 'text',
-            async: true,
-            type: 'GET',
-            success: function (data) {
-                socket.emit('invite', {userIdx: data});
-                console.log(data + "Invite");
-                $("#InviteUser").modal('hide');
-            }
-        });
-    }
-
-
-    function selectFile() {
-        document.getElementById("file").click();
-    }
-
-    $("#selectBox").change(function () {
-        option = $(this).children("option:selected").text();
-        if (option == "Today")
-            $("#memo").val(Tminute);
-        else
-            $("#memo").val($(this).children("option:selected").val());
-    });
-
-    $("#inviteId").keydown(function (key) {
-        if (key.keyCode == 13) {
-            search();
-        }
-    });
-
-    $('#file').hover(function (event) {
-        $('#file_over').addClass('front_hover');
-    }, function () {
-        $('#file_over').removeClass('front_hover');
-    });
-
-    function makeTodolist() {
-        var param = {
-            projectIdx: ${project.projectidx},
-            userId: $("#todoselect").children("option:selected").val(),
-            startdate: scheduleStart,
-            enddate: scheduleEnd,
-            content: $("#todocontent").val()
-        };
-        var querystring = $.param(param);
-
-        $.ajax({
-            url: "../todolist",
-            type: 'POST',
-            data: querystring,
-            processData: false,
-            success: function () {
-                $("#todoform").find($("#success-message")).fadeIn(1000, function () {
-                    $("#todoMadal").modal('hide');
-                })
-            },
-            error: function () {
-                $("#todoform").find($("#error-message")).fadeIn(600, function () {
-                    $("#todoform").find($("#error-message")).fadeOut(800);
-                });
-            }
-        });
-
-    }
-
-    function endsWith(str, suffix) {
-        return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    }
-
-    function upload() {
-        var form = $("#uploadForm")[0];
-        var formData = new FormData(form);
-        $.ajax({
-            url: "../file",
-            type: "POST",
-            dataType: "json",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                socket.emit("file", {
-                    msg: data,
-                    user: user.name,
-                    date: new Date().toString('HH:mm'),
-                    type: data.type
-                });
-            }
-        });
-    }
-
-
-    function search_table() {
-        var search_val = $("#tokenfield-typeahead").val();
-        search_val = search_val.replace(/,/gi, "");
-
-        table.search(search_val).draw();
-    }
-
-    function openFile(name, page) {
-        modalName = name;
-        modalPage = page;
-        openFileFlag(0);
-    }
-
-    function openFileFlag(flag) {
-        var val = "";
-        if (flag === 1) { // left
-            if (modalPage != 0) {
-                modalPage -= 1;
-            }
-            else
-                return;
-        }
-        if (flag === 2) //right
-            modalPage += 1;
-        var param = "name=" + modalName + "&page=" + modalPage;
-        $.ajax({
-            url: "../file/${project.projectidx}/name",
-            type: 'GET',
-            dataType: 'json',
-            data: param,
-            success: function (data) {
-                if (data == null && flag == 2)
-                    modalPage -= 1;
-                $.each(data, function (index, temp) {
-                    $("#downloadModal .modal-title").text(modalName);
-                    val += "<tr>" +
-                            "<td>" + temp.count + "</td>" +
-                            "<td>" + temp.file + "</td>" +
-                            "<td>" + temp.uploader + "</td>" +
-                            "<td>" + temp.date + "</td>";
-
-                });
-                $("#filetable").html(val);
-            },
-            error: function () {
-
-            }
-        })
-    }
-
+    socketInit(user, projectIdx);
 </script>
 </body>
 </html>

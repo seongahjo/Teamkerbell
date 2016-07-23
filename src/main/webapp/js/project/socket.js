@@ -1,10 +1,10 @@
 'use strict'
-var socket;
-function socket_init(user,projectIdx){
+
+function socketInit(user, projectIdx) {
     socket = io.connect('127.0.0.1:9999');
     socket.emit('join', {
         projectIdx: projectIdx.toString(),
-        userIdx:user.useridx,
+        userIdx: user.useridx,
         userName: user.name,
         userId: user.id,
         userImg: user.img
@@ -20,7 +20,7 @@ function socket_init(user,projectIdx){
     socket.on('response', function (data) {
         if (data.type == 'img' || data.type == 'file')
             table.ajax.reload();
-        if (data.user == "${user.id}") {
+        if (data.user == user.id) {
             $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
         }
         else
@@ -52,10 +52,10 @@ function socket_init(user,projectIdx){
     });
     socket.on('refresh', function (memo) {
         $("#memo").val(memo);
-        Tminute = memo;
+        currentMinute = memo;
     });
     socket.on('alarm', function (data) {
-        var par = "userIdx="+user.useridx;
+        var par = "userIdx=" + user.useridx;
         $.ajax({
             url: "../updateAlarm",
             data: par,
@@ -81,30 +81,31 @@ function socket_init(user,projectIdx){
             }
         });
     });
+    $('#memo').keyup(function (event) {
+        if (event.keyCode != 8)
+            socket.emit('refreshToAll', {memo: $("#memo").val()});
+    });
+
 }
 
-
-function save_memo() {
-    socket.emit('save', {memo: $("#memo").val()});
-    Tminute = $("#memo").val();
-    $("#selectBox").attr("disabled", false);
-}
-
-function write_memo() {
-    if (option == "Today") {
-        socket.emit('writer');
-        $("#selectBox").attr("disabled", true);
+    function saveMemo() {
+        socket.emit('save', {memo: $("#memo").val()});
+        currentMinute = $("#memo").val();
+        $("#selectBox").attr("disabled", false);
     }
-}
 
-$('#memo').keyup(function (event) {
-    if (event.keyCode != 8)
-        socket.emit('refreshToAll', {memo: $("#memo").val()});
-});
+    function writeMemo() {
+        if (option == "Today") {
+            socket.emit('writer');
+            $("#selectBox").attr("disabled", true);
+        }
+    }
 
-function sendMsg() {
-    var dates = new Date().toShortTimeString();
-    socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
-    $("#typing").val("");
-    $('#chat').scrollTop($('#chat')[0].scrollHeight);
-}
+
+    function sendMsg() {
+        var dates = new Date().toShortTimeString();
+        socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
+        $("#typing").val("");
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+
+    }

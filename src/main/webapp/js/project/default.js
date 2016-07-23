@@ -59,4 +59,28 @@ function init() {
         $("#todocontent").val('');
         $("#reservation").val('');
     });
+
+    function selectFile() {
+        document.getElementById("file").click();
+    }
+
+    $("#selectBox").change(function () {
+        option = $(this).children("option:selected").text();
+        if (option == "Today")
+            $("#memo").val(currentMinute);
+        else
+            $("#memo").val($(this).children("option:selected").val());
+    });
+
+    $("#inviteId").keydown(function (key) {
+        if (key.keyCode == 13) {
+            search();
+        }
+    });
+
+    $('#file').hover(function (event) {
+        $('#file_over').addClass('front_hover');
+    }, function () {
+        $('#file_over').removeClass('front_hover');
+    });
 }
