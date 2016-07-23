@@ -15,5 +15,6 @@ target/
 hs_err_pid*
 .DS_Store
 GitRepository.8/
-LOG/.DS_Store
+LOG/
+src/main/webapp/WEB-INF/classes
 
