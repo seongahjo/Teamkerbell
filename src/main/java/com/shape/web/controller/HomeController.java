@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles requests for the application home page.
@@ -110,7 +111,6 @@ public class HomeController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String time = formatter.format(new Date());
         User user = (User) session.getAttribute("user");
-        int userIdx = user.getUseridx();
         mv = new ModelAndView("redirect:/");
         Project project = projectRepository.findOne(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트 반환
@@ -118,7 +118,7 @@ public class HomeController {
             return mv;
         }
         List<Todolist> lt = todolistRepository.findByProject(project); // 투두리스트 리스트를 반환
-        List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user,0,true); // 알람 리스트를 반환
+        List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user, 0, true); // 알람 리스트를 반환
         List<User> lu = userRepository.findByProjects(project); // 유저 리스트 반환
         //List<FileDB> lfd = fileDBRepository.groupbytest(project); // 파일 받아오기
 
@@ -126,15 +126,20 @@ public class HomeController {
             List<Minute> lm = minuteRepository.findByProject(project); // 회의록 객체 반환
             List<FileDB> img = fileDBRepository.findByProjectAndTypeOrderByCreatedatDesc(project, "img"); // 파일디비 리스트중 이미지 리스트 반환
             project.setMinute(" "); //회의록 초기화
+            lm = lm.stream().filter(m -> {
+                        if (time.equals(m.getDate().toString())) {
+                            project.setMinute(m.getContent());
+                            logger.info(m.getContent() + "test");
+                            return false;
+                        }
+                        return true;
+                    }
+            )
+                    .sorted()
+                    .collect(Collectors.toList());
 
-            for (Minute temp : lm)
-                if (time.equals((temp.getDate().toString()))) {
-                    project.setMinute(temp.getContent());
-                    lm.remove(temp);
-                    break;
-                }
 
-            String foldername = FileUtil.getFoldername(projectIdx,null);
+            String foldername = FileUtil.getFoldername(projectIdx, null);
             File file = new File(foldername);
             if (!file.exists())
                 if (file.mkdirs()) {
@@ -150,10 +155,10 @@ public class HomeController {
             mv.addObject("img", img);
             mv.addObject("todolist", lt);
         } else { // 위 ProjectRoom, 아래 Documentation
-            ProjectService pjs = new ProjectService();
-            List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
+            //ProjectService pjs = new ProjectService();
+            /*List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
             List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
-            List<String> username = new ArrayList<>();
+            List<String> username = new ArrayList<>();*/
 
               /*  List<Integer> participant = new ArrayList<>();
                 List<Integer> percentage = new ArrayList<>();
@@ -176,9 +181,9 @@ public class HomeController {
             mv.addObject("users", lu);
             mv.addObject("alarm", la);
             mv.addObject("todolist", lt);
-            mv.addObject("meetingmember", lm);
-           // mv.addObject("files", lfd);
-            mv.addObject("usersname", username);
+            // mv.addObject("meetingmember", lm);
+            // mv.addObject("files", lfd);
+            //mv.addObject("usersname", username);
             //mv.addObject("participant", participant);
             //mv.addObject("percentage", percentage);
         } // Documentation 끝

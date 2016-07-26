@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * Created by seongahjo on 2016. 1. 1..
@@ -61,12 +62,10 @@ public class FileController {
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = projectRepository.findOne(Integer.parseInt(projectIdx));
         User user = (User) session.getAttribute("user");
-        String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx),null); //프로젝트아이디, 날짜
+        String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
         HashMap<String, String> result = null;
-        String originalFileName = null;
-        String originalFileExtension = null;
-        String storedFileName = null;
+
         String type = null;
 
         File file = new File(filePath);
@@ -74,45 +73,46 @@ public class FileController {
             file.mkdirs();
         }
 
-        while (iterator.hasNext()) {
-            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+        // while (iterator.hasNext()) {
+        multipartFile = multipartHttpServletRequest.getFile(iterator.next());
 
-            if (!multipartFile.isEmpty()) {
-                try {
-                    result = new HashMap<>();
-                    originalFileName = multipartFile.getOriginalFilename();
-                    originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-                    storedFileName = CommonUtils.getRandomString() + originalFileExtension;
-                    if (FileUtil.IsImage(originalFileName))
-                        type = "img";
-                    else
-                        type = "file";
+        if (!multipartFile.isEmpty()) {
+            try {
+                result = new HashMap<>();
+                String originalFileName = multipartFile.getOriginalFilename();
+                String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String storedFileName = CommonUtils.getRandomString() + originalFileExtension;
+                if (FileUtil.IsImage(originalFileName))
+                    type = "img";
+                else
+                    type = "file";
 
-                    file = new File(filePath + "/" + storedFileName);
+                file = new File(filePath + "/" + storedFileName);
 
-                    multipartFile.transferTo(file);
-                    String tag = Tagging.TagbyString(file);
+                multipartFile.transferTo(file);
+                String tag = Tagging.TagbyString(file);
 
-                    FileDB fd = new FileDB(user, project, storedFileName, originalFileName, type, filePath, tag);
-                    fileDBRepository.saveAndFlush(fd);
+                FileDB fd = new FileDB(user, project, storedFileName, originalFileName, type, filePath, tag);
+                fileDBRepository.saveAndFlush(fd);
 
-                    for (User u : project.getUsers()) {
-                        Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, u, user);
-                        alarmRepository.saveAndFlush(alarm);
-                    }
+                project.getUsers().forEach(u -> {
+                    Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, u, user);
+                    alarmRepository.saveAndFlush(alarm);
+                });
 
-                    logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
-                    result.put("stored", storedFileName);
-                    result.put("type", type);
-                    result.put("original", originalFileName);
-                    result.put("size", String.valueOf(file.length()));
-                } catch (IOException e) {
-                    // file io error
-                } catch (NullPointerException e) {
-                    logger.info("FILE UPLOAD NULL");
-                }
+
+                logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
+                result.put("stored", storedFileName);
+                result.put("type", type);
+                result.put("original", originalFileName);
+                result.put("size", String.valueOf(file.length()));
+            } catch (IOException e) {
+                // file io error
+            } catch (NullPointerException e) {
+                logger.info("FILE UPLOAD NULL");
             }
         }
+        // }
 
         return result;
     }
@@ -168,39 +168,53 @@ public class FileController {
     /*
        get files from corresponding project
     */
-    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces ="application/json")
+    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
         List<Object[]> filedb = fileDBRepository.groupbytest(projectIdx);
         JsonObject jsonObject = new JsonObject();
         JsonArray array = new JsonArray();
-          for(Object[] temp : filedb){
-              String type2="<a href='#' onclick='openFile(\""+temp[0]+"\",0)' data-toggle=\"modal\" data-target=\"#downloadModal\" >"+ temp[0]+"</a>";
+        filedb.forEach(temp -> {
+            String type2 = "<a href='#' onclick='openFile(\"" + temp[0] + "\",0)' data-toggle=\"modal\" data-target=\"#downloadModal\" >" + temp[0] + "</a>";
             JsonArray arraytemp = new JsonArray();
             arraytemp.add(type2);
             arraytemp.add(temp[1]);
             arraytemp.add(temp[2]);
             array.addArray(arraytemp);
-        }
+
+        });
         jsonObject.putArray("data", array);
 
         return jsonObject.toString();
     }
 
-    @RequestMapping(value= "/file/{projectIdx}/name",method=RequestMethod.GET,produces="application/json")
+    @RequestMapping(value = "/file/{projectIdx}/name", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx,@RequestParam("name") String name,@RequestParam("page")Integer page){
-        List<FileDB> fileDBs= fileDBRepository.findByProjectAndOriginalnameOrderByCreatedatDesc(projectRepository.findOne(projectIdx),name,new PageRequest(page,10));
-        List<Map<String,String>> jsonar=new ArrayList();
-        int count=0+10*page;
-        for (FileDB temp : fileDBs) {
+    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx, @RequestParam("name") String name, @RequestParam("page") Integer page) {
+        List<FileDB> fileDBs = fileDBRepository.findByProjectAndOriginalnameOrderByCreatedatDesc(projectRepository.findOne(projectIdx), name, new PageRequest(page, 10));
+        List<Map<String, String>> jsonar = new ArrayList();
+        int count = 0 + 10 * page;
+        IntStream.range(0, fileDBs.size()).forEach(idx -> {
+                    FileDB temp = fileDBs.get(idx);
+                    Map<String, String> json = new HashMap<>();
+                    json.put("count", String.valueOf(count + idx+1));
+                    json.put("file", "<a href=../file?name=" + temp.getStoredname() + ">" + "<i class= 'fa fa-file'>" + "file" + "</i></a>");
+                    json.put("uploader", temp.getUser().getName());
+                    json.put("date", CommonUtils.DateTimeFormat(temp.getCreatedat()));
+                    jsonar.add(json);
+                }
+        );
+      /*
+        fileDBs.forEach(temp->{
             Map<String,String> json=new HashMap<>();
             json.put("count",String.valueOf(++count));
             json.put("file","<a href=../file?name="+temp.getStoredname()+">"+"<i class= 'fa fa-file'>"+"file"+"</i></a>");
             json.put("uploader",temp.getUser().getName());
             json.put("date",CommonUtils.DateTimeFormat(temp.getCreatedat()));
             jsonar.add(json);
-        }
+
+        });*/
+
         return jsonar;
     }
 

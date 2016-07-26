@@ -7,10 +7,12 @@ import com.shape.web.repository.AlarmRepository;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
 import com.shape.web.service.AlarmService;
+import com.shape.web.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +42,8 @@ public class ProjectController {
     ProjectRepository projectRepository;
     @Autowired
     AlarmService alarmService;
+    @Autowired
+    ProjectService projectService;
     /*
     RESTFUL DOCUMENTATION
     ROOM
@@ -70,8 +74,7 @@ public class ProjectController {
         Project project = new Project(name, userIdx, "");
         user.addProject(project);
         project.addUser(user);
-        projectRepository.saveAndFlush(project);
-        userRepository.saveAndFlush(user);
+        projectService.save(project,user);
         return "redirect:/projectmanager";
     }
 

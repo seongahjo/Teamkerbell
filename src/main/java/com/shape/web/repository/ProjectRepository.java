@@ -11,6 +11,7 @@ import java.util.List;
  * Created by seongahjo on 2016. 7. 2..
  */
 public interface ProjectRepository extends JpaRepository<Project,Integer> {
+
     List<Project> findByUsers(User user);
 
     List<Project> findByUsers(User user,Pageable pageable);

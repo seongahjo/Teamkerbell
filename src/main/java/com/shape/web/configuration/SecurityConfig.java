@@ -3,6 +3,7 @@ package com.shape.web.configuration;
 import com.shape.web.security.CustomAuthenticationSucessHandler;
 import com.shape.web.service.LogService;
 import com.shape.web.service.UserService;
+import com.shape.web.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,7 +25,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
 
     @Override

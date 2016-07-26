@@ -53,12 +53,13 @@ public class CalendarController {
         Alarm alarm = new Alarm(1, null, null, new Date());
         alarm.setProject(project);
         List<User> lu = userRepository.findByProjects(project);
-        for (User u : lu) {
+        lu.forEach(u->{
             alarm.setAlarmidx(null);
             logger.info("[USER " + u.getUseridx() + "] Make Alarm");
             alarm.setUser(u);
             alarmRepository.saveAndFlush(alarm);
-        }
+        });
+
         logger.info("[ROOM " + projectIdx + "] Make Schedule ");
     }
 

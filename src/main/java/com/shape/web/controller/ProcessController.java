@@ -82,7 +82,7 @@ public class ProcessController {
         alarm.setIsshow(false);
         if (type == 1)
             alarm.getUser().addProject(alarm.getProject());
-        userRepository.saveAndFlush(alarm.getUser());
+       // userRepository.saveAndFlush(alarm.getUser());
         alarmRepository.saveAndFlush(alarm);
     }
 
@@ -93,7 +93,7 @@ public class ProcessController {
     @ResponseBody
     public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
         Alarm alarm = alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0, userRepository.findOne(userIdx));
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         if (alarm != null) {
             data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
             data.put("projectname", alarm.getProject().getName());
@@ -109,7 +109,7 @@ public class ProcessController {
         List timeline = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(page+1,20));
         logger.info("REQUEST more timeline");
         if(timeline.size()==0)
-            throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST,"NO MORE TIMELINE");
         return timeline;
     }
 }

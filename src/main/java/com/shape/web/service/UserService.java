@@ -26,70 +26,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Component
-public class UserService implements UserDetailsService {
+@Service
+public interface UserService  {
 
-@Autowired
-    UserRepository userRepository;
-    /*
-    User가 가지고 있는 Alarm 객체들을 반환
-     */
-
-
-
-    /*
-    Spring Security에서 권한 설정을 위한 객체 Role 반환
-     */
-    public List<String> getRoles(Integer role) {
-
-        List<String> roles = new ArrayList<String>();
-        roles.add("ROLE_USER");
-       /* if (role.intValue() == 1) {
-            roles.add("ROLE_USER");
-            roles.add("ROLE_ADMIN");
-        } else if (role.intValue() == 2) {
-            roles.add("ROLE_MODERATOR");
-        }*/
-        return roles;
-    }
-
-    public static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-
-        for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role));
-        }
-        return authorities;
-    }
-
-    public Collection<? extends GrantedAuthority> getAuthorities(Integer role) {
-        List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
-        return authList;
-    }
-
-    /*
-    Spring Security에서 로그인 인증을 위한 함수
-     */
-    @Override
-    public UserDetails loadUserByUsername(String id) {
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
-        try {
-            User u = (User)userRepository.findById(id);
-            return new org.springframework.security.core.userdetails.User(u.getId(),
-                    u.getPw(),
-                    enabled,
-                    accountNonExpired,
-                    credentialsNonExpired,
-                    accountNonLocked,
-                    getAuthorities(0));
-        } catch (NullPointerException e) {
-        } catch (UsernameNotFoundException e) {
-
-        }
-        return new org.springframework.security.core.userdetails.User("null", "null", false, false, false, false, getAuthorities(0));
-
-    }
 }

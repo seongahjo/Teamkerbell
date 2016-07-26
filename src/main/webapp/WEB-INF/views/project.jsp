@@ -396,7 +396,7 @@
                  			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
 
                  			 </span>
-                             <span data-toggle="modal" data-target="#downloadModal">
+                             <span data-toggle="modal" data-target="#scheduleModal">
                               <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
                                       data-original-title="Add Meeting" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-calendar-plus-o fa-2x"></i></button>
@@ -654,6 +654,58 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Enroll Schedule</h4>
+                </div>
+                <form id="scheduleform">
+                    <div class="modal-body">
+                        <div id="success-message" class="alert alert-info collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Info:</span>
+                            Enroll Success
+                        </div>
+
+                        <div id="error-message" class="alert alert-danger collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            Failed!
+                        </div>
+                        <div class="form-group">
+                            <label>Date range:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="scheduleReservation">
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i>To do</label>
+                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
+                                       placeholder="To do ...">
+                            </div>
+
+                            <div class="form-group has-success">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i>Place</label>
+                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
+                                       placeholder="To do ...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="makeTodolist()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">

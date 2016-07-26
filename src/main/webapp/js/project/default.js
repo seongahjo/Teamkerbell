@@ -8,8 +8,16 @@ function init() {
 //Initialize Select Elements
     $(".select2").select();
 //Date range picker
-    $('#reservation').daterangepicker();
-    $("#reservation").on('apply.daterangepicker', function (ev, picker) {
+    var reservation = $('#reservation');
+    reservation.daterangepicker();
+    reservation.on('apply.daterangepicker', function (ev, picker) {
+        scheduleStart = picker.startDate.format('YYYY-MM-DD');
+        scheduleEnd = picker.endDate.format('YYYY-MM-DD');
+    });
+
+    var scheduleReservation = $('#scheduleReservation');
+    scheduleReservation.daterangepicker();
+    scheduleReservation.on('apply.daterangepicker', function (ev, picker) {
         scheduleStart = picker.startDate.format('YYYY-MM-DD');
         scheduleEnd = picker.endDate.format('YYYY-MM-DD');
     });

@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Minute")
-public class Minute implements Serializable {
+public class Minute implements Serializable,Comparable<Minute>{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
@@ -80,5 +80,10 @@ public class Minute implements Serializable {
     public Minute( String content, Date date) {
         this.content = content;
         this.date = date;
+    }
+
+    @Override
+    public int compareTo(Minute m) {
+        return  m.getDate().after(getDate())? 1:-1;
     }
 }
