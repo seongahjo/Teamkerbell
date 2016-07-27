@@ -4,6 +4,8 @@ import com.shape.web.entity.Alarm;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.User;
 import com.shape.web.repository.*;
+import com.shape.web.service.FileDBService;
+import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,19 +36,15 @@ public class ProcessController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ProjectRepository projectRepository;
+
     @Autowired
     AlarmRepository alarmRepository;
-    @Autowired
-    TodolistRepository todolistRepository;
-    @Autowired
-    ScheduleRepository scheduleRepository;
-    @Autowired
-    FileDBRepository fileDBRepository;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    FileDBService fileDBService;
     /*
        To load uploaded Image
        */
@@ -54,7 +52,7 @@ public class ProcessController {
     @ResponseBody
     public void loadImg(@RequestParam(value = "name") String name, HttpServletResponse response) {
         try {
-            FileDB file = fileDBRepository.findByStoredname(name);
+            FileDB file = fileDBService.getFileByStored(name);
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + file.getOriginalname()));
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(512);
             int imageByte;
@@ -91,8 +89,8 @@ public class ProcessController {
      */
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
     @ResponseBody
-    public Map updateAlarm(@RequestParam("userIdx") Integer userIdx) {
-        Alarm alarm = alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0, userRepository.findOne(userIdx));
+    public Map updateAlarm(@RequestParam("userId") String userId) {
+        Alarm alarm = alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0,userService.getUserById(userId) );
         Map<String, String> data = new HashMap<>();
         if (alarm != null) {
             data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));

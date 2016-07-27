@@ -6,6 +6,9 @@ import com.shape.web.entity.User;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.TodolistRepository;
 import com.shape.web.repository.UserRepository;
+import com.shape.web.service.ProjectService;
+import com.shape.web.service.TodolistService;
+import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,14 @@ public class TodolistController {
     private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
     @Autowired
-    ProjectRepository projectRepository;
+    ProjectService projectService;
     @Autowired
     TodolistRepository todolistRepository;
 
+    @Autowired
+    TodolistService todolistService;
     /*
    To make to-do list
    */
@@ -42,11 +47,12 @@ public class TodolistController {
                                        @ModelAttribute("todolist") @Valid Todolist todolist,
                                        BindingResult result) {
         if(!result.hasErrors()) {
-            Project project = projectRepository.findOne(projectIdx);
-            User user = userRepository.findById(userId);
+            Project project = projectService.getProject(projectIdx);
+            User user = userService.getUserById(userId);
+
             todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
             todolist.setUser(user); // todolist가 누구것인가
-            todolistRepository.saveAndFlush(todolist); // todolist 생성
+            todolistService.save(todolist); // todolist 생성
             logger.info("todolist 만듬");
             return new ResponseEntity(HttpStatus.CREATED);
         }else
@@ -63,7 +69,7 @@ public class TodolistController {
             t.setEnddate(todolist.getEnddate());
         if (todolist.getContent() != null)
             t.setContent(t.getContent());
-        todolistRepository.saveAndFlush(t);
+        todolistService.save(t);
 
     }
 
@@ -75,6 +81,6 @@ public class TodolistController {
     public void todocheck(@RequestParam(value = "id") Integer id) {
         Todolist todolist = todolistRepository.findOne(id);
         todolist.setOk(!todolist.getOk());
-        todolistRepository.saveAndFlush(todolist);
+        todolistService.save(todolist);
     }
 }

@@ -8,6 +8,7 @@ import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
+import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,14 @@ public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ProjectRepository projectRepository;
+
+
     @Autowired
     AlarmService alarmService;
     @Autowired
     ProjectService projectService;
+    @Autowired
+    UserService userService;
     /*
     RESTFUL DOCUMENTATION
     ROOM
@@ -59,7 +60,7 @@ public class ProjectController {
     @ResponseBody
     public List getRoom(@RequestParam(value = "page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<Project> projects = projectRepository.findByUsers(user, new PageRequest(page,5));
+        List<Project> projects = projectService.getProjects(user, page,5);
         logger.info("room paging");
         return projects;
     }
@@ -74,7 +75,7 @@ public class ProjectController {
         Project project = new Project(name, userIdx, "");
         user.addProject(project);
         project.addUser(user);
-        projectService.save(project,user);
+        projectService.save(user,project);
         return "redirect:/projectmanager";
     }
 
@@ -84,15 +85,16 @@ public class ProjectController {
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
     @ResponseBody
     public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
-        projectRepository.delete(projectIdx);
+        projectService.delete(projectIdx);
     }
 
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
     @ResponseBody
-    public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx) {
-        Project project = projectRepository.findOne(projectIdx);
+    public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
+        User u=(User) session.getAttribute("user");
+        Project project = projectService.getProject(projectIdx);
         project.setProcessed(false);
-        projectRepository.saveAndFlush(project);
+        projectService.save(u,project);
     }
 
     /*
@@ -103,13 +105,13 @@ public class ProjectController {
     public Map searchUser(@RequestParam(value = "userId") String userId,
                           @RequestParam("projectIdx") Integer projectIdx)  {
         logger.info("Search Member");
-        Project project = projectRepository.findOne(projectIdx);
-        User user = userRepository.findById(userId);
+        Project project = projectService.getProject(projectIdx);
+        User user = userService.getUserById(userId);
         if(user==null){
             throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         }
         logger.info(project.getName());
-        List<Project> lp = projectRepository.findByUsers(user); // 유저가 참가중인 프로젝트
+        List<Project> lp = projectService.getProjects(user); // 유저가 참가중인 프로젝트
         for (Project p : lp)
             if (p.getProjectidx() == project.getProjectidx()) {
                 throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
@@ -132,8 +134,8 @@ public class ProjectController {
                                HttpSession session) {
         logger.info("Invite Member");
         User actor = (User) session.getAttribute("user"); //초대한 사람
-        User user = userRepository.findById(userId); // 초대받은 사람
-        Project project = projectRepository.findOne(projectIdx); // 초대받은 프로젝트
+        User user = userService.getUserById(userId); // 초대받은 사람
+        Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
         alarmService.create(alarm);
         return String.valueOf(user.getUseridx());

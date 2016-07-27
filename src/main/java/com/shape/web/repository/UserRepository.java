@@ -12,7 +12,6 @@ import java.util.List;
  */
 public interface UserRepository extends JpaRepository<User,Integer> {
 
-    @Cacheable(value="users",key="'users:'.concat(#p0)")
     User findById(String id);
 
     List<User> findByProjects(Project project);

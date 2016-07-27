@@ -9,6 +9,9 @@ import com.shape.web.repository.AlarmRepository;
 import com.shape.web.repository.FileDBRepository;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
+import com.shape.web.service.FileDBService;
+import com.shape.web.service.ProjectService;
+import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
@@ -37,15 +40,18 @@ import java.util.stream.IntStream;
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @Autowired
-    ProjectRepository projectRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    FileDBRepository fileDBRepository;
+
+
     @Autowired
     AlarmRepository alarmRepository;
 
+
+
+
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    FileDBService fileDBService;
     /*
     RESTFUL DOCUMENTATION
     FILE
@@ -60,7 +66,7 @@ public class FileController {
     public Map Upload(@RequestParam(value = "idx") String projectIdx, HttpSession session, HttpServletRequest HSrequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-        Project project = projectRepository.findOne(Integer.parseInt(projectIdx));
+        Project project = projectService.getProject(Integer.parseInt(projectIdx));
         User user = (User) session.getAttribute("user");
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
@@ -73,9 +79,9 @@ public class FileController {
             file.mkdirs();
         }
 
-        // while (iterator.hasNext()) {
+         while (iterator.hasNext()) {
         multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-
+        logger.info(projectIdx+" "+multipartFile.getName()+" "+project.getProjectidx()+" ");
         if (!multipartFile.isEmpty()) {
             try {
                 result = new HashMap<>();
@@ -93,8 +99,7 @@ public class FileController {
                 String tag = Tagging.TagbyString(file);
 
                 FileDB fd = new FileDB(user, project, storedFileName, originalFileName, type, filePath, tag);
-                fileDBRepository.saveAndFlush(fd);
-
+                fileDBService.save(fd);
                 project.getUsers().forEach(u -> {
                     Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, u, user);
                     alarmRepository.saveAndFlush(alarm);
@@ -112,7 +117,7 @@ public class FileController {
                 logger.info("FILE UPLOAD NULL");
             }
         }
-        // }
+        }
 
         return result;
     }
@@ -126,7 +131,7 @@ public class FileController {
             InputStream in = null;
             OutputStream os = null;
             String client = "";
-            FileDB fd = fileDBRepository.findByStoredname(name);
+            FileDB fd = fileDBService.getFileByStored(name);
             String originalName = fd.getOriginalname();
             String folder = fd.getPath();
             File file = new File(folder + "/" + name);
@@ -171,7 +176,7 @@ public class FileController {
     @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
-        List<Object[]> filedb = fileDBRepository.groupbytest(projectIdx);
+        List<Object[]> filedb = fileDBService.getFilesList(projectIdx);
         JsonObject jsonObject = new JsonObject();
         JsonArray array = new JsonArray();
         filedb.forEach(temp -> {
@@ -191,7 +196,7 @@ public class FileController {
     @RequestMapping(value = "/file/{projectIdx}/name", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx, @RequestParam("name") String name, @RequestParam("page") Integer page) {
-        List<FileDB> fileDBs = fileDBRepository.findByProjectAndOriginalnameOrderByCreatedatDesc(projectRepository.findOne(projectIdx), name, new PageRequest(page, 10));
+        List<FileDB> fileDBs = fileDBService.getFilesByOriginal(projectService.getProject(projectIdx), name, page, 10);
         List<Map<String, String>> jsonar = new ArrayList();
         int count = 0 + 10 * page;
         IntStream.range(0, fileDBs.size()).forEach(idx -> {

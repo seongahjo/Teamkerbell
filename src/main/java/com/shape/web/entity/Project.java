@@ -1,6 +1,7 @@
 package com.shape.web.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;

@@ -30,16 +30,16 @@ import java.util.List;
 public class CalendarController {
     private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ProjectRepository projectRepository;
+
     @Autowired
     AlarmRepository alarmRepository;
+
     @Autowired
-    ScheduleRepository scheduleRepository;
-
-
+    ProjectService projectService;
+    @Autowired
+    ScheduleService scheduleService;
+    @Autowired
+    UserService userService;
     /*
    To make schedule
    */
@@ -47,12 +47,12 @@ public class CalendarController {
     @RequestMapping(value = "/schedule", method = RequestMethod.POST)
     @ResponseBody
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
-        Project project = projectRepository.findOne(projectIdx);
+        Project project = projectService.getProject(projectIdx);
         schedule.setProject(project);
-        scheduleRepository.saveAndFlush(schedule);
+        scheduleService.save(schedule);
         Alarm alarm = new Alarm(1, null, null, new Date());
         alarm.setProject(project);
-        List<User> lu = userRepository.findByProjects(project);
+        List<User> lu = userService.getUsersByProject(project);
         lu.forEach(u->{
             alarm.setAlarmidx(null);
             logger.info("[USER " + u.getUseridx() + "] Make Alarm");
@@ -66,14 +66,16 @@ public class CalendarController {
     @RequestMapping(value = "/schedule", method = RequestMethod.PUT)
     @ResponseBody
     public void updateSchedule(@RequestBody Schedule schedule) {
-        Schedule s = scheduleRepository.findOne(schedule.getScheduleidx());
+        Schedule s = scheduleService.getSchedule(schedule.getScheduleidx());
         if (schedule.getStartdate() != null)
             s.setStartdate(schedule.getStartdate());
         if (schedule.getEnddate() != null)
             s.setEnddate(schedule.getEnddate());
         if (schedule.getState() != null)
             s.setState(schedule.getState());
-        scheduleRepository.saveAndFlush(s);
+        List<User> lu=userService.getUsersByProject(s.getProject());
+        lu.forEach(u->scheduleService.clear(u));
+        scheduleService.save(s);
         logger.info("modifying schedule");
 
     }

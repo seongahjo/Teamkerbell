@@ -5,6 +5,8 @@ import com.shape.web.entity.Role;
 import com.shape.web.entity.User;
 import com.shape.web.repository.FileDBRepository;
 import com.shape.web.repository.UserRepository;
+import com.shape.web.service.FileDBService;
+import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,15 +36,17 @@ import java.util.Date;
 @Controller
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
-    UserRepository userRepository;
+    FileDBService fileDBService;
+
     @Autowired
-    FileDBRepository fileDBRepository;
+    UserService userService;
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
         if (!result.hasErrors()) {
-            User user = userRepository.findById(tempUser.getId());
+            User user = userService.getUserById(tempUser.getId());
             if (user == null)
                 user = new User();
 
@@ -64,11 +68,11 @@ public class UserController {
                 File transFile = new File(filePath + "/" + originalFileName); // 전송된 파일
                 logger.info("FILE NAME = " + file.getOriginalFilename());
                 file.transferTo(transFile);
-                fileDBRepository.saveAndFlush(filedb); // 파일 내용을 디비에 저장
+                fileDBService.save(filedb); // 파일 내용을 디비에 저장
                 user.setImg("loadImg?name=" + storedFileName);
 
                 filedb.setUser(user);
-                userRepository.saveAndFlush(user);
+                userService.save(user);
                 logger.info("Register Success " + user.getName());
             } catch (IOException ioe) {
 
@@ -76,7 +80,7 @@ public class UserController {
                 if (user.getImg() == null)
                     user.setImg("img/default.jpg");
                 //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
-                userRepository.saveAndFlush(user);
+                userService.save(user);
                 logger.info("Register Success " + user.getName());
             } finally {
                 return new ResponseEntity(HttpStatus.CREATED);

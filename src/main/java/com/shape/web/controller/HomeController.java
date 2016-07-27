@@ -4,7 +4,7 @@ import com.shape.web.VO.MeetingMember;
 import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
 import com.shape.web.repository.*;
-import com.shape.web.service.ProjectService;
+import com.shape.web.service.*;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,22 +34,26 @@ public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ProjectRepository projectRepository;
-    @Autowired
     AlarmRepository alarmRepository;
-    @Autowired
-    TodolistRepository todolistRepository;
-    @Autowired
-    ScheduleRepository scheduleRepository;
-    @Autowired
-    FileDBRepository fileDBRepository;
-    @Autowired
-    MinuteRepository minuteRepository;
+
     @Autowired
     LogRepository logRepository;
 
+
+    @Autowired
+    UserService userService;
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    AlarmService alarmService;
+    @Autowired
+    TodolistService todolistService;
+    @Autowired
+    ScheduleService scheduleService;
+    @Autowired
+    MinuteService minuteService;
+    @Autowired
+    FileDBService fileDBService;
     /**
      * Simply selects the home view to render by returning its name.
      */
@@ -74,9 +78,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/userInfo/{userId}", method = RequestMethod.GET)
-    public ModelAndView UserInfo(@PathVariable("userId") String userId) {
-        User user = userRepository.findById(userId);    //유저 아이디로 유저레코드 검색
-        List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트를 반환
+    public ModelAndView UserInfo(@PathVariable("userId") String userId, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
 
         ModelAndView mv = new ModelAndView("/userInfo");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
         mv.addObject("user", user);
@@ -89,11 +93,11 @@ public class HomeController {
     public ModelAndView Dashboard(@PathVariable("userId") String userId, HttpSession session) {
 
         User user = (User) session.getAttribute("user");
-        List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트를 반환
+        List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(0, 15)); // 타임라인 리스트를 반환
-        List<Todolist> lt = todolistRepository.findByUser(user); // 투두리스트 리스트를 반환
-        List<Schedule> ls = scheduleRepository.findByProject_Users(user); // 스케쥴 리스트를 반환
-        List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user, 0, true); // 알람 리스트를 반환
+        List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
+        List<Schedule> ls = scheduleService.getSchedules(user); // 스케쥴 리스트를 반환
+        List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
 
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
@@ -112,19 +116,21 @@ public class HomeController {
         String time = formatter.format(new Date());
         User user = (User) session.getAttribute("user");
         mv = new ModelAndView("redirect:/");
-        Project project = projectRepository.findOne(projectIdx); // 프로젝트 객체 반환
-        List<Project> lpj = projectRepository.findByUsers(user); // 프로젝트 리스트 반환
-        if (!lpj.contains(project)) { // 자기 자신의 프로젝트가 아닐경우
+        Project project = projectService.getProject(projectIdx); // 프로젝트 객체 반환
+        List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트 반환
+
+
+       /* if (!lpj.stream().anyMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
             return mv;
-        }
-        List<Todolist> lt = todolistRepository.findByProject(project); // 투두리스트 리스트를 반환
-        List<Alarm> la = alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(user, 0, true); // 알람 리스트를 반환
-        List<User> lu = userRepository.findByProjects(project); // 유저 리스트 반환
+        }*/
+        List<Todolist> lt = todolistService.getTodolists(project); // 투두리스트 리스트를 반환
+        List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
+        List<User> lu = userService.getUsersByProject(project); // 유저 리스트 반환
         //List<FileDB> lfd = fileDBRepository.groupbytest(project); // 파일 받아오기
 
         if (project.isProcessed()) {
-            List<Minute> lm = minuteRepository.findByProject(project); // 회의록 객체 반환
-            List<FileDB> img = fileDBRepository.findByProjectAndTypeOrderByCreatedatDesc(project, "img"); // 파일디비 리스트중 이미지 리스트 반환
+            List<Minute> lm = minuteService.getMinutes(project); // 회의록 객체 반환
+            List<FileDB> img = fileDBService.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
             project.setMinute(" "); //회의록 초기화
             lm = lm.stream().filter(m -> {
                         if (time.equals(m.getDate().toString())) {
@@ -195,7 +201,7 @@ public class HomeController {
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
     public ModelAndView manager(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<Project> lpj = projectRepository.findByUsers(user, new PageRequest(0, 5)); // 프로젝트 리스트 객체 10개 반환
+        List<Project> lpj = projectService.getProjects(user, 0, 5); // 프로젝트 리스트 객체 10개 반환
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);

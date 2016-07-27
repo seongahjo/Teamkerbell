@@ -4,10 +4,15 @@ import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ProjectService {
-
-    void save(Project p, User u );
+    Project getProject(Integer projectIdx);
+    List getProjects(User u);
+    List getProjects(User u,Integer page,Integer count);
+    Project save( User u ,Project p);
+    void delete(Integer p);
 
     /*
 
