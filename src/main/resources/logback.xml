@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <property resource="spring.properties" />
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
@@ -29,20 +29,32 @@
     </appender>
 
     <!--    RULES for logging DEBUG < INFO < WARN < ERROR < FATAL.-->
-    <!--<logger name="com.shape.web">
+    <logger name="com.shape.web">
         <level value="DEBUG"/>
     </logger>
 
     <logger name="org.springframework">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
     <logger name="org.hibernate">
-        <level value="DEBUG"/>
-    </logger>-->
-    <root>
         <level value="INFO"/>
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="LOGFILE"/>
-    </root>
+    </logger>
+
+    <if condition='property("spring.property.log").equals("SERVICE")'>
+        <then>
+            <root level="INFO">
+                <appender-ref ref="CONSOLE"/>
+                <appender-ref ref="LOGFILE"/>
+            </root>
+        </then>
+        <else>
+            <root level="DEBUG">
+                <appender-ref ref="CONSOLE"/>
+                <appender-ref ref="LOGFILE"/>
+            </root>
+
+
+        </else>
+    </if>
 
 </configuration>
