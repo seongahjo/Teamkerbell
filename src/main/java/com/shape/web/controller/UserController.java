@@ -44,7 +44,7 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public ResponseEntity register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
+    public String register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
         if (!result.hasErrors()) {
             User user = userService.getUserById(tempUser.getId());
             if (user == null)
@@ -83,12 +83,15 @@ public class UserController {
                 userService.save(user);
                 logger.info("Register Success " + user.getName());
             } finally {
-                return new ResponseEntity(HttpStatus.CREATED);
+                return "good";
+               // return new ResponseEntity(HttpStatus.CREATED);
             }
         } // hasErrors end
         else {
+
             logger.info("Register Error");
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return "login";
+            //return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
