@@ -26,12 +26,19 @@
     <!-- daterange picker -->
     <link rel="stylesheet" href="../css/daterangepicker-bs3.css">
     <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css">
-    <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
+
+    <!--tags-->
+    <link href="../css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
+    <!-- end tags-->
+    <!--Files-->
+    <link href="../css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
     <!-- Select2 -->
     <link rel="stylesheet" href="../css/select2.min.css">
     <!-- dropzone-->
     <link rel="stylesheet" href="../css/dropzone.css">
     <link rel="stylesheet" href="../css/basic.css">
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -215,9 +222,12 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}">
-                                <a href="../chat/${list.projectidx}" class="side-nav-button">name : ${list.name}</a>
-                            </c:forEach>
-                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a>
+                        <li><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i> <span
+                                style="font-size:18px">${list.name} </span></a></li>
+                        </c:forEach>
+                        <li>
+                            <a href="../projectmanager"> <i class="fa fa-cogs"></i><span
+                                    style="font-size:18px">Edit</span></a></li>
                         </li>
                     </ul>
                 </li>
@@ -234,6 +244,7 @@
         <section class="content-header">
             <h1>
                 과제방
+                <i class="fa fa-user-plus" data-toggle="modal" data-target="#InviteUser"></i>
                 <small> ${project.name}</small>
             </h1>
             <ol class="breadcrumb">
@@ -246,16 +257,76 @@
         <section class="content">
 
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">파일 관리자</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-minus"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="sidebar-form">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           id="tokenfield-typeahead"
+                                           placeholder="Type something and hit enter for tags"/>
+                                    <span class="input-group-btn">
+                                    <button type="button" class="btn btn-flat" onclick="searchTable()">
+                                    <i class="fa fa-search fa-2x"></i></button></span>
+                                </div>
+
+                            </div>
+
+
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Uploader</th>
+                                    <th>Main Contents</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+
+
+            <!-- /.content-wrapper -->
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-1">
                     <div class="box box-primary direct-chat direct-chat-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">회의 공간</h3>
 
                             <div class="box-tools pull-right">
-                                <span data-toggle="tooltip" title="New Messages" class="badge bg-light-blue"></span>
+                                <button type="button" class="btn btn-box-tool" data-widget="chat-pane-toggle">
+                                    <i class="fa fa-list-ul"></i>
+                                </button>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                         class="fa fa-minus"></i>
                                 </button>
+
                             </div>
                         </div>
                         <form action="../file" class="dropzone" id="dropzone" method="POST"
@@ -264,20 +335,53 @@
                             <div class="box-body">
                                 <!-- Conversations are loaded here -->
                                 <div class="direct-chat-messages chatbox" id="chat">
+
                                 </div>
-                                <input type="hidden" name="idx" value="${project.projectidx}"/>
-                                <input type="hidden" name="userIdx" value="${user.useridx}"/>
+                                <div class="direct-chat-contacts">
 
-                            </div> <!-- box body-->
+                                    <!-- /.box-header -->
+                                    <ul class="contacts-list">
+                                        <c:forEach var="list" items="${users}">
+                                            <li id="userlist-${list.id}" class="item" style="margin-right:5px">
+                                                <img class="contacts-list-img" src="../${list.img}" alt="User Image"
+                                                     style="margin-left:2px; width:40px;height:40px">
+                                                <div class="contacts-list-info">
+
+                                                    <span class="contacts-list-name">
+                                                        ${list.id}
+                                                       <a href="#" style="margin-left:3px">
+                                                    <i id="user${list.id}on"
+                                                       class="fa fa-circle st-cir text-success hidden"></i>
+                                                    <i id="user${list.id}off"
+                                                       class="fa fa-circle st-cir text-warning"></i>
+                                                            </a>
+                                                    </span>
+
+
+                                                    <span class="contacts-list-msg pull-left" id="userstatus">
+                                                        His or Her name is ${list.name}
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </c:forEach>
+
+                                        <!-- /.item -->
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <input type="hidden" name="idx" value="${project.projectidx}"/>
+                            <input type="hidden" name="userIdx" value="${user.useridx}"/>
+
                         </form>
-                    </div> <!-- box -->
 
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="input-group">
-                            <input type="text" id="typing" name="message" placeholder="Type Message ..."
-                                   class="form-control" onkeypress="if(event.keyCode==13)sendMsg()">
-                          <span class="input-group-btn">
+
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="input-group">
+                                <input type="text" id="typing" name="message" placeholder="Type Message ..."
+                                       class="form-control" onkeypress="if(event.keyCode==13)sendMsg()">
+                                <span class="input-group-btn">
                             <button type="button" type="button" class="btn btn-primary btn-flat" onClick="sendMsg()">
                                 Send
                             </button>
@@ -292,24 +396,24 @@
                  			 <i class="fa fa-pencil-square-o fa-2x"></i></button>
 
                  			 </span>
-                             <span>
+                             <span data-toggle="modal" data-target="#scheduleModal">
                               <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
                                       data-original-title="Add Meeting" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-calendar-plus-o fa-2x"></i></button>
                                 </span>
                             </span>
+                            </div>
                         </div>
-                    </div>
+                    </div> <!-- box -->
                     <!-- /.box-footer-->
                 </div>    <!-- col -->
 
 
                 <!-- memo -->
 
-                <section class="col-md-3 connectedSortable">
-
+                <div class="col-md-2">
                     <div class="box box-primary">
-                        <div class="box-header with-border">
+                        <div class="box-header with border">
                             <h3 class="box-title">회의록</h3>
                         </div>
                         <!-- /.box-header -->
@@ -324,122 +428,32 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <textarea id="memo" class="form-control" style="height: 300px"
+                                <textarea id="memo" class="form-control" rows="13"
                                           disabled>${project.minute}</textarea>
                             </div>
-
+                            Written by <kbd id="writer">?</kbd>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <div class="pull-right">
-                                <button id="writebutton" type="button" class="btn btn-default" onClick="write_memo()"><i
+                                <button id="writebutton" type="button" class="btn btn-default" onClick="writeMemo()"><i
                                         class="fa fa-pencil"></i> 쓰기
                                 </button>
                                 <button id="savebutton" type="button" class="btn btn-primary hidden"
-                                        onClick="save_memo()"><i class="fa fa-floppy-o"></i> 저장
+                                        onClick="saveMemo()"><i class="fa fa-floppy-o"></i> 저장
                                 </button>
                             </div>
                         </div>
                         <!-- /.box-footer -->
                     </div>
+
                     <!-- /. box -->
-                </section>
-
-
-                <div class="col-md-2">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">사용자들</h3><i class="fa fa-user-plus fa-3x pull-right"
-                                                              data-toggle="modal" data-target="#InviteUser"></i>
-
-                            <div class="box-tools pull-right">
-
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body state-body">
-                            <ul class="products-list product-list-in-box">
-                                <c:forEach var="list" items="${users}">
-                                    <li class="item">
-                                        <img src="../${list.img}" alt="User Image" style="width:30px;height:30px">
-                                        <a class="users-list-name user-st-name">${list.id}</a>
-                                        <i id="user${list.id}on"
-                                           class="fa fa-circle st-cir text-success pull-right hidden"
-                                        ></i>
-                                        <i id="user${list.id}off"
-                                           class="fa fa-circle st-cir text-warning pull-right"></i>
-                                    </li>
-                                </c:forEach>
-
-                                <!-- /.item -->
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer text-center">
-
-                        </div>
-                        <!-- /.box-footer -->
-                    </div>
-
                 </div>
 
-            </div>
-            <div class="row">
-                <div class="col-md-12">
 
-                    <div class="box">
-                        <div class="box-header">
-                            <div class="bs-example">
-                                <div class="form-group">
-                                    <a href="#"><i class="fa fa-search fa-2x pull-right"
-                                                   style="float:left;padding-right:26%" onclick="search()"></i></a>
-                                    <input type="text" class="form-control" style="width:70%;float:left"
-                                           id="tokenfield-typeahead"
-                                           placeholder="Type something and hit enter for tags"/>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Uploader</th>
-                                    <th>Date</th>
-                                    <th>Main Contents</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="list" items="${files}">
-                                    <tr>
-                                        <td><a href="../file?name=${list.storedname}">${list.originalname}</a></td>
-                                        <td>${list.user.name}</td>
-                                        <td>${list.date}</td>
-                                        <td>${list.tag}</td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Uploader</th>
-                                    <th>Date</th>
-                                    <th>Main Contents</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
             </div>
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
     <!-- Main Footer -->
     <footer class="main-footer">
         <!-- To the right -->
@@ -453,207 +467,333 @@
 
     <div class="control-sidebar-bg"></div>
 
-</div>
-<!-- ./wrapper -->
 
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content file_content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">File Upload</h4>
-            </div>
-            <form id="uploadForm" method="POST" enctype="multipart/form-data">
-                <div class="modal-body file_body">
-                    <div class="form-group">
-                        <div id="up_field">
-                            <input type="hidden" id="idx" name="idx" value="${project.projectidx}"/>
-                            <input type="hidden" name="userIdx" value="${user.useridx}"/>
-                            <div class="form-group">
+    <!-- /.content -->
+
+    <!-- ./wrapper -->
+
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content file_content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">File Upload</h4>
+                </div>
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body file_body">
+                        <div class="form-group">
+                            <div id="up_field">
+                                <input type="hidden" id="idx" name="idx" value="${project.projectidx}"/>
+                                <input type="hidden" name="userIdx" value="${user.useridx}"/>
+                                <div class="form-group">
 
 
-                                <input type="text" id="fakeFileTxt" class="fakeFileTxt" readonly="readonly" multiple>
-                                <div class="fileDiv">
-                                    <input type="button" value="Select File" onclick="selectFile()" class="buttonImg"/>
-                                    <input type="file" id="file" class="realFile" onChange="upload()" name="File[]"/>
+                                    <input type="text" id="fakeFileTxt" class="fakeFileTxt" readonly="readonly"
+                                           multiple>
+                                    <div class="fileDiv">
+                                        <input type="button" value="Select File" onclick="selectFile()"
+                                               class="buttonImg"/>
+                                        <input type="file" id="file" class="realFile" onChange="upload()"
+                                               name="File[]"/>
+                                    </div>
+
+
                                 </div>
 
-
                             </div>
-
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="upload()">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- REQUIRED JS SCRIPTS -->
+
+
+    <div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Project To Do List</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <ul class="todo-list pro-todo">
+                            <c:forEach var="list" items="${todolist}">
+                                <c:choose>
+                                    <c:when test="${list.ok=='0'}">
+                                        <li class="done">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
+                                <span class="username">
+                          <span>${list.user.id}</span>
+                        </span>
+                                <span class="text">${list.content}</span>
+                                <!-- Emphasis label -->
+                                <small class="label label-danger" prettydate><i
+                                        class="fa fa-clock-o"></i>${list.enddate}
+                                </small>
+                                <!-- General tools such as edit or delete-->
+                                </li>
+                            </c:forEach>
+                            <!-- todolist end-->
+                        </ul>
+
+
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="upload()">Upload</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- REQUIRED JS SCRIPTS -->
+
+    <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
+                </div>
+                <form>
+                    <div class="modal-body">
+
+                        <div class="box-body">
+
+                            <div class="gallery">
+
+                                <c:forEach var="list" items="${img}">
+                                    <a href="../loadImg?name=${list.storedname}" class="zoom">
+                                        <img src="../loadImg?name=${list.storedname}" width="170" height="120"
+                                             alt="An elegant profile" style="margin-top:3%;margin-right:1%">
+                                    </a>
+                                </c:forEach>
+
+                            </div>
+                        </div>
 
 
-<div class="modal fade" id="todoList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Project To Do List</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <ul class="todo-list pro-todo">
-                        <c:forEach var="list" items="${todolist}">
-                            <c:choose>
-                                <c:when test="${list.ok=='0'}">
-                                    <li class="done">
-                                </c:when>
-                                <c:otherwise>
-                                    <li>
-                                </c:otherwise>
-                            </c:choose>
-                            <img src="../${list.user.img}" class="img-circle img-bordered-sm" alt="user image">
-                        <span class="username">
-                          <span>${list.user.id}</span>
-                        </span>
-                            <span class="text">${list.content}</span>
-                            <!-- Emphasis label -->
-                            <small class="label label-danger" prettydate><i class="fa fa-clock-o"></i>${list.enddate}
-                            </small>
-                            <!-- General tools such as edit or delete-->
-                            </li>
-                        </c:forEach>
-                        <!-- todolist end-->
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="todoMadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Enroll TodoList</h4>
+                </div>
+                <form id="todoform">
+                    <div class="modal-body">
+                        <div id="success-message" class="alert alert-info collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Info:</span>
+                            Enroll Success
+                        </div>
+
+                        <div id="error-message" class="alert alert-danger collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            Failed!
+                        </div>
+                        <div class="form-group">
+                            <label>Date range:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="reservation">
+                            </div>
+                            <br>
+                            <label> User name</label>
+                            <select class="form-control select2" data-placeholder="Select a State"
+                                    style="width: 100%;" id="todoselect"> <!-- multiple = "multiple" -->
+                                <c:forEach var="list" items="${users}">
+                                    <option value="${list.id}">${list.name}</option>
+                                </c:forEach>
+                            </select>
+                            <br>
+                            <br>
+                            <div class="form-group has-success">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> List what
+                                    you
+                                    have to do</label>
+                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
+                                       placeholder="To do ...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="makeTodolist()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Enroll Schedule</h4>
+                </div>
+                <form id="scheduleform">
+                    <div class="modal-body">
+                        <div id="success-message" class="alert alert-info collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Info:</span>
+                            Enroll Success
+                        </div>
+
+                        <div id="error-message" class="alert alert-danger collapse" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            Failed!
+                        </div>
+                        <div class="form-group">
+                            <label>Date range:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="scheduleReservation">
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i>To do</label>
+                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
+                                       placeholder="To do ...">
+                            </div>
+
+                            <div class="form-group has-success">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i>Place</label>
+                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
+                                       placeholder="To do ...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="makeTodolist()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">File lists</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>File</th>
+                                <th>Uploader</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody id="filetable">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <ul class="pager">
+                        <li>
+                            <a class="previous" href="#" onclick="openFileFlag(1)">Previous</a>
+                        </li>
+                        <li>
+                            <a href="#" class="alert-success" data-dismiss="modal">Close</a>
+                        </li>
+                        <li>
+                            <a class="next" href="#" onclick="openFileFlag(2)">Next</a>
+                        </li>
                     </ul>
 
 
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Image Gallery</h4>
-            </div>
-            <form>
-                <div class="modal-body">
-
-                    <div class="box-body">
-
-                        <div class="gallery">
-
-                            <c:forEach var="list" items="${img}">
-                                <a href="../loadImg?name=${list.storedname}" class="zoom">
-                                    <img src="../loadImg?name=${list.storedname}" width="170" height="120"
-                                         alt="An elegant profile" style="margin-top:3%;margin-right:1%">
-                                </a>
-                            </c:forEach>
-
-                        </div>
-                    </div>
 
 
+    <div class="modal fade" id="InviteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Invite User</h4>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <div id="error-message" class="alert alert-danger collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Wrong Person!
                 </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="todoMadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Enroll TodoList</h4>
-            </div>
-            <form id="todoform">
+                <div id="success-message" class="alert alert-info collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Info:</span>
+                    Invite Success
+                </div>
                 <div class="modal-body">
-
                     <div class="form-group">
-                        <label>Date range:</label>
-
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input type="text" class="form-control pull-right" id="reservation">
-                        </div>
-                        <br>
-                        <label> User name</label>
-                        <select class="form-control select2" data-placeholder="Select a State"
-                                style="width: 100%;" id="todoselect"> <!-- multiple = "multiple" -->
-                            <c:forEach var="list" items="${users}">
-                                <option value="${list.id}">${list.name}</option>
-                            </c:forEach>
-                        </select>
-                        <br>
-                        <br>
-                        <div class="form-group has-success">
-                            <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> List what you
-                                have to do</label>
-                            <input type="text" id="todocontent" class="form-control" id="inputSuccess"
-                                   placeholder="To do ...">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="makeTodolist()">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="InviteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Invite User</h4>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <!-- class="sidebar-form" -->
-                    <div id="inviteForm" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" id="inviteId" class="form-control" placeholder=" User ID Search...">
-             		 <span class="input-group-btn">
+                        <!-- class="sidebar-form" -->
+                        <div id="inviteForm" class="sidebar-form">
+                            <div class="input-group">
+                                <input type="text" id="inviteId" class="form-control" placeholder=" User ID Search...">
+                                <span class="input-group-btn">
                 	<button type="button" class="btn btn-flat" onClick="search()"><i
                             class="fa fa-search"></i>
                     </button>
               		</span>
+                            </div>
+
+                            <!-- Profile Image -->
+                            <!-- at fist, not in here, after searching there will be -->
+                            <div id="user"></div>
+
                         </div>
-
-                        <!-- Profile Image -->
-                        <!-- at fist, not in here, after searching there will be -->
-                        <div id="user"></div>
-
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -686,268 +826,36 @@
 <!-- dropzone -->
 <script src="../js/dropzone.js"></script>
 
+
+<!--Table-->
+<script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/dataTables.bootstrap.min.js"></script>
+
+<!-- tag -->
+<script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
+
 <!-- gallery-->
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
-<script id="socket" type="text/javascript">
-    var socket;
-    socket = io.connect('<spring:eval expression="@config.getProperty('app.socket.url')"/>');
-    socket.emit('join', {
-        projectIdx: "${project.projectidx}",
-        userIdx:${user.useridx},
-        userName: "${user.name}",
-        userId: "${user.id}",
-        userImg: "${user.img}"
-    });
-    socket.on('response', function (data) {
-        if (data.user == "${user.id}") {
-            $("#chat").append('<div class="direct-chat-msg right"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-right">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-right"> ' + data.msg + '</div> </div> <span class="direct-chat-timestamp pull-right" >' + data.date + '</span><br>');
-        }
-        else
-            $("#chat").append('<div class="direct-chat-msg"> <div class="direct-chat-info clearfix"> <span class="direct-chat-name pull-left">' + data.user + '</span> </div> <img class="direct-chat-img" src=../' + data.img + ' alt="message user image"> <div class="direct-chat-text pull-left"> ' + data.msg + '</div> </div>  <span class="direct-chat-timestamp pull-left ts-left" >' + data.date + '</span><br>');
 
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
-    });
-    socket.on('write', function (flag) {
-        if (flag == "yes") {
-            $("#memo").prop("disabled", false);
-            $("#writebutton").addClass("hidden");
-            $("#savebutton").removeClass("hidden");
-        }
-        else {
-            $("#memo").prop("disabled", true);
-
-        }
-    });
-    socket.on('adduser', function (id) {
-        $("#user" + id + "off").addClass("hidden");
-        $("#user" + id + "on").removeClass("hidden");
-    });
-    socket.on('deleteuser', function (id) {
-        $("#user" + id + "off").removeClass("hidden");
-        $("#user" + id + "on").addClass("hidden");
-    });
-    socket.on('refresh', function (memo) {
-        $("#memo").val(memo);
-        Tminute = memo;
-    });
-    socket.on('alarm', function (data) {
-        var par = "userIdx=" +${user.useridx};
-        $.ajax({
-            url: "../updateAlarm",
-            data: par,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                var size = parseInt($("#alarm-size").text()) + 1;
-                $("#alarm").effect("bounce", {direction: 'left', distance: 13, times: 3}, 500);
-                $("#alarm-size").text(size);
-                $("#alarm-content").text('You have ' + size + 'notifications');
-                $("#alarm-list").prepend('<li id="alarm-"' + data.alarmidx + '><a href="#">' +
-                        '<i class="fa fa-users text-aqua"></i><strong>' + data.actorid + '</strong>' +
-                        'has invited you to <strong>' + data.projectname + '</strong>' +
-                        '<div style="float:right;">' +
-                        ' <button type="button" class="btn btn-primary btn-xs"' +
-                        'onclick=accept("' + data.alarmidx + '")>Ok</button>' +
-                        '<button type="button" class="btn btn-default btn-xs"' +
-                        'onclick=decline("' + data.alarmidx + '")>Cancel' +
-                        '</button>' +
-                        '</div>' +
-                        '</a>' +
-                        '</li>');
-            }
-        });
-    });
-
-    function save_memo() {
-        socket.emit('save', {memo: $("#memo").val()});
-        Tminute = $("#memo").val();
-        $("#writebutton").removeClass("hidden");
-        $("#savebutton").addClass("hidden");
-        $("#memo").prop("disabled", true);
-        $("#selectBox").attr("disabled", false);
-    }
-
-    function write_memo() {
-        if (option == "Today") {
-            socket.emit('writer');
-            $("#selectBox").attr("disabled", true);
-        }
-    }
-
-    $('#memo').keyup(function (event) {
-        if (event.keyCode != 8)
-            socket.emit('refreshToAll', {memo: $("#memo").val()});
-    });
-
-    function sendMsg() {
-        var dates = new Date().toShortTimeString();
-        socket.emit('msg', {msg: $("#typing").val(), date: new Date().toString('HH:mm')});
-        $("#typing").val("");
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
-    }
-
-    function invite() {
-        var par = "userId=" + inviteU + "&projectIdx=${project.projectidx}";
-        $.ajax({
-            url: "../inviteUser",
-            data: par,
-            dataType: 'text',
-            async: true,
-            processData: false,
-            contentType: false,
-            type: 'GET',
-            success: function (data) {
-                socket.emit('invite', {userIdx: data});
-                console.log(data + "Invite");
-                $("#InviteUser").modal('hide');
-            }
-        });
-    }
-</script>
+<script type="text/javascript" src="../js/project/default.js"></script>
+<script type="text/javascript" src="../js/project/function.js"></script>
+<script type="text/javascript" src="../js/project/socket.js"></script>
 
 <script>
-    var invited;
-    var scheduleStart;
-    var scheduleEnd;
-    var option = "Today";
-    var Tminute = "${project.minute}";
-
-    $("a.zoom").imageZoom({scale: 0.75});
-    //Initialize Select Elements
-    $(".select2").select();
-    //Date range picker
-    $('#reservation').daterangepicker();
-    $("#reservation").on('apply.daterangepicker', function (ev, picker) {
-        scheduleStart = picker.startDate.format('YYYY-MM-DD');
-        scheduleEnd = picker.endDate.format('YYYY-MM-DD');
-    });
-    $('#InviteUser').on('hidden.bs.modal', function (e) {
-        $("#user").html('');
-        $("#inviteForm #inviteId").val('');
-    })
-    $('#todoMadal').on('hidden.bs.modal', function (e) {
-        $("#todocontent").val('');
-        $("#reservation").val('');
-    })
-
-    function search() {
-        var par = {
-            userId: $("#inviteForm #inviteId").val(),
-            projectIdx: ${project.projectidx}
-        };
-        var querystring = $.param(par);
-        $.ajax({
-            url: "../inviteUser",
-            type: 'POST',
-            dataType: 'json',
-            data: querystring,
-            success: function (data) {
-                invited = data.userId;
-                $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
-            },
-            error: function () {
-                $("#user").html('<div style="text-align:center;"> <img src="../img/cry.png"  width="50%" height="200px"> <p> User Info doesnt exist</p> </div>');
-            }
-        });
+    var projectIdx =${project.projectidx};
+    var user = {
+        useridx:${user.useridx},
+        id: '${user.id}',
+        name: '${user.name}',
+        img: '${user.img}'
     }
-
-    function test() {
-        var file = $("#file")[0].files[0];
-        $("#fakeFileTxt").val(file.name);
-    }
-
-    function selectFile() {
-        document.getElementById("file").click();
-    }
-
-    $("#selectBox").change(function () {
-        option = $(this).children("option:selected").text();
-        if (option == "Today")
-            $("#memo").val(Tminute);
-        else
-            $("#memo").val($(this).children("option:selected").val());
-    });
-
-    $("#inviteId").keydown(function (key) {
-        if (key.keyCode == 13) {
-            search();
-        }
-    });
-
-    $('#file').hover(function (event) {
-        $('#file_over').addClass('front_hover');
-    }, function () {
-        $('#file_over').removeClass('front_hover');
-    });
-
-    function makeTodolist() {
-
-        var param = {
-            projectIdx: ${project.projectidx},
-            userId: $("#todoselect").children("option:selected").val(),
-            startdate: scheduleStart.format('YYYY-MM-DD'),
-            enddate: scheduleEnd.format('YYYY-MM-DD'),
-            content: $("#todocontent").val()
-        };
-        var querystring = $.param(param);
-
-        $.ajax({
-            url: "../todolist",
-            type: 'POST',
-            data: querystring,
-            processData: false,
-            success: function (response) {
-                $("#todoMadal").modal('hide');
-            },
-            error: function () {
-            }
-        });
-
-    }
-
-    function endsWith(str, suffix) {
-        return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    }
-
-    function upload() {
-        var form = $("#uploadForm")[0];
-        var formData = new FormData(form);
-        $.ajax({
-            url: "../file",
-            type: "POST",
-            dataType: "json",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                socket.emit("file", {
-                    msg: data,
-                    user: "${user.name}",
-                    date: new Date().toString('HH:mm'),
-                    type: data.type
-                });
-            }
-        });
-    }
-
-
-    Dropzone.options.dropzone = {
-        clickable: false,
-        maxThumbnailFilesize: 5,
-        init: function () {
-
-            this.on('success', function (file, json) {
-            });
-
-            this.on('addedfile', function (file) {
-
-            });
-
-            this.on('drop', function (file) {
-
-            });
-        }
-    };
+    var option = 'Today';
+    var currentMinute = '${project.minute}';
+    var socket,table;
+    init();
+    socketInit(user, projectIdx);
 </script>
 </body>
 </html>

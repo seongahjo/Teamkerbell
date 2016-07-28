@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+
 @Table(name = "Alarm")
 public class Alarm {
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "ALARMIDX")
@@ -28,6 +29,12 @@ public class Alarm {
     @Column(name = "ISSHOW")
     private boolean isshow=true ;
 
+    @Column(name="CREATEDAT")
+    private Date createdat;
+
+    @Column(name="UPDATEDAT")
+    private Date updatedat;
+
     @ManyToOne
     @JoinColumn(name = "PROJECTIDX")
     private Project project;
@@ -40,6 +47,16 @@ public class Alarm {
     @JoinColumn(name = "ACTORIDX")
     private User actor;
 
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
 
     public Project getProject() {
         return project;
@@ -119,6 +136,16 @@ public class Alarm {
         this.filename = filename;
         this.fileurl = fileurl;
         this.date = date;
+    }
+
+    public Alarm(Integer contentid, String filename, String fileurl, Date date, Project project, User user, User actor) {
+        this.contentid = contentid;
+        this.filename = filename;
+        this.fileurl = fileurl;
+        this.date = date;
+        this.project = project;
+        this.user = user;
+        this.actor = actor;
     }
 
     public Alarm() {

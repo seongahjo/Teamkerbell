@@ -1,23 +1,28 @@
 package com.shape.web.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@NamedNativeQuery(name="FileDB.groupbytest",
+        query="select fd.originalname as Originalname, group_concat(distinct u.name) as Uploader, group_concat(distinct fd.tag) as tag from FileDB fd JOIN User u on fd.useridx=u.useridx JOIN Project p on fd.projectidx=p.projectidx where p.projectidx=?1 group by fd.originalname")
 @Table(name = "FileDB")
-public class FileDB {
+public class FileDB implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "FILEDBIDX")
     private Integer filedbidx;
 
-    @ManyToOne
-    @JoinColumn(name="PROJECTIDX")
-    private Project project;
 
     @ManyToOne
     @JoinColumn(name="USERIDX")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name="PROJECTIDX")
+    private Project project;
 
     @Column(name = "STOREDNAME")
     private String storedname;
@@ -34,8 +39,22 @@ public class FileDB {
     @Column(name = "TAG")
     private String tag;
 
-    @Column(name = "DATE")
-    private Date date;
+    @Column(name="CREATEDAT")
+    private Date createdat;
+
+    @Column(name="UPDATEDAT")
+    private Date updatedat;
+
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
+
 
     public Integer getFiledbidx() {
         return filedbidx;
@@ -85,14 +104,6 @@ public class FileDB {
         this.path = path;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public String getType() {
         return type;
     }
@@ -109,13 +120,30 @@ public class FileDB {
         this.tag = tag;
     }
 
-    public FileDB(String storedname, String originalname, String type, String path, String tag, Date date) {
+    public Date getCreatedat() {
+        return createdat;
+    }
+
+    public void setCreatedat(Date createdat) {
+        this.createdat = createdat;
+    }
+
+    public FileDB(String storedname, String originalname, String type, String path, String tag) {
         this.storedname = storedname;
         this.originalname = originalname;
         this.type = type;
         this.path = path;
         this.tag = tag;
-        this.date = date;
+    }
+
+    public FileDB(User user, Project project, String storedname, String originalname, String type, String path, String tag) {
+        this.user = user;
+        this.project = project;
+        this.storedname = storedname;
+        this.originalname = originalname;
+        this.type = type;
+        this.path = path;
+        this.tag = tag;
     }
 
     public FileDB() {

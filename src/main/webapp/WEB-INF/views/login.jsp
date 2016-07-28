@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -67,7 +68,7 @@
         <img class="fairy" src="img/fairy.png">
         <div class="entry_log_form" role="document">
             <h1>Sign in to start your session</h1>
-            <form action="loginprocess" method="post" id="loginForm">
+            <form action="login" method="post" id="loginForm">
                 <div class="form-group has-feedback first_log_form">
                     <input style="height:45px" type="ID" name="userId" class="form-control log_input" placeholder="ID">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -120,19 +121,33 @@
                     <i class="fa fa-user fa-1x login-fa-user"></i>
                 </div>
                 <p class="login-box-msg">Register a new membership</p>
-
-                <form action="user" method="post" id="registerForm" enctype="multipart/form-data">
+                <div id="error-message" class="alert alert-danger collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Please Enter your information correctly
+                </div>
+                <div id="success-message" class="alert alert-info collapse" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Info:</span>
+                    Register Success
+                </div>
+                <form:form commandName="tempUser" action="user" method="post" id="registerForm"
+                           enctype="multipart/form-data">
                     <!--onsubmit="register()"-->
+
                     <div class="form-group has-feedback">
-                        <input type="text" id="name" class="form-control" name="name" placeholder="Full name">
+                        <form:input path="name" type="text" id="name" class="form-control" name="name"
+                                    placeholder="Full name"/>
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
+
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="id" id="id" class="form-control" name="id" placeholder="ID">
+                        <form:input path="id" type="id" id="id" class="form-control" name="id" placeholder="ID"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" id="pw" name="pw" placeholder="Password">
+                        <form:input path="pw" type="password" class="form-control" id="pw" name="pw"
+                                    placeholder="Password"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -161,7 +176,7 @@
                         </div>
                         <!-- /.col -->
                     </div>
-                </form>
+                </form:form>
                 <div class="social-auth-links text-center">
 
                 </div>
@@ -285,9 +300,11 @@
         $("#signupModal #pw2").val('');
         $("#signupModal #name").val('');
         $("#signupModal #file").val('');
-        $("#signupModal #prev_preimage").attr("hidden","true");
-        $("#signupModal #check").prop('checked',false);
+        $("#signupModal #prev_preimage").attr("hidden", "true");
+        $("#signupModal #check").prop('checked', false);
+        $("#error-message").hide();
     });
+
     function register() {
         if (($("#pw").val()) == ($("#pw2").val())) {
             if ($("#check").prop('checked') == true) {
@@ -300,7 +317,15 @@
                     processData: false,
                     contentType: false,
                     success: function () {
-                        $("#signupModal").modal('hide');
+                        $("#error-message").hide();
+                        $("#success-message").fadeIn(1000,function () {
+                            $("#signupModal").modal('hide');
+                        });
+                    },
+                    error: function () {
+                        $("#error-message").fadeIn(600, function () {
+                            $("#error-message").fadeOut(800);
+                        });
                     }
                 });
                 // return true;

@@ -6,7 +6,7 @@ import com.nhncorp.mods.socket.io.spring.DefaultEmbeddableVerticle;
 import com.shape.web.VO.ServerUser;
 import com.shape.web.entity.Minute;
 import com.shape.web.entity.Project;
-import com.shape.web.service.MinuteService;
+import com.shape.web.repository.*;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
@@ -26,11 +26,17 @@ public class VertxServer extends DefaultEmbeddableVerticle {
     private static HashMap<String, Integer> Rooms = new HashMap<String, Integer>(); //ProjectIdx / Wrjter_Id
     private static HashMap<String, ServerUser> Clients = new HashMap<String, ServerUser>(); // socketId,User
     @Autowired
-    ProjectService pjs;
+    UserRepository userRepository;
     @Autowired
-    MinuteService ms;
+    ProjectRepository projectRepository;
     @Autowired
-    UserService us;
+    AlarmRepository alarmRepository;
+    @Autowired
+    TodolistRepository todolistRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
+    @Autowired
+    MinuteRepository minuteRepository;
 
     @Override
     public void start(Vertx vertx) {
@@ -117,11 +123,10 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 event.putString("img", su.getImg());
                 event.putString("user", su.getName());
 
-
                 if (event.getString("type").equals("img"))
                     event.putString("msg", "<img src=../loadImg?name=" + event.getElement("msg").asObject().getString("stored") + " style=\'width:200px;height:150px\'>");
                 else
-                    event.putString("msg", "<i class='fa fa-file-text-o fa-2x'></i>" + "<a href='file?name=" + event.getElement("msg").asObject().getString("stored") + "'><span class='file_name_tag' style='color:#ffffff;'> " + event.getElement("msg").asObject().getString("original") + "</span></a>");
+                    event.putString("msg", "<i class='fa fa-file-text-o fa-2x'></i>" + "<a href='../file?name=" + event.getElement("msg").asObject().getString("stored") + "'><span class='file_name_tag' style='color:#ffffff;'> " + event.getElement("msg").asObject().getString("original") + "</span></a>");
                 io.sockets().in(projectIdx).emit("response", event);
                 logger.info("[ROOM "+projectIdx+"] Sending File [USER "+su.getId()+"]");
             });//img end
@@ -133,12 +138,12 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 Integer writer_id = su.getUserIdx();
                 logger.info("["+projectIdx + "] Trying to be writer ["+su.getId()+"]");
                 if (Rooms.get(projectIdx) != -1) {
-                    socket.emit("write", "no");
+                    socket.emit("write", "{\"flag\" : \"no\", \"writer\" : \""+su.getId()+"\"}");
                     logger.info("["+su.getId() + "] Failing to be writer");
                 } else {
                     Rooms.replace(projectIdx, writer_id); //쓰는 사람의 id로 변경
-                    socket.emit("write", "yes");
-                    io.sockets().in(projectIdx).except(socket.getId()).emit("write", "no");
+                    socket.emit("write", "{\"flag\" : \"yes\", \"writer\" : \""+su.getId()+"\"}");
+                    io.sockets().in(projectIdx).except(socket.getId()).emit("write", "{\"flag\" : \"no\", \"writer\" : \""+su.getId()+"\"}");
                     logger.info("["+projectIdx + "] Succeeding to be writer [USER "+ su.getId()+"]");
                 }
             }); //writer end
@@ -153,14 +158,14 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 ServerUser su = Clients.get(socket.getId());
                 String projectIdx = su.getProjectIdx();
                 String memo = event.getString("memo");
-                Project pj = pjs.get(Integer.parseInt(projectIdx));
+                Project pj = projectRepository.findOne(Integer.parseInt(projectIdx));
                 pj.setMinute(memo);
                 logger.info("[ROOM "+projectIdx+"] Trying to save memo [" + memo + "] [USER "+su.getId()+"]");
 
                 /*
                 Create Minute
                  */
-                Minute minute = ms.getByDate(new Date());
+                Minute minute = minuteRepository.findByProjectAndDate(pj,new Date());
                 if (minute == null) {
                     minute = new Minute(memo, new Date());
                     logger.info("[ROOM "+projectIdx+"] Minute is Created");
@@ -168,9 +173,9 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 minute.setContent(memo);
                 minute.setDate(new Date());
                 minute.setProject(pj);
-                ms.save(minute);
+                minuteRepository.saveAndFlush(minute);
 
-                pjs.save(pj);
+                projectRepository.saveAndFlush(pj);
                 Rooms.replace(projectIdx, -1);
                 try {
                     FileUtil.MakeMinute(Integer.parseInt(projectIdx), memo);
@@ -180,15 +185,17 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                     e.printStackTrace();
                 }
                 io.sockets().in(projectIdx).emit("refresh", memo);
+                io.sockets().in(projectIdx).emit("finish");
                 logger.info("[ROOM "+projectIdx+"] Succeeding to save memo [" + memo + "] [USER "+su.getId()+"]");
             }); //save end
+
 
             socket.on("invite", event -> {
                 Integer userIdx = Integer.parseInt(event.getString("userIdx"));
                 for (ServerUser temp : Clients.values())
                     if (temp.getUserIdx() == userIdx)
                         io.sockets().socket(temp.getSocketId(), false).emit("alarm");
-            });
+            }); //invite end
         });// onConnection end
         server.listen(port);
     }

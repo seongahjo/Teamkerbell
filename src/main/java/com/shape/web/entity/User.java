@@ -1,15 +1,22 @@
 package com.shape.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-
 @Table(name = "User")
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 4870799528094495363L;
     @Id
     @GeneratedValue
     @Column(name = "USERIDX")
@@ -17,11 +24,13 @@ public class User {
 
 
     @Column(name = "ID")
-    @NotEmpty
+    @NotEmpty(message = "fucking")
+    @Size(min = 4, max = 10)
     private String id;
 
     @Column(name = "PW")
     @NotEmpty
+    @Size(min = 4, max = 10)
     private String pw;
 
     @Column(name = "NAME")
@@ -31,23 +40,33 @@ public class User {
     @Column(name = "IMG")
     private String img;
 
+    @Column(name = "CREATEDAT")
+    private Date createdat;
+
+    @Column(name = "UPDATEDAT")
+    private Date updatedat;
+
+
+    @JsonIgnore
     @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL)
     private Set<Alarm> alarmsactor = new HashSet<Alarm>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Alarm> alarmsuser = new HashSet<Alarm>();
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Alarm> logs = new HashSet<Alarm>();
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Todolist> todolists = new HashSet<Todolist>();
-
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<FileDB> filedbs = new HashSet<FileDB>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<Appointment>();
-
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "useridx")},
@@ -55,14 +74,17 @@ public class User {
     )
     private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+
+    @JsonBackReference
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Participate",
             joinColumns = @JoinColumn(name = "USERIDX"),
             inverseJoinColumns = @JoinColumn(name = "PROJECTIDX")
     )
-    private Set<Project> projects = new HashSet<Project>();
 
+
+    private Set<Project> projects = new HashSet<Project>();
 
     public Set<Project> getProjects() {
         return projects;
@@ -78,6 +100,16 @@ public class User {
         this.todolists.add(todolist);
     }
 
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
+
     public Set<Appointment> getAppointments() {
         return appointments;
     }
@@ -86,6 +118,14 @@ public class User {
         if (appointment.getUser() == null)
             appointment.setUser(this);
         this.appointments.add(appointment);
+    }
+
+    public Set<Alarm> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<Alarm> logs) {
+        this.logs = logs;
     }
 
     public Set<FileDB> getFiledbs() {

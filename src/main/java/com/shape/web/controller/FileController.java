@@ -5,7 +5,10 @@ import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
 import com.shape.web.parser.Tagging;
-import com.shape.web.service.AlarmService;
+import com.shape.web.repository.AlarmRepository;
+import com.shape.web.repository.FileDBRepository;
+import com.shape.web.repository.ProjectRepository;
+import com.shape.web.repository.UserRepository;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
@@ -14,18 +17,20 @@ import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.vertx.java.core.json.JsonArray;
+import org.vertx.java.core.json.JsonObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * Created by seongahjo on 2016. 1. 1..
@@ -35,18 +40,18 @@ import java.util.*;
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @Autowired
-    AlarmService as;
+
 
     @Autowired
-    UserService us;
+    AlarmRepository alarmRepository;
+
+
+
 
     @Autowired
-    ProjectService pjs;
-
+    ProjectService projectService;
     @Autowired
-    FileDBService fs;
-
+    FileDBService fileDBService;
     /*
     RESTFUL DOCUMENTATION
     FILE
@@ -58,17 +63,15 @@ public class FileController {
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     @ResponseBody
-    public Map Upload(@RequestParam(value = "idx") String projectIdx, @RequestParam(value = "userIdx") String userIdx, HttpServletRequest HSrequest) {
+    public Map Upload(@RequestParam(value = "idx") String projectIdx, HttpSession session, HttpServletRequest HSrequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-        Project project = pjs.get(Integer.parseInt(projectIdx));
-        User user = us.get(Integer.parseInt(userIdx));
+        Project project = projectService.getProject(Integer.parseInt(projectIdx));
+        User user = (User) session.getAttribute("user");
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;    //
-        HashMap<String,String> result=null;
-        String originalFileName = null;
-        String originalFileExtension = null;
-        String storedFileName = null;
+        HashMap<String, String> result = null;
+
         String type = null;
 
         File file = new File(filePath);
@@ -76,57 +79,44 @@ public class FileController {
             file.mkdirs();
         }
 
-        while (iterator.hasNext()) {
-            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+         while (iterator.hasNext()) {
+        multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+        logger.info(projectIdx+" "+multipartFile.getName()+" "+project.getProjectidx()+" ");
+        if (!multipartFile.isEmpty()) {
+            try {
+                result = new HashMap<>();
+                String originalFileName = multipartFile.getOriginalFilename();
+                String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String storedFileName = CommonUtils.getRandomString() + originalFileExtension;
+                if (FileUtil.IsImage(originalFileName))
+                    type = "img";
+                else
+                    type = "file";
 
-            if (!multipartFile.isEmpty()) {
-                try {
-                    result= new HashMap<>();
-                    originalFileName = multipartFile.getOriginalFilename();
-                    originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-                    storedFileName = CommonUtils.getRandomString() + originalFileExtension;
-                    if (FileUtil.IsImage(originalFileName))
-                        type = "img";
-                    else
-                        type = "file";
+                file = new File(filePath + "/" + storedFileName);
 
-                    file = new File(filePath + "/" + originalFileName);
+                multipartFile.transferTo(file);
+                String tag = Tagging.TagbyString(file);
 
-                    multipartFile.transferTo(file);
-                    String tag = null;
-                    ArrayList<String> Tag=Tagging.Tag(file);
-                    if(Tag!=null) {
-                        tag=new String();
-                        for (String temp : Tag) {
-                            tag += temp + ",";
-                        }
-                        tag = tag.substring(0, tag.length() - 1);
-                    }
-                    FileDB fd = new FileDB(storedFileName, originalFileName, type, filePath,tag, new Date());
+                FileDB fd = new FileDB(user, project, storedFileName, originalFileName, type, filePath, tag);
+                fileDBService.save(fd);
+                project.getUsers().forEach(u -> {
+                    Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, u, user);
+                    alarmRepository.saveAndFlush(alarm);
+                });
 
-                    fd.setUser(user);
-                    fd.setProject(project);
-                    fs.save(fd);
 
-                    for (User u : project.getUsers()) {
-                        Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date());
-                        alarm.setUser(u);
-                        alarm.setActor(user);
-                        alarm.setProject(project);
-                        as.save(alarm);
-                    }
-
-                    logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
-                    result.put("stored",storedFileName);
-                    result.put("type",type);
-                    result.put("original",originalFileName);
-                    result.put("size",String.valueOf(file.length()));
-                } catch (IOException e) {
-                    // file io error
-                }catch(NullPointerException e){
-                    logger.info("NULL!!!!!!");
-                }
+                logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
+                result.put("stored", storedFileName);
+                result.put("type", type);
+                result.put("original", originalFileName);
+                result.put("size", String.valueOf(file.length()));
+            } catch (IOException e) {
+                // file io error
+            } catch (NullPointerException e) {
+                logger.info("FILE UPLOAD NULL");
             }
+        }
         }
 
         return result;
@@ -136,24 +126,24 @@ public class FileController {
     To download file
     */
     @RequestMapping(value = "/file", method = RequestMethod.GET)
-    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response) {
+    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletResponse response) {
         try {
             InputStream in = null;
             OutputStream os = null;
             String client = "";
-            FileDB fd = fs.getByStoredname(name);
-            name = fd.getOriginalname();
+            FileDB fd = fileDBService.getFileByStored(name);
+            String originalName = fd.getOriginalname();
             String folder = fd.getPath();
             File file = new File(folder + "/" + name);
             response.reset();
             /*
             Header Setting
              */
-            response.setHeader("Content-Disposition", "attachment;filename=\"" + name + "\"" + ";");
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + originalName + "\"" + ";");
             if (client.contains("MSIE"))
-                response.setHeader("Content-Disposition", "attachment; filename=" + new String(name.getBytes("KSC5601"), "ISO8859_1"));
+                response.setHeader("Content-Disposition", "attachment; filename=" + new String(originalName.getBytes("KSC5601"), "ISO8859_1"));
             else {  // IE 이외
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(name, "UTF-8") + "\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(originalName, "UTF-8") + "\"");
                 response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
             }    //response 헤더 설정해서
 
@@ -179,4 +169,59 @@ public class FileController {
         }
 
     }
+
+    /*
+       get files from corresponding project
+    */
+    @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
+        List<Object[]> filedb = fileDBService.getFilesList(projectIdx);
+        JsonObject jsonObject = new JsonObject();
+        JsonArray array = new JsonArray();
+        filedb.forEach(temp -> {
+            String type2 = "<a href='#' onclick='openFile(\"" + temp[0] + "\",0)' data-toggle=\"modal\" data-target=\"#downloadModal\" >" + temp[0] + "</a>";
+            JsonArray arraytemp = new JsonArray();
+            arraytemp.add(type2);
+            arraytemp.add(temp[1]);
+            arraytemp.add(temp[2]);
+            array.addArray(arraytemp);
+
+        });
+        jsonObject.putArray("data", array);
+
+        return jsonObject.toString();
+    }
+
+    @RequestMapping(value = "/file/{projectIdx}/name", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx, @RequestParam("name") String name, @RequestParam("page") Integer page) {
+        List<FileDB> fileDBs = fileDBService.getFilesByOriginal(projectService.getProject(projectIdx), name, page, 10);
+        List<Map<String, String>> jsonar = new ArrayList();
+        int count = 0 + 10 * page;
+        IntStream.range(0, fileDBs.size()).forEach(idx -> {
+                    FileDB temp = fileDBs.get(idx);
+                    Map<String, String> json = new HashMap<>();
+                    json.put("count", String.valueOf(count + idx+1));
+                    json.put("file", "<a href=../file?name=" + temp.getStoredname() + ">" + "<i class= 'fa fa-file'>" + "file" + "</i></a>");
+                    json.put("uploader", temp.getUser().getName());
+                    json.put("date", CommonUtils.DateTimeFormat(temp.getCreatedat()));
+                    jsonar.add(json);
+                }
+        );
+      /*
+        fileDBs.forEach(temp->{
+            Map<String,String> json=new HashMap<>();
+            json.put("count",String.valueOf(++count));
+            json.put("file","<a href=../file?name="+temp.getStoredname()+">"+"<i class= 'fa fa-file'>"+"file"+"</i></a>");
+            json.put("uploader",temp.getUser().getName());
+            json.put("date",CommonUtils.DateTimeFormat(temp.getCreatedat()));
+            jsonar.add(json);
+
+        });*/
+
+        return jsonar;
+    }
+
+
 }
