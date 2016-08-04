@@ -7,8 +7,6 @@ import com.shape.web.VO.ServerUser;
 import com.shape.web.entity.Minute;
 import com.shape.web.entity.Project;
 import com.shape.web.repository.*;
-import com.shape.web.service.ProjectService;
-import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;

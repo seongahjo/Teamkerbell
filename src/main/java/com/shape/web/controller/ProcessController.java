@@ -4,6 +4,7 @@ import com.shape.web.entity.Alarm;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.User;
 import com.shape.web.repository.*;
+import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.UserService;
 import org.slf4j.Logger;
@@ -37,14 +38,16 @@ public class ProcessController {
     private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
 
 
-    @Autowired
-    AlarmRepository alarmRepository;
+
 
     @Autowired
     UserService userService;
 
     @Autowired
     FileDBService fileDBService;
+
+    @Autowired
+    AlarmService alarmService;
     /*
        To load uploaded Image
        */
@@ -76,12 +79,12 @@ public class ProcessController {
     @RequestMapping(value = "/acceptRequest", method = RequestMethod.GET)
     @ResponseBody
     public void acceptRequest(@RequestParam("alarmIdx") Integer alarmIdx, @RequestParam("type") Integer type) {
-        Alarm alarm = alarmRepository.findOne(alarmIdx);
+        Alarm alarm = alarmService.getAlarm(alarmIdx);
         alarm.setIsshow(false);
         if (type == 1)
             alarm.getUser().addProject(alarm.getProject());
        // userRepository.saveAndFlush(alarm.getUser());
-        alarmRepository.saveAndFlush(alarm);
+        alarmService.save(alarm);
     }
 
     /*
@@ -90,7 +93,7 @@ public class ProcessController {
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
     @ResponseBody
     public Map updateAlarm(@RequestParam("userId") String userId) {
-        Alarm alarm = alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0,userService.getUserById(userId) );
+        Alarm alarm = alarmService.getAlarm(userService.getUserById(userId));
         Map<String, String> data = new HashMap<>();
         if (alarm != null) {
             data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
@@ -104,7 +107,7 @@ public class ProcessController {
     @ResponseBody
     public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List timeline = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(page+1,20));
+        List timeline = alarmService.getTimelines(user, page+1,20);
         logger.info("REQUEST more timeline");
         if(timeline.size()==0)
             throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST,"NO MORE TIMELINE");
