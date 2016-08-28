@@ -6,6 +6,7 @@ import com.shape.web.entity.User;
 import com.shape.web.repository.*;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
+import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,9 @@ public class ProcessController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProjectService projectService;
 
     @Autowired
     FileDBService fileDBService;
@@ -85,6 +89,7 @@ public class ProcessController {
             alarm.getUser().addProject(alarm.getProject());
        // userRepository.saveAndFlush(alarm.getUser());
         alarmService.save(alarm);
+        projectService.save(alarm.getUser(),alarm.getProject());
     }
 
     /*

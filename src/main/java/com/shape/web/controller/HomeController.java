@@ -96,7 +96,7 @@ public class HomeController {
         List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = scheduleService.getSchedules(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
-
+        logger.info("FIND");
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
         mv.addObject("timeline", tlla);

@@ -24,13 +24,12 @@ public class AlarmServiceImpl implements AlarmService {
     AlarmRepository alarmRepository;
 
     @Override
-    //@CacheEvict(value="alarms",key="'users:'.concat(#p0.user.id).concat(':alarms')")
     public Alarm create(Alarm alarm) {
         Alarm temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(alarm.getUser(), alarm.getActor(), 0, true);
         if (temp != null) {
             return null;
         }
-        alarmRepository.saveAndFlush(alarm);
+        save(alarm);
 
         return alarm;
     }
@@ -67,7 +66,7 @@ public class AlarmServiceImpl implements AlarmService {
             @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.id).concat(':alarms')"),
             @CacheEvict(value = "alarm", key = "'alarm:'.concat(#p0.alarmidx)"),
             @CacheEvict(value = "alarm", key = "'user:'.concat(#p0.user.id).concat(':alarm')"),
-            @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.id).concat(':timelines')"),
+            @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.id).concat(':timelines')")
     })
     public Alarm save(Alarm a) {
         return alarmRepository.saveAndFlush(a);

@@ -137,7 +137,7 @@ public class ProjectController {
         User user = userService.getUserById(userId); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
-        alarmService.create(alarm);
+        alarmService.save(alarm);
         return String.valueOf(user.getUseridx());
     }
 

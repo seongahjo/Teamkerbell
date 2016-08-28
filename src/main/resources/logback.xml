@@ -65,7 +65,7 @@
             <root level="INFO">
                 <appender-ref ref="CONSOLE"/>
                 <appender-ref ref="LOGFILE"/>
-                <appender-ref ref="kafkaAppender"/>
+               <!-- <appender-ref ref="kafkaAppender"/> -->
             </root>
         </then>
         <else>
