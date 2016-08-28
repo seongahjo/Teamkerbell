@@ -41,7 +41,7 @@ How To Use
  
  * ./mvnw tomcat7:run
  
- * 실행후 http://localhost:8080 에 접속
+ * Access the deployed web application at [http://localhost:8080]
 
  ```
  
