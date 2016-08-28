@@ -15,6 +15,12 @@ Core Features
 * Automatically Synchronize up to date Documents
 * All the changes will be notified by Mobile App
 
+Application Stack
+=====
+![app stack](https://cloud.githubusercontent.com/assets/10272119/18032119/b7a4a6ee-6d36-11e6-80f7-020d08e9045f.png)
+
+
+
 
 How To Use
 =====
@@ -45,8 +51,12 @@ How To Use
 
  ```
  
+ 
 ##### Developed by IntelliJ
+
 
 License
 =====
 Teamkerbell is released under [MIT License] 
+
+[MIT License]: https://github.com/seongahjo/Teamkerbell/blob/master/LICENSE
