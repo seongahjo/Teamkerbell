@@ -1,10 +1,13 @@
 package com.shape.web.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -24,11 +27,16 @@ import org.springframework.session.web.http.SessionRepositoryFilter;
 @Configuration
 @EnableCaching
 @EnableRedisHttpSession
-public class RedisConfig extends CachingConfigurerSupport{
+@PropertySource("classpath:spring.properties")
+public class RedisConfig extends CachingConfigurerSupport {
+
+    @Autowired
+    private Environment env;
+
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-        jedisConnectionFactory.setHostName("127.0.0.1");
+        jedisConnectionFactory.setHostName(env.getProperty("redis.property.address"));
         jedisConnectionFactory.setPort(6379);
         jedisConnectionFactory.setUsePool(true);
         return jedisConnectionFactory;
@@ -42,11 +50,12 @@ public class RedisConfig extends CachingConfigurerSupport{
     }
 
     @Bean
-    public SessionRepositoryFilter springSessionRepositoryFilter(RedisOperationsSessionRepository sr){
+    public SessionRepositoryFilter springSessionRepositoryFilter(RedisOperationsSessionRepository sr) {
         return new SessionRepositoryFilter(sr);
     }
+
     @Bean
-    public HttpSessionStrategy httpSessionStrategy(){
+    public HttpSessionStrategy httpSessionStrategy() {
         return new HeaderHttpSessionStrategy();
     }
 
@@ -62,7 +71,7 @@ public class RedisConfig extends CachingConfigurerSupport{
 
 
     @Bean
-    public RedisTemplate redisTemplate(RedisConnectionFactory rf){
+    public RedisTemplate redisTemplate(RedisConnectionFactory rf) {
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(rf);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -70,7 +79,7 @@ public class RedisConfig extends CachingConfigurerSupport{
     }
 
     @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate){
+    public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         cacheManager.setDefaultExpiration(300);
         return cacheManager;

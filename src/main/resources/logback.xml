@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="true">
-    <property resource="spring.properties" />
+    <property resource="spring.properties"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
@@ -36,13 +36,13 @@
             </layout>
         </encoder>
         <topic>logs</topic>
-        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.RoundRobinKeyingStrategy" />
-        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.RoundRobinKeyingStrategy"/>
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
 
         <!-- each <producerConfig> translates to regular kafka-client config (format: key=value) -->
         <!-- producer configs are documented here: https://kafka.apache.org/documentation.html#newproducerconfigs -->
         <!-- bootstrap.servers is the only mandatory producerConfig -->
-        <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
+        <producerConfig>bootstrap.servers=${kafka.property.address}</producerConfig>
         <!-- this is the fallback appender if kafka is not available. -->
         <!--<appender-ref ref="STDOUT">-->
     </appender>
@@ -65,7 +65,11 @@
             <root level="INFO">
                 <appender-ref ref="CONSOLE"/>
                 <appender-ref ref="LOGFILE"/>
-               <!-- <appender-ref ref="kafkaAppender"/> -->
+                <if condition='property("kafka.property.use").equals("true")'>
+                    <then>
+                        <appender-ref ref="kafkaAppender"/>
+                    </then>
+                </if>
             </root>
         </then>
         <else>

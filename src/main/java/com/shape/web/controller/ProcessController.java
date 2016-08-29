@@ -60,7 +60,7 @@ public class ProcessController {
     public void loadImg(@RequestParam(value = "name") String name, HttpServletResponse response) {
         try {
             FileDB file = fileDBService.getFileByStored(name);
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + file.getOriginalname()));
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath() + "/" + file.getStoredname()));
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(512);
             int imageByte;
             while ((imageByte = in.read()) != -1)

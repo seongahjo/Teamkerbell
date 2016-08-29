@@ -8,6 +8,11 @@ var scheduleEnd;
 var modalName;
 var modalPage;
 
+function fileDialog() {
+    document.getElementById("file").click();
+}
+
+
 function search() {
     var par = {
         userId: $("#inviteForm #inviteId").val(),
@@ -32,6 +37,7 @@ function search() {
         }
     });
 }
+
 
 
 function invite() {

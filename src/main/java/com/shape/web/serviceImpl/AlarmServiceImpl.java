@@ -25,10 +25,7 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Override
     public Alarm create(Alarm alarm) {
-        Alarm temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(alarm.getUser(), alarm.getActor(), 0, true);
-        if (temp != null) {
-            return null;
-        }
+
         save(alarm);
 
         return alarm;
@@ -69,6 +66,10 @@ public class AlarmServiceImpl implements AlarmService {
             @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.id).concat(':timelines')")
     })
     public Alarm save(Alarm a) {
+        Alarm temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(a.getUser(), a.getActor(), 0, true);
+        if (temp != null) {
+            return null;
+        }
         return alarmRepository.saveAndFlush(a);
     }
 }
