@@ -4,6 +4,7 @@ import com.shape.web.entity.Minute;
 import com.shape.web.entity.Project;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,5 +13,6 @@ import java.util.List;
 @Service
 public interface MinuteService {
     List getMinutes(Project p);
+    Minute getMinute(Project p,Date date);
     Minute save(Minute m);
 }

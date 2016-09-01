@@ -7,8 +7,10 @@ import com.shape.web.service.MinuteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +27,16 @@ public class MinuteServiceImpl implements MinuteService{
     }
 
     @Override
-    @CacheEvict(value="minutes",key="'project:'.concat(#p0.project.projectidx).concat(':minutes')")
+    @Cacheable(value="minute",key = "'project:'.concat(#p0.projectidx).concat(':minute:').concat(#p1)")
+    public Minute getMinute(Project p,Date date){
+      return minuteRepository.findByProjectAndDate(p,date);
+    }
+
+    @Override
+    @Caching (evict={
+            @CacheEvict(value="minutes",key="'project:'.concat(#p0.project.projectidx).concat(':minutes')"),
+            @CacheEvict(value="minute",key="'project:'.concat(#p0.project.projectidx).concat(':minute:').concat(#p0.date)")
+    })
     public Minute save(Minute m) {
         return minuteRepository.saveAndFlush(m);
     }

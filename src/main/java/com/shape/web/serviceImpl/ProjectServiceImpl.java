@@ -53,7 +53,6 @@ public class ProjectServiceImpl implements ProjectService {
             @CacheEvict(value = "projects", key = "'user:'.concat(#p0.id).concat(':projects')"),
             @CacheEvict(value="project",key="'project:'.concat(#p1.projectidx)")
     })
-
     public Project save(User u,Project p) {
         userRepository.saveAndFlush(u);
        return projectRepository.saveAndFlush(p);
