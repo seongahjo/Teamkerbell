@@ -1,15 +1,12 @@
 package com.shape.web.controller;
 
-import com.shape.web.VO.MeetingMember;
-import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
-import com.shape.web.repository.*;
+import com.shape.web.repository.LogRepository;
 import com.shape.web.service.*;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +48,7 @@ public class HomeController {
     MinuteService minuteService;
     @Autowired
     FileDBService fileDBService;
+
     /**
      * Simply selects the home view to render by returning its name.
      */
@@ -96,7 +93,6 @@ public class HomeController {
         List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = scheduleService.getSchedules(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
-        logger.info("FIND");
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
         mv.addObject("timeline", tlla);
@@ -214,7 +210,6 @@ public class HomeController {
         // mv.addObject("logs",logs);
         return mv;
     }
-
 
 
 }

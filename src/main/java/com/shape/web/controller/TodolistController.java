@@ -23,7 +23,7 @@ import javax.validation.Valid;
 /**
  * Created by seongahjo on 2016. 6. 14..
  */
-@Controller
+@RestController
 public class TodolistController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
@@ -41,7 +41,6 @@ public class TodolistController {
    To make to-do list
    */
     @RequestMapping(value = "/todolist", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity makeTodolist(@RequestParam("projectIdx") Integer projectIdx,
                                        @RequestParam("userId") String userId,
                                        @ModelAttribute("todolist") @Valid Todolist todolist,
@@ -60,7 +59,6 @@ public class TodolistController {
     }
 
     @RequestMapping(value = "/todolist", method = RequestMethod.PUT)
-    @ResponseBody
     public void modifyTodolist(@RequestBody Todolist todolist) {
         Todolist t = todolistRepository.findOne(todolist.getTodolistidx());
         if (todolist.getStartdate() != null)
@@ -77,7 +75,6 @@ public class TodolistController {
      To accomplish to-do list
      */
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
-    @ResponseBody
     public void todocheck(@RequestParam(value = "id") Integer id) {
         Todolist todolist = todolistRepository.findOne(id);
         todolist.setOk(!todolist.getOk());

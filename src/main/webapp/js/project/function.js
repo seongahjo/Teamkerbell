@@ -2,11 +2,11 @@
  * Created by seongahjo on 2016. 7. 24..
  */
 
-var invited;
-var scheduleStart;
-var scheduleEnd;
-var modalName;
-var modalPage;
+var invited; // 초대된 사람의 아이디
+var scheduleStart; // 시작시간
+var scheduleEnd; // 종료시간
+var modalName; // 파일 버전 모달
+var modalPage; // 파일 버전 페이지
 
 function fileDialog() {
     document.getElementById("file").click();
@@ -56,7 +56,36 @@ function invite() {
     });
 }
 
+function makeSchedule() {
+    var param = {
+        projectIdx: projectIdx,
+        startdate: scheduleStart,
+        enddate: scheduleEnd,
+        state : 0,
+        content: $("#scheduleform").find($("#goal")).val(),
+        place : $("#scheduleform").find($("#place")).val()
+    };
+    var querystring = $.param(param); // toJSON
 
+    $.ajax({
+        url: "../schedule",
+        type: 'POST',
+        data: querystring,
+        processData: false,
+        success: function () {
+            $("#scheduleform").find("#success-message").fadeIn(1000, function () {
+                $("#scheduleModal").modal('hide');
+            })
+        },
+        error: function () {
+            console.log('bb');
+            $("#scheduleform").find("#error-message").fadeIn(600, function () {
+                $("#scheduleModal").find($("#error-message")).fadeOut(800);
+            });
+        }
+    });
+
+}
 
 
 function makeTodolist() {

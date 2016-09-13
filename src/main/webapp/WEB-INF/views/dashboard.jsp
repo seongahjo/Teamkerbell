@@ -559,6 +559,7 @@
                     todolistidx: event.tid, enddate: event.end.format(),
                     startdate: event.start.format()
                 };
+
                 var datas = JSON.stringify(param);
                 $.ajax({
                     url: "../todolist",
@@ -681,6 +682,7 @@
             }
         });
     });
+
     function more() {
         var par = "page=" + page;
         $.ajax({
@@ -709,8 +711,6 @@
                     ($("#error-message")).fadeOut(800);
                 });
             }
-
-
         })
     }
 

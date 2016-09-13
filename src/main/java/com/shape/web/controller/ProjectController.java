@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Handles requests for the project.
  */
-@Controller
+@RestController
 public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
@@ -58,7 +58,6 @@ public class ProjectController {
      */
 
     @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 개설
-    @ResponseBody
     public List getRoom(@RequestParam(value = "page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<Project> projects = projectService.getProjects(user, page,5);
@@ -84,13 +83,11 @@ public class ProjectController {
     To delete project room
     */
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
-    @ResponseBody
     public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
         projectService.delete(projectIdx);
     }
 
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
-    @ResponseBody
     public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
         User u=(User) session.getAttribute("user");
         Project project = projectService.getProject(projectIdx);
@@ -102,7 +99,6 @@ public class ProjectController {
        To find out invited user
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
-    @ResponseBody
     public Map searchUser(@RequestParam(value = "userId") String userId,
                           @RequestParam("projectIdx") Integer projectIdx)  {
         logger.info("Search Member");
@@ -129,7 +125,6 @@ public class ProjectController {
        To invite user to project room
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
-    @ResponseBody
     public String InviteMember(@RequestParam(value = "userId") String userId,
                                @RequestParam("projectIdx") Integer projectIdx,
                                HttpSession session) {
@@ -143,7 +138,6 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity sessionCheck() {
         return new ResponseEntity(HttpStatus.OK);
     }

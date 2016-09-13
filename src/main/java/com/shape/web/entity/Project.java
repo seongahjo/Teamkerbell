@@ -1,8 +1,10 @@
 package com.shape.web.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.Sort;
+
+
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -55,7 +57,6 @@ public class Project implements Serializable{
 
     @JsonIgnore
     @OneToMany(mappedBy = "project")
-    @Sort
     private Set<Schedule> schedules = new HashSet<Schedule>();
     @JsonIgnore
     @OneToMany(mappedBy = "project")

@@ -687,20 +687,20 @@
                             </div>
                             <div class="form-group has-success">
                                 <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i>To do</label>
-                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
-                                       placeholder="To do ...">
+                                <input type="text" id="goal" class="form-control"
+                                       placeholder="Your Goal">
                             </div>
 
                             <div class="form-group has-success">
                                 <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i>Place</label>
-                                <input type="text" id="todocontent" class="form-control" id="inputSuccess"
-                                       placeholder="To do ...">
+                                <input type="text" id="place" class="form-control"
+                                       placeholder="Place">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="makeTodolist()">Submit</button>
+                        <button type="button" class="btn btn-primary" onclick="makeSchedule()">Submit</button>
                     </div>
                 </form>
             </div>

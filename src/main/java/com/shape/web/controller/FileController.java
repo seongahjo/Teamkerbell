@@ -5,21 +5,14 @@ import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
 import com.shape.web.parser.Tagging;
-import com.shape.web.repository.AlarmRepository;
-import com.shape.web.repository.FileDBRepository;
-import com.shape.web.repository.ProjectRepository;
-import com.shape.web.repository.UserRepository;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
-import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -37,7 +30,7 @@ import java.util.stream.IntStream;
  * Created by seongahjo on 2016. 1. 1..
  * Handles requests for accessing file.
  */
-@Controller
+@RestController
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
@@ -63,7 +56,6 @@ public class FileController {
      To uploading file
      */
     @RequestMapping(value = "/file", method = RequestMethod.POST)
-    @ResponseBody
     public Map Upload(@RequestParam(value = "idx") String projectIdx, HttpSession session, HttpServletRequest HSrequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
@@ -175,7 +167,6 @@ public class FileController {
        get files from corresponding project
     */
     @RequestMapping(value = "/file/{projectIdx}", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
     public String GetFilelist(@PathVariable("projectIdx") Integer projectIdx) {
         List<Object[]> filedb = fileDBService.getFilesList(projectIdx);
         JsonObject jsonObject = new JsonObject();
@@ -195,7 +186,6 @@ public class FileController {
     }
 
     @RequestMapping(value = "/file/{projectIdx}/name", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
     public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx, @RequestParam("name") String name, @RequestParam("page") Integer page) {
         List<FileDB> fileDBs = fileDBService.getFilesByOriginal(projectService.getProject(projectIdx), name, page, 10);
         List<Map<String, String>> jsonar = new ArrayList();

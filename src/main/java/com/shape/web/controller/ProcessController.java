@@ -3,7 +3,6 @@ package com.shape.web.controller;
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.User;
-import com.shape.web.repository.*;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
@@ -11,13 +10,9 @@ import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +28,7 @@ import java.util.Map;
 /**
  * Handles requests for the whole application processing.
  */
-@Controller
+@RestController
 public class ProcessController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
@@ -56,7 +51,6 @@ public class ProcessController {
        To load uploaded Image
        */
     @RequestMapping(value = "/loadImg", method = RequestMethod.GET)
-    @ResponseBody
     public void loadImg(@RequestParam(value = "name") String name, HttpServletResponse response) {
         try {
             FileDB file = fileDBService.getFileByStored(name);
@@ -81,7 +75,6 @@ public class ProcessController {
     To accept invite request
      */
     @RequestMapping(value = "/acceptRequest", method = RequestMethod.GET)
-    @ResponseBody
     public void acceptRequest(@RequestParam("alarmIdx") Integer alarmIdx, @RequestParam("type") Integer type) {
         Alarm alarm = alarmService.getAlarm(alarmIdx);
         alarm.setIsshow(false);
@@ -96,7 +89,6 @@ public class ProcessController {
     To get invite request
      */
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
-    @ResponseBody
     public Map updateAlarm(@RequestParam("userId") String userId) {
         Alarm alarm = alarmService.getAlarm(userService.getUserById(userId));
         Map<String, String> data = new HashMap<>();
@@ -109,7 +101,6 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
-    @ResponseBody
     public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List timeline = alarmService.getTimelines(user, page+1,20);
