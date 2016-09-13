@@ -3,20 +3,14 @@ package com.shape.web.controller;
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
-import com.shape.web.repository.AlarmRepository;
-import com.shape.web.repository.ProjectRepository;
-import com.shape.web.repository.UserRepository;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -57,9 +51,11 @@ public class ProjectController {
         GET : INVITE
      */
 
-    @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 개설
+    @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
     public List getRoom(@RequestParam(value = "page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
+        if(null==page)
+            page=0;
         List<Project> projects = projectService.getProjects(user, page,5);
         logger.info("room paging");
         return projects;

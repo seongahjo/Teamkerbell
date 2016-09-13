@@ -84,14 +84,12 @@ public class UserController {
                 logger.info("Register Success " + user.getName());
             } finally {
                 return "good";
-               // return new ResponseEntity(HttpStatus.CREATED);
-            }
+              }
         } // hasErrors end
         else {
 
             logger.info("Register Error");
             return "login";
-            //return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 

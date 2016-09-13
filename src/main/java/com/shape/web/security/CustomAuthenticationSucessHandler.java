@@ -32,6 +32,9 @@ public class CustomAuthenticationSucessHandler extends SavedRequestAwareAuthenti
         String ip=request.getHeader("X_FORWARDED_FOR");
         if(ip==null)
             ip=request.getRemoteAddr();
+        // 127.0.0.1 IPv4
+        // -Djava.net.preferIPv4Stack=true
+        // 0:0:0:0:0:0:0:1 IPv6
         logService.addLog(ip,u);
         handle(request,response,authentication);
     }

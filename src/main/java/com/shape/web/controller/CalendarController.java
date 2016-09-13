@@ -75,7 +75,6 @@ public class CalendarController {
         lu.forEach(u -> scheduleService.clear(u));
         scheduleService.save(s);
         logger.info("modifying schedule");
-
     }
 
 }
