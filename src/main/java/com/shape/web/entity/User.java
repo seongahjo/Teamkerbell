@@ -24,7 +24,7 @@ public class User implements Serializable {
 
 
     @Column(name = "ID")
-    @NotEmpty(message = "fucking")
+    @NotEmpty
     @Size(min = 4, max = 10)
     private String id;
 

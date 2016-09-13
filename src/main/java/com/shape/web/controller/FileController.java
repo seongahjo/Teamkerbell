@@ -9,6 +9,7 @@ import com.shape.web.repository.AlarmRepository;
 import com.shape.web.repository.FileDBRepository;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
+import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
@@ -43,7 +44,7 @@ public class FileController {
 
 
     @Autowired
-    AlarmRepository alarmRepository;
+    AlarmService alarmService;
 
 
 
@@ -102,7 +103,7 @@ public class FileController {
                 fileDBService.save(fd);
                 project.getUsers().forEach(u -> {
                     Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, u, user);
-                    alarmRepository.saveAndFlush(alarm);
+                    alarmService.save(alarm);
                 });
 
 

@@ -33,8 +33,6 @@ public class HomeController {
     //메뉴 컨트롤러
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
-    AlarmRepository alarmRepository;
 
     @Autowired
     LogRepository logRepository;
@@ -94,11 +92,11 @@ public class HomeController {
 
         User user = (User) session.getAttribute("user");
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
-        List<Alarm> tlla = alarmRepository.findByUserOrderByDateDesc(user, new PageRequest(0, 15)); // 타임라인 리스트를 반환
+        List<Alarm> tlla = alarmService.getTimelines(user, 0, 15); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
         List<Schedule> ls = scheduleService.getSchedules(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
-
+        logger.info("FIND");
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
         mv.addObject("timeline", tlla);
@@ -216,5 +214,7 @@ public class HomeController {
         // mv.addObject("logs",logs);
         return mv;
     }
+
+
 
 }

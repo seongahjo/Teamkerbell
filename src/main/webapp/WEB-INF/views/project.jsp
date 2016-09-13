@@ -385,7 +385,7 @@
                             <button type="button" type="button" class="btn btn-primary btn-flat" onClick="sendMsg()">
                                 Send
                             </button>
-                            <span onclick="selectFile()">
+                            <span onclick="fileDialog()">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title=""
                                     data-original-title="File Upload" style="margin-left:3px;height:34px">
                  			 <i class="fa fa-paperclip fa-2x"></i></button>
@@ -492,7 +492,7 @@
                                     <input type="text" id="fakeFileTxt" class="fakeFileTxt" readonly="readonly"
                                            multiple>
                                     <div class="fileDiv">
-                                        <input type="button" value="Select File" onclick="selectFile()"
+                                        <input type="button" value="Select File" onclick="fileDialog()"
                                                class="buttonImg"/>
                                         <input type="file" id="file" class="realFile" onChange="upload()"
                                                name="File[]"/>

@@ -1,12 +1,13 @@
 package com.shape.web.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 
 @Table(name = "Alarm")
-public class Alarm {
+public class Alarm implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue

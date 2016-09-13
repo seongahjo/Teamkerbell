@@ -1,15 +1,32 @@
 
 Teamkerbell
 =====
-학생들을 위한 조별과제 서포트 애플리케이션 
+Private Project Repository For University Students
+
 * Youtube : https://www.youtube.com/watch?v=76V_DYsX0VQ 
 * SlideShare : http://www.slideshare.net/seongside/teamkerbell
 
-How To Use in MAC
+
+Core Features
+=====
+* Document VCS (Version Control System)
+* Automatically Make Tags via analyzing documents' contents
+ * They'll be used for easier & quicker searching 
+* Automatically Synchronize up to date Documents
+* All the changes will be notified by Mobile App
+
+Application Stack
+=====
+![app stack](https://cloud.githubusercontent.com/assets/10272119/18032119/b7a4a6ee-6d36-11e6-80f7-020d08e9045f.png)
+
+
+
+
+How To Use
 =====
 ```  
  
- * brew install mysql
+ * If you want to run this app, you should install MySQL, Redis in advance
  
  * git clone https://github.com/seongahjo/Teamkerbell.git
  
@@ -18,42 +35,28 @@ How To Use in MAC
  * vi src/main/resources/spring.properties
  
    app.jdbc.driverClassName=com.mysql.jdbc.Driver
-   app.jdbc.url=jdbc:mysql://주소
+   app.jdbc.url=jdbc:mysql:// Your Mysql Address
    app.jdbc.username=ID
    app.jdbc.password=PASSWORD
-   app.socket.url=localhost 혹은 자기 자신 IP
+   app.socket.url=http:// localhost or your IP Address + 9999 (ex. http://localhost:9999)
+   redis.property.address= your redis Address (ex. 127.0.0.1)
+   
+   + if you want to use kafka
+   kafka.property.use=true
+   kafka.property.address= localhost or your IP Address + 9092 (ex. localhost:9092)
  
  * ./mvnw tomcat7:run
  
- * 실행후 http://localhost:8080 에 접속
+ * Access the deployed web application at [http://localhost:8080]
 
  ```
  
-#####오픈소스 개발툴 IntelliJ를 통해 개발되었습니다. 
+ 
+##### Developed by IntelliJ
 
-Open Source License
-=====
-* Spring Framework - [Apache License 2.0.]
-* Hibernate Framework - [LGPL V2.1]
-* Vert.x Framework - [Apache License 2.0.]
-* Mod-Socket io - [Apache License 2.0.]
-* logback - [LGPL V2.1]
-* Apache POI - [Apache License 2.0.]
-* JQuery - [MIT License]
-* Bootstrap - [MIT License]
-* AdminLTE - [MIT License]
-* Modernizr - [MIT License]
-* Calendario - [MIT License]
-* Chart.js - [MIT License]
-* Datatable - [MIT License]
-* Prettydate - [MIT License]
-* html2canvas - [MIT License]
-* jsPDF - [MIT License]
 
 License
 =====
 Teamkerbell is released under [MIT License] 
 
 [MIT License]: https://github.com/seongahjo/Teamkerbell/blob/master/LICENSE
-[Apache License 2.0.]: https://www.apache.org/licenses/LICENSE-2.0.html
-[LGPL V2.1]: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html

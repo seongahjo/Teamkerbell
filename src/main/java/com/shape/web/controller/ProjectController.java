@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -137,9 +138,14 @@ public class ProjectController {
         User user = userService.getUserById(userId); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
-        alarmService.create(alarm);
+        alarmService.save(alarm);
         return String.valueOf(user.getUseridx());
     }
 
+    @RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity sessionCheck() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }

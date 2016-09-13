@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <property resource="spring.properties"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
@@ -28,21 +28,58 @@
         </encoder>
     </appender>
 
+    <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <!-- This is the default encoder that encodes every log message to an utf8-encoded string  -->
+        <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%p][%C{4}][%m][%method:%line][%d]%n</pattern>
+            </layout>
+        </encoder>
+        <topic>logs</topic>
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.RoundRobinKeyingStrategy"/>
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+
+        <!-- each <producerConfig> translates to regular kafka-client config (format: key=value) -->
+        <!-- producer configs are documented here: https://kafka.apache.org/documentation.html#newproducerconfigs -->
+        <!-- bootstrap.servers is the only mandatory producerConfig -->
+        <producerConfig>bootstrap.servers=${kafka.property.address}</producerConfig>
+        <!-- this is the fallback appender if kafka is not available. -->
+        <!--<appender-ref ref="STDOUT">-->
+    </appender>
+
+
     <!--    RULES for logging DEBUG < INFO < WARN < ERROR < FATAL.-->
-    <!--<logger name="com.shape.web">
+    <logger name="com.shape.web">
         <level value="DEBUG"/>
     </logger>
 
     <logger name="org.springframework">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
     <logger name="org.hibernate">
-        <level value="DEBUG"/>
-    </logger>-->
-    <root>
         <level value="INFO"/>
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="LOGFILE"/>
-    </root>
+    </logger>
+
+    <if condition='property("spring.property.log").equals("SERVICE")'>
+        <then>
+            <root level="INFO">
+                <appender-ref ref="CONSOLE"/>
+                <appender-ref ref="LOGFILE"/>
+                <if condition='property("kafka.property.use").equals("true")'>
+                    <then>
+                        <appender-ref ref="kafkaAppender"/>
+                    </then>
+                </if>
+            </root>
+        </then>
+        <else>
+            <root level="DEBUG">
+                <appender-ref ref="CONSOLE"/>
+                <appender-ref ref="LOGFILE"/>
+            </root>
+
+
+        </else>
+    </if>
 
 </configuration>

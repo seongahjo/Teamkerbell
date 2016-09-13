@@ -6,9 +6,9 @@ import com.nhncorp.mods.socket.io.spring.DefaultEmbeddableVerticle;
 import com.shape.web.VO.ServerUser;
 import com.shape.web.entity.Minute;
 import com.shape.web.entity.Project;
+import com.shape.web.entity.User;
 import com.shape.web.repository.*;
-import com.shape.web.service.ProjectService;
-import com.shape.web.service.UserService;
+import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
@@ -26,17 +26,13 @@ public class VertxServer extends DefaultEmbeddableVerticle {
     private static HashMap<String, Integer> Rooms = new HashMap<String, Integer>(); //ProjectIdx / Wrjter_Id
     private static HashMap<String, ServerUser> Clients = new HashMap<String, ServerUser>(); // socketId,User
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
     @Autowired
-    ProjectRepository projectRepository;
+    ProjectService projectService;
     @Autowired
-    AlarmRepository alarmRepository;
+    AlarmService alarmService;
     @Autowired
-    TodolistRepository todolistRepository;
-    @Autowired
-    ScheduleRepository scheduleRepository;
-    @Autowired
-    MinuteRepository minuteRepository;
+    MinuteService minuteService;
 
     @Override
     public void start(Vertx vertx) {
@@ -44,6 +40,9 @@ public class VertxServer extends DefaultEmbeddableVerticle {
         HttpServer server = vertx.createHttpServer(); //HTTP Server 생성
 
         io = new DefaultSocketIOServer(vertx, server);
+       /* io.setAuthHandler((data,accept) ->{
+
+        });*/
         io.sockets().onConnection(socket -> {
             socket.on("join", event -> {
                 String projectIdx = event.getString("projectIdx");
@@ -156,16 +155,17 @@ public class VertxServer extends DefaultEmbeddableVerticle {
             });
             socket.on("save", event -> {
                 ServerUser su = Clients.get(socket.getId());
+                User u=userService.getUserById(su.getId());
                 String projectIdx = su.getProjectIdx();
                 String memo = event.getString("memo");
-                Project pj = projectRepository.findOne(Integer.parseInt(projectIdx));
+                Project pj = projectService.getProject(Integer.parseInt(projectIdx));
                 pj.setMinute(memo);
                 logger.info("[ROOM "+projectIdx+"] Trying to save memo [" + memo + "] [USER "+su.getId()+"]");
 
                 /*
                 Create Minute
                  */
-                Minute minute = minuteRepository.findByProjectAndDate(pj,new Date());
+                Minute minute = minuteService.getMinute(pj,new Date());
                 if (minute == null) {
                     minute = new Minute(memo, new Date());
                     logger.info("[ROOM "+projectIdx+"] Minute is Created");
@@ -173,9 +173,9 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 minute.setContent(memo);
                 minute.setDate(new Date());
                 minute.setProject(pj);
-                minuteRepository.saveAndFlush(minute);
+                minuteService.save(minute);
 
-                projectRepository.saveAndFlush(pj);
+                projectService.save(u,pj);
                 Rooms.replace(projectIdx, -1);
                 try {
                     FileUtil.MakeMinute(Integer.parseInt(projectIdx), memo);

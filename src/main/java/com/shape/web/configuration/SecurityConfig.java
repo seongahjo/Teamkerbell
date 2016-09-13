@@ -1,6 +1,8 @@
 package com.shape.web.configuration;
 
 import com.shape.web.security.CustomAuthenticationSucessHandler;
+import com.shape.web.security.RestAuthenticationEntryPoint;
+import com.shape.web.security.RestLoginFailureHandler;
 import com.shape.web.service.LogService;
 import com.shape.web.service.UserService;
 import com.shape.web.serviceImpl.UserServiceImpl;
@@ -44,9 +46,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**", "/js/**", "/css/**", "/img/**");
     }
+    @Bean
+    public RestAuthenticationEntryPoint restAuthenticationEntryPoint() {return new RestAuthenticationEntryPoint();}
 
     @Bean
     public CustomAuthenticationSucessHandler authenticationHandler( ){return new CustomAuthenticationSucessHandler();}
+
+    @Bean
+    public RestLoginFailureHandler restLoginFailureHandler(){return new RestLoginFailureHandler();}
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement()
@@ -56,6 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maximumSessions(1);
         http
                 .csrf().disable()
+                //.exceptionHandling()
+                //.authenticationEntryPoint(restAuthenticationEntryPoint())
+                //.and()
                 .authorizeRequests()
                 .antMatchers("/", "/register", "/login","/user").permitAll()
                 .antMatchers("/**").hasRole("USER")
@@ -68,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/dashboard")
                 .usernameParameter("userId")
                 .passwordParameter("pw")
+                //.failureHandler(restLoginFailureHandler())
                 .permitAll()
         .successHandler(authenticationHandler());
 

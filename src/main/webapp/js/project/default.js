@@ -68,10 +68,6 @@ function init() {
         $("#reservation").val('');
     });
 
-    function selectFile() {
-        document.getElementById("file").click();
-    }
-
     $("#selectBox").change(function () {
         option = $(this).children("option:selected").text();
         if (option == "Today")
