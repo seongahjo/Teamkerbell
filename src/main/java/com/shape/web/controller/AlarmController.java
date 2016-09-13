@@ -28,7 +28,6 @@ public class AlarmController {
 
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
 
-
     @Autowired
     UserService userService;
 
@@ -47,7 +46,6 @@ public class AlarmController {
         alarm.setIsshow(false);
         if (type == 1)
             alarm.getUser().addProject(alarm.getProject());
-        // userRepository.saveAndFlush(alarm.getUser());
         alarmService.save(alarm);
         projectService.save(alarm.getUser(),alarm.getProject());
     }

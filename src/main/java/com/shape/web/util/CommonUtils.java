@@ -41,6 +41,4 @@ public class CommonUtils {
         SimpleDateFormat format=new SimpleDateFormat("yyy-MM-dd hh:mm:ss");
         return format.format(date);
     }
-
-
 }

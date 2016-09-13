@@ -34,16 +34,12 @@ import java.util.stream.IntStream;
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-
-
     @Autowired
     AlarmService alarmService;
 
-
-
-
     @Autowired
     ProjectService projectService;
+
     @Autowired
     FileDBService fileDBService;
     /*

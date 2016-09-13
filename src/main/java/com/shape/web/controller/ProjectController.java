@@ -133,9 +133,5 @@ public class ProjectController {
         return String.valueOf(user.getUseridx());
     }
 
-    @RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
-    public ResponseEntity sessionCheck() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
 }

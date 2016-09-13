@@ -53,7 +53,6 @@ public class HomeController {
      * Simply selects the home view to render by returning its name.
      */
 
-
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
     public ModelAndView Home(Authentication authentication) {
         ModelAndView mv = null;
