@@ -40,6 +40,12 @@ public class TodolistController {
     TodolistService todolistService;
 
 
+    @RequestMapping(value="/todolist/{userId}/user",method=RequestMethod.GET)
+    public List<Todolist> todolist(@PathVariable("userId") String userId){
+        return todolistService.getTodolists(userService.getUserById(userId));
+    }
+
+
     /*
    To make to-do list
    */

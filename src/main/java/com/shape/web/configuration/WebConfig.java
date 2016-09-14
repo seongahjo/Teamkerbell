@@ -1,5 +1,7 @@
 package com.shape.web.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,7 +29,7 @@ import java.util.List;
 @ComponentScan(basePackages = {"com.shape.web.controller"})
 // RepositoryRestMvcConfiguration
 // WebMvcConfigurerAdapter
-public class WebConfig extends RestConfig {
+public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
@@ -67,6 +69,9 @@ public class WebConfig extends RestConfig {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters){
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper objectMapper =new ObjectMapper();
+        objectMapper.registerModule(new Hibernate4Module());
+        jackson2HttpMessageConverter.setObjectMapper(objectMapper);
         StringHttpMessageConverter stringHttpMessageConverter=new StringHttpMessageConverter();
         jackson2HttpMessageConverter.setPrettyPrint(true);
 

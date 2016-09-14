@@ -1,5 +1,6 @@
 package com.shape.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,10 +20,13 @@ public class Todolist implements Serializable {
     private Integer todolistidx;
 
 
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "USERIDX")
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "PROJECTIDX")
     private Project project;
