@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Entity
 @Table(name = "Todolist")
 public class Todolist implements Serializable {

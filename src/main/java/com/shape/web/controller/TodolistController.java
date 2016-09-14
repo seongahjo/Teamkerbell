@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by seongahjo on 2016. 6. 14..
@@ -37,10 +38,12 @@ public class TodolistController {
 
     @Autowired
     TodolistService todolistService;
+
+
     /*
    To make to-do list
    */
-    @RequestMapping(value = "/todolist", method = RequestMethod.POST)
+    @RequestMapping(value = "/todolist", method = RequestMethod.POST) // todolist 생성
     public ResponseEntity makeTodolist(@RequestParam("projectIdx") Integer projectIdx,
                                        @RequestParam("userId") String userId,
                                        @ModelAttribute("todolist") @Valid Todolist todolist,
