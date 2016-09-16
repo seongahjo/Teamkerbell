@@ -149,6 +149,15 @@ public class Alarm implements Serializable {
         this.actor = actor;
     }
 
+    public Alarm(Integer contentid, String filename, String fileurl, Date date, Project project, User actor) {
+        this.contentid = contentid;
+        this.filename = filename;
+        this.fileurl = fileurl;
+        this.date = date;
+        this.project = project;
+        this.actor = actor;
+    }
+
     public Alarm() {
     }
 
