@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public interface FileDBService {
     FileDB getFile(Integer f);
-    List getFilesList(Integer p);
+    List getFilesList(Integer projectIdx);
     //List getFilesByProject(Project p);
     List getFilesByOriginal(Project p,String o,Integer page,Integer count);
     FileDB getFileByStored(String s);

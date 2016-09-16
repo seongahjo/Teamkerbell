@@ -8,7 +8,7 @@ public class CommonUtils {
     public static String getRandomString() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
-    public static String encodeContent(String content) {
+    public static String encodeContent(final String content) {
         String ret = content;
         try {
             ret = ret.replaceAll("&", "&amp;");
@@ -20,7 +20,7 @@ public class CommonUtils {
         return ret;
     }
 
-    public static String decodeContent(String content) {
+    public static String decodeContent(final String content) {
         String ret = content;
         try {
             ret = ret.replaceAll( "&amp;", "&");
@@ -33,11 +33,11 @@ public class CommonUtils {
         return ret;
     }
 
-    public static String DateFormat(Date date){
+    public static String DateFormat(final Date date){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
-    public static String DateTimeFormat(Date date){
+    public static String DateTimeFormat(final Date date){
         SimpleDateFormat format=new SimpleDateFormat("yyy-MM-dd hh:mm:ss");
         return format.format(date);
     }

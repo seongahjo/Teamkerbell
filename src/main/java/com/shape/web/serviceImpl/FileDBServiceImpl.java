@@ -30,8 +30,8 @@ public class FileDBServiceImpl implements FileDBService {
 
     @Override
     @Cacheable(value = "files", key = "'project:'.concat(#p0).concat(':files')")
-    public List getFilesList(Integer p) {
-        return fileDBRepository.groupbytest(p);
+    public List getFilesList(Integer projectIdx) {
+        return fileDBRepository.groupbytest(projectIdx);
     }
 
 

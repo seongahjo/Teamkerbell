@@ -8,6 +8,7 @@ import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.ScheduleService;
 import com.shape.web.service.UserService;
+import com.shape.web.util.AlarmUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,21 @@ public class CalendarController {
 
 
     @Autowired
-    AlarmService alarmService;
-    @Autowired
     ProjectService projectService;
     @Autowired
     ScheduleService scheduleService;
     @Autowired
     UserService userService;
 
+
+    @RequestMapping(value="/schedule/{userId}/user",method=RequestMethod.GET)
+    public List getSchedules(@PathVariable("userId")String userId){
+        return scheduleService.getSchedules(userService.getUserById(userId));
+    }
+
     /*
    To make schedule
    */
-
     @RequestMapping(value = "/schedule", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
@@ -51,13 +55,7 @@ public class CalendarController {
         Alarm alarm = new Alarm(1, null, null, new Date());
         alarm.setProject(project);
         List<User> lu = userService.getUsersByProject(project);
-        lu.forEach(u -> {
-            alarm.setAlarmidx(null);
-            logger.info("[USER " + u.getUseridx() + "] Make Alarm");
-            alarm.setUser(u);
-            alarmService.save(alarm);
-        });
-
+        AlarmUtil.postAlarm(lu,alarm,true);
         logger.info("[ROOM " + projectIdx + "] Make Schedule ");
 
     }

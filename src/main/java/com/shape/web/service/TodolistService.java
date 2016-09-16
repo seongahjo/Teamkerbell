@@ -14,5 +14,6 @@ import java.util.List;
 public interface TodolistService {
     List getTodolists(User u);
     List getTodolists(Project p);
+    Todolist getTodolist(Integer idx);
     Todolist save(Todolist t);
 }

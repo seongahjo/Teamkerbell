@@ -33,7 +33,13 @@ public class TodolistServiceImpl implements TodolistService {
     }
 
     @Override
+    @Cacheable(value="todolist",key="'todolist:'.concat(#p0)")
+    public Todolist getTodolist(Integer idx){return todolistRepository.findOne(idx);}
+
+
+    @Override
     @Caching(evict = {
+            @CacheEvict(value="todolist",key="'todolist:'.concat(#p0.todolistidx)"),
             @CacheEvict(value = "todolists", key = "'project:'.concat(#p0.project.projectidx).concat(':todolists')"),
             @CacheEvict(value = "todolists", key = "'user:'.concat(#p0.user.id).concat(':todolists')")
     })

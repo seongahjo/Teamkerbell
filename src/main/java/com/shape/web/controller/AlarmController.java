@@ -5,14 +5,12 @@ import com.shape.web.entity.User;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
+import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpSession;
@@ -37,6 +35,20 @@ public class AlarmController {
     @Autowired
     ProjectService projectService;
 
+
+    @RequestMapping(value="/timeline/{userId}",method= RequestMethod.GET)
+    public List timeline(@PathVariable("userId") String userId,
+                         @RequestParam(value="page",defaultValue = "0")Integer page,
+                         @RequestParam(value="count",defaultValue = "20") Integer count){
+        return alarmService.getTimelines(userService.getUserById(userId),page,count);
+    }
+
+    @RequestMapping(value="/alarm/{userId}",method= RequestMethod.GET)
+    public List alarms(@PathVariable("userId") String userId){
+        return alarmService.getAlarms(userService.getUserById(userId));
+    }
+
+
     /*
     To accept invite request
      */
@@ -53,16 +65,20 @@ public class AlarmController {
     /*
     To get invite request
      */
+    // socket으로 받아오는거
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
-    public Map updateAlarm(@RequestParam("userId") String userId) {
+    public Alarm updateAlarm(@RequestParam("userId") String userId) {
         Alarm alarm = alarmService.getAlarm(userService.getUserById(userId));
+        return alarm;
+        /*
         Map<String, String> data = new HashMap<>();
-        if (alarm != null) {
+        if (alarm != null) { // 이걸 Rest API로 대체할까말까 고민.
             data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
             data.put("projectname", alarm.getProject().getName());
             data.put("actorid", alarm.getActor().getId());
         }
         return data;
+        */
     }
 
     @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
@@ -74,4 +90,5 @@ public class AlarmController {
             throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST,"NO MORE TIMELINE");
         return timeline;
     }
+
 }

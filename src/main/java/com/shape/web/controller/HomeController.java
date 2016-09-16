@@ -3,6 +3,7 @@ package com.shape.web.controller;
 import com.shape.web.entity.*;
 import com.shape.web.repository.LogRepository;
 import com.shape.web.service.*;
+import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,8 +106,8 @@ public class HomeController {
     @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
         ModelAndView mv = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String time = formatter.format(new Date());
+
+        String time =CommonUtils.DateFormat(new Date());
         User user = (User) session.getAttribute("user");
         mv = new ModelAndView("redirect:/");
         Project project = projectService.getProject(projectIdx); // 프로젝트 객체 반환
@@ -128,7 +129,6 @@ public class HomeController {
             lm = lm.stream().filter(m -> {
                         if (time.equals(m.getDate().toString())) {
                             project.setMinute(m.getContent());
-                            logger.info(m.getContent() + "test");
                             return false;
                         }
                         return true;

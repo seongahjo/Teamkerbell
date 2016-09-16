@@ -51,11 +51,16 @@ public class ProjectController {
         GET : INVITE
      */
 
+    @RequestMapping(value="/room/{userId}/user",method=RequestMethod.GET)
+    public List getRooms(@PathVariable(value="userId") String userId,
+                         @RequestParam(value="page",defaultValue="0") Integer page,
+                         @RequestParam(value="count", defaultValue="15") Integer count){
+        return projectService.getProjects(userService.getUserById(userId),page,count);
+    }
+
     @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
-    public List getRoom(@RequestParam(value = "page") Integer page, HttpSession session) {
+    public List getRoom(@RequestParam(value = "page", defaultValue="0") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if(null==page)
-            page=0;
         List<Project> projects = projectService.getProjects(user, page,5);
         logger.info("room paging");
         return projects;
@@ -95,7 +100,7 @@ public class ProjectController {
        To find out invited user
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
-    public Map searchUser(@RequestParam(value = "userId") String userId,
+    public User searchUser(@RequestParam(value = "userId") String userId,
                           @RequestParam("projectIdx") Integer projectIdx)  {
         logger.info("Search Member");
         Project project = projectService.getProject(projectIdx);
@@ -105,16 +110,12 @@ public class ProjectController {
         }
         logger.info(project.getName());
         List<Project> lp = projectService.getProjects(user); // 유저가 참가중인 프로젝트
-        for (Project p : lp)
+        lp.forEach(p->{
             if (p.getProjectidx() == project.getProjectidx()) {
                 throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
             }
-
-        HashMap<String, String> Value = new HashMap<String, String>();
-        Value.put("userId", user.getId());
-        Value.put("name", user.getName());
-        Value.put("img", user.getImg());
-        return Value;
+        });
+      return user;
     }
 
     /*

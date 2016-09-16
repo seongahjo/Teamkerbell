@@ -8,6 +8,8 @@ import com.shape.web.parser.Tagging;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
+import com.shape.web.service.UserService;
+import com.shape.web.util.AlarmUtil;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
 import org.slf4j.Logger;
@@ -34,20 +36,31 @@ import java.util.stream.IntStream;
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @Autowired
-    AlarmService alarmService;
 
     @Autowired
     ProjectService projectService;
 
     @Autowired
     FileDBService fileDBService;
+
+    @Autowired
+    UserService userService;
+
     /*
     RESTFUL DOCUMENTATION
     FILE
        GET : DOWNLOAD (name)
        POST : UPLOAD ( idx, useridx, file)
      */
+
+
+
+
+    @RequestMapping(value="/file/{projectIdx}/img", method = RequestMethod.GET)
+    public List getimgs(@PathVariable("projectIdx")Integer projectIdx){
+        return fileDBService.getImgs(projectService.getProject(projectIdx));
+    }
+
     /*
      To uploading file
      */
@@ -58,54 +71,44 @@ public class FileController {
         Project project = projectService.getProject(Integer.parseInt(projectIdx));
         User user = (User) session.getAttribute("user");
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
-        MultipartFile multipartFile = null;    //
+        MultipartFile multipartFile = null;
         HashMap<String, String> result = null;
 
         String type = null;
 
-        File file = new File(filePath);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+        File file = new File(filePath); // 폴더
 
-         while (iterator.hasNext()) {
-        multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-        logger.info(projectIdx+" "+multipartFile.getName()+" "+project.getProjectidx()+" ");
-        if (!multipartFile.isEmpty()) {
-            try {
-                result = new HashMap<>();
-                String originalFileName = multipartFile.getOriginalFilename();
-                String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-                String storedFileName = CommonUtils.getRandomString() + originalFileExtension;
-                if (FileUtil.IsImage(originalFileName))
-                    type = "img";
-                else
-                    type = "file";
+        if (!file.exists())
+            file.mkdirs(); // 폴더 존재 안할시 생성
 
-                file = new File(filePath + "/" + storedFileName);
-
-                multipartFile.transferTo(file);
-                String tag = Tagging.TagbyString(file);
-
-                FileDB fd = new FileDB(user, project, storedFileName, originalFileName, type, filePath, tag);
-                fileDBService.save(fd);
-                project.getUsers().forEach(u -> {
-                    Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, u, user);
-                    alarmService.save(alarm);
-                });
-
-
-                logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
-                result.put("stored", storedFileName);
-                result.put("type", type);
-                result.put("original", originalFileName);
-                result.put("size", String.valueOf(file.length()));
-            } catch (IOException e) {
-                // file io error
-            } catch (NullPointerException e) {
-                logger.info("FILE UPLOAD NULL");
+        while (iterator.hasNext()) {
+            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+            if (!multipartFile.isEmpty()) {
+                try {
+                    result = new HashMap<>();
+                    String originalFileName = multipartFile.getOriginalFilename(); // 파일 이름
+                    String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
+                    String storedFileName = CommonUtils.getRandomString() + originalFileExtension; // 암호화된 파일 이름
+                    type = FileUtil.getFileType(originalFileName); // 파일 타입 확인
+                    file = new File(filePath + "/" + storedFileName); // 파일 해당 디렉토리 생성
+                    multipartFile.transferTo(file); // 파일 저장
+                    String tag = Tagging.TagbyString(file); //태그 생성
+                    FileDB fd = new FileDB(user, project, storedFileName, originalFileName, type, filePath, tag); // 파일 객체 생성
+                    fileDBService.save(fd); //디비에 저장
+                    List lu = userService.getUsersByProject(project); // 프로젝트에 해당하는 유저 리스트 반환
+                    Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, user); // 알람 객체 생성
+                    AlarmUtil.postAlarm(lu, alarm, false); // 알람 보내기
+                    logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
+                    result.put("stored", storedFileName);
+                    result.put("type", type);
+                    result.put("original", originalFileName);
+                    result.put("size", String.valueOf(file.length()));
+                } catch (IOException e) {
+                    // file io error
+                } catch (NullPointerException e) {
+                    logger.info("FILE UPLOAD NULL");
+                }
             }
-        }
         }
 
         return result;
@@ -115,34 +118,18 @@ public class FileController {
     To download file
     */
     @RequestMapping(value = "/file", method = RequestMethod.GET)
-    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletResponse response) {
+    public void Download(@RequestParam(value = "name", required = true) String name, HttpServletRequest request, HttpServletResponse response) {
         try {
             InputStream in = null;
             OutputStream os = null;
-            String client = "";
             FileDB fd = fileDBService.getFileByStored(name);
             String originalName = fd.getOriginalname();
             String folder = fd.getPath();
             File file = new File(folder + "/" + name);
             response.reset();
-            /*
-            Header Setting
-             */
-            response.setHeader("Content-Disposition", "attachment;filename=\"" + originalName + "\"" + ";");
-            if (client.contains("MSIE"))
-                response.setHeader("Content-Disposition", "attachment; filename=" + new String(originalName.getBytes("KSC5601"), "ISO8859_1"));
-            else {  // IE 이외
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(originalName, "UTF-8") + "\"");
-                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
-            }    //response 헤더 설정해서
-
-            response.setHeader("Content-Length", "" + file.length());
-
-            /*
-            Buffer 덮어쓰기
-             */
-            in = new FileInputStream(file);
-            os = response.getOutputStream();
+            FileUtil.setDownloadHeader(originalName, file, request, response);
+            in = new BufferedInputStream(new FileInputStream(file));
+            os = new BufferedOutputStream(response.getOutputStream());
             byte b[] = new byte[(int) file.length()];
             int leng = 0;
             logger.info("다운로드 " + name);
@@ -189,7 +176,7 @@ public class FileController {
         IntStream.range(0, fileDBs.size()).forEach(idx -> {
                     FileDB temp = fileDBs.get(idx);
                     Map<String, String> json = new HashMap<>();
-                    json.put("count", String.valueOf(count + idx+1));
+                    json.put("count", String.valueOf(count + idx + 1));
                     json.put("file", "<a href=../file?name=" + temp.getStoredname() + ">" + "<i class= 'fa fa-file'>" + "file" + "</i></a>");
                     json.put("uploader", temp.getUser().getName());
                     json.put("date", CommonUtils.DateTimeFormat(temp.getCreatedat()));

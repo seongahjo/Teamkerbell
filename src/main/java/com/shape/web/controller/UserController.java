@@ -6,8 +6,10 @@ import com.shape.web.entity.User;
 import com.shape.web.repository.FileDBRepository;
 import com.shape.web.repository.UserRepository;
 import com.shape.web.service.FileDBService;
+import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
+import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by seongahjo on 2016. 2. 7..
@@ -42,6 +42,15 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProjectService projectService;
+
+    @RequestMapping(value="/user/{projectIdx}",method = RequestMethod.GET)
+    public List getUsers(@PathVariable("projectIdx") Integer projectIdx){
+        return userService.getUsersByProject(projectService.getProject(projectIdx));
+    }
+
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public String register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
