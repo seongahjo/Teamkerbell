@@ -22,6 +22,7 @@ public class UserDetailService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
+
     /*
  Spring Security에서 권한 설정을 위한 객체 Role 반환
   */
@@ -41,7 +42,7 @@ public class UserDetailService implements UserDetailsService {
     public static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-        roles.forEach(s-> authorities.add(new SimpleGrantedAuthority(s)));
+        roles.forEach(s -> authorities.add(new SimpleGrantedAuthority(s)));
         return authorities;
     }
 
@@ -60,7 +61,7 @@ public class UserDetailService implements UserDetailsService {
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
         try {
-            User u = (User)userRepository.findById(id);
+            User u = (User) userRepository.findById(id);
             return new org.springframework.security.core.userdetails.User(u.getId(),
                     u.getPw(),
                     enabled,

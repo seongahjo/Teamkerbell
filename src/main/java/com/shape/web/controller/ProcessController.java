@@ -2,7 +2,7 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.FileDB;
 import com.shape.web.service.FileDBService;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * Handles requests for the whole application processing.
  */
-@Log
+@Slf4j
 @RestController
 public class ProcessController {
 

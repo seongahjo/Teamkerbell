@@ -12,6 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name = "Minute")
 @Data
+@EqualsAndHashCode(exclude={"project"})
 public class Minute implements Serializable, Comparable<Minute>{
     private static final long serialVersionUID = 1L;
     @Id

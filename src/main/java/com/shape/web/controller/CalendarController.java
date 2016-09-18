@@ -8,7 +8,7 @@ import com.shape.web.service.ProjectService;
 import com.shape.web.service.ScheduleService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.AlarmUtil;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Handles requests for the calendar.
  */
-@Log
+@Slf4j
 @RestController
 public class CalendarController {
 
@@ -35,9 +35,11 @@ public class CalendarController {
     UserService userService;
 
 
-    @RequestMapping(value="/schedule/{userId}/user",method=RequestMethod.GET)
-    public List getSchedules(@PathVariable("userId")String userId){
-        return scheduleService.getSchedules(userService.getUserById(userId));
+    @RequestMapping(value="/schedule/{userIdx}/user",method=RequestMethod.GET)
+    public List getSchedules(@PathVariable("userIdx")Integer userIdx,
+                             @RequestParam(value = "page",defaultValue = "0") Integer page,
+                             @RequestParam(value="size",defaultValue = "10") Integer size){
+        return scheduleService.getSchedules(userService.getUser(userIdx));
     }
 
     /*

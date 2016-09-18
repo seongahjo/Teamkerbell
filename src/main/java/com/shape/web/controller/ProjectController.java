@@ -6,7 +6,7 @@ import com.shape.web.entity.User;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Handles requests for the project.
  */
-@Log
+@Slf4j
 @RestController
 public class ProjectController {
     
@@ -45,11 +45,11 @@ public class ProjectController {
         GET : INVITE
      */
 
-    @RequestMapping(value="/room/{userId}/user",method=RequestMethod.GET)
-    public List getRooms(@PathVariable(value="userId") String userId,
+    @RequestMapping(value="/room/{userIdx}/user",method=RequestMethod.GET)
+    public List getRooms(@PathVariable(value="userIdx") Integer userIdx,
                          @RequestParam(value="page",defaultValue="0") Integer page,
                          @RequestParam(value="count", defaultValue="15") Integer count){
-        return projectService.getProjects(userService.getUserById(userId),page,count);
+        return projectService.getProjects(userService.getUser(userIdx),page,count);
     }
 
     @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
@@ -116,12 +116,12 @@ public class ProjectController {
        To invite user to project room
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
-    public String InviteMember(@RequestParam(value = "userId") String userId,
+    public String InviteMember(@RequestParam(value = "userIdx") Integer userIdx,
                                @RequestParam("projectIdx") Integer projectIdx,
                                HttpSession session) {
         log.info("Invite Member");
         User actor = (User) session.getAttribute("user"); //초대한 사람
-        User user = userService.getUserById(userId); // 초대받은 사람
+        User user = userService.getUser(userIdx); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
         alarmService.save(alarm);

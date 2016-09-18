@@ -2,6 +2,7 @@ package com.shape.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "Todolist")
+@EqualsAndHashCode(exclude={"project","user"})
 public class Todolist implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,6 +70,7 @@ public class Todolist implements Serializable {
         updatedat = new Date();
     }
 
-    public Todolist() {
-    }
+    public Todolist() {}
+
+
 }

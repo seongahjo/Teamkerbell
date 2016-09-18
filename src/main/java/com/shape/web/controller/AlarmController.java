@@ -5,7 +5,7 @@ import com.shape.web.entity.User;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,11 @@ import java.util.List;
 /**
  * Created by hootting on 2016. 9. 13..
  */
-@Log
+@Slf4j
 @RestController
 public class AlarmController {
 
- 
+
     @Autowired
     UserService userService;
 
@@ -32,16 +32,18 @@ public class AlarmController {
     ProjectService projectService;
 
 
-    @RequestMapping(value="/timeline/{userId}",method= RequestMethod.GET)
-    public List timeline(@PathVariable("userId") String userId,
-                         @RequestParam(value="page",defaultValue = "0")Integer page,
-                         @RequestParam(value="count",defaultValue = "20") Integer count){
-        return alarmService.getTimelines(userService.getUserById(userId),page,count);
+    @RequestMapping(value = "/timeline/{userIdx}", method = RequestMethod.GET)
+    public List timeline(@PathVariable("userIdx") Integer userIdx,
+                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                         @RequestParam(value = "count", defaultValue = "20") Integer count) {
+        return alarmService.getTimelines(userService.getUser(userIdx), page, count);
     }
 
-    @RequestMapping(value="/alarm/{userId}",method= RequestMethod.GET)
-    public List alarms(@PathVariable("userId") String userId){
-        return alarmService.getAlarms(userService.getUserById(userId));
+    @RequestMapping(value = "/alarm/{userId}", method = RequestMethod.GET)
+    public List alarms(@PathVariable("userIdx") Integer userIdx,
+                       @RequestParam(value = "page", defaultValue = "0") Integer page,
+                       @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return alarmService.getAlarms(userService.getUser(userIdx));
     }
 
 
@@ -55,7 +57,7 @@ public class AlarmController {
         if (type == 1)
             alarm.getUser().addProject(alarm.getProject());
         alarmService.save(alarm);
-        projectService.save(alarm.getUser(),alarm.getProject());
+        projectService.save(alarm.getUser(), alarm.getProject());
     }
 
     /*
@@ -63,8 +65,8 @@ public class AlarmController {
      */
     // socket으로 받아오는거
     @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
-    public Alarm updateAlarm(@RequestParam("userId") String userId) {
-        Alarm alarm = alarmService.getAlarm(userService.getUserById(userId));
+    public Alarm updateAlarm(@RequestParam("userIdx") Integer userIdx) {
+        Alarm alarm = alarmService.getAlarm(userService.getUser(userIdx));
         return alarm;
         /*
         Map<String, String> data = new HashMap<>();
@@ -80,10 +82,10 @@ public class AlarmController {
     @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
     public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List timeline = alarmService.getTimelines(user, page+1,20);
+        List timeline = alarmService.getTimelines(user, page + 1, 20);
         log.info("REQUEST more timeline");
-        if(timeline.size()==0)
-            throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST,"NO MORE TIMELINE");
+        if (timeline.size() == 0)
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "NO MORE TIMELINE");
         return timeline;
     }
 

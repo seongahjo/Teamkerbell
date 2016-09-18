@@ -1,6 +1,7 @@
 package com.shape.web.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "Alarm")
+@EqualsAndHashCode(exclude={"project","user","actor"})
 public class Alarm implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

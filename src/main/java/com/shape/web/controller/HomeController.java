@@ -5,7 +5,7 @@ import com.shape.web.repository.LogRepository;
 import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 
 
-@Log
+@Slf4j
 @Controller
 public class HomeController {
     //메뉴 컨트롤러

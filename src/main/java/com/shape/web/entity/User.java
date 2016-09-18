@@ -17,6 +17,11 @@ import java.util.Set;
 @Entity
 @Table(name = "User")
 //@EqualsAndHashCode(exclude={"useridx","createdat","updatedat"})
+
+/*
+Todolist,
+Invite경우 UserId로 검색.
+ */
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
     @Id

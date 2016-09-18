@@ -18,6 +18,11 @@ import java.util.List;
  */
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
+    /*
+    schedule:'scheduleidx'
+    user:'useridx':schedules
+    project:'projectidx':schedules
+     */
 
     @Autowired
     ScheduleRepository scheduleRepository;
@@ -29,7 +34,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    @Cacheable(value="schedules",key="'user:'.concat(#p0.id).concat(':schedules')")
+    @Cacheable(value = "schedules", key = "'user:'.concat(#p0.useridx).concat(':schedules')")
     public List getSchedules(User u) {
         return scheduleRepository.findByProject_Users(u);
     }
@@ -39,6 +44,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List getSchedules(Project p) {
         return null;
     }
+
+
+    //Evict
+
 
     @Override
     @Caching(evict = {
@@ -50,6 +59,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    @CacheEvict(value="schedules",key="'user:'.concat(#p0.id).concat(':schedules')")
-    public void clear(User u){}
+    @CacheEvict(value = "schedules", key = "'user:'.concat(#p0.useridx).concat(':schedules')")
+    public void clear(User u) {
+    }
 }

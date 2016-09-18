@@ -17,25 +17,31 @@ import java.util.List;
  * Created by seongahjo on 2016. 7. 27..
  */
 @Service
-public class MinuteServiceImpl implements MinuteService{
+public class MinuteServiceImpl implements MinuteService {
+    /*
+    project:'projectidx':minutes
+    project:'projectidx':minute:'date'
+     */
+    
     @Autowired
     MinuteRepository minuteRepository;
+
     @Override
-    @Cacheable(value="minutes",key = "'project:'.concat(#p0.projectidx).concat(':minutes')")
+    @Cacheable(value = "minutes", key = "'project:'.concat(#p0.projectidx).concat(':minutes')")
     public List getMinutes(Project p) {
         return minuteRepository.findByProject(p);
     }
 
     @Override
-    @Cacheable(value="minute",key = "'project:'.concat(#p0.projectidx).concat(':minute:').concat(#p1)")
-    public Minute getMinute(Project p,Date date){
-      return minuteRepository.findByProjectAndDate(p,date);
+    @Cacheable(value = "minute", key = "'project:'.concat(#p0.projectidx).concat(':minute:').concat(#p1)")
+    public Minute getMinute(Project p, Date date) {
+        return minuteRepository.findByProjectAndDate(p, date);
     }
 
     @Override
-    @Caching (evict={
-            @CacheEvict(value="minutes",key="'project:'.concat(#p0.project.projectidx).concat(':minutes')"),
-            @CacheEvict(value="minute",key="'project:'.concat(#p0.project.projectidx).concat(':minute:').concat(#p0.date)")
+    @Caching(evict = {
+            @CacheEvict(value = "minutes", key = "'project:'.concat(#p0.project.projectidx).concat(':minutes')"),
+            @CacheEvict(value = "minute", key = "'project:'.concat(#p0.project.projectidx).concat(':minute:').concat(#p0.date)")
     })
     public Minute save(Minute m) {
         return minuteRepository.saveAndFlush(m);

@@ -28,7 +28,8 @@ import java.util.List;
 
 @Service
 public interface UserService  {
-     User getUserById(String id);
+    User getUser(String id);
+    User getUser(Integer useridx);
     User save(User u);
     List getUsersByProject(Project p);
 }

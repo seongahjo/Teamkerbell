@@ -19,6 +19,12 @@ import java.util.List;
  */
 @Service
 public class ProjectServiceImpl implements ProjectService {
+  /*
+    project:'projectidx'
+    user:'useridx':projects
+    (+)
+   */
+
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -32,36 +38,37 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-
     @Override
-    @Cacheable(value = "projects", key = "'user:'.concat(#p0.id).concat(':projects')")
+    @Cacheable(value = "projects", key = "'user:'.concat(#p0.useridx).concat(':projects')")
     public List getProjects(User u) {
         return projectRepository.findByUsers(u);
     }
 
+    // paging시 cache는 어떤식으로 할까?
     @Override
     //@Cacheable(value = "projects", key = "'user:'.concat(#p0.id).concat(':projects').concat(#p1)")
     public List getProjects(User u, Integer page, Integer count) {
-        return projectRepository.findByUsers(u,new PageRequest(page,count));
+        return projectRepository.findByUsers(u, new PageRequest(page, count));
     }
 
     @Override
-    @Caching(evict={
-            @CacheEvict(value = "projects", key = "'user:'.concat(#p0.id).concat(':projects')"),
-            @CacheEvict(value="project",key="'project:'.concat(#p1.projectidx)")
+    @Caching(evict = {
+            @CacheEvict(value = "projects", key = "'user:'.concat(#p0.useridx).concat(':projects')"),
+            @CacheEvict(value = "users", key = "'users:'.concat(#p1.projectidx).concat(':projects')"),
+            @CacheEvict(value = "project", key = "'project:'.concat(#p1.projectidx)")
     })
-    public Project save(User u,Project p) {
+    public Project save(User u, Project p) {
         userRepository.saveAndFlush(u);
-       return projectRepository.saveAndFlush(p);
+        return projectRepository.saveAndFlush(p);
     }
 
     @Override
-    @Caching(evict={
-            @CacheEvict(value = "projects", key = "'user:'.concat(#p0.id).concat(':projects')"),
-            @CacheEvict(value="project",key="'project:'.concat(#p1.projectidx)")
+    @Caching(evict = {
+            @CacheEvict(value = "projects", key = "'user:'.concat(#p0.useridx).concat(':projects')"),
+            @CacheEvict(value = "project", key = "'project:'.concat(#p1.projectidx)")
     })
     public void delete(Integer p) {
-         projectRepository.delete(p);
+        projectRepository.delete(p);
     }
 
     /*@Override

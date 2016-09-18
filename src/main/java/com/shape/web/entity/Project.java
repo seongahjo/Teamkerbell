@@ -18,6 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Project")
+@EqualsAndHashCode(exclude={"users"})
 @Data
 public class Project implements Serializable{
     private static final long serialVersionUID = 7463383057597003838L;

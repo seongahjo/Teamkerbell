@@ -3,11 +3,15 @@ package com.shape.web.controller;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.Todolist;
 import com.shape.web.entity.User;
+import com.shape.web.resource.PageResource;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.TodolistService;
 import com.shape.web.service.UserService;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,7 +23,7 @@ import java.util.List;
 /**
  * Created by seongahjo on 2016. 6. 14..
  */
-@Log
+@Slf4j
 @RestController
 public class TodolistController {
 
@@ -33,13 +37,18 @@ public class TodolistController {
     TodolistService todolistService;
 
 
-    @RequestMapping(value="/todolist/{userId}/user",method=RequestMethod.GET)
-    public List<Todolist> todolist(@PathVariable("userId") String userId){
-        return todolistService.getTodolists(userService.getUserById(userId));
+    @RequestMapping(value = "/todolist/{userIdx}/user", method = RequestMethod.GET)
+    public PageResource<Todolist> todolist(@PathVariable("userIdx") Integer userIdx,
+                                           @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                           @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        //return todolistService.getTodolists(userService.getUserById(userId));
+        List l = todolistService.getTodolists(userService.getUser(userIdx));
+        Page<Todolist> todolists = new PageImpl(l, new PageRequest(page, size), l.size());
+        return new PageResource<Todolist>(todolists, "page", "size");
     }
 
-    @RequestMapping(value="/todolist/{projectIdx}/project",method=RequestMethod.GET)
-    public List<Todolist> todolistbypj(@PathVariable("projectIdx") Integer projectIdx){
+    @RequestMapping(value = "/todolist/{projectIdx}/project", method = RequestMethod.GET)
+    public List<Todolist> todolistbypj(@PathVariable("projectIdx") Integer projectIdx) {
         return todolistService.getTodolists(projectService.getProject(projectIdx));
     }
 
@@ -51,7 +60,7 @@ public class TodolistController {
                                        @RequestParam("userId") String userId,
                                        @ModelAttribute("todolist") @Valid Todolist todolist,
                                        BindingResult result) {
-        if(!result.hasErrors()) {
+        if (!result.hasErrors()) {
             Project project = projectService.getProject(projectIdx); // 프로젝트 객체 반환
             User user = userService.getUserById(userId); // 어떤 user에게 할당하는가
             todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
@@ -59,7 +68,7 @@ public class TodolistController {
             todolistService.save(todolist); // todolist 생성
             log.info("todolist 만듬");
             return new ResponseEntity(HttpStatus.CREATED);
-        }else
+        } else
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 

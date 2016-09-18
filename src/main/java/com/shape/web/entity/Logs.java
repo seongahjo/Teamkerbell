@@ -14,6 +14,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "Logs")
+@EqualsAndHashCode(exclude={"user"})
 public class Logs {
     @Id
     @GeneratedValue

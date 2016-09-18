@@ -19,7 +19,12 @@ import java.util.List;
  */
 @Service
 public class AlarmServiceImpl implements AlarmService {
-
+    /*
+    alarm:'alamridx'
+    user:'useridx':alarms
+    user:'useridx':alarm
+    user:'useridx':timelines
+     */
     @Autowired
     AlarmRepository alarmRepository;
 
@@ -38,21 +43,21 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    @Cacheable(value = "alarms", key = "'user:'.concat(#p0.id).concat(':alarms')")
+    @Cacheable(value = "alarms", key = "'user:'.concat(#p0.useridx).concat(':alarms')")
     public List getAlarms(User u) {
         return alarmRepository.findByUserAndContentidAndIsshowOrderByDateDesc(u, 0, true);
     }
 
 
     @Override
-    @Cacheable(value = "alarm", key = "'user:'.concat(#p0.id).concat(':alarm')")
+    @Cacheable(value = "alarm", key = "'user:'.concat(#p0.useridx).concat(':alarm')")
     public Alarm getAlarm(User u) {
         return alarmRepository.findFirstByContentidAndUserOrderByDateDesc(0, u);
     }
 
 
     @Override
-    @Cacheable(value = "alarms", key = "'user:'.concat(#p0.id).concat(':timelines')")
+    @Cacheable(value = "alarms", key = "'user:'.concat(#p0.useridx).concat(':timelines')")
     public List<Alarm> getTimelines(User u, Integer page, Integer count) {
         return alarmRepository.findByUserOrderByDateDesc(u, new PageRequest(page, count));
     }
@@ -60,10 +65,10 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Override
     @Caching(evict = {
-            @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.id).concat(':alarms')"),
+            @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.useridx).concat(':alarms')"),
             @CacheEvict(value = "alarm", key = "'alarm:'.concat(#p0.alarmidx)"),
-            @CacheEvict(value = "alarm", key = "'user:'.concat(#p0.user.id).concat(':alarm')"),
-            @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.id).concat(':timelines')")
+            @CacheEvict(value = "alarm", key = "'user:'.concat(#p0.user.useridx).concat(':alarm')"),
+            @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.useridx).concat(':timelines')")
     })
     public Alarm save(Alarm a) {
         Alarm temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(a.getUser(), a.getActor(), 0, true);

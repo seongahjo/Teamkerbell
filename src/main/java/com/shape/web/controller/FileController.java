@@ -11,7 +11,7 @@ import com.shape.web.service.UserService;
 import com.shape.web.util.AlarmUtil;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +30,7 @@ import java.util.stream.IntStream;
  * Created by seongahjo on 2016. 1. 1..
  * Handles requests for accessing file.
  */
-@Log
+@Slf4j
 @RestController
 public class FileController {
 
@@ -167,10 +167,13 @@ public class FileController {
     }
 
     @RequestMapping(value = "/file/{projectIdx}/name", method = RequestMethod.GET, produces = "application/json")
-    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx, @RequestParam("name") String name, @RequestParam("page") Integer page) {
-        List<FileDB> fileDBs = fileDBService.getFilesByOriginal(projectService.getProject(projectIdx), name, page, 10);
+    public List GetFileByName(@PathVariable("projectIdx") Integer projectIdx,
+                              @RequestParam("name") String name,
+                              @RequestParam(value = "page", defaultValue = "0") Integer page,
+                              @RequestParam(value="size",defaultValue = "10") Integer size) {
+        List<FileDB> fileDBs = fileDBService.getFilesByOriginal(projectService.getProject(projectIdx), name, page, size);
         List<Map<String, String>> jsonar = new ArrayList();
-        int count = 0 + 10 * page;
+        int count = 0 + size * page;
         IntStream.range(0, fileDBs.size()).forEach(idx -> {
                     FileDB temp = fileDBs.get(idx);
                     Map<String, String> json = new HashMap<>();

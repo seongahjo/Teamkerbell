@@ -3,19 +3,12 @@ package com.shape.web.controller;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Role;
 import com.shape.web.entity.User;
-import com.shape.web.repository.FileDBRepository;
-import com.shape.web.repository.UserRepository;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
-import lombok.extern.java.Log;
-import org.omg.CORBA.Request;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +26,7 @@ import java.util.List;
 /**
  * Handles requests for the User .
  */
-@Log
+@Slf4j
 @Controller
 public class UserController {
 
@@ -47,8 +39,15 @@ public class UserController {
     @Autowired
     ProjectService projectService;
 
-    @RequestMapping(value="/user/{projectIdx}",method = RequestMethod.GET)
-    public List getUsers(@PathVariable("projectIdx") Integer projectIdx){
+    @RequestMapping(value="/user/{userIdx}",method=RequestMethod.GET)
+    public User getUser(@PathVariable("userIdx") Integer userIdx){
+        return userService.getUser(userIdx);
+    }
+
+    @RequestMapping(value="/user/{projectIdx}/project",method = RequestMethod.GET)
+    public List getUsers(@PathVariable("projectIdx") Integer projectIdx,
+                         @RequestParam(value = "page",defaultValue = "0") Integer page,
+                         @RequestParam(value="size",defaultValue = "10") Integer size){
         return userService.getUsersByProject(projectService.getProject(projectIdx));
     }
 
@@ -56,7 +55,8 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public String register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
         if (!result.hasErrors()) {
-            User user = userService.getUserById(tempUser.getId());
+            User user = null;
+                    //userService.getUserById(tempUser());
             if (user == null)
                 user = new User();
             user.setId(tempUser.getId());

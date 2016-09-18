@@ -1,6 +1,7 @@
 package com.shape.web.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "Schedule")
+@EqualsAndHashCode(exclude={"project"})
 public class Schedule implements Serializable {
     private static final long serialVersionUID = 1L;
 

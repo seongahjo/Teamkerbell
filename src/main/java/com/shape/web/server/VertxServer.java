@@ -13,7 +13,7 @@ import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.http.HttpServer;
@@ -21,7 +21,7 @@ import org.vertx.java.core.http.HttpServer;
 import java.util.Date;
 import java.util.HashMap;
 
-@Log
+@Slf4j
 public class VertxServer extends DefaultEmbeddableVerticle {
     private static SocketIOServer io = null;
     private static HashMap<String, Integer> Rooms = new HashMap<String, Integer>(); //ProjectIdx / Wrjter_Id
