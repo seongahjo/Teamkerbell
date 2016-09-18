@@ -62,7 +62,7 @@ public class TodolistController {
                                        BindingResult result) {
         if (!result.hasErrors()) {
             Project project = projectService.getProject(projectIdx); // 프로젝트 객체 반환
-            User user = userService.getUserById(userId); // 어떤 user에게 할당하는가
+            User user = userService.getUser(userId); // 어떤 user에게 할당하는가
             todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
             todolist.setUser(user); // todolist가 누구것인가
             todolistService.save(todolist); // todolist 생성

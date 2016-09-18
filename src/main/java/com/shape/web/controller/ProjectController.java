@@ -98,7 +98,7 @@ public class ProjectController {
                           @RequestParam("projectIdx") Integer projectIdx)  {
         log.info("Search Member");
         Project project = projectService.getProject(projectIdx);
-        User user = userService.getUserById(userId);
+        User user = userService.getUser(userId);
         if(user==null){
             throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         }
@@ -116,12 +116,12 @@ public class ProjectController {
        To invite user to project room
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
-    public String InviteMember(@RequestParam(value = "userIdx") Integer userIdx,
+    public String InviteMember(@RequestParam(value = "userId") String userId,
                                @RequestParam("projectIdx") Integer projectIdx,
                                HttpSession session) {
         log.info("Invite Member");
         User actor = (User) session.getAttribute("user"); //초대한 사람
-        User user = userService.getUser(userIdx); // 초대받은 사람
+        User user = userService.getUser(userId); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
         alarmService.save(alarm);

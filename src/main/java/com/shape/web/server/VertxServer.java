@@ -156,7 +156,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
             });
             socket.on("save", event -> {
                 ServerUser su = Clients.get(socket.getId());
-                User u=userService.getUserById(su.getId());
+                User u=userService.getUser(su.getId());
                 String projectIdx = su.getProjectIdx();
                 String memo = event.getString("memo");
                 Project pj = projectService.getProject(Integer.parseInt(projectIdx));
