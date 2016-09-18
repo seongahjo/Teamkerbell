@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -55,7 +56,7 @@ public class HomeController {
      */
 
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
-    public ModelAndView Home(Authentication authentication) {
+    public ModelAndView Home( Authentication authentication) {
         ModelAndView mv = null;
         if (authentication == null) {
             mv = new ModelAndView("/login");

@@ -40,11 +40,13 @@ public class UserController {
     ProjectService projectService;
 
     @RequestMapping(value="/user/{userIdx}",method=RequestMethod.GET)
+    @ResponseBody
     public User getUser(@PathVariable("userIdx") Integer userIdx){
         return userService.getUser(userIdx);
     }
 
     @RequestMapping(value="/user/{projectIdx}/project",method = RequestMethod.GET)
+    @ResponseBody
     public List getUsers(@PathVariable("projectIdx") Integer projectIdx,
                          @RequestParam(value = "page",defaultValue = "0") Integer page,
                          @RequestParam(value="size",defaultValue = "10") Integer size){
