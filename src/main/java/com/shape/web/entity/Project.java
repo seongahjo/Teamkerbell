@@ -6,6 +6,8 @@ package com.shape.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Project")
+@Data
 public class Project implements Serializable{
     private static final long serialVersionUID = 7463383057597003838L;
     @Id
@@ -73,22 +76,6 @@ public class Project implements Serializable{
         updatedat = new Date();
     }
 
-    public Set<Alarm> getAlarms() {
-        return alarms;
-    }
-
-    public void addAlarms(Alarm alarm) {
-        this.alarms.add(alarm);
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void addUser(User user) {
-        this.users.add(user);
-    }
-
     public Project() {
         minutes = new HashSet<Minute>();
     }
@@ -100,66 +87,9 @@ public class Project implements Serializable{
         minutes = new HashSet<Minute>();
     }
 
-    public Integer getProjectidx() {
-        return projectidx;
+    public void addUser(User user) {
+        this.users.add(user);
     }
 
-    public void setProjectidx(Integer projectidx) {
-        this.projectidx = projectidx;
-    }
-
-    public Integer getLeaderidx() {
-        return leaderidx;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setLeaderidx(Integer leaderidx) {
-        this.leaderidx = leaderidx;
-    }
-
-    public Set<FileDB> getFiledbs() {
-        return filedbs;
-    }
-
-    public Set<Minute> getMinutes() {
-        return minutes;
-    }
-
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public Set<Todolist> getTodolists() {
-        return todolists;
-    }
-
-    public String getMinute() {
-        return minute;
-    }
-
-    public void setMinute(String minute) {
-        this.minute = minute;
-    }
-
-    public boolean isProcessed() {
-        return processed;
-    }
-
-    public void setProcessed(boolean processed) {
-        this.processed = processed;
-    }
-
-    @Override
-    public boolean equals(Object o ){
-        Project pj=(Project)o;
-        return this.projectidx == pj.getProjectidx();
-    }
 
 }

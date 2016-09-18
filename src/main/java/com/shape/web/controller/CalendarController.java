@@ -4,13 +4,11 @@ import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.Schedule;
 import com.shape.web.entity.User;
-import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.ScheduleService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.AlarmUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +23,9 @@ import java.util.List;
 /**
  * Handles requests for the calendar.
  */
+@Log
 @RestController
 public class CalendarController {
-    private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
-
 
     @Autowired
     ProjectService projectService;
@@ -56,7 +53,7 @@ public class CalendarController {
         alarm.setProject(project);
         List<User> lu = userService.getUsersByProject(project);
         AlarmUtil.postAlarm(lu,alarm,true);
-        logger.info("[ROOM " + projectIdx + "] Make Schedule ");
+        log.info("[ROOM " + projectIdx + "] Make Schedule ");
 
     }
 
@@ -72,7 +69,7 @@ public class CalendarController {
         List<User> lu = userService.getUsersByProject(s.getProject());
         lu.forEach(u -> scheduleService.clear(u));
         scheduleService.save(s);
-        logger.info("modifying schedule");
+        log.info("modifying schedule");
     }
 
 }

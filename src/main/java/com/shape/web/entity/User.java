@@ -2,6 +2,8 @@ package com.shape.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -11,8 +13,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "User")
+//@EqualsAndHashCode(exclude={"useridx","createdat","updatedat"})
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
     @Id
@@ -80,23 +84,7 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "USERIDX"),
             inverseJoinColumns = @JoinColumn(name = "PROJECTIDX")
     )
-
-
     private Set<Project> projects = new HashSet<Project>();
-
-    public Set<Project> getProjects() {
-        return projects;
-    }
-
-    public Set<Todolist> getTodolists() {
-        return todolists;
-    }
-
-    public void addTodolists(Todolist todolist) {
-        if (todolist.getUser() == null)
-            todolist.setUser(this);
-        this.todolists.add(todolist);
-    }
 
     @PrePersist
     protected void onCreate() {
@@ -106,54 +94,6 @@ public class User implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         updatedat = new Date();
-    }
-
-    public Set<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void addAppointments(Appointment appointment) {
-        if (appointment.getUser() == null)
-            appointment.setUser(this);
-        this.appointments.add(appointment);
-    }
-
-    public Set<Alarm> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(Set<Alarm> logs) {
-        this.logs = logs;
-    }
-
-    public Set<FileDB> getFiledbs() {
-        return filedbs;
-    }
-
-    public void addFiledbs(FileDB filedb) {
-        if (filedb.getUser() == null)
-            filedb.setUser(this);
-        this.filedbs.add(filedb);
-    }
-
-    public Set<Alarm> getAlarmsactor() {
-        return alarmsactor;
-    }
-
-    public void addAlarmsactor(Alarm alarmactor) {
-        this.alarmsactor.add(alarmactor);
-    }
-
-    public Set<Alarm> getAlarmsuser() {
-        return alarmsuser;
-    }
-
-    public void addAlarmsuser(Alarm alarmsuser) {
-        this.alarmsuser.add(alarmsuser);
-    }
-
-    public void addProject(Project project) {
-        this.projects.add(project);
     }
 
 
@@ -168,52 +108,8 @@ public class User implements Serializable {
         this.img = img;
     }
 
-    public Integer getUseridx() {
-        return useridx;
-    }
-
-    public void setUseridx(Integer useridx) {
-        this.useridx = useridx;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getPw() {
-        return pw;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void addProject(Project project) {
+        this.projects.add(project);
     }
 
 

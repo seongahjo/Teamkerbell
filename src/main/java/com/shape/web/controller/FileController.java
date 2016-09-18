@@ -5,15 +5,13 @@ import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
 import com.shape.web.parser.Tagging;
-import com.shape.web.service.AlarmService;
 import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.AlarmUtil;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,9 +30,9 @@ import java.util.stream.IntStream;
  * Created by seongahjo on 2016. 1. 1..
  * Handles requests for accessing file.
  */
+@Log
 @RestController
 public class FileController {
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
 
     @Autowired
@@ -98,7 +96,7 @@ public class FileController {
                     List lu = userService.getUsersByProject(project); // 프로젝트에 해당하는 유저 리스트 반환
                     Alarm alarm = new Alarm(2, originalFileName, "file?name=" + storedFileName, new Date(), project, user); // 알람 객체 생성
                     AlarmUtil.postAlarm(lu, alarm, false); // 알람 보내기
-                    logger.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
+                    log.info(filePath + "/" + originalFileName + " UPLOAD FINISHED!");
                     result.put("stored", storedFileName);
                     result.put("type", type);
                     result.put("original", originalFileName);
@@ -106,7 +104,7 @@ public class FileController {
                 } catch (IOException e) {
                     // file io error
                 } catch (NullPointerException e) {
-                    logger.info("FILE UPLOAD NULL");
+                    log.info("FILE UPLOAD NULL");
                 }
             }
         }
@@ -132,7 +130,7 @@ public class FileController {
             os = new BufferedOutputStream(response.getOutputStream());
             byte b[] = new byte[(int) file.length()];
             int leng = 0;
-            logger.info("다운로드 " + name);
+            log.info("다운로드 " + name);
             while ((leng = in.read(b)) > 0) {
                 os.write(b, 0, leng);
             }

@@ -5,27 +5,23 @@ import com.shape.web.entity.User;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
-import org.omg.CORBA.Request;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hootting on 2016. 9. 13..
  */
+@Log
 @RestController
 public class AlarmController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
-
+ 
     @Autowired
     UserService userService;
 
@@ -85,7 +81,7 @@ public class AlarmController {
     public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List timeline = alarmService.getTimelines(user, page+1,20);
-        logger.info("REQUEST more timeline");
+        log.info("REQUEST more timeline");
         if(timeline.size()==0)
             throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST,"NO MORE TIMELINE");
         return timeline;

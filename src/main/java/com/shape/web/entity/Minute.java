@@ -1,14 +1,18 @@
 package com.shape.web.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Entity
 @Table(name = "Minute")
-public class Minute implements Serializable,Comparable<Minute>{
+@Data
+public class Minute implements Serializable, Comparable<Minute>{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
@@ -45,42 +49,12 @@ public class Minute implements Serializable,Comparable<Minute>{
     public Minute() {
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Integer getMinuteidx() {
-        return minuteidx;
-    }
-
-    public void setMinuteidx(Integer minuteidx) {
-        this.minuteidx = minuteidx;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public Minute( String content, Date date) {
         this.content = content;
         this.date = date;
     }
+
 
     @Override
     public int compareTo(Minute m) {

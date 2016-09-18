@@ -9,6 +9,7 @@ import com.shape.web.service.FileDBService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
+import lombok.extern.java.Log;
 import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +34,9 @@ import java.util.List;
 /**
  * Handles requests for the User .
  */
+@Log
 @Controller
 public class UserController {
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     FileDBService fileDBService;
@@ -58,13 +59,12 @@ public class UserController {
             User user = userService.getUserById(tempUser.getId());
             if (user == null)
                 user = new User();
-
             user.setId(tempUser.getId());
             user.setName(tempUser.getName());
             if (!tempUser.getPw().equals("")) // 비밀번호란이 공란이 아닐경우
                 user.setPw(tempUser.getPw());
             user.setRole(new Role("user"));
-            logger.info("Register start");
+            log.info("Register start");
             try {
                 String filePath = "img";
                 String originalFileName = file.getOriginalFilename(); // 파일 이름
@@ -75,14 +75,14 @@ public class UserController {
                 if (!folder.exists()) // 폴더 존재하지 않을 경우 만듬
                     folder.mkdirs();
                 File transFile = new File(filePath + "/" + originalFileName); // 전송된 파일
-                logger.info("FILE NAME = " + file.getOriginalFilename());
+                log.info("FILE NAME = " + file.getOriginalFilename());
                 file.transferTo(transFile);
                 fileDBService.save(filedb); // 파일 내용을 디비에 저장
                 user.setImg("loadImg?name=" + storedFileName);
 
                 filedb.setUser(user);
                 userService.save(user);
-                logger.info("Register Success " + user.getName());
+                log.info("Register Success " + user.getName());
             } catch (IOException ioe) {
 
             } catch (StringIndexOutOfBoundsException e) {
@@ -90,14 +90,13 @@ public class UserController {
                     user.setImg("img/default.jpg");
                 //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
                 userService.save(user);
-                logger.info("Register Success " + user.getName());
+                log.info("Register Success " + user.getName());
             } finally {
-                return "good";
+                return "login";
               }
         } // hasErrors end
         else {
-
-            logger.info("Register Error");
+            log.info("Register Error");
             return "login";
         }
     }

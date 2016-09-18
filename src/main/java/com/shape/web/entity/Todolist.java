@@ -1,6 +1,7 @@
 package com.shape.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+@Data
 @Entity
 @Table(name = "Todolist")
 public class Todolist implements Serializable {
@@ -68,62 +70,4 @@ public class Todolist implements Serializable {
 
     public Todolist() {
     }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-
-        this.project = project;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Integer getTodolistidx() {
-        return todolistidx;
-    }
-
-    public void setTodolistidx(Integer todolistidx) {
-        this.todolistidx = todolistidx;
-    }
-
-    public void setOk(boolean ok) {
-        this.ok = ok;
-    }
-
-    public boolean getOk() {
-        return ok;
-    }
-
-    public Date getStartdate() {
-        return startdate;
-    }
-
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
-    }
-
-    public Date getEnddate() {
-        return enddate;
-    }
-
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
 }

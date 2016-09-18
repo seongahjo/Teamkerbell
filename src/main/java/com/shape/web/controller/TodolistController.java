@@ -6,8 +6,7 @@ import com.shape.web.entity.User;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.TodolistService;
 import com.shape.web.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +19,10 @@ import java.util.List;
 /**
  * Created by seongahjo on 2016. 6. 14..
  */
+@Log
 @RestController
 public class TodolistController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
 
     @Autowired
     UserService userService;
@@ -58,7 +57,7 @@ public class TodolistController {
             todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
             todolist.setUser(user); // todolist가 누구것인가
             todolistService.save(todolist); // todolist 생성
-            logger.info("todolist 만듬");
+            log.info("todolist 만듬");
             return new ResponseEntity(HttpStatus.CREATED);
         }else
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -87,7 +86,7 @@ public class TodolistController {
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
     public void todocheck(@RequestParam(value = "id") Integer id) {
         Todolist todolist = todolistService.getTodolist(id);
-        todolist.setOk(!todolist.getOk());
+        todolist.setOk(!todolist.isOk());
         todolistService.save(todolist);
     }
 }

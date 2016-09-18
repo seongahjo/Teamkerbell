@@ -5,8 +5,6 @@ import com.shape.web.entity.User;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
 import com.shape.web.service.ProjectService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,7 +19,6 @@ import java.util.List;
  */
 @Service
 public class ProjectServiceImpl implements ProjectService {
-    private static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
     @Autowired
     UserRepository userRepository;
     @Autowired

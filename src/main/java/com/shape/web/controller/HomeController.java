@@ -5,8 +5,7 @@ import com.shape.web.repository.LogRepository;
 import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,10 +23,12 @@ import java.util.stream.Collectors;
 /**
  * Handles requests for the application home page.
  */
+
+
+@Log
 @Controller
 public class HomeController {
     //메뉴 컨트롤러
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 
     @Autowired
@@ -142,7 +142,7 @@ public class HomeController {
             File file = new File(foldername);
             if (!file.exists())
                 if (file.mkdirs()) {
-                    logger.info("folder created " + file);
+                    log.info("folder created " + file);
                 }
             mv = new ModelAndView("/project");
             mv.addObject("projects", lpj);
@@ -203,7 +203,7 @@ public class HomeController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public ModelAndView admin(HttpSession session) {
-        List<Log> logs = logRepository.findAll();
+        List<Logs> logs = logRepository.findAll();
 
         ModelAndView mv = new ModelAndView("/admin");
         // mv.addObject("logs",logs);

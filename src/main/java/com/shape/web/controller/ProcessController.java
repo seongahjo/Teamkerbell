@@ -2,8 +2,7 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.FileDB;
 import com.shape.web.service.FileDBService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +20,11 @@ import java.io.IOException;
 /**
  * Handles requests for the whole application processing.
  */
+@Log
 @RestController
 public class ProcessController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProcessController.class);
-
+   
     @Autowired
     FileDBService fileDBService;
 
@@ -44,7 +43,7 @@ public class ProcessController {
             in.close();
             response.setContentType("image/*");
             byteStream.writeTo(response.getOutputStream());
-            logger.info("SUCCESS LOAD IMG");
+            log.info("SUCCESS LOAD IMG");
         } catch (IOException ioe) {
             // InputStream Error
         } catch (NullPointerException e) {

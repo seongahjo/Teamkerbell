@@ -4,12 +4,17 @@ package com.shape.web.entity;
  * Created by seongahjo on 2016. 7. 16..
  */
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import java.util.Date;
 
+
+@Data
 @Entity
-@Table(name = "Log")
-public class Log {
+@Table(name = "Logs")
+public class Logs {
     @Id
     @GeneratedValue
     @Column(name = "LOGIDX")
@@ -28,40 +33,16 @@ public class Log {
     @Column(name="UPDATEDAT")
     private Date updatedat;
 
-    public Log() {
+    public Logs() {
     }
 
-    public Log(String ip) {
+    public Logs(String ip) {
         this.ip = ip;
     }
 
-    public Log(String ip, User user) {
+    public Logs(String ip, User user) {
         this.ip = ip;
         this.user = user;
-    }
-
-   public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public Date getUpdatedat() {
-        return updatedat;
-    }
-
-    public void setUpdatedat(Date updatedat) {
-        this.updatedat = updatedat;
     }
 
     @PrePersist

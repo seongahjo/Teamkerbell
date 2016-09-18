@@ -1,7 +1,6 @@
 package com.shape.web.serviceImpl;
 
-import com.shape.web.controller.HomeController;
-import com.shape.web.entity.Log;
+import com.shape.web.entity.Logs;
 import com.shape.web.entity.User;
 import com.shape.web.repository.LogRepository;
 import com.shape.web.service.LogService;
@@ -34,9 +33,9 @@ public class LogServiceImpl implements LogService {
             cal.setTime(time);
             cal.add(Calendar.DATE,1);
             Date nextTime=simpleDateFormat.parse(simpleDateFormat.format(cal.getTime()));
-           Log l = logRepositry.findFirstByIpAndCreatedatBetweenOrderByCreatedat(ip,time,nextTime);
+           Logs l = logRepositry.findFirstByIpAndCreatedatBetweenOrderByCreatedat(ip,time,nextTime);
            if (l == null) {
-               l = new Log(ip, u);
+               l = new Logs(ip, u);
            }
            else{
                l.setUpdatedat(new Date());

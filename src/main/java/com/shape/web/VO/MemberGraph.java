@@ -1,10 +1,13 @@
 package com.shape.web.VO;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 
 /**
  * Created by hootting on 2016. 3. 7..
  */
+@Data
 public class MemberGraph {
     private Integer useridx;
     private String name;
@@ -15,36 +18,4 @@ public class MemberGraph {
     }
 
 
-
-    public Integer getUseridx() {
-        return useridx;
-    }
-
-    public void setUseridx(Integer useridx) {
-        this.useridx = useridx;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getParticipate() {
-        return participate;
-    }
-
-    public void setParticipate(BigDecimal participate) {
-        this.participate = participate;
-    }
-
-    public BigDecimal getPercentage() {
-        return percentage;
-    }
-
-    public void setPercentage(BigDecimal percentage) {
-        this.percentage = percentage;
-    }
 }
