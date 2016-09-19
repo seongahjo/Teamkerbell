@@ -34,6 +34,16 @@ public class Logs {
     @Column(name="UPDATEDAT")
     private Date updatedat;
 
+    @PrePersist
+    protected void onCreate() {
+        updatedat = createdat = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedat = new Date();
+    }
+
     public Logs() {
     }
 
@@ -46,13 +56,5 @@ public class Logs {
         this.user = user;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        updatedat = createdat = new Date();
-    }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedat = new Date();
-    }
    }

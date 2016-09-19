@@ -4,6 +4,7 @@ import com.shape.web.entity.Alarm;
 import com.shape.web.entity.User;
 import com.shape.web.repository.AlarmRepository;
 import com.shape.web.service.AlarmService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by seongahjo on 2016. 7. 18..
  */
+@Slf4j
 @Service
 public class AlarmServiceImpl implements AlarmService {
     /*
@@ -71,7 +73,10 @@ public class AlarmServiceImpl implements AlarmService {
             @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.useridx).concat(':timelines')")
     })
     public Alarm save(Alarm a) {
-        Alarm temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(a.getUser(), a.getActor(), 0, true);
+        log.info("SAVE ENTER");
+        Alarm temp = null;
+        if (a.getContentid() == 0)
+            temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(a.getUser(), a.getActor(), a.getContentid(), true);
         if (temp != null) {
             return null;
         }

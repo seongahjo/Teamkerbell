@@ -60,6 +60,5 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @CacheEvict(value = "schedules", key = "'user:'.concat(#p0.useridx).concat(':schedules')")
-    public void clear(User u) {
-    }
+    public void clear(User u) {}
 }

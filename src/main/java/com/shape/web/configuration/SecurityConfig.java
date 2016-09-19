@@ -3,9 +3,6 @@ package com.shape.web.configuration;
 import com.shape.web.security.CustomAuthenticationSucessHandler;
 import com.shape.web.security.RestAuthenticationEntryPoint;
 import com.shape.web.security.RestLoginFailureHandler;
-import com.shape.web.service.LogService;
-import com.shape.web.service.UserService;
-import com.shape.web.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,7 +21,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan({"com.shape.web.service","com.shape.web.serviceImpl"})
+@ComponentScan({"com.shape.web.service", "com.shape.web.serviceImpl"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -39,21 +36,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher(){
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**", "/js/**", "/css/**", "/img/**");
     }
-    @Bean
-    public RestAuthenticationEntryPoint restAuthenticationEntryPoint() {return new RestAuthenticationEntryPoint();}
 
     @Bean
-    public CustomAuthenticationSucessHandler authenticationHandler( ){return new CustomAuthenticationSucessHandler();}
+    public RestAuthenticationEntryPoint restAuthenticationEntryPoint() {
+        return new RestAuthenticationEntryPoint();
+    }
 
     @Bean
-    public RestLoginFailureHandler restLoginFailureHandler(){return new RestLoginFailureHandler();}
+    public CustomAuthenticationSucessHandler authenticationHandler() {
+        return new CustomAuthenticationSucessHandler();
+    }
+
+    @Bean
+    public RestLoginFailureHandler restLoginFailureHandler() {
+        return new RestLoginFailureHandler();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -66,9 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 //.exceptionHandling()
                 //.authenticationEntryPoint(restAuthenticationEntryPoint())
+
                 //.and()
                 .authorizeRequests()
-                .antMatchers("/", "/register", "/login","/user").permitAll()
+                .antMatchers("/", "/register", "/login", "/user").permitAll()
                 .antMatchers("/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -79,9 +85,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/dashboard")
                 .usernameParameter("userId")
                 .passwordParameter("pw")
+                .successHandler(authenticationHandler())
                 //.failureHandler(restLoginFailureHandler())
-                .permitAll()
-        .successHandler(authenticationHandler());
+                .permitAll();
 
     }
 

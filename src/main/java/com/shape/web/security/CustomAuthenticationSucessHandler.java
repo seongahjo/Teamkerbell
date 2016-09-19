@@ -2,7 +2,7 @@ package com.shape.web.security;
 
 import com.shape.web.entity.User;
 import com.shape.web.repository.UserRepository;
-import com.shape.web.service.LogService;
+import com.shape.web.service.LogsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,11 @@ public class CustomAuthenticationSucessHandler extends SavedRequestAwareAuthenti
     UserRepository userRepository;
 
     @Autowired
-    LogService logService;
+    LogsService logService;
 
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException, ServletException {
         User u = userRepository.findById(authentication.getName());
         request.getSession().setAttribute("user",u);
 
