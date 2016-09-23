@@ -1,7 +1,6 @@
 package com.shape.web.controller;
 
 import com.shape.web.entity.*;
-import com.shape.web.repository.LogRepository;
 import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
@@ -30,10 +29,6 @@ import java.util.stream.Collectors;
 @Controller
 public class HomeController {
     //메뉴 컨트롤러
-
-
-    @Autowired
-    LogRepository logRepository;
 
 
     @Autowired
@@ -115,9 +110,9 @@ public class HomeController {
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트 반환
 
 
-       /* if (!lpj.stream().anyMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
+        if (!lpj.stream().anyMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
             return mv;
-        }*/
+        }
         List<Todolist> lt = todolistService.getTodolists(project); // 투두리스트 리스트를 반환
         List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
         List<User> lu = userService.getUsersByProject(project); // 유저 리스트 반환
@@ -204,7 +199,6 @@ public class HomeController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public ModelAndView admin(HttpSession session) {
-        List<Logs> logs = logRepository.findAll();
 
         ModelAndView mv = new ModelAndView("/admin");
         // mv.addObject("logs",logs);

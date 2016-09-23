@@ -70,7 +70,7 @@ public class AlarmController {
         return alarm;
         /*
         Map<String, String> data = new HashMap<>();
-        if (alarm != null) { // 이걸 Rest API로 대체할까말까 고민.
+        if (alarm != null) { // 이걸 Rest API로 대체할까말까 고민.dmdamdammdas
             data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
             data.put("projectname", alarm.getProject().getName());
             data.put("actorid", alarm.getActor().getId());
