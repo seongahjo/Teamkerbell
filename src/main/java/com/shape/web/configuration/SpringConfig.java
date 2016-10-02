@@ -1,5 +1,6 @@
 package com.shape.web.configuration;
 
+import com.shape.web.VO.MemberGraph;
 import com.shape.web.server.VertxServer;
 import com.shape.web.util.AlarmUtil;
 import org.hibernate.jpa.HibernatePersistenceProvider;

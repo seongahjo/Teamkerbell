@@ -331,7 +331,7 @@
                         </c:forEach>
 
                     </div>
-                    <button class="btn btn-primary btn-sm btn-flat" onclick="more()">more</button>
+                    <button class="btn btn-primary btn-sm btn-flat" style="width:100%;" onclick="more()">more</button>
                     <div id="error-message" class="alert alert-danger collapse" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         <span class="sr-only">Error:</span>

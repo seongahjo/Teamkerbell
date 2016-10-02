@@ -6,6 +6,7 @@ package com.shape.web.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.shape.web.VO.MemberGraph;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +19,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Project")
-@EqualsAndHashCode(exclude={"users"})
+@EqualsAndHashCode(of={"projectidx"},exclude={"users"})
+@NamedNativeQuery(name="Project.todolistPercentage",
+        query="SELECT u.useridx,u.name,count(if(td.OK=false,td.CONTENT,NULL))/count(td.OK)*100 as percentage" +
+                " FROM Todolist td JOIN User u on td.useridx = u.useridx" +
+                " WHERE td.projectidx=?1 group by td.useridx order by td.useridx")
+
 @Data
 public class Project implements Serializable{
     private static final long serialVersionUID = 7463383057597003838L;

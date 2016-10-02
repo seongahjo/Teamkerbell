@@ -1,6 +1,8 @@
 package com.shape.web.controller;
 
+import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
+import com.shape.web.repository.ProjectRepository;
 import com.shape.web.service.*;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
@@ -16,8 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +50,8 @@ public class HomeController {
     MinuteService minuteService;
     @Autowired
     FileDBService fileDBService;
+    @Autowired
+    ProjectRepository projectRepository;
 
     /**
      * Simply selects the home view to render by returning its name.
@@ -110,7 +117,7 @@ public class HomeController {
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트 반환
 
 
-        if (lpj.stream().anyMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
+        if (lpj.stream().noneMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
             return mv;
         }
         List<Todolist> lt = todolistService.getTodolists(project); // 투두리스트 리스트를 반환
@@ -150,13 +157,27 @@ public class HomeController {
             mv.addObject("img", img);
             mv.addObject("todolist", lt);
         } else { // 위 ProjectRoom, 아래 Documentation
-            //ProjectService pjs = new ProjectService();
+            List<Object> lo = projectRepository.todolistPercentage(project.getProjectidx()); // 멤버 참석율 반환
+            List<MemberGraph> lg=new ArrayList<>();
+            for(int i=0; i<lo.size();i++) {
+                Object[] objects = (Object[]) lo.get(i);
+                MemberGraph temp=new MemberGraph((Integer)objects[0],(String)objects[1],(BigDecimal)objects[2]);
+                lg.add(temp);
+            }
+            List<Integer> percentage = new ArrayList<>();
+            List<String> username = new ArrayList<>();
+            for (MemberGraph temp : lg) {
+                username.add("\"" + temp.getName() + "\"");
+                if (temp.getPercentage() != null)
+                    percentage.add(temp.getPercentage().intValue()); //달성율
+                else
+                    percentage.add(0);
+            }
             /*List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
-            List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
-            List<String> username = new ArrayList<>();*/
+           */
 
               /*  List<Integer> participant = new ArrayList<>();
-                List<Integer> percentage = new ArrayList<>();
+
                 for (MemberGraph temp : lg) { // 그래프 값 분리
                     username.add("\"" + temp.getName() + "\"");
                     if (temp.getParticipate() != null)
@@ -169,7 +190,7 @@ public class HomeController {
                         percentage.add(0);
                 }*/
 
-
+            mv=new ModelAndView("/document");
             mv.addObject("user", user);
             mv.addObject("projects", lpj);
             mv.addObject("project", project);
@@ -178,9 +199,9 @@ public class HomeController {
             mv.addObject("todolist", lt);
             // mv.addObject("meetingmember", lm);
             // mv.addObject("files", lfd);
-            //mv.addObject("usersname", username);
+            mv.addObject("usersname", username);
             //mv.addObject("participant", participant);
-            //mv.addObject("percentage", percentage);
+            mv.addObject("percentage", percentage);
         } // Documentation 끝
         return mv;
 

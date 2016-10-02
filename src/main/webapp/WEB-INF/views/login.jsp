@@ -173,7 +173,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">
+                            <button type="button" class="btn btn-primary btn-block btn-flat" onClick="register()">
                                 Register
                             </button>
                         </div>
@@ -297,7 +297,7 @@
 <script src="js/date.js"></script>
 <script src="js/previewimage.js"></script>
 <script>
-        $("#signupModal").modal('show');
+        //$("#signupModal").modal('show');
     $('#signupModal').on('hidden.bs.modal', function (e) {
         $("#signupModal #id").val('');
         $("#signupModal #pw").val('');
@@ -312,8 +312,6 @@
     function register() {
         if (($("#pw").val()) == ($("#pw2").val())) {
             if ($("#check").prop('checked') == true) {
-                $("#registerForm").submit();
-                /*
                 var form = $("#registerForm")[0];
                 var formData = new FormData(form);
                 $.ajax({
@@ -333,7 +331,7 @@
                             $("#error-message").fadeOut(800);
                         });
                     }
-                })*/;
+                });
                 // return true;
             }
         }

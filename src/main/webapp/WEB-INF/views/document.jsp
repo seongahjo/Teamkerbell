@@ -279,37 +279,6 @@
             <!-- /.row -->
             <br>
 
-            <!-- Table row -->
-            <div class="row">
-                <div class="col-xs-12 table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Place</th>
-                            <th>Participant</th>
-                            <th>Non-participant</th>
-                            <th>Progress</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="list" items="${meetingmember}">
-                            <tr>
-                                <td>${list.date}</td>
-                                <td>${list.place}</td>
-                                <td>${list.participant}</td>
-                                <td>${list.nonparticipant}</td>
-                                <td>${list.content}</td>
-                            </tr>
-                        </c:forEach>
-
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-            <br>
             <div class="row">
 
                 <canvas id="areaChart" style="height:0px"></canvas>
@@ -468,6 +437,18 @@
     }
     $(function () {
 
+/*
+        {
+            label: "Electronics",
+                    fillColor: "rgba(210, 214, 222, 1)",
+                strokeColor: "rgba(210, 214, 222, 1)",
+                pointColor: "rgba(210, 214, 222, 1)",
+                pointStrokeColor: "#c1c7d1",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: ${participant}
+        },
+        */
         // Get context with jQuery - using jQuery's .get() method.
         var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
         // This will get the first returned node in the jQuery collection.
@@ -477,16 +458,6 @@
             labels: ${usersname},
             ykeys: ['item1', 'item2'],
             datasets: [
-                {
-                    label: "Electronics",
-                    fillColor: "rgba(210, 214, 222, 1)",
-                    strokeColor: "rgba(210, 214, 222, 1)",
-                    pointColor: "rgba(210, 214, 222, 1)",
-                    pointStrokeColor: "#c1c7d1",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: ${participant}
-                },
                 {
                     label: "Digital Goods",
                     fillColor: "rgba(60,141,188,0.9)",
@@ -545,9 +516,6 @@
         var barChartCanvas = $("#barChart").get(0).getContext("2d");
         var barChart = new Chart(barChartCanvas);
         var barChartData = areaChartData;
-        barChartData.datasets[1].fillColor = "#00a65a";
-        barChartData.datasets[1].strokeColor = "#00a65a";
-        barChartData.datasets[1].pointColor = "#00a65a";
         var barChartOptions = {
             //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
             scaleBeginAtZero: true,

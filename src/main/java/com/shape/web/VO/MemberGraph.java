@@ -12,9 +12,13 @@ public class MemberGraph {
     private Integer useridx;
     private String name;
     private BigDecimal percentage;
-    private BigDecimal participate;
 
     public MemberGraph() {
+    }
+    public MemberGraph(Integer useridx,String name,BigDecimal percentage) {
+        this.useridx=useridx;
+        this.name=name;
+        this.percentage=percentage;
     }
 
 
