@@ -110,7 +110,7 @@ public class HomeController {
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트 반환
 
 
-        if (!lpj.stream().anyMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
+        if (lpj.stream().anyMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
             return mv;
         }
         List<Todolist> lt = todolistService.getTodolists(project); // 투두리스트 리스트를 반환
