@@ -22,7 +22,7 @@ import java.util.Set;
 Todolist,
 Invite경우 UserId로 검색.
  */
-@EqualsAndHashCode(exclude={"alarmsactor","alarmsuser"})
+@EqualsAndHashCode(exclude={"alarmsactor","alarmsuser","logs","todolists","filedbs","role"})
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
     @Id
@@ -61,19 +61,15 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Alarm> alarmsuser = new HashSet<Alarm>();
-
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Alarm> logs = new HashSet<Alarm>();
+    private Set<Logs> logs = new HashSet<Logs>();
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Todolist> todolists = new HashSet<Todolist>();
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<FileDB> filedbs = new HashSet<FileDB>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Appointment> appointments = new HashSet<Appointment>();
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",

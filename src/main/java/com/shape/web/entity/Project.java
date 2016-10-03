@@ -53,7 +53,7 @@ public class Project implements Serializable{
     @Column(name="UPDATEDAT")
     private Date updatedat;
 
-  @JsonIgnore
+
     @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 

@@ -381,7 +381,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onClick="make()">Make</button>
+                    <button type="submit" class="btn btn-primary" >Make</button>
                 </div>
             </form>
         </div>
@@ -438,10 +438,9 @@
     });
     function save_idx(value) {
         idx = value;
-        console.log(idx);
-    }
+     }
     function leave(projectIdx) {
-        console.log("DELTE");
+
         $.ajax({
             url: "room/" + projectIdx,
             type: 'DELETE',
@@ -461,7 +460,7 @@
         })
     }
     function leftpage() {
-        console.log(number)
+
         var param = null;
         if (number != 0) {
             param = "page=" + (number - 1);
@@ -501,7 +500,6 @@
     }
     function display(data) {
         var append='';
-        console.log(data);
         $.each(data, function (index, temp) {
             var username = '';
             $.each(temp.users, function (index, user) {
@@ -530,21 +528,7 @@
         $("#projects").html(append);
     }
 
-    function make() {
-        var form = $("#makeForm")[0];
-        var formData = new FormData(form);
-        $.ajax({
-            url: "../room",
-            type: "POST",
-            dataType: "json",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-                location.reload();
-            }
-        });
-    }
+
 </script>
 
 </body>
