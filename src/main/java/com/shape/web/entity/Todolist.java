@@ -1,5 +1,10 @@
 package com.shape.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,8 +13,11 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
+
+@Data
 @Entity
 @Table(name = "Todolist")
+@EqualsAndHashCode(exclude={"project","user"})
 public class Todolist implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -18,9 +26,11 @@ public class Todolist implements Serializable {
     private Integer todolistidx;
 
 
+
     @ManyToOne
     @JoinColumn(name = "USERIDX")
     private User user;
+
 
     @ManyToOne
     @JoinColumn(name = "PROJECTIDX")
@@ -28,6 +38,10 @@ public class Todolist implements Serializable {
 
     @Column(name = "OK")
     private boolean ok = true;
+
+    @Column(name="overdue")
+    private boolean overdue=false;
+
 
     @NotNull
     @Column(name = "CONTENT", columnDefinition = "TEXT")
@@ -61,64 +75,7 @@ public class Todolist implements Serializable {
         updatedat = new Date();
     }
 
-    public Todolist() {
-    }
+    public Todolist() {}
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-
-        this.project = project;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Integer getTodolistidx() {
-        return todolistidx;
-    }
-
-    public void setTodolistidx(Integer todolistidx) {
-        this.todolistidx = todolistidx;
-    }
-
-    public void setOk(boolean ok) {
-        this.ok = ok;
-    }
-
-    public boolean getOk() {
-        return ok;
-    }
-
-    public Date getStartdate() {
-        return startdate;
-    }
-
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
-    }
-
-    public Date getEnddate() {
-        return enddate;
-    }
-
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
 }

@@ -2,11 +2,11 @@
  * Created by seongahjo on 2016. 7. 24..
  */
 
-var invited;
-var scheduleStart;
-var scheduleEnd;
-var modalName;
-var modalPage;
+var invited; // 초대된 사람의 아이디
+var scheduleStart; // 시작시간
+var scheduleEnd; // 종료시간
+var modalName; // 파일 버전 모달
+var modalPage; // 파일 버전 페이지
 
 function fileDialog() {
     document.getElementById("file").click();
@@ -25,8 +25,8 @@ function search() {
         dataType: 'json',
         data: querystring,
         success: function (data) {
-            invited = data.userId;
-            $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' + data.userId + '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
+            invited = data.id;
+            $("#user").html('<div class="box box-primary" style="width:70%; margin-left:15%; margin-top:5%"> <div class="box-body box-profile"> <img class="profile-user-img img-responsive img-circle" src="' + "../" + data.img + '"alt="User profile picture"> <h3 class="profile-username text-center">' +data.id+ '</h3> <p class="text-muted text-center">' + data.name + '</p><a href="#" class="btn btn-primary btn-block" onclick="invite()"><b>Invite</b></a></div> </div>');
         },
         error: function () {
             $("#InviteUser").find("#error-message").fadeIn(600, function () {
@@ -56,7 +56,36 @@ function invite() {
     });
 }
 
+function makeSchedule() {
+    var param = {
+        projectIdx: projectIdx,
+        startdate: scheduleStart,
+        enddate: scheduleEnd,
+        state : 0,
+        content: $("#scheduleform").find($("#goal")).val(),
+        place : $("#scheduleform").find($("#place")).val()
+    };
+    var querystring = $.param(param); // toJSON
 
+    $.ajax({
+        url: "../schedule",
+        type: 'POST',
+        data: querystring,
+        processData: false,
+        success: function () {
+            $("#scheduleform").find("#success-message").fadeIn(1000, function () {
+                $("#scheduleModal").modal('hide');
+            })
+        },
+        error: function () {
+            console.log('bb');
+            $("#scheduleform").find("#error-message").fadeIn(600, function () {
+                $("#scheduleModal").find($("#error-message")).fadeOut(800);
+            });
+        }
+    });
+
+}
 
 
 function makeTodolist() {

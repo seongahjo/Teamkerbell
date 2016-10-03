@@ -331,7 +331,7 @@
                         </c:forEach>
 
                     </div>
-                    <button class="btn btn-primary btn-sm btn-flat" onclick="more()">more</button>
+                    <button class="btn btn-primary btn-sm btn-flat" style="width:100%;" onclick="more()">more</button>
                     <div id="error-message" class="alert alert-danger collapse" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         <span class="sr-only">Error:</span>
@@ -368,7 +368,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-
+                                    <c:if test="${list.overdue=='0'}">
                                     <c:choose>
                                     <c:when test="${list.ok=='0'}">
                                     <input type="checkbox" class="cb" checked value="${list.todolistidx}">
@@ -377,6 +377,7 @@
                                     <input type="checkbox" class="cb" value="${list.todolistidx}">
                                     </c:otherwise>
                                     </c:choose>
+                                        </c:if>
                                     <span> ${list.project.name}</span>
                                     <span class="text">${list.content}</span>
 
@@ -522,9 +523,13 @@
 <script src="../js/json2.js"></script>
 <!-- bootstrap time picker -->
 <script src="../js/bootstrap-timepicker.min.js"></script>
-<script>
-    console.log('<spring:message code="test"/> ');
 
+<!-- dashboard js -->
+<script src="../js/dashboard/default.js"></script>
+<script src="../js/dashboard/function.js"></script>
+<script>
+   // console.log('<spring:message code="test"/> ');
+    init();
     var page = 0;
 
     // fullcalendar
@@ -559,6 +564,7 @@
                     todolistidx: event.tid, enddate: event.end.format(),
                     startdate: event.start.format()
                 };
+
                 var datas = JSON.stringify(param);
                 $.ajax({
                     url: "../todolist",
@@ -666,53 +672,9 @@
 
     });
 
-    $(".cb").change(function () {
-        var check = $(this);
-        var par = "id=" + $(this).val();
-        $.ajax({
-            url: "../todocheck",
-            data: par,
-            dataType: 'text',
-            async: true,
-            type: 'GET',
-            success: function () {
-                check.parent().toggleClass("done");
-
-            }
-        });
-    });
-    function more() {
-        var par = "page=" + page;
-        $.ajax({
-            url: "../moreTimeline",
-            data: par,
-            dataType: 'json',
-            async: true,
-            type: 'GET',
-            success: function (data) {
-                page += 1;
-                var append = '';
-                $.each(data, function (index, temp) {
-                    if (temp.contentid == 1) {
-                        append += ' <div class="box-body chat"><div class=“item”><img src=‘../img/default.jpg alt=“user image” class=“online”><p class=“message”><small class=“text-used pull-right”><i class=“fa fa-clock”></i><span class="prettydate">' + $.datepicker.formatDate('yy-mm-dd', new Date(temp.date)) + '</span></small><a href=“../chat/' + temp.project.projectidx + '”>' + temp.project.name + '</a>에 일정이 추가되었습니다</p></div></div>';
-                    }
-                    else if (temp.contentid == 2) {
-                        append += ' <div class="box-body chat"><div class="item"><img src="../' + temp.actor.img + '" alt="user image" class="online"><p class="message"><small class="text-muted pull-right"><i class="fa fa-clock-o"></i><span class="prettydate">' + $.datepicker.formatDate('yy-mm-dd', new Date(temp.date)) + '</span></small>' + temp.actor.id + '님이 <a href="../chat/' + temp.project.projectidx + '">' + temp.project.name + '</a>에 파일 업로드를 하셨습니다</p><div class="attachment"><h4>파일:</h4> <p class="filename">' + temp.filename + ' </p>  <div class="pull-right"> <a href="../' + temp.fileurl + '"><button type="button" class="btn btn-primary btn-sm btn-flat">Open</button></a></div></div> </div></div>';
-                    }
-                });
-                $("#timelne-box").append(append);
-                $(".prettydate").prettydate();
-
-            },
-            error: function () {
-                $("#error-message").fadeIn(600, function () {
-                    ($("#error-message")).fadeOut(800);
-                });
-            }
 
 
-        })
-    }
+
 
 
 </script>

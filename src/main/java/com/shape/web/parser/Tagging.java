@@ -63,6 +63,7 @@ public class Tagging {
             for (String temp : list) {
                 tag += temp + ",";
             }
+            if(tag.length()!=0)
             tag = tag.substring(0, tag.length() - 1);
         }
         return tag;

@@ -3,7 +3,6 @@ package com.shape.test;
 import com.shape.web.configuration.SpringConfig;
 import com.shape.web.repository.FileDBRepository;
 import com.shape.web.repository.ProjectRepository;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class TestController {
     ProjectRepository projectRepository;
 
     @Test
-    public void test() throws IOException, GitAPIException {
+    public void test() throws IOException {
 
 
 

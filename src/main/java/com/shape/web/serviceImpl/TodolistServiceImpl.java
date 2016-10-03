@@ -18,24 +18,38 @@ import java.util.List;
  */
 @Service
 public class TodolistServiceImpl implements TodolistService {
+    /*
+     todolist:'todolistidx'
+     user:'useridx':todolists
+     project:'projectidx':todolists
+     */
     @Autowired
     TodolistRepository todolistRepository;
 
     @Override
-    @Cacheable(value = "todolists", key = "'user:'.concat(#p0.id).concat(':todolists')")
+    @Cacheable(value = "todolists", key = "'user:'.concat(#p0.useridx).concat(':todolists')")
     public List getTodolists(User u) {
         return todolistRepository.findByUser(u);
     }
+
     @Override
     @Cacheable(value = "todolists", key = "'project:'.concat(#p0.projectidx).concat(':todolists')")
-    public List getTodolists(Project p){
+    public List getTodolists(Project p) {
         return todolistRepository.findByProject(p);
     }
 
     @Override
+    @Cacheable(value = "todolist", key = "'todolist:'.concat(#p0)")
+    public Todolist getTodolist(Integer idx) {
+        return todolistRepository.findOne(idx);
+    }
+
+
+    @Override
     @Caching(evict = {
+            @CacheEvict(value = "todolist", key = "'todolist:'.concat(#p0.todolistidx)"),
             @CacheEvict(value = "todolists", key = "'project:'.concat(#p0.project.projectidx).concat(':todolists')"),
-            @CacheEvict(value = "todolists", key = "'user:'.concat(#p0.user.id).concat(':todolists')")
+            @CacheEvict(value = "todolists", key = "'user:'.concat(#p0.user.useridx).concat(':todolists')")
     })
     public Todolist save(Todolist t) {
         return todolistRepository.saveAndFlush(t);

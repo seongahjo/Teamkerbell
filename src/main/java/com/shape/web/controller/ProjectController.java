@@ -3,28 +3,18 @@ package com.shape.web.controller;
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
-import com.shape.web.repository.AlarmRepository;
-import com.shape.web.repository.ProjectRepository;
-import com.shape.web.repository.UserRepository;
 import com.shape.web.service.AlarmService;
 import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by seongahjo on 2016. 2. 7..
@@ -33,12 +23,10 @@ import java.util.Map;
 /**
  * Handles requests for the project.
  */
-@Controller
+@Slf4j
+@RestController
 public class ProjectController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
-
-
+    
 
     @Autowired
     AlarmService alarmService;
@@ -57,44 +45,45 @@ public class ProjectController {
         GET : INVITE
      */
 
-    @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 개설
-    @ResponseBody
-    public List getRoom(@RequestParam(value = "page") Integer page, HttpSession session) {
+    @RequestMapping(value="/room/{userIdx}/user",method=RequestMethod.GET)
+    public List getRooms(@PathVariable(value="userIdx") Integer userIdx,
+                         @RequestParam(value="page",defaultValue="0") Integer page,
+                         @RequestParam(value="count", defaultValue="15") Integer count){
+        return projectService.getProjects(userService.getUser(userIdx),page,count);
+    }
+
+    @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
+    public List getRoom(@RequestParam(value = "page", defaultValue="0") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<Project> projects = projectService.getProjects(user, page,5);
-        logger.info("room paging");
+        log.info("room paging");
         return projects;
     }
 
     /*
     To make project room
     */
-    @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
-    public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        Integer userIdx = user.getUseridx();
-        Project project = new Project(name, userIdx, "");
-        user.addProject(project);
-        project.addUser(user);
-        projectService.save(user,project);
-        return "redirect:/projectmanager";
-    }
 
     /*
     To delete project room
     */
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
-    @ResponseBody
-    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
-        projectService.delete(projectIdx);
+    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
+        User u=(User) session.getAttribute("user");
+        u.getProjects().remove(projectService.getProject(projectIdx));
+        projectService.delete(u,projectIdx);
     }
 
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
-    @ResponseBody
     public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
+
         User u=(User) session.getAttribute("user");
         Project project = projectService.getProject(projectIdx);
         project.setProcessed(false);
+        u.getProjects().stream().forEach(p->{
+           if(p.equals(project))
+               p.setProcessed(false);
+        });
         projectService.save(u,project);
     }
 
@@ -102,50 +91,39 @@ public class ProjectController {
        To find out invited user
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
-    @ResponseBody
-    public Map searchUser(@RequestParam(value = "userId") String userId,
+    public User searchUser(@RequestParam(value = "userId") String userId,
                           @RequestParam("projectIdx") Integer projectIdx)  {
-        logger.info("Search Member");
+        log.info("Search Member");
         Project project = projectService.getProject(projectIdx);
-        User user = userService.getUserById(userId);
+        User user = userService.getUser(userId);
         if(user==null){
             throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         }
-        logger.info(project.getName());
+        log.info(project.getName());
         List<Project> lp = projectService.getProjects(user); // 유저가 참가중인 프로젝트
-        for (Project p : lp)
+        lp.forEach(p->{
             if (p.getProjectidx() == project.getProjectidx()) {
                 throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
             }
-
-        HashMap<String, String> Value = new HashMap<String, String>();
-        Value.put("userId", user.getId());
-        Value.put("name", user.getName());
-        Value.put("img", user.getImg());
-        return Value;
+        });
+      return user;
     }
 
     /*
        To invite user to project room
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
-    @ResponseBody
     public String InviteMember(@RequestParam(value = "userId") String userId,
                                @RequestParam("projectIdx") Integer projectIdx,
                                HttpSession session) {
-        logger.info("Invite Member");
+        log.info("Invite Member");
         User actor = (User) session.getAttribute("user"); //초대한 사람
-        User user = userService.getUserById(userId); // 초대받은 사람
+        User user = userService.getUser(userId); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
         alarmService.save(alarm);
         return String.valueOf(user.getUseridx());
     }
 
-    @RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity sessionCheck() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
 }

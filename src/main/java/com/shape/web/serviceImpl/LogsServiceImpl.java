@@ -1,10 +1,9 @@
 package com.shape.web.serviceImpl;
 
-import com.shape.web.controller.HomeController;
-import com.shape.web.entity.Log;
+import com.shape.web.entity.Logs;
 import com.shape.web.entity.User;
-import com.shape.web.repository.LogRepository;
-import com.shape.web.service.LogService;
+import com.shape.web.repository.LogsRepository;
+import com.shape.web.service.LogsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,13 @@ import java.util.Date;
  * Created by seongahjo on 2016. 7. 16..
  */
 @Service
-public class LogServiceImpl implements LogService {
+public class LogsServiceImpl implements LogsService {
     @Autowired
-    LogRepository logRepositry;
+    LogsRepository logsRepositry;
 
-    private static final Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(LogsServiceImpl.class);
     @Override
-    public void addLog(String ip,User u) {
+    public void addLog(final String ip,final User u) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
        Date time=null;
         try {
@@ -34,16 +33,15 @@ public class LogServiceImpl implements LogService {
             cal.setTime(time);
             cal.add(Calendar.DATE,1);
             Date nextTime=simpleDateFormat.parse(simpleDateFormat.format(cal.getTime()));
-           Log l = logRepositry.findFirstByIpAndCreatedatBetweenOrderByCreatedat(ip,time,nextTime);
+           Logs l = logsRepositry.findFirstByIpAndCreatedatBetweenOrderByCreatedat(ip,time,nextTime);
            if (l == null) {
-               l = new Log(ip, u);
+               l = new Logs(ip, u);
            }
            else{
                l.setUpdatedat(new Date());
            }
-               logRepositry.saveAndFlush(l);
-
-       }catch(ParseException e){
+              logsRepositry.saveAndFlush(l);
+        }catch(ParseException e){
 
        }
     }

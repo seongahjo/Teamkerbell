@@ -1,13 +1,19 @@
 package com.shape.web.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+
+@Data
 @Entity
 @NamedNativeQuery(name="FileDB.groupbytest",
         query="select fd.originalname as Originalname, group_concat(distinct u.name) as Uploader, group_concat(distinct fd.tag) as tag from FileDB fd JOIN User u on fd.useridx=u.useridx JOIN Project p on fd.projectidx=p.projectidx where p.projectidx=?1 group by fd.originalname")
 @Table(name = "FileDB")
+@EqualsAndHashCode(exclude={"project","user"})
 public class FileDB implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,79 +59,6 @@ public class FileDB implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         updatedat = new Date();
-    }
-
-
-    public Integer getFiledbidx() {
-        return filedbidx;
-    }
-
-    public void setFiledbidx(Integer filedbidx) {
-        this.filedbidx = filedbidx;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public String getStoredname() {
-        return storedname;
-    }
-
-    public void setStoredname(String storedname) {
-        this.storedname = storedname;
-    }
-
-    public String getOriginalname() {
-        return originalname;
-    }
-
-    public void setOriginalname(String originalname) {
-        this.originalname = originalname;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public Date getCreatedat() {
-        return createdat;
-    }
-
-    public void setCreatedat(Date createdat) {
-        this.createdat = createdat;
     }
 
     public FileDB(String storedname, String originalname, String type, String path, String tag) {

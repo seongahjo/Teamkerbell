@@ -3,28 +3,21 @@ package com.shape.web.controller;
 import com.shape.web.entity.FileDB;
 import com.shape.web.entity.Role;
 import com.shape.web.entity.User;
-import com.shape.web.repository.FileDBRepository;
-import com.shape.web.repository.UserRepository;
 import com.shape.web.service.FileDBService;
+import com.shape.web.service.ProjectService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by seongahjo on 2016. 2. 7..
@@ -33,9 +26,9 @@ import java.util.Date;
 /**
  * Handles requests for the User .
  */
+@Slf4j
 @Controller
 public class UserController {
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     FileDBService fileDBService;
@@ -43,19 +36,37 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ProjectService projectService;
+
+    @RequestMapping(value="/user/{userIdx}",method=RequestMethod.GET)
+    @ResponseBody
+    public User getUser(@PathVariable("userIdx") Integer userIdx){
+        return userService.getUser(userIdx);
+    }
+
+    @RequestMapping(value="/user/{projectIdx}/project",method = RequestMethod.GET)
+    @ResponseBody
+    public List getUsers(@PathVariable("projectIdx") Integer projectIdx,
+                         @RequestParam(value = "page",defaultValue = "0") Integer page,
+                         @RequestParam(value="size",defaultValue = "10") Integer size){
+        return userService.getUsersByProject(projectService.getProject(projectIdx));
+    }
+
+
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public String register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
         if (!result.hasErrors()) {
-            User user = userService.getUserById(tempUser.getId());
+            User user = null;
+                    //userService.getUserById(tempUser());
             if (user == null)
                 user = new User();
-
             user.setId(tempUser.getId());
             user.setName(tempUser.getName());
             if (!tempUser.getPw().equals("")) // 비밀번호란이 공란이 아닐경우
                 user.setPw(tempUser.getPw());
             user.setRole(new Role("user"));
-            logger.info("Register start");
+            log.info("Register start");
             try {
                 String filePath = "img";
                 String originalFileName = file.getOriginalFilename(); // 파일 이름
@@ -66,14 +77,14 @@ public class UserController {
                 if (!folder.exists()) // 폴더 존재하지 않을 경우 만듬
                     folder.mkdirs();
                 File transFile = new File(filePath + "/" + originalFileName); // 전송된 파일
-                logger.info("FILE NAME = " + file.getOriginalFilename());
+                log.info("FILE NAME = " + file.getOriginalFilename());
                 file.transferTo(transFile);
                 fileDBService.save(filedb); // 파일 내용을 디비에 저장
                 user.setImg("loadImg?name=" + storedFileName);
 
                 filedb.setUser(user);
                 userService.save(user);
-                logger.info("Register Success " + user.getName());
+                log.info("Register Success " + user.getName());
             } catch (IOException ioe) {
 
             } catch (StringIndexOutOfBoundsException e) {
@@ -81,17 +92,14 @@ public class UserController {
                     user.setImg("img/default.jpg");
                 //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
                 userService.save(user);
-                logger.info("Register Success " + user.getName());
+                log.info("Register Success " + user.getName());
             } finally {
-                return "good";
-               // return new ResponseEntity(HttpStatus.CREATED);
-            }
+                return "login";
+              }
         } // hasErrors end
         else {
-
-            logger.info("Register Error");
+            log.info("Register Error");
             return "login";
-            //return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 

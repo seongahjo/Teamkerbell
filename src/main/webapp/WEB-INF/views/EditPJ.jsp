@@ -368,7 +368,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Make new Project</h4>
             </div>
-            <form action="room" method="post">
+            <form id="makeForm" action="room" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-group has-success">
@@ -381,7 +381,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Make</button>
+                    <button type="submit" class="btn btn-primary" >Make</button>
                 </div>
             </form>
         </div>
@@ -438,10 +438,9 @@
     });
     function save_idx(value) {
         idx = value;
-        console.log(idx);
-    }
+     }
     function leave(projectIdx) {
-        console.log("DELTE");
+
         $.ajax({
             url: "room/" + projectIdx,
             type: 'DELETE',
@@ -461,7 +460,7 @@
         })
     }
     function leftpage() {
-        console.log(number)
+
         var param = null;
         if (number != 0) {
             param = "page=" + (number - 1);
@@ -501,7 +500,6 @@
     }
     function display(data) {
         var append='';
-        console.log(data);
         $.each(data, function (index, temp) {
             var username = '';
             $.each(temp.users, function (index, user) {
@@ -529,6 +527,8 @@
         });
         $("#projects").html(append);
     }
+
+
 </script>
 
 </body>
