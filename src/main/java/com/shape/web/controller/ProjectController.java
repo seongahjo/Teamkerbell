@@ -70,14 +70,20 @@ public class ProjectController {
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
     public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
         User u=(User) session.getAttribute("user");
+        u.getProjects().remove(projectService.getProject(projectIdx));
         projectService.delete(u,projectIdx);
     }
 
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
     public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
+
         User u=(User) session.getAttribute("user");
         Project project = projectService.getProject(projectIdx);
         project.setProcessed(false);
+        u.getProjects().stream().forEach(p->{
+           if(p.equals(project))
+               p.setProcessed(false);
+        });
         projectService.save(u,project);
     }
 

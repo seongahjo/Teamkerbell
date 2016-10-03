@@ -72,7 +72,7 @@ public class FileDBServiceImpl implements FileDBService {
             @CacheEvict(value = "files", key = "'project:'.concat(#p0.project.projectidx).concat(':files')"),
             @CacheEvict(value = "file", key = "'file:'.concat(#p0.filedbidx)"),
             @CacheEvict(value = "file", key = "'file:'.concat(#p0.storedname)"),
-            @CacheEvict(value = "files", key = "'project:'.concat(#p0.project.projectidx).concat(':imgs')", condition = "#p0.type=='img'")
+            @CacheEvict(value = "files", key = "'project:'.concat(#p0.project.projectidx).concat(':imgs')", condition = "#p0.type=='image'")
     })
     public FileDB save(FileDB f) {
         return fileDBRepository.saveAndFlush(f);

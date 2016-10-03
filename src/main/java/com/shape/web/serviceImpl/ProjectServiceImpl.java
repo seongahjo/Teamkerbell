@@ -5,6 +5,7 @@ import com.shape.web.entity.User;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.repository.UserRepository;
 import com.shape.web.service.ProjectService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by seongahjo on 2016. 7. 26..
  */
+@Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService {
   /*
@@ -58,7 +60,7 @@ public class ProjectServiceImpl implements ProjectService {
             @CacheEvict(value = "project", key = "'project:'.concat(#p1.projectidx)")
     })
     public Project save(User u, Project p) {
-        projectRepository.saveAndFlush(p);
+        p=projectRepository.saveAndFlush(p);
         userRepository.saveAndFlush(u);
         return p;
     }
@@ -70,9 +72,7 @@ public class ProjectServiceImpl implements ProjectService {
             @CacheEvict(value = "project", key = "'project:'.concat(#p1)")
     })
     public void delete(User u,Integer p) {
-        Project pj =projectRepository.findOne(p);
-        u.deleteProject(pj);
-        projectRepository.delete(pj);
+        projectRepository.delete(p);
         userRepository.saveAndFlush(u);
 
     }
