@@ -64,14 +64,13 @@ public class ProjectController {
     To make project room
     */
     @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
-    public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
+    public void MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
         User user = (User) session.getAttribute("user");
         Integer userIdx = user.getUseridx();
         Project project = new Project(name, userIdx, "");
         user.addProject(project);
         project.addUser(user);
         projectService.save(user,project);
-        return "redirect:/projectmanager";
     }
 
     /*

@@ -368,7 +368,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Make new Project</h4>
             </div>
-            <form action="room" method="post">
+            <form id="makeForm" action="room" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-group has-success">
@@ -381,7 +381,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Make</button>
+                    <button type="button" class="btn btn-primary" onClick="make()">Make</button>
                 </div>
             </form>
         </div>
@@ -528,6 +528,22 @@
 
         });
         $("#projects").html(append);
+    }
+
+    function make() {
+        var form = $("#makeForm")[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: "../room",
+            type: "POST",
+            dataType: "json",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                location.reload();
+            }
+        });
     }
 </script>
 

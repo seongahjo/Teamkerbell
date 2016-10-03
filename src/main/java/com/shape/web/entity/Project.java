@@ -4,6 +4,7 @@ package com.shape.web.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shape.web.VO.MemberGraph;
@@ -52,7 +53,7 @@ public class Project implements Serializable{
     @Column(name="UPDATEDAT")
     private Date updatedat;
 
-    @JsonManagedReference
+  @JsonIgnore
     @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
@@ -66,10 +67,11 @@ public class Project implements Serializable{
     @OneToMany(mappedBy = "project")
     private Set<Minute> minutes;
 
-    @JsonIgnore
+
+
     @OneToMany(mappedBy = "project")
     private Set<Schedule> schedules = new HashSet<Schedule>();
-    @JsonIgnore
+
     @OneToMany(mappedBy = "project")
     private Set<Todolist> todolists = new HashSet<Todolist>();
 

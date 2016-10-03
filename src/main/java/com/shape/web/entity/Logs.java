@@ -6,6 +6,7 @@ package com.shape.web.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +25,7 @@ public class Logs {
     @Column(name = "IP")
     private String ip;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "USERIDX")
     private User user;

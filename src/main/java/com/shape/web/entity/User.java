@@ -22,6 +22,7 @@ import java.util.Set;
 Todolist,
 Invite경우 UserId로 검색.
  */
+@EqualsAndHashCode(exclude={"alarmsactor","alarmsuser"})
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
     @Id
@@ -82,7 +83,7 @@ public class User implements Serializable {
     private Role role;
 
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Participate",
