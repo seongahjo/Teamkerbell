@@ -57,7 +57,7 @@ public class FileDBServiceImpl implements FileDBService {
     @Override
     @Cacheable(value = "files", key = "'project:'.concat(#p0.projectidx).concat(':imgs')")
     public List getImgs(Project p) {
-        return fileDBRepository.findByProjectAndTypeOrderByCreatedatDesc(p, "img");
+        return fileDBRepository.findByProjectAndTypeOrderByCreatedatDesc(p, "image");
     }
 // @CacheEvict(value = "files", key = "'project:'.concat(#p0.project.projectidx).concat(':filesrepo')"),
 

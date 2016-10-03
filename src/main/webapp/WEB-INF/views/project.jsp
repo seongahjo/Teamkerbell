@@ -840,7 +840,7 @@
 <script type="text/javascript" src="../js/ImageZoom.js"></script>
 
 <script type="text/javascript" src="../js/project/default.js"></script>
-<script type="text/javascript" src="../js/project/function.js"></script>
+<script type="text/javascript" src="../js/project/functionP.js"></script>
 <script type="text/javascript" src="../js/project/socket.js"></script>
 
 <script>

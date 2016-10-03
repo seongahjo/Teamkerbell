@@ -232,7 +232,6 @@ public class HomeController {
         Integer userIdx = user.getUseridx();
         Project project = new Project(name, userIdx, "");
         user.addProject(project);
-        project.addUser(user);
         projectService.save(user,project);
         return "redirect:/projectmanager";
     }

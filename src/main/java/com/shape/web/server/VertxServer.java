@@ -123,7 +123,7 @@ public class VertxServer extends DefaultEmbeddableVerticle {
                 event.putString("img", su.getImg());
                 event.putString("user", su.getName());
 
-                if (event.getString("type").equals("img"))
+                if (event.getString("type").equals("image"))
                     event.putString("msg", "<img src=../loadImg?name=" + event.getElement("msg").asObject().getString("stored") + " style=\'width:200px;height:150px\'>");
                 else
                     event.putString("msg", "<i class='fa fa-file-text-o fa-2x'></i>" + "<a href='../file?name=" + event.getElement("msg").asObject().getString("stored") + "'><span class='file_name_tag' style='color:#ffffff;'> " + event.getElement("msg").asObject().getString("original") + "</span></a>");

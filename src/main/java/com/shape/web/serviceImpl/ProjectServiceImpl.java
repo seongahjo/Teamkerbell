@@ -58,17 +58,23 @@ public class ProjectServiceImpl implements ProjectService {
             @CacheEvict(value = "project", key = "'project:'.concat(#p1.projectidx)")
     })
     public Project save(User u, Project p) {
+        projectRepository.saveAndFlush(p);
         userRepository.saveAndFlush(u);
-        return projectRepository.saveAndFlush(p);
+        return p;
     }
 
     @Override
     @Caching(evict = {
             @CacheEvict(value = "projects", key = "'user:'.concat(#p0.useridx).concat(':projects')"),
-            @CacheEvict(value = "project", key = "'project:'.concat(#p1.projectidx)")
+            @CacheEvict(value = "users", key = "'users:'.concat(#p1).concat(':projects')"),
+            @CacheEvict(value = "project", key = "'project:'.concat(#p1)")
     })
-    public void delete(Integer p) {
-        projectRepository.delete(p);
+    public void delete(User u,Integer p) {
+        Project pj =projectRepository.findOne(p);
+        u.deleteProject(pj);
+        projectRepository.delete(pj);
+        userRepository.saveAndFlush(u);
+
     }
 
     /*@Override

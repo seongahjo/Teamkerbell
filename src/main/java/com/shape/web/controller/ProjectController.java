@@ -68,8 +68,9 @@ public class ProjectController {
     To delete project room
     */
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
-    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
-        projectService.delete(projectIdx);
+    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
+        User u=(User) session.getAttribute("user");
+        projectService.delete(u,projectIdx);
     }
 
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제

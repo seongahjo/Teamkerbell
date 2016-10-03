@@ -73,13 +73,12 @@ public class AlarmServiceImpl implements AlarmService {
             @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.useridx).concat(':timelines')")
     })
     public Alarm save(Alarm a) {
-        log.info("SAVE ENTER");
-        Alarm temp = null;
+        /*Alarm temp = null;
         if (a.getContentid() == 0)
             temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(a.getUser(), a.getActor(), a.getContentid(), true);
         if (temp != null) {
             return null;
-        }
+        }*/
         return alarmRepository.saveAndFlush(a);
     }
 }

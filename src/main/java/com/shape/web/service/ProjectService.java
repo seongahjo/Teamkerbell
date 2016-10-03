@@ -12,7 +12,7 @@ public interface ProjectService {
     List getProjects(User u);
     List getProjects(User u,Integer page,Integer count);
     Project save( User u ,Project p);
-    void delete(Integer p);
+    void delete(User u,Integer p);
 
     /*
 

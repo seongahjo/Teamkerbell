@@ -113,6 +113,6 @@ public class User implements Serializable {
     public void addProject(Project project) {
         this.projects.add(project);
     }
-
+    public void deleteProject(Project project) {this.projects.remove(project);}
 
 }
