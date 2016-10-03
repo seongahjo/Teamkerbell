@@ -39,6 +39,10 @@ public class Todolist implements Serializable {
     @Column(name = "OK")
     private boolean ok = true;
 
+    @Column(name="overdue")
+    private boolean overdue=false;
+
+
     @NotNull
     @Column(name = "CONTENT", columnDefinition = "TEXT")
     private String content;

@@ -16,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -95,7 +97,12 @@ public class TodolistController {
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
     public void todocheck(@RequestParam(value = "id") Integer id) {
         Todolist todolist = todolistService.getTodolist(id);
-        todolist.setOk(!todolist.isOk());
-        todolistService.save(todolist);
+        if(new Date().before(todolist.getEnddate())) {
+            todolist.setOk(!todolist.isOk());
+            todolistService.save(todolist);
+            return;
+        }
+        throw new HttpClientErrorException(HttpStatus.NOT_MODIFIED,"It's over");
+
     }
 }

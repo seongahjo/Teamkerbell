@@ -94,6 +94,14 @@ public class HomeController {
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmService.getTimelines(user, 0, 15); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
+        lt=lt.stream().map(t->{
+           if(new Date().after(t.getEnddate())) {
+               t.setOverdue(true);
+               t=todolistService.save(t);
+           }
+           return t;
+        }).collect(Collectors.toList());
+
         List<Schedule> ls = scheduleService.getSchedules(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
         ModelAndView mv = new ModelAndView("/dashboard");

@@ -368,7 +368,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-
+                                    <c:if test="${list.overdue=='0'}">
                                     <c:choose>
                                     <c:when test="${list.ok=='0'}">
                                     <input type="checkbox" class="cb" checked value="${list.todolistidx}">
@@ -377,6 +377,7 @@
                                     <input type="checkbox" class="cb" value="${list.todolistidx}">
                                     </c:otherwise>
                                     </c:choose>
+                                        </c:if>
                                     <span> ${list.project.name}</span>
                                     <span class="text">${list.content}</span>
 
