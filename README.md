@@ -2,6 +2,8 @@
 Teamkerbell
 =====
 Private Project Repository For University Students
+<br>
+Project Support Application For University Students
 
 * Youtube : https://www.youtube.com/watch?v=76V_DYsX0VQ 
 * SlideShare : http://www.slideshare.net/seongside/teamkerbell
@@ -24,9 +26,9 @@ Application Stack
 
 How To Use
 =====
+You should install MySQL, Redis in advance.
+
 ```  
- 
- * If you want to run this app, you should install MySQL, Redis in advance
  
  * git clone https://github.com/seongahjo/Teamkerbell.git
  
@@ -51,6 +53,14 @@ How To Use
 
  ```
  
+ 
+ OR
+ ```
+ docker pull seongahjo/teamkerbell
+ ```
+ 
+ MySQL and Redis Docker Image is needed for running the app.
+ It'll be supported as soon as I can.
  
 ##### Developed by IntelliJ
 
