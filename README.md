@@ -20,7 +20,7 @@ Core Features
 
 Application Stack
 =====
-![app stack](https://cloud.githubusercontent.com/assets/10272119/18032119/b7a4a6ee-6d36-11e6-80f7-020d08e9045f.png)
+![app stack](https://cloud.githubusercontent.com/assets/10272119/19376711/49ebd3c0-921b-11e6-9dbf-adf45e996a39.png)
 
 
 Demo
