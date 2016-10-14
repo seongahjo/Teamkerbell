@@ -6,6 +6,7 @@ Private Project Repository For University Students
 Project Support Application For University Students
 
 * Youtube : https://www.youtube.com/watch?v=76V_DYsX0VQ 
+* Youtube (new) : https://www.youtube.com/watch?v=ctLO8N2dzgQ
 * SlideShare : http://www.slideshare.net/seongside/teamkerbell
 
 
@@ -22,6 +23,9 @@ Application Stack
 ![app stack](https://cloud.githubusercontent.com/assets/10272119/18032119/b7a4a6ee-6d36-11e6-80f7-020d08e9045f.png)
 
 
+Demo
+=====
+http://175.126.112.144/
 
 
 How To Use
