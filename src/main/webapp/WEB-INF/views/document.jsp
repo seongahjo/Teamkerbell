@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="../css/wait1.css">
     <link rel="stylesheet" href="../css/jquery-jvectormap-1.2.2.css">
 
+    <!--tags-->
+    <link href="../css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
+    <!-- end tags-->
+    <!--Files-->
+    <link href="../css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
+
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
     <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/../../js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script> -->
@@ -206,9 +212,10 @@
                     <ul class="treeview-menu">
                         <li>
                             <c:forEach var="list" items="${projects}"> <!-- 컨트롤러에서 넘겨받은 프로젝트를 list에 삽입 -->
-                        <li ><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i>  <span style="font-size:18px">${list.name} </span></a></li>
-                            </c:forEach>
-                            <li><a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a></li>
+                        <li><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i> <span
+                                style="font-size:18px">${list.name} </span></a></li>
+                        </c:forEach>
+                        <li><a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a></li>
                         </li>
                     </ul>
                 </li>
@@ -233,105 +240,138 @@
                 <li><a href="#">Document</a></li>
             </ol>
         </section>
+            <!-- Main content -->
+            <section class="invoice">
+                <!-- title row -->
 
-        <!-- Main content -->
-        <section class="invoice">
-            <!-- title row -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2 class="page-header">
-                        <i class="fa fa-globe"></i> ${project.name}
-                        <small class="pull-right">Date : ${date}</small>
-                    </h2>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="page-header">
+                            <i class="fa fa-globe"></i> ${project.name}
+                            <small class="pull-right">Date : ${date}</small>
+                        </h2>
+                    </div>
+                    <!-- /.col -->
                 </div>
-                <!-- /.col -->
-            </div>
-            <!-- info row -->
-            <div class="row invoice-info">
-                <div class="col-sm-8 invoice-col">
-                    <table class="table table-bordered table-hover">
+                <!-- info row -->
+                <div class="row invoice-info">
+                    <div class="col-sm-8 invoice-col">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Director</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="list" items="${todolist}">
+                                <tr>
+                                    <td>${list.content}</td>
+                                    <td>${list.user.name}</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-sm-4 invoice-col">
+                        <h4>All Members</h4>
+                        <c:forEach var="list" items="${users}">
+                            <strong>${list.name}</strong><br>
+                        </c:forEach>
+
+                    </div>
+
+                </div>
+                <!-- /.row -->
+                <br>
+
+                <div class="row">
+
+                    <canvas id="areaChart" style="height:0px"></canvas>
+
+
+                    <!-- /.col (LEFT) -->
+                    <div class="col-md-8">
+
+                        <!-- BAR CHART -->
+                        <div class="box box-success" id="areaChart">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Contribution Chart</h3>
+                                <div class="pull-right">
+
+                                    <button type="button" class="btn btn-block"
+                                            style=";width:5%;height:3%;float:left;border-radius:1px;background-color:#3b8bba"></button>
+                                    <strong>: TO-do Contribution</strong>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="chart">
+                                    <canvas id="barChart" style="height:230px"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+
+                    </div>
+
+                </div>
+
+                <!--file -->
+                <div class="box-body">
+                    <div class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   id="tokenfield-typeahead"
+                                   placeholder="Type something and hit enter for tags"/>
+                            <span class="input-group-btn">
+                                    <button type="button" class="btn btn-flat" onclick="searchTable()">
+                                    <i class="fa fa-search fa-2x"></i></button></span>
+                        </div>
+
+                    </div>
+
+
+                    <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>Role</th>
-                            <th>Director</th>
+                            <th>Name</th>
+                            <th>Uploader</th>
+                            <th>Main Contents</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="list" items="${todolist}">
-                            <tr>
-                                <td>${list.content}</td>
-                                <td>${list.user.name}</td>
-                            </tr>
-                        </c:forEach>
+
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Uploader</th>
+                            <th>Main Contents</th>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
 
-                <div class="col-sm-4 invoice-col">
-                    <h4>All Members</h4>
-                    <c:forEach var="list" items="${users}">
-                        <strong>${list.name}</strong><br>
-                    </c:forEach>
 
-                </div>
-
-            </div>
-            <!-- /.row -->
-            <br>
-
-            <div class="row">
-
-                <canvas id="areaChart" style="height:0px"></canvas>
-
-
-                <!-- /.col (LEFT) -->
-                <div class="col-md-8">
-
-                    <!-- BAR CHART -->
-                    <div class="box box-success" id="areaChart">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Contribution Chart</h3>
-                            <div class="pull-right">
-                                <button type="button" class="btn btn-block"
-                                        style="width:5%;height:3%;float:left;border-radius:1px;background-color:#D2D6DE"></button>
-                                <strong style="float:left;">: Participation </strong>
-                                <button type="button" class="btn btn-block"
-                                        style=";width:5%;height:3%;float:left;border-radius:1px;background-color:#00A65A"></button>
-                                <strong>: TO Do Contribution</strong>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="chart">
-                                <canvas id="barChart" style="height:230px"></canvas>
-                            </div>
-                        </div>
-                        <!-- /.box-body -->
+                <!-- this row will not appear when printing -->
+                <div class="row no-print" data-html2canvas-ignore="true">
+                    <div class="col-xs-12">
+                        <a href="#" class="btn btn-default" onclick="capture()"><i class="fa fa-print"></i>
+                            Print</a>
+                        <form method="POST" enctype="multipart/form-data" action="file" id="myForm">
+                            <input type="hidden" name="file" id="img_val" value=""/>
+                        </form>
+                        <button type="button" class="btn btn-primary pull-right" onclick="pdf_capture()"
+                                style="margin-right: 5px;">
+                            <i class="fa fa-download"></i> Generate PDF
+                        </button>
                     </div>
-                    <!-- /.box -->
-
                 </div>
-
-            </div>
-
-
-            <!-- this row will not appear when printing -->
-            <div class="row no-print">
-                <div class="col-xs-12">
-                    <a href="#" class="btn btn-default" onclick="capture()"><i class="fa fa-print"></i>
-                        Print</a>
-                    <form method="POST" enctype="multipart/form-data" action="file" id="myForm">
-                        <input type="hidden" name="file" id="img_val" value=""/>
-                    </form>
-                    <button type="button" class="btn btn-primary pull-right" onclick="pdf_capture()"
-                            style="margin-right: 5px;">
-                        <i class="fa fa-download"></i> Generate PDF
-                    </button>
-                </div>
-            </div>
-        </section>
-        <!-- /.content -->
+            </section>
+            <!-- /.content -->
         <div class="clearfix"></div>
-
     </div>
     <!-- /.content-wrapper -->
 
@@ -412,43 +452,56 @@
 <!-- ChartJS 1.0.1 -->
 <script src="../js/Chart.min.js"></script>
 <script src="../js/date.js"></script>
+
+<!--Table-->
+<script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/dataTables.bootstrap.min.js"></script>
+
+<!-- tag -->
+<script type="text/javascript" src="../js/bootstrap-tokenfield.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/typeahead.bundle.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../js/docs.min.js" charset="UTF-8"></script>
+
 <script>
-    function capture() {
-        html2canvas($('.content-wrapper'), {
-            onrendered: function (canvas) {
-                var a = document.createElement('a');
-                // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
-                a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                a.download = 'document.jpg';
-                a.click();
+    var projectIdx = ${project.projectidx}
+
+            function capture() {
+                html2canvas($('.invoice'), {
+                    onrendered: function (canvas) {
+                        var a = document.createElement('a');
+                        // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+                        a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                        a.download = '${project.name}.jpg';
+                        a.click();
+                    }
+                });
             }
-        });
-    }
     function pdf_capture() {
-        html2canvas($('.content-wrapper'), {
+        html2canvas($('.invoice'), {
             onrendered: function (canvas) {
                 var doc = new jsPDF();
                 doc.setFontSize(40);
                 var imgData = canvas.toDataURL('image/jpeg', 1.0);
                 doc.addImage(imgData, 'JPEG', 15, 40, 180, 220);
-                doc.save("document.pdf");
+                doc.save("${project.name}.pdf");
             }
         });
     }
     $(function () {
 
-/*
-        {
-            label: "Electronics",
-                    fillColor: "rgba(210, 214, 222, 1)",
-                strokeColor: "rgba(210, 214, 222, 1)",
-                pointColor: "rgba(210, 214, 222, 1)",
-                pointStrokeColor: "#c1c7d1",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: ${participant}
-        },
-        */
+        /*
+         {
+         label: "Electronics",
+         fillColor: "rgba(210, 214, 222, 1)",
+         strokeColor: "rgba(210, 214, 222, 1)",
+         pointColor: "rgba(210, 214, 222, 1)",
+         pointStrokeColor: "#c1c7d1",
+         pointHighlightFill: "#fff",
+         pointHighlightStroke: "rgba(220,220,220,1)",
+         data:
+        ${participant}
+         },
+         */
         // Get context with jQuery - using jQuery's .get() method.
         var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
         // This will get the first returned node in the jQuery collection.
@@ -545,6 +598,26 @@
 
         barChartOptions.datasetFill = false;
         barChart.Bar(barChartData, barChartOptions);
+
+        table = $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "ajax": {
+                'url': '../file/' + projectIdx
+            }
+        });
+
+
+        function searchTable() {
+            var searchVal = $("#tokenfield-typeahead").val();
+            searchVal = searchVal.replace(/,/gi, "");
+            table.search(searchVal).draw();
+        }
+
     });
 </script>
 

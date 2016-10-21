@@ -184,22 +184,6 @@ public class HomeController {
                 else
                     percentage.add(0);
             }
-            /*List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
-           */
-
-              /*  List<Integer> participant = new ArrayList<>();
-
-                for (MemberGraph temp : lg) { // 그래프 값 분리
-                    username.add("\"" + temp.getName() + "\"");
-                    if (temp.getParticipate() != null)
-                        participant.add(temp.getParticipate().intValue()); //참가율
-                    else
-                        participant.add(0);
-                    if (temp.getPercentage() != null)
-                        percentage.add(temp.getPercentage().intValue()); //달성율
-                    else
-                        percentage.add(0);
-                }*/
 
             mv=new ModelAndView("/document");
             mv.addObject("user", user);
@@ -208,10 +192,8 @@ public class HomeController {
             mv.addObject("users", lu);
             mv.addObject("alarm", la);
             mv.addObject("todolist", lt);
-            // mv.addObject("meetingmember", lm);
-            // mv.addObject("files", lfd);
+            mv.addObject("date",new Date());
             mv.addObject("usersname", username);
-            //mv.addObject("participant", participant);
             mv.addObject("percentage", percentage);
         } // Documentation 끝
         return mv;

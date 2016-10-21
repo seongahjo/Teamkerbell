@@ -97,7 +97,8 @@ public class TodolistController {
     @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
     public void todocheck(@RequestParam(value = "id") Integer id) {
         Todolist todolist = todolistService.getTodolist(id);
-        if(new Date().before(todolist.getEnddate())) {
+        Project project = projectService.getProject(todolist.getProject().getProjectidx());
+        if(new Date().before(todolist.getEnddate()) && project.isProcessed()) {
             todolist.setOk(!todolist.isOk());
             todolistService.save(todolist);
             return;
