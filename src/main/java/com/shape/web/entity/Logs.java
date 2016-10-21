@@ -22,7 +22,7 @@ public class Logs {
     @Column(name = "LOGIDX")
     private Integer logidx;
 
-    @Column(name = "IP")
+    @Column(name = "IP",columnDefinition="TEXT")
     private String ip;
 
     @JsonIgnore
