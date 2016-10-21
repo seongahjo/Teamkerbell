@@ -9,9 +9,12 @@ import com.shape.web.service.UserService;
 import com.shape.web.util.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -27,7 +30,7 @@ import java.util.List;
  * Handles requests for the User .
  */
 @Slf4j
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -40,13 +43,11 @@ public class UserController {
     ProjectService projectService;
 
     @RequestMapping(value="/user/{userIdx}",method=RequestMethod.GET)
-    @ResponseBody
     public User getUser(@PathVariable("userIdx") Integer userIdx){
         return userService.getUser(userIdx);
     }
 
     @RequestMapping(value="/user/{projectIdx}/project",method = RequestMethod.GET)
-    @ResponseBody
     public List getUsers(@PathVariable("projectIdx") Integer projectIdx,
                          @RequestParam(value = "page",defaultValue = "0") Integer page,
                          @RequestParam(value="size",defaultValue = "10") Integer size){
@@ -55,12 +56,12 @@ public class UserController {
 
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public String register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity register(@ModelAttribute("tempUser") @Valid User tempUser, BindingResult result, @RequestParam("file") MultipartFile file) {
         if (!result.hasErrors()) {
-            User user = null;
-                    //userService.getUserById(tempUser());
-            if (user == null)
-                user = new User();
+            User user = userService.getUser(tempUser.getId());
+            if (user != null)
+                return ResponseEntity.badRequest().body("Already Used Id");
+            user = new User();
             user.setId(tempUser.getId());
             user.setName(tempUser.getName());
             if (!tempUser.getPw().equals("")) // 비밀번호란이 공란이 아닐경우
@@ -93,15 +94,16 @@ public class UserController {
                 //이미지를 선택하지 않았을 경우 이미지를 제외한 정보만 수정
                 userService.save(user);
                 log.info("Register Success " + user.getName());
-            } finally {
-                return "login";
-              }
+
+            }
         } // hasErrors end
         else {
             log.info("Register Error");
-            return "login";
+            return ResponseEntity.badRequest().body("Error! ");
         }
+        return ResponseEntity.ok("sucess");
     }
+
 
 
 }

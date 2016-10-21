@@ -125,7 +125,9 @@
                 <div id="error-message" class="alert alert-danger collapse" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <span class="sr-only">Error:</span>
+                    <span id="error-content">
                     Please Enter your information correctly
+                    </span>
                 </div>
                 <div id="success-message" class="alert alert-info collapse" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -307,6 +309,7 @@
         $("#signupModal #prev_preimage").attr("hidden", "true");
         $("#signupModal #check").prop('checked', false);
         $("#error-message").hide();
+        $("#success-message").hide();
     });
 
     function register() {
@@ -318,15 +321,18 @@
                     url: "user",
                     type: "POST",
                     data: formData,
+                    dataType:'text',
                     processData: false,
                     contentType: false,
-                    success: function () {
+                    success: function (message) {
                         $("#error-message").hide();
                         $("#success-message").fadeIn(1000,function () {
                             $("#signupModal").modal('hide');
                         });
                     },
-                    error: function () {
+                    error: function (error) {
+                        var message = error.responseText
+                        $("#error-content").text(message);
                         $("#error-message").fadeIn(600, function () {
                             $("#error-message").fadeOut(800);
                         });
