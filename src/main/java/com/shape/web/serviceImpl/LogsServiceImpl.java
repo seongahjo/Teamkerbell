@@ -24,7 +24,7 @@ public class LogsServiceImpl implements LogsService {
 
     private static final Logger logger = LoggerFactory.getLogger(LogsServiceImpl.class);
     @Override
-    public void addLog(final String ip,final User u) {
+    public void addLog(final String ip,final String content,final User u) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
        Date time=null;
         try {
@@ -35,7 +35,7 @@ public class LogsServiceImpl implements LogsService {
             Date nextTime=simpleDateFormat.parse(simpleDateFormat.format(cal.getTime()));
            Logs l = logsRepositry.findFirstByIpAndCreatedatBetweenOrderByCreatedat(ip,time,nextTime);
            if (l == null) {
-               l = new Logs(ip, u);
+               l = new Logs(ip, content,u);
            }
            else{
                l.setUpdatedat(new Date());

@@ -11,6 +11,6 @@ import java.util.List;
  * Created by seongahjo on 2016. 7. 2..
  */
 public interface TodolistRepository extends JpaRepository<Todolist,Integer> {
-    List<Todolist> findByUser(User user);
+    List<Todolist> findDistinctByUserAndProject_Processed(User user,boolean isprocessed);
     List<Todolist> findByProject(Project project);
 }
