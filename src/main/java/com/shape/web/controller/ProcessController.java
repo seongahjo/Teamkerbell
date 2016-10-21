@@ -1,6 +1,7 @@
 package com.shape.web.controller;
 
 import com.shape.web.entity.FileDB;
+import com.shape.web.entity.User;
 import com.shape.web.service.FileDBService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -52,8 +54,9 @@ public class ProcessController {
     }
 
     @RequestMapping(value = "/sessionCheck", method = RequestMethod.GET)
-    public ResponseEntity sessionCheck() {
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity sessionCheck(HttpSession session) {
+        User u = (User)session.getAttribute("user");
+        return new ResponseEntity(u,HttpStatus.OK);
     }
 
 }

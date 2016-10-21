@@ -18,15 +18,8 @@ import java.io.IOException;
  * Created by seongahjo on 2016. 7. 16..
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SpringConfig.class})
-@ComponentScan("com.shape.web.repository")
 public class TestController {
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
-    @Autowired
-    FileDBRepository fileDBRepository;
-
-    @Autowired
-    ProjectRepository projectRepository;
 
     @Test
     public void test() throws IOException {

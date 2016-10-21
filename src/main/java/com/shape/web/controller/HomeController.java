@@ -77,7 +77,8 @@ public class HomeController {
 
     @RequestMapping(value = "/userInfo/{userId}", method = RequestMethod.GET)
     public ModelAndView UserInfo(@PathVariable("userId") String userId, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
 
         ModelAndView mv = new ModelAndView("/userInfo");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
@@ -90,7 +91,8 @@ public class HomeController {
     @RequestMapping(value = "/dashboard/{userId}", method = RequestMethod.GET)
     public ModelAndView Dashboard(@PathVariable("userId") String userId, HttpSession session) {
 
-        User user = (User) session.getAttribute("user");
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmService.getTimelines(user, 0, 15); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
@@ -119,7 +121,8 @@ public class HomeController {
         ModelAndView mv = null;
 
         String time =CommonUtils.DateFormat(new Date());
-        User user = (User) session.getAttribute("user");
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
         mv = new ModelAndView("redirect:/");
         Project project = projectService.getProject(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트 반환
@@ -218,7 +221,8 @@ public class HomeController {
 
     @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
     public ModelAndView manager(HttpSession session) {
-        User user = (User) session.getAttribute("user");
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
         List<Project> lpj = projectService.getProjects(user, 0, 5); // 프로젝트 리스트 객체 10개 반환
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
@@ -236,7 +240,8 @@ public class HomeController {
 
     @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
     public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
         Integer userIdx = user.getUseridx();
         Project project = new Project(name, userIdx, "");
         user.addProject(project);

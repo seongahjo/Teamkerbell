@@ -22,7 +22,7 @@ import java.util.Set;
 Todolist,
 Invite경우 UserId로 검색.
  */
-@EqualsAndHashCode(exclude={"alarmsactor","alarmsuser","logs","todolists","filedbs","role"})
+@EqualsAndHashCode(of={"useridx"},exclude={"alarmsactor","alarmsuser","logs","todolists","filedbs","role"})
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
     @Id
