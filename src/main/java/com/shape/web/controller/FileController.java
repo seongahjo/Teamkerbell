@@ -67,7 +67,8 @@ public class FileController {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) HSrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = projectService.getProject(Integer.parseInt(projectIdx));
-        User user = (User) session.getAttribute("user");
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         MultipartFile multipartFile = null;
         HashMap<String, String> result = null;

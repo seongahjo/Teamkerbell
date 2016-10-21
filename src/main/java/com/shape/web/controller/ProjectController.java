@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 public class ProjectController {
-    
+
 
     @Autowired
     AlarmService alarmService;
@@ -45,17 +45,18 @@ public class ProjectController {
         GET : INVITE
      */
 
-    @RequestMapping(value="/room/{userIdx}/user",method=RequestMethod.GET)
-    public List getRooms(@PathVariable(value="userIdx") Integer userIdx,
-                         @RequestParam(value="page",defaultValue="0") Integer page,
-                         @RequestParam(value="count", defaultValue="15") Integer count){
-        return projectService.getProjects(userService.getUser(userIdx),page,count);
+    @RequestMapping(value = "/room/{userIdx}/user", method = RequestMethod.GET)
+    public List getRooms(@PathVariable(value = "userIdx") Integer userIdx,
+                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                         @RequestParam(value = "count", defaultValue = "15") Integer count) {
+        return projectService.getProjects(userService.getUser(userIdx), page, count);
     }
 
     @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
-    public List getRoom(@RequestParam(value = "page", defaultValue="0") Integer page, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        List<Project> projects = projectService.getProjects(user, page,5);
+    public List getRoom(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpSession session) {
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
+        List<Project> projects = projectService.getProjects(user, page, 5);
         log.info("room paging");
         return projects;
     }
@@ -68,28 +69,33 @@ public class ProjectController {
     To delete project room
     */
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
-    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
-        User u=(User) session.getAttribute("user");
+    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
         Project project = projectService.getProject(projectIdx);
-        project.getUsers().stream().forEach(tempU->{
-            tempU.getProjects().remove(project);
-            projectService.delete(tempU,projectIdx);
+        project.getUsers().stream().forEach(tempU -> {
+            if (tempU.getProjects().remove(project))
+                projectService.delete(tempU, projectIdx);
         });
 
     }
 
     @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 업데이트
-    public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
+    public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
 
-        User u=(User) session.getAttribute("user");
         Project project = projectService.getProject(projectIdx);
-        log.info("["+projectIdx+"]Project Finished");
-        project.setProcessed(false);
-        u.getProjects().stream().forEach(p->{
-           if(p.equals(project))
-               p.setProcessed(false);
-        });
-        projectService.save(u,project);
+        log.info("[" + projectIdx + "]Project Finished");
+        project.getUsers().stream().forEach((tempU) -> // 프로젝트에 속한 각 유저
+                    tempU.getProjects().stream().anyMatch(p -> {
+                        if (p.equals(project)) {
+                            p.setProcessed(false);
+                            projectService.save(tempU, p);
+                            return true;
+                        }
+                        return false;
+                    })
+
+        );
+
+
     }
 
     /*
@@ -97,21 +103,21 @@ public class ProjectController {
        */
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
     public User searchUser(@RequestParam(value = "userId") String userId,
-                          @RequestParam("projectIdx") Integer projectIdx)  {
+                           @RequestParam("projectIdx") Integer projectIdx) {
         log.info("Search Member");
         Project project = projectService.getProject(projectIdx);
         User user = userService.getUser(userId);
-        if(user==null){
-            throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         }
         log.info(project.getName());
         List<Project> lp = projectService.getProjects(user); // 유저가 참가중인 프로젝트
-        lp.forEach(p->{
+        lp.forEach(p -> {
             if (p.getProjectidx() == project.getProjectidx()) {
-                throw  new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
             }
         });
-      return user;
+        return user;
     }
 
     /*
@@ -122,10 +128,11 @@ public class ProjectController {
                                @RequestParam("projectIdx") Integer projectIdx,
                                HttpSession session) {
         log.info("Invite Member");
-        User actor = (User) session.getAttribute("user"); //초대한 사람
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User actor = userService.getUser(useridx); //초대한 사람
         User user = userService.getUser(userId); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
-        Alarm alarm = new Alarm(0, null, null, new Date(),project,user,actor);
+        Alarm alarm = new Alarm(0, null, null, new Date(), project, user, actor);
         alarmService.save(alarm);
         return String.valueOf(user.getUseridx());
     }

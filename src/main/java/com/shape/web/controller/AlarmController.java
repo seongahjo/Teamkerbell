@@ -81,7 +81,8 @@ public class AlarmController {
 
     @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
     public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
         List timeline = alarmService.getTimelines(user, page + 1, 20);
         log.info("REQUEST more timeline");
         if (timeline.size() == 0)

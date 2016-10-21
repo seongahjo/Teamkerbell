@@ -57,10 +57,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Caching(evict = {
             @CacheEvict(value = "projects", key = "'user:'.concat(#p0.useridx).concat(':projects')"),
             @CacheEvict(value = "users", key = "'users:'.concat(#p1.projectidx).concat(':projects')"),
-            @CacheEvict(value = "project", key = "'project:'.concat(#p1.projectidx)")
+            @CacheEvict(value = "project", key = "'project:'.concat(#p1.projectidx)"),
+            @CacheEvict(value = "user", key = "'user:'.concat(#p0.useridx)"),
+            @CacheEvict(value = "user", key = "'uesr:'.concat(#p0.id).concat(':id')")
     })
     public Project save(User u, Project p) {
-        p=projectRepository.saveAndFlush(p);
+        p = projectRepository.saveAndFlush(p);
         userRepository.saveAndFlush(u);
         return p;
     }
@@ -69,12 +71,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Caching(evict = {
             @CacheEvict(value = "projects", key = "'user:'.concat(#p0.useridx).concat(':projects')"),
             @CacheEvict(value = "users", key = "'users:'.concat(#p1).concat(':projects')"),
-            @CacheEvict(value = "project", key = "'project:'.concat(#p1)")
+            @CacheEvict(value = "project", key = "'project:'.concat(#p1)"),
+            @CacheEvict(value = "user", key = "'user:'.concat(#p0.useridx)"),
+            @CacheEvict(value = "user", key = "'uesr:'.concat(#p0.id).concat(':id')")
     })
-    public void delete(User u,Integer p) {
-        projectRepository.delete(p);
+    public void delete(User u, Integer p) {
         userRepository.saveAndFlush(u);
-
+        projectRepository.delete(p);
     }
 
     /*@Override

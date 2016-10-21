@@ -34,7 +34,7 @@ public class CustomAuthenticationSucessHandler extends SavedRequestAwareAuthenti
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException, ServletException {
         User u = userRepository.findById(authentication.getName());
-        request.getSession().setAttribute("user",u);
+        request.getSession().setAttribute("useridx",u.getUseridx());
 
         String ip=request.getHeader("X_FORWARDED_FOR");
         if(ip==null)
