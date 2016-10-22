@@ -30,7 +30,21 @@ http://175.126.112.144/
 
 How To Use
 =====
-You should install MySQL, Redis in advance.
+
+ Using <a href="https://docs.docker.com/compose/">DockerCompose</a>
+ 
+ ```
+ wget https://raw.githubusercontent.com/seongahjo/teamkerbell/master/docker-compose.yml
+ 
+ docker-compose up
+ ```
+
+OR
+
+
+If You have installed MySQL, Redis
+
+You can use MavenWrapper instead of DockerCompose
 
 ```  
  
@@ -56,16 +70,7 @@ You should install MySQL, Redis in advance.
  * Access the deployed web application at [http://localhost:8080]
 
  ```
- 
- 
- OR
- ```
- docker pull seongahjo/teamkerbell
- ```
- 
- MySQL and Redis Docker Image is needed for running the app.
- It'll be supported as soon as I can.
- 
+
 ##### Developed by IntelliJ
 
 
