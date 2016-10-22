@@ -71,6 +71,8 @@ public class SpringConfig {
         jpaProperties.put("hibernate.show_sql",false);
         jpaProperties.put("hibernate.hbm2ddl.auto","update");
         jpaProperties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
+        jpaProperties.put("hibernate.connection.characterEncoding","utf8");
+        jpaProperties.put("hibernate.connection.CharSet","utf8");
         factory.setJpaProperties(jpaProperties);
         factory.afterPropertiesSet();
         return factory.getObject();

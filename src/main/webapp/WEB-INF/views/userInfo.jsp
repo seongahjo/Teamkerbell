@@ -240,7 +240,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form id="registerForm" action="../register" method="POST" enctype="multipart/form-data">
+                        <form id="registerForm" action="../user" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label> ID </label>
@@ -315,9 +315,10 @@
             var form = $("#registerForm")[0];
             var formData = new FormData(form);
             $.ajax({
-                url: "../register",
+                url: "../updateuser",
                 type: "POST",
                 data: formData,
+                dataType:'text',
                 processData: false,
                 contentType: false,
                 success: function () {
