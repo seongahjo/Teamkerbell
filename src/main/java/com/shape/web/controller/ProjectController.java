@@ -9,6 +9,7 @@ import com.shape.web.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -53,12 +54,13 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
-    public List getRoom(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpSession session) {
+    public ResponseEntity getRoom(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpSession session) {
         Integer useridx =(Integer) session.getAttribute("useridx");
         User user = userService.getUser(useridx);
         List<Project> projects = projectService.getProjects(user, page, 5);
-        log.info("room paging");
-        return projects;
+        if(projects.size()==0)
+            return ResponseEntity.badRequest().body(null);
+        return ResponseEntity.ok(projects);
     }
 
     /*

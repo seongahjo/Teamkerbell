@@ -206,9 +206,12 @@ public class HomeController {
         Integer useridx =(Integer) session.getAttribute("useridx");
         User user = userService.getUser(useridx);
         List<Project> lpj = projectService.getProjects(user, 0, 5); // 프로젝트 리스트 객체 10개 반환
+        List<Project> lpjs = projectService.getProjects(user); // 프로젝트 리스트를 반환
+
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
+        mv.addObject("projectss",lpjs);
         return mv;
     }
 
