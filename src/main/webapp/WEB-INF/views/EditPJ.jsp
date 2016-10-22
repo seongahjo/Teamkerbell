@@ -209,7 +209,9 @@
                     <a href="#"><i class="fa fa-users"></i><span> Project rooms</span></a>
                     <ul class="treeview-menu">
                         <li>
+                            <c:forEach var="list" items="${projectss}">
                         <li ><a href="../chat/${list.projectidx}"><i class="fa fa-folder-open-o"></i>  <span style="font-size:18px">${list.name} </span></a></li>
+                        </c:forEach>
                         <li><a href="../projectmanager"> <i class="fa fa-cogs"></i><span>Edit</span></a></li>
                         </li>
                     </ul>
@@ -368,7 +370,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Make new Project</h4>
             </div>
-            <form id="makeForm" action="room" method="post">
+            <form id="makeForm" action="room" method="post" accept-charset="UTF-8">
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-group has-success">
@@ -381,7 +383,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" >Make</button>
+                    <button type="button" class="btn btn-primary" onClick="make()">Make</button>
                 </div>
             </form>
         </div>
@@ -450,6 +452,22 @@
         });
 
     }
+    function make() {
+        var form = $("#makeForm")[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: "../room",
+            type: "POST",
+            data: formData,
+            dataType:'text',
+            processData: false,
+            contentType: false,
+            success: function () {
+                location.reload();
+            }
+        });
+    }
+
     function finish() {
         $.ajax({
             url: "room/" + idx,

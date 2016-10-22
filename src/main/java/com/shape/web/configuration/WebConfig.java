@@ -17,6 +17,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,13 +38,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     //EncodingFilter
+    /*
     @Bean
     public CharacterEncodingFilter characterEncodingFilter() {
         final CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);
         return characterEncodingFilter;
-    }
+    }*/
 
     @Bean
     public MessageSource messageSource() {
@@ -72,7 +74,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ObjectMapper objectMapper =new ObjectMapper();
         objectMapper.registerModule(new Hibernate4Module());
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
-        StringHttpMessageConverter stringHttpMessageConverter=new StringHttpMessageConverter();
+        StringHttpMessageConverter stringHttpMessageConverter=new StringHttpMessageConverter(Charset.forName("UTF-8"));
         jackson2HttpMessageConverter.setPrettyPrint(true);
 
         converters.add(stringHttpMessageConverter);

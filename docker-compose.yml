@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  redis:
+    #restart: always
+    image: bitnami/redis:latest
+
+  mysql:
+    #restart: always
+    image: mysql:latest
+    ports:
+    - "3306:3306"
+    environment:
+    - MYSQL_DATABASE=hibernate
+    - MYSQL_ROOT_PASSWORD=root
+
+  teamkerbell:
+    #restart: always
+    image: seongahjo/teamkerbell:0.7
+    depends_on:
+    - mysql
+    - redis
+    ports:
+    - "8080:8080"

@@ -48,9 +48,7 @@ public class CustomAuthenticationSucessHandler extends SavedRequestAwareAuthenti
             String temp=it.nextElement();
             sb.append(temp+":"+request.getHeader(temp)+"\\");
         }
-
-        logger.info(sb.toString());
-        logService.addLog(sb.toString(),u);
+        logService.addLog(ip,sb.toString(),u);
         handle(request,response,authentication);
     }
 }

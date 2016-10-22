@@ -29,7 +29,7 @@ public class TodolistServiceImpl implements TodolistService {
     @Override
     @Cacheable(value = "todolists", key = "'user:'.concat(#p0.useridx).concat(':todolists')")
     public List getTodolists(User u) {
-        return todolistRepository.findByUser(u);
+        return todolistRepository.findDistinctByUserAndProject_Processed(u,true);
     }
 
     @Override

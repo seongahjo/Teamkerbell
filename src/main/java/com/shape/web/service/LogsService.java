@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface LogsService {
-    public void addLog(String ip,User u);
+    void addLog(String ip,String content,User u);
 
 }

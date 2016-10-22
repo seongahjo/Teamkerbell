@@ -184,22 +184,6 @@ public class HomeController {
                 else
                     percentage.add(0);
             }
-            /*List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
-           */
-
-              /*  List<Integer> participant = new ArrayList<>();
-
-                for (MemberGraph temp : lg) { // 그래프 값 분리
-                    username.add("\"" + temp.getName() + "\"");
-                    if (temp.getParticipate() != null)
-                        participant.add(temp.getParticipate().intValue()); //참가율
-                    else
-                        participant.add(0);
-                    if (temp.getPercentage() != null)
-                        percentage.add(temp.getPercentage().intValue()); //달성율
-                    else
-                        percentage.add(0);
-                }*/
 
             mv=new ModelAndView("/document");
             mv.addObject("user", user);
@@ -208,10 +192,8 @@ public class HomeController {
             mv.addObject("users", lu);
             mv.addObject("alarm", la);
             mv.addObject("todolist", lt);
-            // mv.addObject("meetingmember", lm);
-            // mv.addObject("files", lfd);
+            mv.addObject("date",new Date());
             mv.addObject("usersname", username);
-            //mv.addObject("participant", participant);
             mv.addObject("percentage", percentage);
         } // Documentation 끝
         return mv;
@@ -224,9 +206,12 @@ public class HomeController {
         Integer useridx =(Integer) session.getAttribute("useridx");
         User user = userService.getUser(useridx);
         List<Project> lpj = projectService.getProjects(user, 0, 5); // 프로젝트 리스트 객체 10개 반환
+        List<Project> lpjs = projectService.getProjects(user); // 프로젝트 리스트를 반환
+
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
         mv.addObject("projects", lpj);
+        mv.addObject("projectss",lpjs);
         return mv;
     }
 

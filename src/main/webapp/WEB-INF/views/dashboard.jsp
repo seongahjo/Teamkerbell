@@ -267,7 +267,7 @@
                             </div> <!-- status -->
                         </div> <!-- header -->
                         <c:if test="${empty timeline}">
-                            <img class="notime" src="../img/Notime.png">
+                            <img class="notime" style="width:80%" src="../img/Notime.png">
                         </c:if>
                         <c:forEach var="list" items="${timeline}">
                             <div class="box-body chat">

@@ -22,8 +22,11 @@ public class Logs {
     @Column(name = "LOGIDX")
     private Integer logidx;
 
-    @Column(name = "IP",columnDefinition="TEXT")
+    @Column(name = "IP")
     private String ip;
+
+    @Column(name="content", columnDefinition = "TEXT")
+    private String content;
 
     @JsonIgnore
     @ManyToOne
@@ -53,8 +56,9 @@ public class Logs {
         this.ip = ip;
     }
 
-    public Logs(String ip, User user) {
+    public Logs(String ip, String content,User user) {
         this.ip = ip;
+        this.content=content;
         this.user = user;
     }
 
