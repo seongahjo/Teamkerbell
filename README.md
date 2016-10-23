@@ -18,6 +18,11 @@ Core Features
 * Automatically Synchronize up to date Documents
 * All the changes will be notified by Mobile App
 
+Architecture
+=====
+![architecture2](https://cloud.githubusercontent.com/assets/10272119/19626023/9f6b6876-9962-11e6-9303-332e02aadfbf.png)
+
+
 Application Stack
 =====
 ![app stack](https://cloud.githubusercontent.com/assets/10272119/19376711/49ebd3c0-921b-11e6-9dbf-adf45e996a39.png)
