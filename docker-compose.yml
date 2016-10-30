@@ -2,11 +2,11 @@ version: '2'
 
 services:
   redis:
-    #restart: always
+    restart: always
     image: bitnami/redis:latest
 
   mysql:
-    #restart: always
+    restart: always
     image: mysql:latest
     ports:
     - "3306:3306"
@@ -15,7 +15,7 @@ services:
     - MYSQL_ROOT_PASSWORD=root
 
   teamkerbell:
-    #restart: always
+    restart: always
     image: seongahjo/teamkerbell:0.7
     depends_on:
     - mysql
