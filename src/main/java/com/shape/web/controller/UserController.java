@@ -106,18 +106,20 @@ public class UserController {
                 String originalFileName = file.getOriginalFilename(); // 파일 이름
                 String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자
                 String storedFileName = CommonUtils.getRandomString() + originalFileExtension; //암호화된 고유한 파일 이름
-                FileDB filedb = new FileDB(storedFileName, originalFileName, filePath, "img", null);
+                FileDB filedb = new FileDB(storedFileName, originalFileName, "image",filePath, null);
                 File folder = new File(filePath); // 폴더
                 if (!folder.exists()) // 폴더 존재하지 않을 경우 만듬
                     folder.mkdirs();
-                File transFile = new File(filePath + "/" + originalFileName); // 전송된 파일
+                File transFile = new File(filePath + "/" + storedFileName); // 전송된 파일
                 log.info("FILE NAME = " + file.getOriginalFilename());
                 file.transferTo(transFile);
-                fileDBService.save(filedb); // 파일 내용을 디비에 저장
-                user.setImg("loadImg?name=" + storedFileName);
-
                 filedb.setUser(user);
+                user.setImg("loadImg?name=" + storedFileName);
                 userService.save(user);
+                fileDBService.save(filedb); // 파일 내용을 디비에 저장
+
+
+
                 log.info("Register Success " + user.getName());
             } catch (IOException ioe) {
 
