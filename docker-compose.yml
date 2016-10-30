@@ -16,7 +16,7 @@ services:
 
   teamkerbell:
     restart: always
-    image: seongahjo/teamkerbell:0.7
+    image: seongahjo/teamkerbell:latest
     depends_on:
     - mysql
     - redis
