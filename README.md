@@ -18,6 +18,11 @@ Core Features
 * Automatically Synchronize up to date Documents
 * All the changes will be notified by Mobile App
 
+Requirements
+===
+* Mysql
+* Redis
+
 Architecture
 =====
 ![architecture2](https://cloud.githubusercontent.com/assets/10272119/19626023/9f6b6876-9962-11e6-9303-332e02aadfbf.png)
@@ -46,10 +51,6 @@ How To Use
 
 OR
 
-
-If You have installed MySQL, Redis
-
-You can use MavenWrapper instead of DockerCompose
 
 ```  
  
