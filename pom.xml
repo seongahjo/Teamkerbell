@@ -297,6 +297,15 @@
         </dependency>
 
 
+        <!--h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.196</version>
+            <scope>test</scope>
+        </dependency>
+
+
         <!-- project lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
