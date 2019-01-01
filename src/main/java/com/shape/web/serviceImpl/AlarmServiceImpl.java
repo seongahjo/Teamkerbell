@@ -21,20 +21,16 @@ import java.util.List;
 @Slf4j
 @Service
 public class AlarmServiceImpl implements AlarmService {
-    /*
-    alarm:'alamridx'
-    user:'useridx':alarms
-    user:'useridx':alarm
-    user:'useridx':timelines
-     */
+    private AlarmRepository alarmRepository;
+
     @Autowired
-    AlarmRepository alarmRepository;
+    public AlarmServiceImpl(AlarmRepository alarmRepository) {
+        this.alarmRepository = alarmRepository;
+    }
 
     @Override
     public Alarm create(Alarm alarm) {
-
         save(alarm);
-
         return alarm;
     }
 
@@ -73,12 +69,6 @@ public class AlarmServiceImpl implements AlarmService {
             @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.useridx).concat(':timelines')")
     })
     public Alarm save(Alarm a) {
-        /*Alarm temp = null;
-        if (a.getContentid() == 0)
-            temp = alarmRepository.findFirstByUserAndActorAndContentidAndIsshowOrderByDateDesc(a.getUser(), a.getActor(), a.getContentid(), true);
-        if (temp != null) {
-            return null;
-        }*/
         return alarmRepository.saveAndFlush(a);
     }
 }

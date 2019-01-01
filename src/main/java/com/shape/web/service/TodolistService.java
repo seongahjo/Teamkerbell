@@ -12,8 +12,11 @@ import java.util.List;
  */
 @Service
 public interface TodolistService {
-    List getTodolists(User u);
-    List getTodolists(Project p);
+    List<Todolist> getTodolists(User u);
+
+    List<Todolist> getTodolists(Project p);
+
     Todolist getTodolist(Integer idx);
+
     Todolist save(Todolist t);
 }

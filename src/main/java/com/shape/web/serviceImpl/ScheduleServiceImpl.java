@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,14 +19,13 @@ import java.util.List;
  */
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
-    /*
-    schedule:'scheduleidx'
-    user:'useridx':schedules
-    project:'projectidx':schedules
-     */
+
+    private ScheduleRepository scheduleRepository;
 
     @Autowired
-    ScheduleRepository scheduleRepository;
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository) {
+        this.scheduleRepository = scheduleRepository;
+    }
 
     @Override
     @Cacheable(value = "schedule", key = "'schedule:'.concat(#p0)")
@@ -35,18 +35,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Cacheable(value = "schedules", key = "'user:'.concat(#p0.useridx).concat(':schedules')")
-    public List getSchedules(User u) {
+    public List<Schedule> getSchedules(User u) {
         return scheduleRepository.findByProject_Users(u);
     }
 
     @Override
     @Cacheable(value = "schedules", key = "'project:'.concat(#p0.projectidx).concat(':schedules')")
-    public List getSchedules(Project p) {
-        return null;
+    public List<Schedule> getSchedules(Project p) {
+        return Collections.EMPTY_LIST;
     }
-
-
-    //Evict
 
 
     @Override
@@ -60,5 +57,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @CacheEvict(value = "schedules", key = "'user:'.concat(#p0.useridx).concat(':schedules')")
-    public void clear(User u) {}
+    public void clear(User u) {
+        /*
+        * Add Action If you want
+        * */
+    }
 }

@@ -12,10 +12,14 @@ import java.util.List;
 @Service
 public interface AlarmService {
     Alarm create(Alarm alarm);
+
     Alarm getAlarm(Integer idx);
+
     List getAlarms(User u);
-   Alarm getAlarm(User u); // 알람 하나
-    List<Alarm> getTimelines(User u,Integer page,Integer count); //타임라인
-    //Alarm getAlarm(User u,User a);
-   Alarm save(Alarm a);
+
+    Alarm getAlarm(User u); // 알람 하나
+
+    List<Alarm> getTimelines(User u, Integer page, Integer count); //타임라인
+
+    Alarm save(Alarm a);
 }

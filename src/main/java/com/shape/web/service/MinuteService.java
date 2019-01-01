@@ -13,6 +13,8 @@ import java.util.List;
 @Service
 public interface MinuteService {
     List getMinutes(Project p);
+
     Minute getMinute(Project p,Date date);
+
     Minute save(Minute m);
 }

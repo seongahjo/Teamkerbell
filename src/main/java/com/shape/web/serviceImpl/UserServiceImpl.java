@@ -8,15 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,14 +18,13 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    /*
-        user:'idx'
-        user:'id':id
-        users:'projectidx':projects =>projects
-     */
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     @Cacheable(value = "user", key = "'user:'.concat(#p0).concat(':id')")
     public User getUser(String userId) {
@@ -59,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "users", key = "'users:'.concat(#p0.projectidx).concat(':projects')")
-    public List getUsersByProject(Project p) {
+    public List<User> getUsersByProject(Project p) {
         return userRepository.findByProjects(p);
     }
 

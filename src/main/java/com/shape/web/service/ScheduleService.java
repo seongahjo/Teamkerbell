@@ -13,8 +13,12 @@ import java.util.List;
 @Service
 public interface ScheduleService {
     Schedule getSchedule(Integer scheduleIdx);
-    List getSchedules(User u);
-    List getSchedules(Project p);
+
+    List<Schedule> getSchedules(User u);
+
     Schedule save(Schedule s);
+
+    List<Schedule> getSchedules(Project p);
+
     void clear(User u);
 }
