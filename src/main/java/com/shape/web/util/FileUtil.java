@@ -38,6 +38,7 @@ public class FileUtil {
             this.headerName = headerName;
         }
 
+        public String getName(){ return headerName;}
         private String headerName;
 
     }
@@ -82,14 +83,14 @@ public class FileUtil {
     public static void setDownloadHeader(final String filename, final File file, final HttpServletRequest request, HttpServletResponse response) {
         String userAgent = request.getHeader("User-Agent");
         try {
-            response.setHeader(Header.DISPOSITION.name(), "attachment;filename=\"" + filename + "\"" + ";");
+            response.setHeader(Header.DISPOSITION.getName(), "attachment;filename=\"" + filename + "\"" + ";");
             if (userAgent.contains("MSIE"))
-                response.setHeader(Header.DISPOSITION.name(), "attachment; filename=" + new String(filename.getBytes("KSC5601"), "ISO8859_1"));
+                response.setHeader(Header.DISPOSITION.getName(), "attachment; filename=" + new String(filename.getBytes("KSC5601"), "ISO8859_1"));
             else {  // IE 이외
-                response.setHeader(Header.DISPOSITION.name(), "attachment; filename=\"" + java.net.URLEncoder.encode(filename, "UTF-8") + "\"");
-                response.setHeader(Header.TYPE.name(), "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
+                response.setHeader(Header.DISPOSITION.getName(), "attachment; filename=\"" + java.net.URLEncoder.encode(filename, "UTF-8") + "\"");
+                response.setHeader(Header.TYPE.getName(), "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
             }    //response 헤더 설정해서
-            response.setHeader(Header.LENGTH.name(), "" + file.length());
+            response.setHeader(Header.LENGTH.getName(), "" + file.length());
 
         } catch (IOException e) {
             log.error("Error ", e);
