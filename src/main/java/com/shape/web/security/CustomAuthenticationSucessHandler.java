@@ -45,7 +45,10 @@ public class CustomAuthenticationSucessHandler extends SavedRequestAwareAuthenti
         Enumeration<String> it = request.getHeaderNames();
         while (it.hasMoreElements()) {
             String temp = it.nextElement();
-            sb.append(temp + ":" + request.getHeader(temp) + "\\");
+            sb.append(temp);
+            sb.append(":");
+            sb.append(request.getHeader(temp));
+            sb.append("\\");
         }
         logService.addLog(ip, sb.toString(), u);
         handle(request, response, authentication);
