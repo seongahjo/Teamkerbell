@@ -38,7 +38,10 @@ public class FileUtil {
             this.headerName = headerName;
         }
 
-        public String getName(){ return headerName;}
+        public String getName() {
+            return headerName;
+        }
+
         private String headerName;
 
     }
@@ -79,6 +82,7 @@ public class FileUtil {
             return "file";
 
     }
+
 
     public static void setDownloadHeader(final String filename, final File file, final HttpServletRequest request, HttpServletResponse response) {
         String userAgent = request.getHeader("User-Agent");
