@@ -21,44 +21,40 @@ import java.util.List;
  * Created by seongahjo on 2016. 2. 7..
  */
 
-/**
- * Handles requests for the project.
+/*
+  Handles requests for the project.
  */
 @Slf4j
 @RestController
 public class ProjectController {
 
 
-    @Autowired
-    AlarmService alarmService;
-    @Autowired
-    ProjectService projectService;
-    @Autowired
-    UserService userService;
-    /*
-    RESTFUL DOCUMENTATION
-    ROOM
-        POST : CREATE (PROJECT)
-        DELETE : DELETE
+    private AlarmService alarmService;
 
-    InviteUser
-        POST : SEARCH
-        GET : INVITE
-     */
+    private ProjectService projectService;
 
-    @RequestMapping(value = "/room/{userIdx}/user", method = RequestMethod.GET)
+    private UserService userService;
+
+    @Autowired
+    public ProjectController(AlarmService alarmService, ProjectService projectService, UserService userService) {
+        this.alarmService = alarmService;
+        this.projectService = projectService;
+        this.userService = userService;
+    }
+
+    @GetMapping(value = "/room/{userIdx}/user")
     public List getRooms(@PathVariable(value = "userIdx") Integer userIdx,
                          @RequestParam(value = "page", defaultValue = "0") Integer page,
                          @RequestParam(value = "count", defaultValue = "15") Integer count) {
         return projectService.getProjects(userService.getUser(userIdx), page, count);
     }
 
-    @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
+    @GetMapping(value = "/room")    //프로젝트 반환
     public ResponseEntity getRoom(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpSession session) {
-        Integer useridx =(Integer) session.getAttribute("useridx");
+        Integer useridx = (Integer) session.getAttribute("useridx");
         User user = userService.getUser(useridx);
         List<Project> projects = projectService.getProjects(user, page, 5);
-        if(projects.size()==0)
+        if (projects.isEmpty())
             return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok(projects);
     }
@@ -70,40 +66,34 @@ public class ProjectController {
     /*
     To delete project room
     */
-    @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
+    @DeleteMapping(value = "/room/{projectIdx}")    //프로젝트 삭제
     public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
         Project project = projectService.getProject(projectIdx);
-        project.getUsers().stream().forEach(tempU -> {
+        project.getUsers().forEach(tempU -> {
             if (tempU.getProjects().remove(project))
                 projectService.delete(tempU, projectIdx);
         });
 
     }
 
-    @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 업데이트
+    @PutMapping(value = "/room/{projectIdx}")    //프로젝트 업데이트
     public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
 
         Project project = projectService.getProject(projectIdx);
         log.info("[" + projectIdx + "]Project Finished");
-        project.getUsers().stream().forEach((tempU) -> // 프로젝트에 속한 각 유저
-                    tempU.getProjects().stream().anyMatch(p -> {
-                        if (p.equals(project)) {
-                            p.setProcessed(false);
-                            projectService.save(tempU, p);
-                            return true;
-                        }
-                        return false;
-                    })
-
+        // User 들을 찾다가....
+        project.getUsers().forEach(tempU ->  // 프로젝트에 속한 각 유저
+            tempU.getProjects().stream().filter(project::equals).findFirst().ifPresent(p -> {
+                p.setProcessed(false);
+                projectService.save(tempU, p);
+            })
         );
-
-
     }
 
     /*
        To find out invited user
        */
-    @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
+    @PostMapping(value = "/inviteUser")
     public User searchUser(@RequestParam(value = "userId") String userId,
                            @RequestParam("projectIdx") Integer projectIdx) {
         log.info("Search Member");
@@ -115,7 +105,7 @@ public class ProjectController {
         log.info(project.getName());
         List<Project> lp = projectService.getProjects(user); // 유저가 참가중인 프로젝트
         lp.forEach(p -> {
-            if (p.getProjectidx() == project.getProjectidx()) {
+            if (p.getProjectidx().equals(project.getProjectidx())) {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
             }
         });
@@ -125,12 +115,12 @@ public class ProjectController {
     /*
        To invite user to project room
        */
-    @RequestMapping(value = "/inviteUser", method = RequestMethod.GET)
-    public String InviteMember(@RequestParam(value = "userId") String userId,
+    @GetMapping(value = "/inviteUser")
+    public String inviteMember(@RequestParam(value = "userId") String userId,
                                @RequestParam("projectIdx") Integer projectIdx,
                                HttpSession session) {
         log.info("Invite Member");
-        Integer useridx =(Integer) session.getAttribute("useridx");
+        Integer useridx = (Integer) session.getAttribute("useridx");
         User actor = userService.getUser(useridx); //초대한 사람
         User user = userService.getUser(userId); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트

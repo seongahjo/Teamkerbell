@@ -4,16 +4,14 @@ import com.shape.web.VO.MemberGraph;
 import com.shape.web.entity.*;
 import com.shape.web.repository.ProjectRepository;
 import com.shape.web.service.*;
+import com.shape.web.util.Attribute;
 import com.shape.web.util.CommonUtils;
 import com.shape.web.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -22,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -36,72 +33,82 @@ public class HomeController {
     //메뉴 컨트롤러
 
 
+    private UserService userService;
+
+    private ProjectService projectService;
+
+    private AlarmService alarmService;
+
+    private TodolistService todolistService;
+
+    private ScheduleService scheduleService;
+
+    private MinuteService minuteService;
+
+    private FileDBService fileDBService;
+
+    private ProjectRepository projectRepository;
+
+
     @Autowired
-    UserService userService;
-    @Autowired
-    ProjectService projectService;
-    @Autowired
-    AlarmService alarmService;
-    @Autowired
-    TodolistService todolistService;
-    @Autowired
-    ScheduleService scheduleService;
-    @Autowired
-    MinuteService minuteService;
-    @Autowired
-    FileDBService fileDBService;
-    @Autowired
-    ProjectRepository projectRepository;
+    public HomeController(UserService userService, ProjectService projectService, AlarmService alarmService, TodolistService todolistService, ScheduleService scheduleService, MinuteService minuteService, FileDBService fileDBService, ProjectRepository projectRepository) {
+        this.userService = userService;
+        this.projectService = projectService;
+        this.alarmService = alarmService;
+        this.todolistService = todolistService;
+        this.scheduleService = scheduleService;
+        this.minuteService = minuteService;
+        this.fileDBService = fileDBService;
+        this.projectRepository = projectRepository;
+    }
 
     /**
      * Simply selects the home view to render by returning its name.
      */
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
-    public ModelAndView Home( Authentication authentication) {
-        ModelAndView mv = null;
+    @GetMapping(value = "/")    //시작부
+    public ModelAndView home(Authentication authentication) {
+        ModelAndView mv = new ModelAndView("redirect:/dashboard");
         if (authentication == null) {
             mv = new ModelAndView("/login");
             mv.addObject("tempUser", new User());
-        } else
-            mv = new ModelAndView("redirect:/dashboard");
+        }
         return mv;
     }
 
-    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    @GetMapping(value = "/dashboard")
     public String goDashboard(Authentication authentication) {
-
         return "redirect:/dashboard/" + authentication.getName();
 
     }
 
-    @RequestMapping(value = "/userInfo/{userId}", method = RequestMethod.GET)
-    public ModelAndView UserInfo(@PathVariable("userId") String userId, HttpSession session) {
-        Integer useridx =(Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
+    @GetMapping(value = "/userInfo/{userId}")
+    public ModelAndView userInfo(@PathVariable("userId") String userId, HttpSession session) {
+        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
+        User user = userService.getUser(userIdx);
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
 
         ModelAndView mv = new ModelAndView("/userInfo");    //ModelAndView : 컨트롤러의 처리 결과를 보여줄 뷰와 뷰에 전달할 값을 저장
         mv.addObject("user", user);
-        mv.addObject("projects", lpj);
+        mv.addObject(Attribute.PROJECTS, lpj);
         return mv;
     }
 
 
-    @RequestMapping(value = "/dashboard/{userId}", method = RequestMethod.GET)
-    public ModelAndView Dashboard(@PathVariable("userId") String userId, HttpSession session) {
+    @GetMapping(value = "/dashboard/{userId}")
+    public ModelAndView dashboard(@PathVariable("userId") String userId, HttpSession session) {
 
-        Integer useridx =(Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
+        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
+        User user = userService.getUser(userIdx);
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmService.getTimelines(user, 0, 15); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
-        lt=lt.stream().map(t->{
-           if(new Date().after(t.getEnddate())) {
-               t.setOverdue(true);
-               t=todolistService.save(t);
-           }
-           return t;
+        lt = lt.stream().map(t -> {
+            if (new Date().after(t.getEnddate())) {
+                t.setOverdue(true);
+                t = todolistService.save(t);
+            }
+            return t;
         }).collect(Collectors.toList());
 
         List<Schedule> ls = scheduleService.getSchedules(user); // 스케쥴 리스트를 반환
@@ -109,26 +116,27 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
         mv.addObject("timeline", tlla);
-        mv.addObject("alarm", la);
-        mv.addObject("projects", lpj);
-        mv.addObject("todolist", lt);
+        mv.addObject(Attribute.ALARM, la);
+        mv.addObject(Attribute.PROJECTS, lpj);
+        mv.addObject(Attribute.TODOLIST, lt);
         mv.addObject("schedules", ls);
         return mv;
     }
 
-    @RequestMapping(value = "/chat/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView Chat(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
-        ModelAndView mv = null;
+    @GetMapping(value = "/chat/{projectIdx}")
+    public ModelAndView chat(@PathVariable("projectIdx") Integer projectIdx,
+                             HttpSession session) {
+        ModelAndView mv = new ModelAndView("redirect:/");
 
-        String time =CommonUtils.DateFormat(new Date());
-        Integer useridx =(Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
-        mv = new ModelAndView("redirect:/");
+        String time = CommonUtils.dateFormat(new Date());
+        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
+        User user = userService.getUser(userIdx);
+
         Project project = projectService.getProject(projectIdx); // 프로젝트 객체 반환
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트 반환
 
 
-        if (lpj.stream().noneMatch(p->p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
+        if (lpj.stream().noneMatch(p -> p.equals(project))) { // 자기 자신의 프로젝트가 아닐경우
             return mv;
         }
         List<Todolist> lt = todolistService.getTodolists(project); // 투두리스트 리스트를 반환
@@ -154,27 +162,25 @@ public class HomeController {
 
             String foldername = FileUtil.getFoldername(projectIdx, null);
             File file = new File(foldername);
-            if (!file.exists())
-                if (file.mkdirs()) {
+            if (!file.exists() && file.mkdirs())
                     log.info("folder created " + file);
-                }
             mv = new ModelAndView("/project");
-            mv.addObject("projects", lpj);
-            mv.addObject("users", lu);
+            mv.addObject(Attribute.PROJECTS, lpj);
+            mv.addObject(Attribute.USERS, lu);
             mv.addObject("user", user);
-            mv.addObject("alarm", la);
+            mv.addObject(Attribute.ALARM, la);
             mv.addObject("minutes", lm);
             mv.addObject("project", project);
             mv.addObject("img", img);
-            mv.addObject("todolist", lt);
+            mv.addObject(Attribute.TODOLIST, lt);
         } else { // 위 ProjectRoom, 아래 Documentation
             List<Object> lo = projectRepository.todolistPercentage(project.getProjectidx()); // 멤버 참석율 반환
-            List<MemberGraph> lg=new ArrayList<>();
-            for(int i=0; i<lo.size();i++) {
-                Object[] objects = (Object[]) lo.get(i);
-                MemberGraph temp=new MemberGraph((Integer)objects[0],(String)objects[1],(BigDecimal)objects[2]);
+            List<MemberGraph> lg = new ArrayList<>();
+            lo.forEach(object -> {
+                Object[] objects = (Object[]) object;
+                MemberGraph temp = new MemberGraph((Integer) objects[0], (String) objects[1], (BigDecimal) objects[2]);
                 lg.add(temp);
-            }
+            });
             List<Integer> percentage = new ArrayList<>();
             List<String> username = new ArrayList<>();
             for (MemberGraph temp : lg) {
@@ -185,14 +191,14 @@ public class HomeController {
                     percentage.add(0);
             }
 
-            mv=new ModelAndView("/document");
+            mv = new ModelAndView("/document");
             mv.addObject("user", user);
-            mv.addObject("projects", lpj);
+            mv.addObject(Attribute.PROJECTS, lpj);
             mv.addObject("project", project);
-            mv.addObject("users", lu);
-            mv.addObject("alarm", la);
-            mv.addObject("todolist", lt);
-            mv.addObject("date",new Date());
+            mv.addObject(Attribute.USERS, lu);
+            mv.addObject(Attribute.ALARM, la);
+            mv.addObject(Attribute.TODOLIST, lt);
+            mv.addObject("date", new Date());
             mv.addObject("usersname", username);
             mv.addObject("percentage", percentage);
         } // Documentation 끝
@@ -201,39 +207,33 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = "/projectmanager", method = RequestMethod.GET)
+    @RequestMapping(value = "/projectmanager")
     public ModelAndView manager(HttpSession session) {
-        Integer useridx =(Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
+        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
+        User user = userService.getUser(userIdx);
         List<Project> lpj = projectService.getProjects(user, 0, 5); // 프로젝트 리스트 객체 10개 반환
         List<Project> lpjs = projectService.getProjects(user); // 프로젝트 리스트를 반환
 
         ModelAndView mv = new ModelAndView("/EditPJ");
         mv.addObject("user", user);
-        mv.addObject("projects", lpj);
-        mv.addObject("projectss",lpjs);
+        mv.addObject(Attribute.PROJECTS, lpj);
+        mv.addObject("projectss", lpjs);
         return mv;
     }
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @GetMapping(value = "/admin")
     public ModelAndView admin(HttpSession session) {
-
-        ModelAndView mv = new ModelAndView("/admin");
-        // mv.addObject("logs",logs);
-        return mv;
+        return new ModelAndView("/admin");
     }
 
-    @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
-    public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
-        Integer useridx =(Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
-        Integer userIdx = user.getUseridx();
+    @PostMapping(value = "/room")    //프로젝트 개설
+    public String makeRoom(@RequestParam(value = "name") String name, HttpSession session) {
+        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
+        User user = userService.getUser(userIdx);
         Project project = new Project(name, userIdx, "");
         user.addProject(project);
-        projectService.save(user,project);
+        projectService.save(user, project);
         return "redirect:/projectmanager";
     }
-
-
 
 }

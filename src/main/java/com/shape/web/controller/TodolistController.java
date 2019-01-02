@@ -30,26 +30,29 @@ import java.util.List;
 public class TodolistController {
 
 
-    @Autowired
-    UserService userService;
-    @Autowired
-    ProjectService projectService;
+    private UserService userService;
+
+    private ProjectService projectService;
+
+    private TodolistService todolistService;
 
     @Autowired
-    TodolistService todolistService;
+    public TodolistController(UserService userService, ProjectService projectService, TodolistService todolistService) {
+        this.userService = userService;
+        this.projectService = projectService;
+        this.todolistService = todolistService;
+    }
 
-
-    @RequestMapping(value = "/todolist/{userIdx}/user", method = RequestMethod.GET)
+    @GetMapping(value = "/todolist/{userIdx}/user")
     public PageResource<Todolist> todolist(@PathVariable("userIdx") Integer userIdx,
                                            @RequestParam(value = "page", defaultValue = "0") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        //return todolistService.getTodolists(userService.getUserById(userId));
         List l = todolistService.getTodolists(userService.getUser(userIdx));
-        Page<Todolist> todolists = new PageImpl(l, new PageRequest(page, size), l.size());
-        return new PageResource<Todolist>(todolists, "page", "size");
+        Page<Todolist> todolists =new PageImpl<>(l, new PageRequest(page, size), l.size());
+        return new PageResource<>(todolists, "page", "size");
     }
 
-    @RequestMapping(value = "/todolist/{projectIdx}/project", method = RequestMethod.GET)
+    @GetMapping(value = "/todolist/{projectIdx}/project")
     public List<Todolist> todolistbypj(@PathVariable("projectIdx") Integer projectIdx) {
         return todolistService.getTodolists(projectService.getProject(projectIdx));
     }
@@ -57,7 +60,7 @@ public class TodolistController {
     /*
    To make to-do list
    */
-    @RequestMapping(value = "/todolist", method = RequestMethod.POST) // todolist 생성
+    @PostMapping(value = "/todolist") // todolist 생성
     public ResponseEntity makeTodolist(@RequestParam("projectIdx") Integer projectIdx,
                                        @RequestParam("userId") String userId,
                                        @ModelAttribute("todolist") @Valid Todolist todolist,
@@ -74,7 +77,7 @@ public class TodolistController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/todolist", method = RequestMethod.PUT)
+    @PutMapping(value = "/todolist")
     public void modifyTodolist(@RequestBody Todolist todolist) {
         Todolist t = todolistService.getTodolist(todolist.getTodolistidx());
 
@@ -94,16 +97,16 @@ public class TodolistController {
     /*
      To accomplish to-do list
      */
-    @RequestMapping(value = "/todocheck", method = RequestMethod.GET)
+    @GetMapping(value = "/todocheck")
     public void todocheck(@RequestParam(value = "id") Integer id) {
         Todolist todolist = todolistService.getTodolist(id);
         Project project = projectService.getProject(todolist.getProject().getProjectidx());
-        if(new Date().before(todolist.getEnddate()) && project.isProcessed()) {
+        if (new Date().before(todolist.getEnddate()) && project.isProcessed()) {
             todolist.setOk(!todolist.isOk());
             todolistService.save(todolist);
             return;
         }
-        throw new HttpClientErrorException(HttpStatus.NOT_MODIFIED,"It's over");
+        throw new HttpClientErrorException(HttpStatus.NOT_MODIFIED, "It's over");
 
     }
 }

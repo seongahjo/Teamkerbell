@@ -8,7 +8,10 @@ import com.shape.web.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpSession;
@@ -22,27 +25,28 @@ import java.util.List;
 public class AlarmController {
 
 
-    @Autowired
-    UserService userService;
+    private UserService userService;
+
+    private AlarmService alarmService;
+
+    private ProjectService projectService;
 
     @Autowired
-    AlarmService alarmService;
+    public AlarmController(UserService userService, AlarmService alarmService, ProjectService projectService) {
+        this.userService = userService;
+        this.alarmService = alarmService;
+        this.projectService = projectService;
+    }
 
-    @Autowired
-    ProjectService projectService;
-
-
-    @RequestMapping(value = "/timeline/{userIdx}", method = RequestMethod.GET)
+    @GetMapping(value = "/timeline/{userIdx}")
     public List timeline(@PathVariable("userIdx") Integer userIdx,
                          @RequestParam(value = "page", defaultValue = "0") Integer page,
                          @RequestParam(value = "count", defaultValue = "20") Integer count) {
         return alarmService.getTimelines(userService.getUser(userIdx), page, count);
     }
 
-    @RequestMapping(value = "/alarm/{userId}", method = RequestMethod.GET)
-    public List alarms(@PathVariable("userIdx") Integer userIdx,
-                       @RequestParam(value = "page", defaultValue = "0") Integer page,
-                       @RequestParam(value = "size", defaultValue = "10") Integer size) {
+    @GetMapping(value = "/alarm/{userIdx}")
+    public List alarms(@PathVariable("userIdx") Integer userIdx) {
         return alarmService.getAlarms(userService.getUser(userIdx));
     }
 
@@ -50,7 +54,7 @@ public class AlarmController {
     /*
     To accept invite request
      */
-    @RequestMapping(value = "/acceptRequest", method = RequestMethod.GET)
+    @GetMapping(value = "/acceptRequest")
     public void acceptRequest(@RequestParam("alarmIdx") Integer alarmIdx, @RequestParam("type") Integer type) {
         Alarm alarm = alarmService.getAlarm(alarmIdx);
         alarm.setIsshow(false);
@@ -64,28 +68,18 @@ public class AlarmController {
     To get invite request
      */
     // socket으로 받아오는거
-    @RequestMapping(value = "/updateAlarm", method = RequestMethod.GET)
+    @GetMapping(value = "/updateAlarm")
     public Alarm updateAlarm(@RequestParam("userIdx") Integer userIdx) {
-        Alarm alarm = alarmService.getAlarm(userService.getUser(userIdx));
-        return alarm;
-        /*
-        Map<String, String> data = new HashMap<>();
-        if (alarm != null) { // 이걸 Rest API로 대체할까말까 고민.dmdamdammdas
-            data.put("alarmidx", String.valueOf(alarm.getAlarmidx()));
-            data.put("projectname", alarm.getProject().getName());
-            data.put("actorid", alarm.getActor().getId());
-        }
-        return data;
-        */
+        return alarmService.getAlarm(userService.getUser(userIdx));
     }
 
-    @RequestMapping(value = "/moreTimeline", method = RequestMethod.GET)
+    @GetMapping(value = "/moreTimeline")
     public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
-        Integer useridx =(Integer) session.getAttribute("useridx");
+        Integer useridx = (Integer) session.getAttribute("useridx");
         User user = userService.getUser(useridx);
         List timeline = alarmService.getTimelines(user, page + 1, 20);
         log.info("REQUEST more timeline");
-        if (timeline.size() == 0)
+        if (timeline.isEmpty())
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "NO MORE TIMELINE");
         return timeline;
     }
