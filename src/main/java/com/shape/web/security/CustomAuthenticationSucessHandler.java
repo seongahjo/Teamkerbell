@@ -19,16 +19,13 @@ import java.util.Enumeration;
  */
 public class CustomAuthenticationSucessHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private LogsService logService;
 
 
-    @Autowired
-    public CustomAuthenticationSucessHandler(UserRepository userRepository, LogsService logService) {
-        this.userRepository = userRepository;
-        this.logService = logService;
-    }
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException, ServletException {
