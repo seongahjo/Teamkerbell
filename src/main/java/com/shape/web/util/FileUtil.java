@@ -46,6 +46,15 @@ public class FileUtil {
 
     }
 
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf('.');
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
+    }
+
     public static String getFoldername(final int project_id, final Date date) {
         Date dates = date == null ? new Date() : date;
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
