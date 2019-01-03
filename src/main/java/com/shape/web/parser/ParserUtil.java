@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -44,12 +46,16 @@ public class ParserUtil {
     }
 
 
+    private ParserUtil(){}
+
     public static String parse(File file) {
         try (FileInputStream fs = new FileInputStream(file)) {
             return ParserType.getReader(FileUtil.getFileExtension(file)).read(fs);
-        } catch (Exception e) {
-            log.error("document file cant be indexed", e);
+        } catch (FileNotFoundException e) {
+            log.error("file not exsits {} ",file.getName(), e);
+        }catch(IOException e){
+            log.error("IOException ",e);
         }
-        return null;
+        return "";
     }
 }
