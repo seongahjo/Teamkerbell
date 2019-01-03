@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by hootting on 2016. 9. 18..
@@ -22,33 +23,33 @@ public class PageResource<T> extends ResourceSupport implements Page<T> {
                         String sizeParam) {
         super();
         this.page = page;
-        if(page.hasPrevious()) {
+        if (page.hasPrevious()) {
             String path = createBuilder()
-                    .queryParam(pageParam,page.getNumber()-1)
-                    .queryParam(sizeParam,page.getSize())
+                    .queryParam(pageParam, page.getNumber() - 1)
+                    .queryParam(sizeParam, page.getSize())
                     .build()
                     .toUriString();
             Link link = new Link(path, Link.REL_PREVIOUS);
             add(link);
         }
-        if(page.hasNext()) {
+        if (page.hasNext()) {
             String path = createBuilder()
-                    .queryParam(pageParam,page.getNumber()+1)
-                    .queryParam(sizeParam,page.getSize())
+                    .queryParam(pageParam, page.getNumber() + 1)
+                    .queryParam(sizeParam, page.getSize())
                     .build()
                     .toUriString();
             Link link = new Link(path, Link.REL_NEXT);
             add(link);
         }
 
-        Link link = buildPageLink(pageParam,0,sizeParam,page.getSize(),Link.REL_FIRST);
+        Link link = buildPageLink(pageParam, 0, sizeParam, page.getSize(), Link.REL_FIRST);
         add(link);
 
         int indexOfLastPage = page.getTotalPages() - 1;
-        link = buildPageLink(pageParam,indexOfLastPage,sizeParam,page.getSize(),Link.REL_LAST);
+        link = buildPageLink(pageParam, indexOfLastPage, sizeParam, page.getSize(), Link.REL_LAST);
         add(link);
 
-        link = buildPageLink(pageParam,page.getNumber(),sizeParam,page.getSize(),Link.REL_SELF);
+        link = buildPageLink(pageParam, page.getNumber(), sizeParam, page.getSize(), Link.REL_SELF);
         add(link);
     }
 
@@ -56,14 +57,13 @@ public class PageResource<T> extends ResourceSupport implements Page<T> {
         return ServletUriComponentsBuilder.fromCurrentRequestUri();
     }
 
-    private Link buildPageLink(String pageParam,int page,String sizeParam,int size,String rel) {
+    private Link buildPageLink(String pageParam, int page, String sizeParam, int size, String rel) {
         String path = createBuilder()
-                .queryParam(pageParam,page)
-                .queryParam(sizeParam,size)
+                .queryParam(pageParam, page)
+                .queryParam(sizeParam, size)
                 .build()
                 .toUriString();
-        Link link = new Link(path,rel);
-        return link;
+        return new Link(path, rel);
     }
 
     @Override
@@ -146,4 +146,18 @@ public class PageResource<T> extends ResourceSupport implements Page<T> {
         return page.previousPageable();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PageResource<?> that = (PageResource<?>) o;
+
+        return Objects.equals(page, that.page);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), page);
+    }
 }
