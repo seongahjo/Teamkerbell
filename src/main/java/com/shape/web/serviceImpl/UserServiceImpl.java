@@ -4,6 +4,7 @@ import com.shape.web.entity.Project;
 import com.shape.web.entity.User;
 import com.shape.web.repository.UserRepository;
 import com.shape.web.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by seongahjo on 2016. 7. 26..
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
@@ -53,6 +55,12 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = "users", key = "'users:'.concat(#p0.projectidx).concat(':projects')")
     public List<User> getUsersByProject(Project p) {
         return userRepository.findByProjects(p);
+    }
+
+    @Override
+    public boolean isRegistable(User u) {
+        User user = userRepository.findById(u.getId());
+        return user == null;
     }
 
 

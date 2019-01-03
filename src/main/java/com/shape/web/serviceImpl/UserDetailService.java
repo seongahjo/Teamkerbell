@@ -2,6 +2,7 @@ package com.shape.web.serviceImpl;
 
 import com.shape.web.entity.User;
 import com.shape.web.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,17 +19,23 @@ import java.util.List;
  * Created by seongahjo on 2016. 7. 27..
  */
 @Service
+@Slf4j
 public class UserDetailService implements UserDetailsService {
 
+    private UserRepository userRepository;
+
+
     @Autowired
-    UserRepository userRepository;
+    public UserDetailService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /*
- Spring Security에서 권한 설정을 위한 객체 Role 반환
-  */
-    public List<String> getRoles(Integer role) {
+     Spring Security에서 권한 설정을 위한 객체 Role 반환
+      */
+    private List<String> getRoles(Integer role) {
 
-        List<String> roles = new ArrayList<String>();
+        List<String> roles = new ArrayList<>();
         roles.add("ROLE_USER");
        /* if (role.intValue() == 1) {
             roles.add("ROLE_USER");
@@ -39,16 +46,15 @@ public class UserDetailService implements UserDetailsService {
         return roles;
     }
 
-    public static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    private static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
         roles.forEach(s -> authorities.add(new SimpleGrantedAuthority(s)));
         return authorities;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities(Integer role) {
-        List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
-        return authList;
+    private Collection<? extends GrantedAuthority> getAuthorities(Integer role) {
+        return getGrantedAuthorities(getRoles(role));
     }
 
     /*
@@ -61,7 +67,7 @@ public class UserDetailService implements UserDetailsService {
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
         try {
-            User u = (User) userRepository.findById(id);
+            User u = userRepository.findById(id);
             return new org.springframework.security.core.userdetails.User(u.getId(),
                     u.getPw(),
                     enabled,
@@ -70,8 +76,9 @@ public class UserDetailService implements UserDetailsService {
                     accountNonLocked,
                     getAuthorities(0));
         } catch (NullPointerException e) {
+            log.error("Null ", e);
         } catch (UsernameNotFoundException e) {
-
+            log.error("User Name {} ", id, e);
         }
         return new org.springframework.security.core.userdetails.User("null", "null", false, false, false, false, getAuthorities(0));
 

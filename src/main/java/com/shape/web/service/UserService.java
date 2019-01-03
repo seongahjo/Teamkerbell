@@ -15,4 +15,6 @@ public interface UserService  {
     User save(User u);
 
     List<User> getUsersByProject(Project p);
+
+    boolean isRegistable(User u);
 }

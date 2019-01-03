@@ -15,7 +15,7 @@ public interface AlarmService {
 
     Alarm getAlarm(Integer idx);
 
-    List getAlarms(User u);
+    List<Alarm> getAlarms(User u);
 
     Alarm getAlarm(User u); // 알람 하나
 

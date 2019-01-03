@@ -13,9 +13,9 @@ import java.util.List;
 public interface FileDBService {
     FileDB getFile(Integer f);
 
-    List getFilesList(Integer projectIdx);
+    List<FileDB> getFilesList(Integer projectIdx);
 
-    List getFilesByOriginal(Project p,String o,Integer page,Integer count);
+    List<FileDB> getFilesByOriginal(Project p, String o, Integer page, Integer count);
 
     FileDB getFileByStored(String s);
 

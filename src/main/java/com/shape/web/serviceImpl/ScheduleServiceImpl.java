@@ -1,6 +1,5 @@
 package com.shape.web.serviceImpl;
 
-import com.shape.web.entity.Project;
 import com.shape.web.entity.Schedule;
 import com.shape.web.entity.User;
 import com.shape.web.repository.ScheduleRepository;
@@ -11,7 +10,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,12 +35,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Cacheable(value = "schedules", key = "'user:'.concat(#p0.useridx).concat(':schedules')")
     public List<Schedule> getSchedules(User u) {
         return scheduleRepository.findByProject_Users(u);
-    }
-
-    @Override
-    @Cacheable(value = "schedules", key = "'project:'.concat(#p0.projectidx).concat(':schedules')")
-    public List<Schedule> getSchedules(Project p) {
-        return Collections.EMPTY_LIST;
     }
 
 

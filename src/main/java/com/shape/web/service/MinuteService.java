@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Service
 public interface MinuteService {
-    List getMinutes(Project p);
+    List<Minute> getMinutes(Project p);
 
     Minute getMinute(Project p,Date date);
 

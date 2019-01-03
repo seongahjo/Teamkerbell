@@ -1,6 +1,5 @@
 package com.shape.web.service;
 
-import com.shape.web.entity.Project;
 import com.shape.web.entity.Schedule;
 import com.shape.web.entity.User;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,6 @@ public interface ScheduleService {
     List<Schedule> getSchedules(User u);
 
     Schedule save(Schedule s);
-
-    List<Schedule> getSchedules(Project p);
 
     void clear(User u);
 }
