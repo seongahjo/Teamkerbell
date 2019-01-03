@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "Alarm")
-@EqualsAndHashCode(exclude={"project","user","actor"})
+@EqualsAndHashCode(exclude = {"project", "user", "actor"})
 public class Alarm implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -19,7 +19,7 @@ public class Alarm implements Serializable {
     private Integer alarmidx;
 
 
-    @Column(name="CONTENTID")
+    @Column(name = "CONTENTID")
     private Integer contentid;
 
     @Column(name = "FILENAME")
@@ -32,12 +32,12 @@ public class Alarm implements Serializable {
     private Date date;
 
     @Column(name = "ISSHOW")
-    private boolean isshow=true ;
+    private boolean isshow = true;
 
-    @Column(name="CREATEDAT")
+    @Column(name = "CREATEDAT")
     private Date createdat;
 
-    @Column(name="UPDATEDAT")
+    @Column(name = "UPDATEDAT")
     private Date updatedat;
 
     @ManyToOne
@@ -87,9 +87,6 @@ public class Alarm implements Serializable {
         this.date = date;
         this.project = project;
         this.actor = actor;
-    }
-
-    public Alarm() {
     }
 
 

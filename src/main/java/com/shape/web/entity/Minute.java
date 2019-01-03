@@ -12,8 +12,8 @@ import java.util.Date;
 @Entity
 @Table(name = "Minute")
 @Data
-@EqualsAndHashCode(exclude={"project"})
-public class Minute implements Serializable, Comparable<Minute>{
+@EqualsAndHashCode(exclude = {"project"})
+public class Minute implements Serializable, Comparable<Minute> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
@@ -21,20 +21,20 @@ public class Minute implements Serializable, Comparable<Minute>{
     private Integer minuteidx;
 
     @ManyToOne
-    @JoinColumn(name="PROJECTIDX")
+    @JoinColumn(name = "PROJECTIDX")
     private Project project;
 
     @Column(name = "CONTENT")
     private String content;
 
     @Column(name = "DATE")
-    @Type(type="date")
+    @Type(type = "date")
     private Date date;
 
-    @Column(name="CREATEDAT")
+    @Column(name = "CREATEDAT")
     private Date createdat;
 
-    @Column(name="UPDATEDAT")
+    @Column(name = "UPDATEDAT")
     private Date updatedat;
 
     @PrePersist
@@ -51,7 +51,7 @@ public class Minute implements Serializable, Comparable<Minute>{
     }
 
 
-    public Minute( String content, Date date) {
+    public Minute(String content, Date date) {
         this.content = content;
         this.date = date;
     }
@@ -59,6 +59,6 @@ public class Minute implements Serializable, Comparable<Minute>{
 
     @Override
     public int compareTo(Minute m) {
-        return  m.getDate().after(getDate())? 1:-1;
+        return m.getDate().after(getDate()) ? 1 : -1;
     }
 }

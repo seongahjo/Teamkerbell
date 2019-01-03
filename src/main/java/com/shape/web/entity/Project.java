@@ -1,13 +1,7 @@
 package com.shape.web.entity;
 
 
-
-
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.shape.web.VO.MemberGraph;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,14 +14,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Project")
-@EqualsAndHashCode(of={"projectidx"},exclude={"users"})
-@NamedNativeQuery(name="Project.todolistPercentage",
-        query="SELECT u.useridx,u.name,count(if(td.OK=false,td.CONTENT,NULL))/count(td.OK)*100 as percentage" +
+@EqualsAndHashCode(of = {"projectidx"}, exclude = {"users"})
+@NamedNativeQuery(name = "Project.todolistPercentage",
+        query = "SELECT u.useridx,u.name,count(if(td.OK=false,td.CONTENT,NULL))/count(td.OK)*100 as percentage" +
                 " FROM Todolist td JOIN User u on td.useridx = u.useridx" +
                 " WHERE td.projectidx=?1 group by td.useridx order by td.useridx")
 
 @Data
-public class Project implements Serializable{
+public class Project implements Serializable {
     private static final long serialVersionUID = 7463383057597003838L;
     @Id
     @GeneratedValue
@@ -47,33 +41,32 @@ public class Project implements Serializable{
     @Column(name = "PROCESSED")
     private boolean processed = true;
 
-    @Column(name="CREATEDAT")
+    @Column(name = "CREATEDAT")
     private Date createdat;
 
-    @Column(name="UPDATEDAT")
+    @Column(name = "UPDATEDAT")
     private Date updatedat;
 
 
-    @ManyToMany(mappedBy = "projects",fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<User>();
+    @ManyToMany(mappedBy = "projects", fetch = FetchType.EAGER)
+    private Set<User> users = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "project")
-    private Set<Alarm> alarms = new HashSet<Alarm>();
+    private Set<Alarm> alarms = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "project")
-    private Set<FileDB> filedbs = new HashSet<FileDB>();
+    private Set<FileDB> filedbs = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<Minute> minutes;
 
 
+    @OneToMany(mappedBy = "project")
+    private Set<Schedule> schedules = new HashSet<>();
 
     @OneToMany(mappedBy = "project")
-    private Set<Schedule> schedules = new HashSet<Schedule>();
-
-    @OneToMany(mappedBy = "project")
-    private Set<Todolist> todolists = new HashSet<Todolist>();
+    private Set<Todolist> todolists = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
@@ -85,15 +78,12 @@ public class Project implements Serializable{
         updatedat = new Date();
     }
 
-    public Project() {
-        minutes = new HashSet<Minute>();
-    }
 
     public Project(String name, Integer leaderidx, String minute) {
         this.name = name;
         this.leaderidx = leaderidx;
         this.minute = minute;
-        minutes = new HashSet<Minute>();
+        minutes = new HashSet<>();
     }
 
     public void addUser(User user) {
