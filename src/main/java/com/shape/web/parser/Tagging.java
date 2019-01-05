@@ -4,77 +4,71 @@ import java.io.File;
 import java.util.*;
 
 public class Tagging {
-    private static HashMap<String, Integer> Push(String value) {
+    private Tagging() {
+    }
+
+    private static HashMap<String, Integer> push(String value) {
         StringTokenizer st = new StringTokenizer(value);
-        String temp;
-        int count;
-        WordReduce reduce = new WordReduce();
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        HashMap<String, Integer> map = new HashMap<>();
+
         while (st.hasMoreTokens()) {
-            temp = st.nextToken();
-            temp = reduce.simplify(temp);
-            if (temp != null) {
-                if (map.get(temp) == null)
-                    map.put(temp, 1);
-                else {
-                    count = map.get(temp);
-                    map.remove(temp);
-                    map.put(temp, count + 1);
-                }
-            }
+            String temp = st.nextToken();
+            temp = WordReduce.simplify(temp);
+            Optional<Integer> mappingValue = Optional.ofNullable(map.get(temp));
+            if (temp != null)
+                map.put(temp, mappingValue.orElse(0) + 1);
         }
         return map;
     } // end Push
 
-    private static ArrayList<String> Reduce(HashMap<String, Integer> data, int count) {
-        ArrayList<String> result = new ArrayList<String>();
-        Vector<String> key_list = new Vector<String>();
-        for (String temp : data.keySet())
-            key_list.add(temp);
-        int minimum;
-        String key;
-        for (int i = 0; i < count && key_list.size() != 0; i++) {
-            minimum = -1;
-            key = null;
-            for (String s : key_list) {
+    private static ArrayList<String> reduce(HashMap<String, Integer> data, int count) {
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> keyList = new ArrayList<>(data.keySet());
+
+        for (int i = 0; i < count && !keyList.isEmpty(); i++) {
+            int minimum = -1;
+            String key = null;
+            for (String s : keyList) {
                 if (minimum < data.get(s)) {
                     minimum = data.get(s);
                     key = s;
                 }
             }
             result.add(key);
-            key_list.remove(key);
+            keyList.remove(key);
         } // endfor
         return result;
     } //end Reduce
 
-    public static ArrayList<String> Tag(File file) {
-        String content = ParserUtil.Parse(file);
+    public static List<String> tag(File file) {
+        String content = ParserUtil.parse(file);
         if (content != null)
-            return Reduce(Push(content), 3);
+            return reduce(push(content), 3);
         else
-            return null;
+            return Collections.emptyList();
     }
 
-    public static String TagbyString(File file) {
-        List<String> list = Tag(file);
-        String tag = new String();
+    public static String tagbyString(File file) {
+        List<String> list = tag(file);
+        StringBuilder sb = new StringBuilder();
+
         if (list != null) {
-            for (String temp : list) {
-                tag += temp + ",";
-            }
-            if(tag.length()!=0)
-            tag = tag.substring(0, tag.length() - 1);
+            list.forEach(s -> {
+                sb.append(s);
+                sb.append(",");
+            });
+            if (sb.length() != 0)
+                sb.deleteCharAt(sb.length() - 1);
         }
-        return tag;
+        return sb.toString();
     }
 
-    public static ArrayList<String> Tag(String content, int count) {
-        return Reduce(Push(content), count);
+    public static List<String> tag(String content, int count) {
+        return reduce(push(content), count);
     } //end Tag
 
-    public static ArrayList<String> Tag(String content) {
-        return Reduce(Push(content), 3);
+    public static List<String> tag(String content) {
+        return reduce(push(content), 3);
     } //end Tag
 
 }
