@@ -21,7 +21,7 @@ public class Tagging {
         return map;
     } // end Push
 
-    private static ArrayList<String> reduce(HashMap<String, Integer> data, int count) {
+    private static List<String> reduce(HashMap<String, Integer> data, int count) {
         ArrayList<String> result = new ArrayList<>();
         ArrayList<String> keyList = new ArrayList<>(data.keySet());
 
