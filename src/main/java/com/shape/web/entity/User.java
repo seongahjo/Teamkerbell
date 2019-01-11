@@ -1,6 +1,5 @@
 package com.shape.web.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +21,7 @@ import java.util.Set;
 Todolist,
 Invite경우 UserId로 검색.
  */
-@EqualsAndHashCode(of={"useridx"},exclude={"alarmsactor","alarmsuser","logs","todolists","filedbs","role"})
+@EqualsAndHashCode(of = {"useridx"}, exclude = {"alarmsactor", "alarmsuser", "logs", "todolists", "filedbs", "role"})
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
     @Id
@@ -57,19 +56,19 @@ public class User implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL)
-    private Set<Alarm> alarmsactor = new HashSet<Alarm>();
+    private Set<Alarm> alarmsactor = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Alarm> alarmsuser = new HashSet<Alarm>();
+    private Set<Alarm> alarmsuser = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Logs> logs = new HashSet<Logs>();
+    private Set<Logs> logs = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Todolist> todolists = new HashSet<Todolist>();
+    private Set<Todolist> todolists = new HashSet<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<FileDB> filedbs = new HashSet<FileDB>();
+    private Set<FileDB> filedbs = new HashSet<>();
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
@@ -86,7 +85,7 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "USERIDX"),
             inverseJoinColumns = @JoinColumn(name = "PROJECTIDX")
     )
-    private Set<Project> projects = new HashSet<Project>();
+    private Set<Project> projects = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
@@ -113,6 +112,9 @@ public class User implements Serializable {
     public void addProject(Project project) {
         this.projects.add(project);
     }
-    public void deleteProject(Project project) {this.projects.remove(project);}
+
+    public void deleteProject(Project project) {
+        this.projects.remove(project);
+    }
 
 }

@@ -18,15 +18,14 @@ import java.util.List;
  */
 @Service
 public class FileDBServiceImpl implements FileDBService {
-    /*
-        file:'fileidx'
-        project:'projectidx':files
-        (+)
-        file:'stored'
-        project:'projectidx':imgs
-     */
+    private FileDBRepository fileDBRepository;
+
+
     @Autowired
-    FileDBRepository fileDBRepository;
+    public FileDBServiceImpl(FileDBRepository fileDBRepository) {
+        this.fileDBRepository = fileDBRepository;
+    }
+
 
     @Override
     @Cacheable(value = "file", key = "'file:'.concat(#p0)")
@@ -43,7 +42,7 @@ public class FileDBServiceImpl implements FileDBService {
 
     @Override
     //@Cacheable(value = "files", key = "'project:'.concat(#p0.projectidx).concat(':filesrepo')")
-    public List getFilesByOriginal(Project p, String o, Integer page, Integer count) {
+    public List<FileDB> getFilesByOriginal(Project p, String o, Integer page, Integer count) {
         return fileDBRepository.findByProjectAndOriginalnameOrderByCreatedatDesc(p, o, new PageRequest(page, count));
     }
 
@@ -56,20 +55,13 @@ public class FileDBServiceImpl implements FileDBService {
 
     @Override
     @Cacheable(value = "files", key = "'project:'.concat(#p0.projectidx).concat(':imgs')")
-    public List getImgs(Project p) {
+    public List<FileDB> getImgs(Project p) {
         return fileDBRepository.findByProjectAndTypeOrderByCreatedatDesc(p, "image");
     }
-// @CacheEvict(value = "files", key = "'project:'.concat(#p0.project.projectidx).concat(':filesrepo')"),
-
-     /* @Override
-    @Cacheable(value = "files", key = "'project:'.concat(#p0.projectidx).concat(':files')")
-    public List getFilesByProject(Project p) {
-        return fileDBRepository.findByProjectOrderByCreatedatDesc(p);
-    }*/
 
     @Override
     @Caching(evict = {
-            @CacheEvict(value = "files",condition="#p0.project!=null" ,key = "'project:'.concat(#p0.project.projectidx).concat(':files')"),
+            @CacheEvict(value = "files", condition = "#p0.project!=null", key = "'project:'.concat(#p0.project.projectidx).concat(':files')"),
             @CacheEvict(value = "file", key = "'file:'.concat(#p0.filedbidx)"),
             @CacheEvict(value = "file", key = "'file:'.concat(#p0.storedname)"),
             @CacheEvict(value = "files", key = "'project:'.concat(#p0.project.projectidx).concat(':imgs')", condition = "#p0.project!=null && #p0.type=='image'")

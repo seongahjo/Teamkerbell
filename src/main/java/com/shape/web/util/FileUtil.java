@@ -1,8 +1,6 @@
 package com.shape.web.util;
 
-import com.shape.web.entity.FileDB;
-import com.shape.web.repository.FileDBRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,72 +12,88 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+@Slf4j
 public class FileUtil {
-    // Static 메소드로만 만들기
-    @Autowired
-    static FileDBRepository fileDBRepository;
-/*
-    public static String getFoldername(Integer projectIdx){
-        return RepositoryUtil.repositoryPrefix+"."+projectIdx;
-    }*/
 
-    public static String getFoldername(final int project_id, final Date date) {
-        Date dates = null;
+    private enum Header {
 
-        if (date == null)
-            dates = new Date();
-        else
-            dates = date;
+        DISPOSITION("Content-disposition"),
+        TYPE("Content-Type"),
+        LENGTH("Content-Length");
 
+        Header(String headerName) {
+            this.headerName = headerName;
+        }
+
+        public String getName() {
+            return headerName;
+        }
+
+        private String headerName;
+
+    }
+
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf('.');
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
+    }
+
+    public static String getFoldername(final int projectId, final Date date) {
+        Date dates = date == null ? new Date() : date;
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-        String filename = "team/" + format.format(dates);
-        filename += "_" + project_id;
-
-        return filename;
+        StringBuilder sb = new StringBuilder();
+        sb.append("team/");
+        sb.append(format.format(dates));
+        sb.append("_");
+        sb.append(projectId);
+        return sb.toString();
     }
 
-    public static void MakeMinute(final int project_id, final String memo) throws Exception {
-        String filename = getFoldername(project_id, null);
-        FileWriter fw = new FileWriter(filename + "/minute.txt");
-        fw.write(memo);
-        fw.close();
+    public static void makeMinute(final int projectId, final String memo) {
+        String filename = getFoldername(projectId, null);
+        try (FileWriter fw = new FileWriter(filename + "/minute.txt")) {
+            fw.write(memo);
+        } catch (IOException e) {
+            log.error("Open File Error ", e);
+        }
     }
 
-    public static String DecodeFile(String storedFileName) {
-        FileDB fd = fileDBRepository.findByStoredname(storedFileName);
-        return fd.getOriginalname();
-    }
 
-    public static boolean IsImage(final String filename) {
-        String FileExtension = filename.substring(filename.lastIndexOf("."));
-
+    private static boolean isImage(final String filename) {
+        String fileExtension = filename.substring(filename.lastIndexOf('.'));
         Pattern pattern = Pattern.compile("\\.(jpg|jpeg|png|gif)$", Pattern.CASE_INSENSITIVE);
-        Matcher m = pattern.matcher(FileExtension);
+        Matcher m = pattern.matcher(fileExtension);
         return m.matches();
     }
 
     public static String getFileType(String filename) {
-        if (IsImage(filename))
+        if (isImage(filename))
             return "image";
         else
             return "file";
 
     }
 
-    public static void setDownloadHeader(final String  filename, final File file, final HttpServletRequest request, HttpServletResponse response) {
+
+    public static void setDownloadHeader(final String filename, final File file, final HttpServletRequest request, HttpServletResponse response) {
         String userAgent = request.getHeader("User-Agent");
         try {
-            response.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"" + ";");
+            response.setHeader(Header.DISPOSITION.getName(), "attachment;filename=\"" + filename + "\"" + ";");
             if (userAgent.contains("MSIE"))
-                response.setHeader("Content-Disposition", "attachment; filename=" + new String(filename.getBytes("KSC5601"), "ISO8859_1"));
+                response.setHeader(Header.DISPOSITION.getName(), "attachment; filename=" + new String(filename.getBytes("KSC5601"), "ISO8859_1"));
             else {  // IE 이외
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + java.net.URLEncoder.encode(filename, "UTF-8") + "\"");
-                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
+                response.setHeader(Header.DISPOSITION.getName(), "attachment; filename=\"" + java.net.URLEncoder.encode(filename, "UTF-8") + "\"");
+                response.setHeader(Header.TYPE.getName(), "application/octet-stream; charset=utf-8");    //octet-stream->다운로드 창
             }    //response 헤더 설정해서
-            response.setHeader("Content-Length", "" + file.length());
+            response.setHeader(Header.LENGTH.getName(), "" + file.length());
 
         } catch (IOException e) {
-
+            log.error("Error ", e);
         }
     }
 }

@@ -1,10 +1,7 @@
 package com.shape.web.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,7 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "Schedule")
-@EqualsAndHashCode(exclude={"project"})
+@EqualsAndHashCode(exclude = {"project"})
 public class Schedule implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +35,7 @@ public class Schedule implements Serializable {
     private Time time;
 
     @ManyToOne
-    @JoinColumn(name="PROJECTIDX")
+    @JoinColumn(name = "PROJECTIDX")
     private Project project;
 
     @Column(name = "STATE")
@@ -57,10 +54,10 @@ public class Schedule implements Serializable {
     @Type(type = "date")
     private Date enddate;
 
-    @Column(name="CREATEDAT")
+    @Column(name = "CREATEDAT")
     private Date createdat;
 
-    @Column(name="UPDATEDAT")
+    @Column(name = "UPDATEDAT")
     private Date updatedat;
 
     @PrePersist
@@ -73,10 +70,8 @@ public class Schedule implements Serializable {
         updatedat = new Date();
     }
 
-    @OneToMany(mappedBy = "schedule",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private Set<Appointment> appointments = new HashSet<Appointment>();
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Appointment> appointments = new HashSet<>();
 
-    public Schedule() {
-    }
 
 }

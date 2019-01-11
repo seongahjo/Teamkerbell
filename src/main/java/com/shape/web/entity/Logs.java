@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -16,7 +17,9 @@ import java.util.Date;
 @Entity
 @Table(name = "Logs")
 @EqualsAndHashCode(exclude={"user"})
-public class Logs {
+public class Logs implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
     @Column(name = "LOGIDX")

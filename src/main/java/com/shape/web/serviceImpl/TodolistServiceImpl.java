@@ -18,23 +18,23 @@ import java.util.List;
  */
 @Service
 public class TodolistServiceImpl implements TodolistService {
-    /*
-     todolist:'todolistidx'
-     user:'useridx':todolists
-     project:'projectidx':todolists
-     */
+
+    private TodolistRepository todolistRepository;
+
     @Autowired
-    TodolistRepository todolistRepository;
+    public TodolistServiceImpl(TodolistRepository todolistRepository) {
+        this.todolistRepository = todolistRepository;
+    }
 
     @Override
     @Cacheable(value = "todolists", key = "'user:'.concat(#p0.useridx).concat(':todolists')")
-    public List getTodolists(User u) {
-        return todolistRepository.findDistinctByUserAndProject_Processed(u,true);
+    public List<Todolist> getTodolists(User u) {
+        return todolistRepository.findDistinctByUserAndProject_Processed(u, true);
     }
 
     @Override
     @Cacheable(value = "todolists", key = "'project:'.concat(#p0.projectidx).concat(':todolists')")
-    public List getTodolists(Project p) {
+    public List<Todolist> getTodolists(Project p) {
         return todolistRepository.findByProject(p);
     }
 

@@ -3,9 +3,10 @@ package com.shape.web.configuration;
 import com.shape.web.security.CustomAuthenticationSucessHandler;
 import com.shape.web.security.RestAuthenticationEntryPoint;
 import com.shape.web.security.RestLoginFailureHandler;
+import com.shape.web.service.LogsService;
+import com.shape.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,16 +24,25 @@ import org.springframework.web.filter.CharacterEncodingFilter;
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan({"com.shape.web.service", "com.shape.web.serviceImpl"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UserDetailsService userService;
+    private UserDetailsService userDetailService;
 
+    private UserService userService;
+
+    private LogsService logService;
+
+
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailService, UserService userService, LogsService logService){
+        this.userDetailService=userDetailService;
+        this.userService=userService;
+        this.logService=logService;
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.userDetailsService(userDetailService);
         // auth.inMemoryAuthentication().withUser("root").password("root").roles("USER");
     }
 
@@ -43,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/resources/**", "/js/**", "/css/**", "/img/**");
     }
 
@@ -54,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public CustomAuthenticationSucessHandler authenticationHandler() {
-        return new CustomAuthenticationSucessHandler();
+        return new CustomAuthenticationSucessHandler(userService,logService);
     }
 
     @Bean
@@ -67,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
-        http.addFilterBefore(filter,CsrfFilter.class);
+        http.addFilterBefore(filter, CsrfFilter.class);
 
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.NEVER)

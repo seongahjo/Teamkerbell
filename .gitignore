@@ -3,7 +3,6 @@
 target/
 /.idea
 /.settings
-test
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -17,5 +16,5 @@ hs_err_pid*
 .DS_Store
 GitRepository.8/
 LOG/
-src/main/webapp/WEB-INF/classes
+
 

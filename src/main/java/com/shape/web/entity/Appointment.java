@@ -4,12 +4,13 @@ import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 
 @Entity
 @Table(name = "Appointment")
-public class Appointment {
+public class Appointment implements Serializable {
     /*
     appointment
     state
@@ -18,6 +19,8 @@ public class Appointment {
     2 : 날짜 확정된 상태 (schedule state가 3일경우 non-participant)
     3 : 참가한 상태
      */
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
     @Column(name = "APPOINTMENTIDX")

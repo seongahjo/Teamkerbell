@@ -18,17 +18,17 @@ import java.util.List;
  */
 @Service
 public class MinuteServiceImpl implements MinuteService {
-    /*
-    project:'projectidx':minutes
-    project:'projectidx':minute:'date'
-     */
-    
+
+    private MinuteRepository minuteRepository;
+
     @Autowired
-    MinuteRepository minuteRepository;
+    public MinuteServiceImpl(MinuteRepository minuteRepository) {
+        this.minuteRepository = minuteRepository;
+    }
 
     @Override
     @Cacheable(value = "minutes", key = "'project:'.concat(#p0.projectidx).concat(':minutes')")
-    public List getMinutes(Project p) {
+    public List<Minute> getMinutes(Project p) {
         return minuteRepository.findByProject(p);
     }
 

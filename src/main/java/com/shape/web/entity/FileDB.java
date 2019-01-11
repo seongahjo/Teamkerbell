@@ -10,10 +10,10 @@ import java.util.Date;
 
 @Data
 @Entity
-@NamedNativeQuery(name="FileDB.groupbytest",
-        query="select fd.originalname as Originalname, group_concat(distinct u.name) as Uploader, group_concat(distinct fd.tag) as tag from FileDB fd JOIN User u on fd.useridx=u.useridx JOIN Project p on fd.projectidx=p.projectidx where p.projectidx=?1 group by fd.originalname")
+@NamedNativeQuery(name = "FileDB.groupbytest",
+        query = "select fd.originalname as Originalname, group_concat(distinct u.name) as Uploader, group_concat(distinct fd.tag) as tag from FileDB fd JOIN User u on fd.useridx=u.useridx JOIN Project p on fd.projectidx=p.projectidx where p.projectidx=?1 group by fd.originalname")
 @Table(name = "FileDB")
-@EqualsAndHashCode(exclude={"project","user"})
+@EqualsAndHashCode(exclude = {"project", "user"})
 public class FileDB implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -23,11 +23,11 @@ public class FileDB implements Serializable {
 
 
     @ManyToOne
-    @JoinColumn(name="USERIDX")
+    @JoinColumn(name = "USERIDX")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="PROJECTIDX")
+    @JoinColumn(name = "PROJECTIDX")
     private Project project;
 
     @Column(name = "STOREDNAME")
@@ -45,10 +45,10 @@ public class FileDB implements Serializable {
     @Column(name = "TAG")
     private String tag;
 
-    @Column(name="CREATEDAT")
+    @Column(name = "CREATEDAT")
     private Date createdat;
 
-    @Column(name="UPDATEDAT")
+    @Column(name = "UPDATEDAT")
     private Date updatedat;
 
     @PrePersist

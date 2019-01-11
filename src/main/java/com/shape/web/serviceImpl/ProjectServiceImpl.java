@@ -21,17 +21,18 @@ import java.util.List;
 @Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService {
-  /*
-    project:'projectidx'
-    user:'useridx':projects
-    (+)
-   */
+
+
+    private UserRepository userRepository;
+
+    private ProjectRepository projectRepository;
+
 
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ProjectRepository projectRepository;
-
+    public ProjectServiceImpl(UserRepository userRepository, ProjectRepository projectRepository) {
+        this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
+    }
 
     @Override
     @Cacheable(value = "project", key = "'project:'.concat(#p0)")
@@ -42,14 +43,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Cacheable(value = "projects", key = "'user:'.concat(#p0.useridx).concat(':projects')")
-    public List getProjects(User u) {
+    public List<Project> getProjects(User u) {
         return projectRepository.findByUsers(u);
     }
 
     // paging시 cache는 어떤식으로 할까?
     @Override
     //@Cacheable(value = "projects", key = "'user:'.concat(#p0.id).concat(':projects').concat(#p1)")
-    public List getProjects(User u, Integer page, Integer count) {
+    public List<Project> getProjects(User u, Integer page, Integer count) {
         return projectRepository.findByUsers(u, new PageRequest(page, count));
     }
 
@@ -80,8 +81,4 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delete(p);
     }
 
-    /*@Override
-    public void save(Project p) {
-        projectRepository.saveAndFlush(p);
-    }*/
 }

@@ -13,27 +13,24 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name="roles")
-@EqualsAndHashCode(exclude={"userRoles"})
-public class Role implements Serializable{
+@Table(name = "roles")
+@EqualsAndHashCode(exclude = {"userRoles"})
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private String role;
-
-    public Role() {
-    }
+    private String userRole;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "useridx")}
     )
-    protected Set<User> userRoles;
+    private Set<User> userRoles;
 
     public Role(String role) {
-        this.role = role;
+        this.userRole = role;
     }
 }

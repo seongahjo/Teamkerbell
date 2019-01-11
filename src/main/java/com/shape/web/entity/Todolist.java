@@ -1,10 +1,7 @@
 package com.shape.web.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,14 +14,13 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "Todolist")
-@EqualsAndHashCode(exclude={"project","user"})
+@EqualsAndHashCode(exclude = {"project", "user"})
 public class Todolist implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "TODOLISTIDX")
     private Integer todolistidx;
-
 
 
     @ManyToOne
@@ -39,8 +35,8 @@ public class Todolist implements Serializable {
     @Column(name = "OK")
     private boolean ok = true;
 
-    @Column(name="overdue")
-    private boolean overdue=false;
+    @Column(name = "overdue")
+    private boolean overdue = false;
 
 
     @NotNull
@@ -59,10 +55,10 @@ public class Todolist implements Serializable {
     @Type(type = "date")
     private Date enddate;
 
-    @Column(name="CREATEDAT")
+    @Column(name = "CREATEDAT")
     private Date createdat;
 
-    @Column(name="UPDATEDAT")
+    @Column(name = "UPDATEDAT")
     private Date updatedat;
 
     @PrePersist
@@ -75,7 +71,6 @@ public class Todolist implements Serializable {
         updatedat = new Date();
     }
 
-    public Todolist() {}
 
 
 }
