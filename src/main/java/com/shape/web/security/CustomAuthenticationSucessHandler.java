@@ -1,9 +1,8 @@
 package com.shape.web.security;
 
 import com.shape.web.entity.User;
-import com.shape.web.repository.UserRepository;
 import com.shape.web.service.LogsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.shape.web.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -19,17 +18,19 @@ import java.util.Enumeration;
  */
 public class CustomAuthenticationSucessHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
+    private UserService userService;
+
     private LogsService logService;
 
-
+    public CustomAuthenticationSucessHandler(UserService userService, LogsService logService) {
+        this.userService = userService;
+        this.logService = logService;
+    }
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException, ServletException {
-        User u = userRepository.findById(authentication.getName());
+        User u = userService.getUser(authentication.getName());
         request.getSession().setAttribute("useridx", u.getUseridx());
 
         String ip = request.getHeader("X_FORWARDED_FOR");
