@@ -1,7 +1,6 @@
 package com.shape.web.configuration;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +28,9 @@ import java.util.Properties;
 @PropertySource("classpath:spring.properties")
 @ComponentScan({"com.shape.web.service", "com.shape.web.serviceImpl"})
 public class JpaConfig {
-    @Autowired
-    private Environment env;
-
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(Environment env) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("app.jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("app.jdbc.url"));
@@ -44,18 +40,19 @@ public class JpaConfig {
     }
 
     @Bean
-    public EntityManagerFactory entityManagerFactory() {
+    public EntityManagerFactory entityManagerFactory(Environment env) {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPersistenceProvider(new HibernatePersistenceProvider());
         factory.setPackagesToScan("com.shape.web.entity");
-        factory.setDataSource(dataSource());
+        factory.setDataSource(dataSource(env));
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.show_sql", true);
         jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+//        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         jpaProperties.put("hibernate.connection.characterEncoding", "utf8");
         jpaProperties.put("hibernate.connection.CharSet", "utf8");
         factory.setJpaProperties(jpaProperties);
@@ -64,9 +61,9 @@ public class JpaConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager() {
+    public PlatformTransactionManager transactionManager(Environment env) {
         JpaTransactionManager txManager = new JpaTransactionManager();
-        txManager.setEntityManagerFactory(entityManagerFactory());
+        txManager.setEntityManagerFactory(entityManagerFactory(env));
         return txManager;
     }
 }

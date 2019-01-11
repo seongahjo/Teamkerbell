@@ -1,6 +1,5 @@
 package com.shape.web.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -28,11 +27,9 @@ import org.springframework.session.web.http.SessionRepositoryFilter;
 @PropertySource("classpath:spring.properties")
 public class RedisConfig extends CachingConfigurerSupport {
 
-    @Autowired
-    private Environment env;
 
     @Bean
-    public JedisConnectionFactory redisConnectionFactory() {
+    public JedisConnectionFactory redisConnectionFactory(Environment env) {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.setHostName(env.getProperty("redis.property.address"));
         jedisConnectionFactory.setPort(6379);
@@ -49,8 +46,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     @Bean
     public SessionRepositoryFilter springSessionRepositoryFilter(RedisOperationsSessionRepository sr) {
-        SessionRepositoryFilter sessionRepositoryfilter = new SessionRepositoryFilter(sr);
-        return sessionRepositoryfilter;
+        return new SessionRepositoryFilter(sr);
     }
 
     @Bean
