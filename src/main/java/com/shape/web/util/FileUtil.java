@@ -1,10 +1,6 @@
 package com.shape.web.util;
 
-import com.shape.web.entity.FileDB;
-import com.shape.web.repository.FileDBRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,15 +14,7 @@ import java.util.regex.Pattern;
 
 
 @Slf4j
-@Component
 public class FileUtil {
-    private FileDBRepository fileDBRepository;
-
-
-    @Autowired
-    public FileUtil(FileDBRepository fileDBRepository) {
-        this.fileDBRepository = fileDBRepository;
-    }
 
     private enum Header {
 
@@ -55,16 +43,19 @@ public class FileUtil {
         return name.substring(lastIndexOf);
     }
 
-    public static String getFoldername(final int project_id, final Date date) {
+    public static String getFoldername(final int projectId, final Date date) {
         Date dates = date == null ? new Date() : date;
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-        String filename = "team/" + format.format(dates);
-        filename += "_" + project_id;
-        return filename;
+        StringBuilder sb = new StringBuilder();
+        sb.append("team/");
+        sb.append(format.format(dates));
+        sb.append("_");
+        sb.append(projectId);
+        return sb.toString();
     }
 
-    public static void makeMinute(final int project_id, final String memo) {
-        String filename = getFoldername(project_id, null);
+    public static void makeMinute(final int projectId, final String memo) {
+        String filename = getFoldername(projectId, null);
         try (FileWriter fw = new FileWriter(filename + "/minute.txt")) {
             fw.write(memo);
         } catch (IOException e) {
@@ -72,10 +63,6 @@ public class FileUtil {
         }
     }
 
-    public String decodeFile(String storedFileName) {
-        FileDB fd = fileDBRepository.findByStoredname(storedFileName);
-        return fd.getOriginalname();
-    }
 
     private static boolean isImage(final String filename) {
         String fileExtension = filename.substring(filename.lastIndexOf('.'));
