@@ -42,7 +42,7 @@ public class CalendarController {
 
 
     @GetMapping(value = "/schedule/{userIdx}/user")
-    public List getSchedules(@PathVariable("userIdx") Integer userIdx,
+    public List<Schedule> getSchedules(@PathVariable("userIdx") Integer userIdx,
                              @RequestParam(value = "page", defaultValue = "0") Integer page,
                              @RequestParam(value = "size", defaultValue = "10") Integer size) {
         return scheduleService.getSchedules(userService.getUser(userIdx));

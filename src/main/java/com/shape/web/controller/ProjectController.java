@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +25,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-public class ProjectController {
+public class ProjectController implements BaseController {
 
 
     private AlarmService alarmService;
@@ -34,6 +33,8 @@ public class ProjectController {
     private ProjectService projectService;
 
     private UserService userService;
+
+    private int userIdx;
 
     @Autowired
     public ProjectController(AlarmService alarmService, ProjectService projectService, UserService userService) {
@@ -50,9 +51,8 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/room")    //프로젝트 반환
-    public ResponseEntity getRoom(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpSession session) {
-        Integer useridx = (Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
+    public ResponseEntity getRoom(@RequestParam(value = "page", defaultValue = "0") Integer page) {
+        User user = userService.getUser(userIdx);
         List<Project> projects = projectService.getProjects(user, page, 5);
         if (projects.isEmpty())
             return ResponseEntity.badRequest().body(null);
@@ -67,7 +67,7 @@ public class ProjectController {
     To delete project room
     */
     @DeleteMapping(value = "/room/{projectIdx}")    //프로젝트 삭제
-    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
+    public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
         Project project = projectService.getProject(projectIdx);
         project.getUsers().forEach(tempU -> {
             if (tempU.getProjects().remove(project))
@@ -77,16 +77,16 @@ public class ProjectController {
     }
 
     @PutMapping(value = "/room/{projectIdx}")    //프로젝트 업데이트
-    public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx, HttpSession session) {
+    public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx) {
 
         Project project = projectService.getProject(projectIdx);
         log.info("[" + projectIdx + "]Project Finished");
         // User 들을 찾다가....
         project.getUsers().forEach(tempU ->  // 프로젝트에 속한 각 유저
-            tempU.getProjects().stream().filter(project::equals).findFirst().ifPresent(p -> {
-                p.setProcessed(false);
-                projectService.save(tempU, p);
-            })
+                tempU.getProjects().stream().filter(project::equals).findFirst().ifPresent(p -> {
+                    p.setProcessed(false);
+                    projectService.save(tempU, p);
+                })
         );
     }
 
@@ -117,11 +117,9 @@ public class ProjectController {
        */
     @GetMapping(value = "/inviteUser")
     public String inviteMember(@RequestParam(value = "userId") String userId,
-                               @RequestParam("projectIdx") Integer projectIdx,
-                               HttpSession session) {
+                               @RequestParam("projectIdx") Integer projectIdx) {
         log.info("Invite Member");
-        Integer useridx = (Integer) session.getAttribute("useridx");
-        User actor = userService.getUser(useridx); //초대한 사람
+        User actor = userService.getUser(userIdx); //초대한 사람
         User user = userService.getUser(userId); // 초대받은 사람
         Project project = projectService.getProject(projectIdx); // 초대받은 프로젝트
         Alarm alarm = new Alarm(0, null, null, new Date(), project, user, actor);
@@ -130,4 +128,8 @@ public class ProjectController {
     }
 
 
+    @Override
+    public void setSessionId(int userIdx) {
+        this.userIdx = userIdx;
+    }
 }

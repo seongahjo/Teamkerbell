@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
-public class HomeController {
+public class HomeController implements BaseController {
     //메뉴 컨트롤러
 
 
@@ -49,6 +49,7 @@ public class HomeController {
 
     private ProjectRepository projectRepository;
 
+    private int userIdx;
 
     @Autowired
     public HomeController(UserService userService, ProjectService projectService, AlarmService alarmService, TodolistService todolistService, ScheduleService scheduleService, MinuteService minuteService, FileDBService fileDBService, ProjectRepository projectRepository) {
@@ -84,7 +85,6 @@ public class HomeController {
 
     @GetMapping(value = "/userInfo/{userId}")
     public ModelAndView userInfo(@PathVariable("userId") String userId, HttpSession session) {
-        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
         User user = userService.getUser(userIdx);
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
 
@@ -97,8 +97,6 @@ public class HomeController {
 
     @GetMapping(value = "/dashboard/{userId}")
     public ModelAndView dashboard(@PathVariable("userId") String userId, HttpSession session) {
-
-        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
         User user = userService.getUser(userIdx);
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmService.getTimelines(user, 0, 15); // 타임라인 리스트를 반환
@@ -129,7 +127,6 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("redirect:/");
 
         String time = CommonUtils.dateFormat(new Date());
-        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
         User user = userService.getUser(userIdx);
 
         Project project = projectService.getProject(projectIdx); // 프로젝트 객체 반환
@@ -163,7 +160,7 @@ public class HomeController {
             String foldername = FileUtil.getFoldername(projectIdx, null);
             File file = new File(foldername);
             if (!file.exists() && file.mkdirs())
-                    log.info("folder created " + file);
+                log.info("folder created " + file);
             mv = new ModelAndView("/project");
             mv.addObject(Attribute.PROJECTS, lpj);
             mv.addObject(Attribute.USERS, lu);
@@ -209,7 +206,6 @@ public class HomeController {
 
     @RequestMapping(value = "/projectmanager")
     public ModelAndView manager(HttpSession session) {
-        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
         User user = userService.getUser(userIdx);
         List<Project> lpj = projectService.getProjects(user, 0, 5); // 프로젝트 리스트 객체 10개 반환
         List<Project> lpjs = projectService.getProjects(user); // 프로젝트 리스트를 반환
@@ -228,7 +224,6 @@ public class HomeController {
 
     @PostMapping(value = "/room")    //프로젝트 개설
     public String makeRoom(@RequestParam(value = "name") String name, HttpSession session) {
-        Integer userIdx = (Integer) session.getAttribute(Attribute.USER_IDX);
         User user = userService.getUser(userIdx);
         Project project = new Project(name, userIdx, "");
         user.addProject(project);
@@ -236,4 +231,8 @@ public class HomeController {
         return "redirect:/projectmanager";
     }
 
+    @Override
+    public void setSessionId(int userIdx) {
+        this.userIdx = userIdx;
+    }
 }

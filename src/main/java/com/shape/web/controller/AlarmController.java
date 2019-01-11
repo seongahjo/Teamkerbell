@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-public class AlarmController {
+public class AlarmController implements BaseController{
 
 
     private UserService userService;
@@ -30,6 +30,8 @@ public class AlarmController {
     private AlarmService alarmService;
 
     private ProjectService projectService;
+
+    private int userIdx;
 
     @Autowired
     public AlarmController(UserService userService, AlarmService alarmService, ProjectService projectService) {
@@ -75,8 +77,7 @@ public class AlarmController {
 
     @GetMapping(value = "/moreTimeline")
     public List moreSchedule(@RequestParam("page") Integer page, HttpSession session) {
-        Integer useridx = (Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
+        User user = userService.getUser(userIdx);
         List timeline = alarmService.getTimelines(user, page + 1, 20);
         log.info("REQUEST more timeline");
         if (timeline.isEmpty())
@@ -84,4 +85,8 @@ public class AlarmController {
         return timeline;
     }
 
+    @Override
+    public void setSessionId(int userIdx) {
+        this.userIdx=userIdx;
+    }
 }

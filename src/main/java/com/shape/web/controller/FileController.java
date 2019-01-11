@@ -31,7 +31,7 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 @RestController
-public class FileController {
+public class FileController implements BaseController{
 
 
     private ProjectService projectService;
@@ -39,6 +39,8 @@ public class FileController {
     private FileDBService fileDBService;
 
     private UserService userService;
+
+    private int userIdx;
 
     @Autowired
     public FileController(ProjectService projectService, FileDBService fileDBService, UserService userService) {
@@ -61,8 +63,7 @@ public class FileController {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) hsrequest;
         Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
         Project project = projectService.getProject(Integer.parseInt(projectIdx));
-        Integer useridx = (Integer) session.getAttribute("useridx");
-        User user = userService.getUser(useridx);
+        User user = userService.getUser(userIdx);
         String filePath = FileUtil.getFoldername(Integer.parseInt(projectIdx), null); //프로젝트아이디, 날짜
         HashMap<String, String> result = null;
 
@@ -178,4 +179,8 @@ public class FileController {
     }
 
 
+    @Override
+    public void setSessionId(int userIdx) {
+        this.userIdx=userIdx;
+    }
 }

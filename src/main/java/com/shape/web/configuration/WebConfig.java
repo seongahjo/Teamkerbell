@@ -2,6 +2,7 @@ package com.shape.web.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.shape.web.interceptor.SessionInterceptor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -94,6 +95,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         configurer.useJaf(false)
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .mediaType("json", MediaType.APPLICATION_JSON);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SessionInterceptor())
+                .addPathPatterns("/*")
+                .excludePathPatterns("/resources/*")
+                .excludePathPatterns("/login");
     }
 
 
