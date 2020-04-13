@@ -49,7 +49,7 @@
 
 
     <!--    RULES for logging DEBUG < INFO < WARN < ERROR < FATAL.-->
-    <logger name="com.shape.web">
+    <logger name="com.sajo.teamkerbell">
         <level value="DEBUG"/>
     </logger>
 

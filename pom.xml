@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.shape</groupId>
-    <artifactId>web</artifactId>
-    <name>Shape</name>
+    <groupId>com.sajo</groupId>
+    <artifactId>teamkerbell</artifactId>
+    <name>Teamkerbell</name>
     <packaging>war</packaging>
     <version>1.0.0-BUILD-SNAPSHOT</version>
     <properties>
@@ -16,7 +16,7 @@
         <org.aspectj-version>1.6.10</org.aspectj-version>
         <poi.version>3.10-FINAL</poi.version>
         <org.hibernate-version>5.1.0.Final</org.hibernate-version>
-        <com.fasterxml.jackson-version>2.5.4</com.fasterxml.jackson-version>
+        <com.fasterxml.jackson-version>2.8.11</com.fasterxml.jackson-version>
     </properties>
     <repositories>
         <repository>
@@ -193,12 +193,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- mysql -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.31</version>
-        </dependency>
+
 
         <!--  hibernate -->
         <dependency>
@@ -303,7 +298,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.196</version>
-            <scope>test</scope>
         </dependency>
 
 
