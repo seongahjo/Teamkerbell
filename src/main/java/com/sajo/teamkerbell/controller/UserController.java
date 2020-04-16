@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by seongahjo on 2016. 2. 7..
@@ -31,29 +32,43 @@ public class UserController {
 
     @GetMapping(value = "/user/{userId}")
     public User getUser(@PathVariable("userId") Integer userId) {
-        return userService.getUser(userId);
+        return userService.getUserByUserId(userId);
     }
 
-//    @GetMapping(value = "/user/{userId}/projects")    //프로젝트 반환
-//    public ResponseEntity<List<Project>> getProjectsFromUser(
-//            @PathVariable("userId") Integer userId,
-//            @RequestParam(value = "page", defaultValue = "0") Integer page) {
-//        List<Project> projects = projectService.getProjects(user, page, 5);
-//        if (projects.isEmpty())
-//            return ResponseEntity.badRequest().body(null);
-//        return ResponseEntity.ok(projects);
-//    }
+    @GetMapping(value = "/project/{projectId}/users")
+    public List<User> getUsersFromProject(@PathVariable("projectId") Integer projectId,
+                                          @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                          @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return userService.getUsersFromProject(projectId, page, size);
+    }
+
 
     @PostMapping(value = "/user")
-    public ResponseEntity<String> register(@ModelAttribute("user") @Valid UserVO userVo, BindingResult result, @RequestParam("file") MultipartFile file) {
-        if (result.hasErrors()) {
-            log.info("Register Error");
+    public ResponseEntity<String> register(@ModelAttribute("user") @Valid UserVO userVo,
+                                           BindingResult result,
+                                           @RequestParam("file") MultipartFile file) {
+        if (result.hasErrors())
             return ResponseEntity.badRequest().body("Error! ");
-        }
+
         if (!userService.isExist(userVo))
             return ResponseEntity.badRequest().body("Already Used Id");
+
         User user = registerServiceFacade.registerUser(file, userVo);
         log.info("Register Success " + user.getName());
         return ResponseEntity.ok("success");
+    }
+
+    /*
+      To find out invited user
+      */
+    @PostMapping(value = "/project/{projectId}/invite/{userId}")
+    public ResponseEntity<User> searchUser(@PathVariable("userId") Integer userId,
+                                           @PathVariable("projectId") Integer projectId) {
+        User user = userService.searchProjectCandidate(userId, projectId);
+
+        if (user == null)
+            throw new IllegalStateException("Already participated");
+
+        return ResponseEntity.ok(user);
     }
 }

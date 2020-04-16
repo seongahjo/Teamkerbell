@@ -23,11 +23,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User getUser(String userId) {
+    public User getUserById(String userId) {
         return userRepository.findById(userId);
     }
 
-    public User getUser(Integer userId) {
+    public User getUserByUserId(Integer userId) {
         return userRepository.findOne(userId);
     }
 
@@ -39,8 +39,8 @@ public class UserService {
         return userRepository.findByProjectId(projectId, new PageRequest(page, size));
     }
 
-    public User searchProjectCandidate(String userId, Integer projectId) {
-        User u = userRepository.findById(userId);
+    public User searchProjectCandidate(Integer userId, Integer projectId) {
+        User u = userRepository.findOne(userId);
         boolean participated = u.getProjects().stream().map(Project::getProjectId).anyMatch(projectId::equals);
         return participated ? u : null;
     }
