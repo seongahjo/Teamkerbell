@@ -1,12 +1,11 @@
 package com.sajo.teamkerbell.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sajo.teamkerbell.vo.UserVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,34 +14,23 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "User")
-//@EqualsAndHashCode(exclude={"useridx","createdat","updatedat"})
-
-/*
-Todolist,
-Invite경우 UserId로 검색.
- */
-@EqualsAndHashCode(of = {"useridx"}, exclude = {"alarmsactor", "alarmsuser", "logs", "todolists", "filedbs", "role"})
+@EqualsAndHashCode(of = {"userId"})
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
 
     @Id
     @GeneratedValue
-    @Column(name = "USERIDX")
-    private Integer useridx;
+    @Column(name = "USERID")
+    private Integer userId;
 
 
     @Column(name = "ID")
-    @NotEmpty
-    @Size(min = 4, max = 10)
     private String id;
 
     @Column(name = "PW")
-    @NotEmpty
-    @Size(min = 4, max = 10)
     private String pw;
 
     @Column(name = "NAME")
-    @NotEmpty
     private String name;
 
     @Column(name = "IMG")
@@ -54,22 +42,6 @@ public class User implements Serializable {
     @Column(name = "UPDATEDAT")
     private Date updatedat;
 
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL)
-    private Set<Alarm> alarmsactor = new HashSet<>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Alarm> alarmsuser = new HashSet<>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Logs> logs = new HashSet<>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Todolist> todolists = new HashSet<>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<FileDB> filedbs = new HashSet<>();
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
@@ -83,8 +55,8 @@ public class User implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Participate",
-            joinColumns = @JoinColumn(name = "USERIDX"),
-            inverseJoinColumns = @JoinColumn(name = "PROJECTIDX")
+            joinColumns = @JoinColumn(name = "USERID"),
+            inverseJoinColumns = @JoinColumn(name = "PROJECTID")
     )
     private Set<Project> projects = new HashSet<>();
 
@@ -103,19 +75,26 @@ public class User implements Serializable {
 
     }
 
-    public User(String id, String pw, String name, String img) {
+    public User(String id, String pw, String name) {
         this.id = id;
         this.pw = pw;
         this.name = name;
-        this.img = img;
     }
 
     public void addProject(Project project) {
+        project.addUser(this);
         this.projects.add(project);
     }
 
     public void deleteProject(Project project) {
+        project.removeUser(this);
         this.projects.remove(project);
+    }
+
+    public static User from(UserVO vo) {
+        User u = new User(vo.getId(), vo.getPw(), vo.getName());
+        u.role = new Role("user");
+        return u;
     }
 
 }

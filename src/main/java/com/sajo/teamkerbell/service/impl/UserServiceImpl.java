@@ -1,13 +1,14 @@
-package com.sajo.teamkerbell.serviceImpl;
+package com.sajo.teamkerbell.service.impl;
 
+import com.sajo.teamkerbell.entity.Project;
 import com.sajo.teamkerbell.entity.User;
 import com.sajo.teamkerbell.repository.UserRepository;
-import com.sajo.teamkerbell.entity.Project;
 import com.sajo.teamkerbell.service.UserService;
+import com.sajo.teamkerbell.vo.UserVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,14 +17,11 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
 
     @Override
     public User getUser(String userId) {
@@ -31,26 +29,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(Integer useridx) {
-        return userRepository.findOne(useridx);
+    public User getUser(Integer userId) {
+        return userRepository.findOne(userId);
     }
 
     @Override
-
     public User save(User u) {
-        return userRepository.saveAndFlush(u);
+        return userRepository.save(u);
     }
 
     // user는 다 가지고 있는데 삭제할경우 잘되려나
 
     @Override
-    @Cacheable(value = "users", key = "'users:'.concat(#p0.projectidx).concat(':projects')")
     public List<User> getUsersByProject(Project p) {
         return userRepository.findByProjects(p);
     }
 
     @Override
-    public boolean isRegistable(User u) {
+    public boolean isExist(UserVO u) {
         User user = userRepository.findById(u.getId());
         return user == null;
     }

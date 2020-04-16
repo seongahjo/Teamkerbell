@@ -1,11 +1,9 @@
 package com.sajo.teamkerbell.service;
 
-import com.sajo.teamkerbell.entity.FileDB;
 import com.sajo.teamkerbell.entity.User;
+import com.sajo.teamkerbell.vo.UserVO;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 public interface RegisterServiceFacade {
-    void registerUser(MultipartFile file, String filePath, FileDB filedb, User user) throws IOException;
+    User registerUser(MultipartFile file, UserVO userVo);
 }

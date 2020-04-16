@@ -13,7 +13,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-
     User findById(String id);
 
     List<User> findByProjects(Project project);
