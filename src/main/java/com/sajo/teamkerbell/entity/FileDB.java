@@ -1,5 +1,6 @@
 package com.sajo.teamkerbell.entity;
 
+import com.sajo.teamkerbell.util.CommonUtils;
 import com.sajo.teamkerbell.util.FileUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -84,18 +85,23 @@ public class FileDB implements Serializable {
         }
     }
 
-    public void upload(MultipartFile file, String directory) {
+    public static FileDB upload(MultipartFile file, String directory) {
+        FileDB fileDB = null;
         try {
+            String originalFileName = file.getOriginalFilename(); // 파일 이름
+            String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf('.')); // 파일 확장자
+            String storedFileName = CommonUtils.getRandomString() + originalFileExtension; //암호화된 고유한 파일 이름
+            fileDB = new FileDB(storedFileName, originalFileName, FileDB.FileType.IMAGE, directory, null);
             File folder = new File(directory); // 폴더
             if (!folder.exists()) {
                 folder.mkdirs();
             }
-            File transFile = new File(directory + File.pathSeparator + this.storedName); // 전송된 파일
+            File transFile = new File(directory + File.pathSeparator + storedFileName); // 전송된 파일
             file.transferTo(transFile);
         } catch (IOException e) {
             log.error("Failed to upload", e);
-
         }
+        return fileDB;
     }
 
     public void download(String name, HttpServletRequest request, HttpServletResponse response) {
