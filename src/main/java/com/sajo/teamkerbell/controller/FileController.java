@@ -20,13 +20,20 @@ import javax.servlet.http.HttpServletResponse;
 public class FileController {
     private final FileDBService fileDBService;
 
-
     /*
     To download file
     */
-
     @GetMapping(value = "/file")
     public void download(@RequestParam(value = "name") String name, HttpServletRequest request, HttpServletResponse response) {
         fileDBService.download(name, request, response);
+    }
+
+
+    /*
+   To render uploaded Image
+   */
+    @GetMapping(value = "/render")
+    public void render(@RequestParam(value = "name") String name, HttpServletResponse response) {
+        fileDBService.render(name, response);
     }
 }

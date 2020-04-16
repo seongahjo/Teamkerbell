@@ -16,6 +16,8 @@ public interface FileDBService {
 
     FileDB download(String fileName, HttpServletRequest request, HttpServletResponse response);
 
+    FileDB render(String name, HttpServletResponse response);
+
     FileDB save(FileDB f);
 
 }

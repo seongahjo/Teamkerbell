@@ -1,4 +1,4 @@
-package com.sajo.teamkerbell.serviceImpl;
+package com.sajo.teamkerbell.service.impl;
 
 import com.sajo.teamkerbell.entity.User;
 import com.sajo.teamkerbell.repository.UserRepository;

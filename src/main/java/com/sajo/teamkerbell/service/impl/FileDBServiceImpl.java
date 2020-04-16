@@ -29,6 +29,13 @@ public class FileDBServiceImpl implements FileDBService {
     }
 
     @Override
+    public FileDB render(String name, HttpServletResponse response) {
+        FileDB fileDB = fileDBRepository.findByStoredName(name);
+        fileDB.writeTo(response);
+        return fileDB;
+    }
+
+    @Override
     public FileDB download(String fileName, HttpServletRequest request, HttpServletResponse response) {
         FileDB fd = fileDBRepository.findByStoredName(fileName);
         fd.download(fileName, request, response);
