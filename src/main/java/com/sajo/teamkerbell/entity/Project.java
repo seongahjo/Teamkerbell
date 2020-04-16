@@ -37,7 +37,7 @@ public class Project implements Serializable {
     private String minute;
 
     @Column(name = "FINISHED")
-    private boolean finished = true;
+    private boolean finished = false;
 
     @Column(name = "DELETED")
     private boolean deleted = false;
@@ -78,7 +78,7 @@ public class Project implements Serializable {
     }
 
     public void finished() {
-        this.finished = false;
+        this.finished = true;
     }
 
     public void deleted() {
