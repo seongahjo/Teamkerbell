@@ -8,9 +8,6 @@ import com.sajo.teamkerbell.repository.UserRepository;
 import com.sajo.teamkerbell.service.FileDBService;
 import com.sajo.teamkerbell.service.RegisterServiceFacade;
 import com.sajo.teamkerbell.service.UserService;
-import com.sajo.teamkerbell.service.impl.FileDBServiceImpl;
-import com.sajo.teamkerbell.service.impl.RegisterServiceFacadeImpl;
-import com.sajo.teamkerbell.service.impl.UserServiceImpl;
 import com.sajo.teamkerbell.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -43,11 +40,11 @@ public class ServiceTest {
 
     @Before
     public void setUp() {
-        UserService userService = new UserServiceImpl(mockUserRepository);
-        FileDBService fileDBService = new FileDBServiceImpl(mockFileRepository);
+        UserService userService = new UserService(mockUserRepository);
+        FileDBService fileDBService = new FileDBService(mockFileRepository);
         given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
         given(mockFileRepository.save(any(FileDB.class))).willAnswer(i -> i.getArguments()[0]);
-        registerService = new RegisterServiceFacadeImpl(userService, fileDBService);
+        registerService = new RegisterServiceFacade(userService, fileDBService);
 
     }
 

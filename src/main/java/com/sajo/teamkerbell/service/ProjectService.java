@@ -2,21 +2,38 @@ package com.sajo.teamkerbell.service;
 
 import com.sajo.teamkerbell.entity.Project;
 import com.sajo.teamkerbell.entity.User;
+import com.sajo.teamkerbell.repository.ProjectRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Created by seongahjo on 2016. 7. 26..
+ */
+@Slf4j
 @Service
-public interface ProjectService {
-    Project getProject(Integer projectIdx);
+@Transactional
+@RequiredArgsConstructor
+public class ProjectService {
+    private final ProjectRepository projectRepository;
 
-    List<Project> getProjects(User u);
+    public List<Project> getProjects(User u) {
+        return projectRepository.findByUsers(u);
+    }
 
-    List<Project> getProjects(User u, Integer page, Integer count);
+    public List<Project> getProjects(User u, Integer page, Integer count) {
+        return projectRepository.findByUsers(u, new PageRequest(page, count));
+    }
 
-    Project save(User u, Project p);
+    public Project save(Project p) {
+        return projectRepository.save(p);
+    }
 
-    void delete(User u, Integer p);
-
-
+    public void delete(Integer projectId) {
+        projectRepository.delete(projectId);
+    }
 }

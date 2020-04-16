@@ -1,23 +1,38 @@
 package com.sajo.teamkerbell.service;
 
 import com.sajo.teamkerbell.entity.FileDB;
+import com.sajo.teamkerbell.repository.FileDBRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by seongahjo on 2016. 7. 27..
- */
 @Service
-public interface FileDBService {
-    FileDB upload(MultipartFile file, String filePath);
+@Transactional
+@RequiredArgsConstructor
+public class FileDBService {
+    private final FileDBRepository fileDBRepository;
 
-    FileDB download(String fileName, HttpServletRequest request, HttpServletResponse response);
+    public FileDB upload(MultipartFile file, String filePath) {
+        return FileDB.upload(file, filePath);
+    }
 
-    FileDB render(String name, HttpServletResponse response);
+    public FileDB render(String name, HttpServletResponse response) {
+        FileDB fileDB = fileDBRepository.findByStoredName(name);
+        fileDB.writeTo(response);
+        return fileDB;
+    }
 
-    FileDB save(FileDB f);
+    public FileDB download(String fileName, HttpServletRequest request, HttpServletResponse response) {
+        FileDB fd = fileDBRepository.findByStoredName(fileName);
+        fd.download(fileName, request, response);
+        return fd;
+    }
 
+    public FileDB save(FileDB fileDB) {
+        return fileDBRepository.save(fileDB);
+    }
 }

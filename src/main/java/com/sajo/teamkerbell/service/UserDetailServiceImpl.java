@@ -1,4 +1,4 @@
-package com.sajo.teamkerbell.service.impl;
+package com.sajo.teamkerbell.service;
 
 import com.sajo.teamkerbell.entity.User;
 import com.sajo.teamkerbell.repository.UserRepository;
@@ -20,13 +20,13 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class UserDetailService implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
 
     private UserRepository userRepository;
 
 
     @Autowired
-    public UserDetailService(UserRepository userRepository) {
+    public UserDetailServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -34,7 +34,6 @@ public class UserDetailService implements UserDetailsService {
      Spring Security에서 권한 설정을 위한 객체 Role 반환
       */
     private List<String> getRoles(Integer role) {
-
         List<String> roles = new ArrayList<>();
         roles.add("ROLE_USER");
        /* if (role.intValue() == 1) {
