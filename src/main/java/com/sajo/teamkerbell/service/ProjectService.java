@@ -1,7 +1,6 @@
 package com.sajo.teamkerbell.service;
 
 import com.sajo.teamkerbell.entity.Project;
-import com.sajo.teamkerbell.entity.User;
 import com.sajo.teamkerbell.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,19 +20,23 @@ import java.util.List;
 public class ProjectService {
     private final ProjectRepository projectRepository;
 
-    public List<Project> getProjects(User u) {
-        return projectRepository.findByUsers(u);
-    }
-
-    public List<Project> getProjects(User u, Integer page, Integer count) {
-        return projectRepository.findByUsers(u, new PageRequest(page, count));
-    }
-
     public Project save(Project p) {
         return projectRepository.save(p);
     }
 
-    public void delete(Integer projectId) {
-        projectRepository.delete(projectId);
+    public List<Project> getProjectByUserId(Integer userId, int page, int size) {
+        return projectRepository.findByUserId(userId, new PageRequest(page, size));
+    }
+
+    public Project finish(Integer projectId) {
+        Project project = projectRepository.findOne(projectId);
+        project.finished();
+        return project;
+    }
+
+    public Project delete(Integer projectId) {
+        Project project = projectRepository.findOne(projectId);
+        project.deleted();
+        return project;
     }
 }

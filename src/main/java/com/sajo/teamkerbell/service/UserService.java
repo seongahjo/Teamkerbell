@@ -6,6 +6,7 @@ import com.sajo.teamkerbell.repository.UserRepository;
 import com.sajo.teamkerbell.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +35,14 @@ public class UserService {
         return userRepository.save(u);
     }
 
-    public List<User> getUsersByProject(Project p) {
-        return userRepository.findByProjects(p);
+    public List<User> getUsersFromProject(Integer projectId, int page, int size) {
+        return userRepository.findByProjectId(projectId, new PageRequest(page, size));
+    }
+
+    public User searchProjectCandidate(String userId, Integer projectId) {
+        User u = userRepository.findById(userId);
+        boolean participated = u.getProjects().stream().map(Project::getProjectId).anyMatch(projectId::equals);
+        return participated ? u : null;
     }
 
     public boolean isExist(UserVO u) {

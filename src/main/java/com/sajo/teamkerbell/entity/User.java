@@ -7,9 +7,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -45,20 +45,20 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "useridx")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
+            joinColumns = {@JoinColumn(name = "USERID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLEID", referencedColumnName = "id")}
     )
     private Role role;
 
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Participate",
             joinColumns = @JoinColumn(name = "USERID"),
             inverseJoinColumns = @JoinColumn(name = "PROJECTID")
     )
-    private Set<Project> projects = new HashSet<>();
+    private List<Project> projects = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -81,14 +81,14 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public void addProject(Project project) {
-        project.addUser(this);
+    public void participateProject(Project project) {
         this.projects.add(project);
+        project.addUser(this);
     }
 
-    public void deleteProject(Project project) {
-        project.removeUser(this);
+    public void leaveProject(Project project) {
         this.projects.remove(project);
+        project.removeUser(this);
     }
 
     public static User from(UserVO vo) {

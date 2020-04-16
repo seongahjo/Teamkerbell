@@ -1,9 +1,9 @@
 package com.sajo.teamkerbell.repository;
 
 import com.sajo.teamkerbell.entity.Project;
-import com.sajo.teamkerbell.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,10 +13,8 @@ import java.util.List;
  */
 
 @Repository
-public interface ProjectRepository extends JpaRepository<Project,Integer> {
+public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-    List<Project> findByUsers(User user);
-    List<Object> todolistPercentage(Integer projectidx);
-    List<Project> findByUsers(User user,Pageable pageable);
-
+    @Query("select p from Project p left join p.users u where u.userId = ?1")
+    List<Project> findByUserId(Integer userId, Pageable pageable);
 }
