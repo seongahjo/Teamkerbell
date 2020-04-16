@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FileDBRepository extends JpaRepository<FileDB, Integer> {
+    FileDB findByStoredName(String storedName);
 }

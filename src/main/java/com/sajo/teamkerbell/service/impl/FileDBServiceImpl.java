@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,6 +26,13 @@ public class FileDBServiceImpl implements FileDBService {
         FileDB fileDB = new FileDB(storedFileName, originalFileName, FileDB.FileType.IMAGE, filePath, null);
         fileDB.upload(file, filePath);
         return fileDB;
+    }
+
+    @Override
+    public FileDB download(String fileName, HttpServletRequest request, HttpServletResponse response) {
+        FileDB fd = fileDBRepository.findByStoredName(fileName);
+        fd.download(fileName, request, response);
+        return fd;
     }
 
     @Override
