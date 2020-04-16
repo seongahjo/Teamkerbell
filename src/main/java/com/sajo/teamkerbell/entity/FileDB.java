@@ -126,6 +126,10 @@ public class FileDB implements Serializable {
         user.setImg("loadImg?name=" + this.storedName);
     }
 
+    public void assignTo(Project project) {
+        this.projectId = project.getProjectId();
+    }
+
     public FileDB(String storedName, String originalName, FileType type, String path, String tag) {
         this.storedName = storedName;
         this.originalName = originalName;
