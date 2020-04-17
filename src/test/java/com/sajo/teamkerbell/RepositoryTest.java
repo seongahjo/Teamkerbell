@@ -1,14 +1,8 @@
 package com.sajo.teamkerbell;
 
 import com.sajo.teamkerbell.configuration.JpaConfig;
-import com.sajo.teamkerbell.entity.Minute;
-import com.sajo.teamkerbell.entity.Project;
-import com.sajo.teamkerbell.entity.TodoList;
-import com.sajo.teamkerbell.entity.User;
-import com.sajo.teamkerbell.repository.MinuteRepository;
-import com.sajo.teamkerbell.repository.ProjectRepository;
-import com.sajo.teamkerbell.repository.TodoListRepository;
-import com.sajo.teamkerbell.repository.UserRepository;
+import com.sajo.teamkerbell.entity.*;
+import com.sajo.teamkerbell.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,6 +33,8 @@ public class RepositoryTest {
     private TodoListRepository todoListRepository;
     @Autowired
     private MinuteRepository minuteRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     private User u;
     private User u2;
@@ -149,5 +146,18 @@ public class RepositoryTest {
 
         // then
         assertThat(find, is(minute));
+    }
+
+    @Test
+    public void findSchedule() {
+        // given
+        Schedule schedule = new Schedule(p.getProjectId(), "content", "place", new Time(1000), Schedule.ScheduleState.REGISTER, LocalDate.now(), LocalDate.now());
+
+        // when
+        scheduleRepository.save(schedule);
+        List<Schedule> find = scheduleRepository.findByUserId(u.getUserId(), PageRequest.of(0, 5));
+
+        // then
+        assertThat(find, hasItem(schedule));
     }
 }

@@ -1,15 +1,18 @@
 package com.sajo.teamkerbell.entity;
 
-import org.hibernate.annotations.Type;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 
 @Entity
 @Table(name = "Appointment")
+@Data
+@NoArgsConstructor
+@ToString(exclude = "schedule")
 public class Appointment implements Serializable {
     /*
     appointment
@@ -23,72 +26,35 @@ public class Appointment implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "APPOINTMENTIDX")
-    private Integer appointmentidx;
+    @Column(name = "APPOINTMENTID")
+    private Integer appointmentId;
 
-    @ManyToOne
-    @JoinColumn(name="USERIDX")
-    private User user;
+    @Column(name = "USERID")
+    private Integer userId;
 
     @Column(name = "STATE")
-    private Integer state;
+    @Enumerated
+    private AppointmentState state;
     // 0 등록
     // 1 확정
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "DATE")
-    @Type(type = "date")
-    private Date date;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="SCHEDULEIDX")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "SCHEDULEIDX")
     private Schedule schedule;
 
-    public Appointment() {
+    public enum AppointmentState {
+        CREATED,
+        CONFIRMED
     }
 
-    public Integer getAppointmentidx() {
-        return appointmentidx;
+    public Appointment(Integer userId) {
+        this.userId = userId;
+        this.state = AppointmentState.CREATED;
     }
 
-    public void setAppointmentidx(Integer appointmentidx) {
-        this.appointmentidx = appointmentidx;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
+    public void assignTo(Schedule schedule) {
         this.schedule = schedule;
+        schedule.add(this);
     }
 
-    public Appointment(Integer state, Date date) {
-        this.state = state;
-        this.date = date;
-    }
 }

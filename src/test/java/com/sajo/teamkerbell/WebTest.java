@@ -1,10 +1,13 @@
 package com.sajo.teamkerbell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sajo.teamkerbell.configuration.JpaConfig;
 import com.sajo.teamkerbell.configuration.WebConfig;
+import com.sajo.teamkerbell.vo.ScheduleVO;
 import com.sajo.teamkerbell.vo.TodoListVO;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.sql.Time;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,13 +35,36 @@ public class WebTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    @BeforeEach
+    void setUp() {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+
     @Test
-    public void responseBodyHandler() throws Exception {
+    public void createTodoList() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        TodoListVO mockTodoListVO = new TodoListVO("test", LocalDate.now(), LocalDate.now(), 1, 1);
+        TodoListVO mockTodoListVO = new TodoListVO("test", LocalDate.now(), LocalDate.now(), 1);
         String value = objectMapper.writeValueAsString(mockTodoListVO);
         log.info(value);
-        mockMvc.perform(post("/todoList")
+        mockMvc.perform(post("/project/1/todoList")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(value)
+        )
+                .andDo((result) -> {
+                    String content = result.getResponse().getContentAsString();
+                    log.info(content);
+                })
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void createSchedule() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        ScheduleVO mockTodoListVO = new ScheduleVO("content", "place", new Time(1000), LocalDate.now(), LocalDate.now());
+
+        String value = objectMapper.writeValueAsString(mockTodoListVO);
+        log.info(value);
+        mockMvc.perform(post("/project/1/schedule")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(value)
         )

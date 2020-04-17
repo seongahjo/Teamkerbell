@@ -1,18 +1,15 @@
 package com.sajo.teamkerbell.controller;
 
-import com.sajo.teamkerbell.entity.Alarm;
 import com.sajo.teamkerbell.entity.Schedule;
-import com.sajo.teamkerbell.entity.User;
-import com.sajo.teamkerbell.service.ProjectService;
 import com.sajo.teamkerbell.service.ScheduleService;
-import com.sajo.teamkerbell.entity.Project;
-import com.sajo.teamkerbell.service.UserService;
+import com.sajo.teamkerbell.vo.ScheduleVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -24,58 +21,48 @@ import java.util.List;
  */
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class CalendarController {
-
-    private ProjectService projectService;
-
-    private ScheduleService scheduleService;
-
-    private UserService userService;
+    private final ScheduleService scheduleService;
 
 
-    @Autowired
-    public CalendarController(ProjectService projectService, ScheduleService scheduleService, UserService userService) {
-        this.projectService = projectService;
-        this.scheduleService = scheduleService;
-        this.userService = userService;
-    }
-
-
-    @GetMapping(value = "/schedule/{userIdx}/user")
-    public List<Schedule> getSchedules(@PathVariable("userIdx") Integer userIdx,
-                                       @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                       @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        return scheduleService.getSchedules(userService.getUser(userIdx));
+    @GetMapping(value = "/user/{userId}/schedule")
+    public ResponseEntity<List<Schedule>> getSchedulesByUserId(
+            @PathVariable("userId") Integer userId,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return ResponseEntity.ok(scheduleService.getScheduleByUserId(userId, page, size));
     }
 
     /*
    To make schedule
    */
-    @PostMapping(value = "/schedule")
-    @ResponseStatus(HttpStatus.OK)
-    public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
-        Project project = projectService.getProject(projectIdx);
-        schedule.setProject(project);
-        scheduleService.save(schedule);
-        Alarm alarm = new Alarm(1, null, null, new Date());
-        alarm.setProject(project);
-        log.info("[ROOM " + projectIdx + "] Make Schedule ");
-
+    @PostMapping(value = "/project/{projectId}/schedule")
+    public ResponseEntity<Schedule> makeSchedule(
+            @PathVariable("projectId") Integer projectId,
+            @RequestBody @Valid ScheduleVO scheduleVO,
+            BindingResult result) {
+        if (result.hasErrors()) throw new IllegalArgumentException();
+        Schedule schedule = scheduleService.save(projectId, scheduleVO);
+        return ResponseEntity.ok(schedule);
     }
 
-    @PutMapping(value = "/schedule")
-    public void updateSchedule(@RequestBody Schedule schedule) {
-        Schedule s = scheduleService.getSchedule(schedule.getScheduleidx());
-        if (schedule.getStartdate() != null)
-            s.setStartdate(schedule.getStartdate());
-        if (schedule.getEnddate() != null)
-            s.setEnddate(schedule.getEnddate());
-        if (schedule.getState() != null)
-            s.setState(schedule.getState());
-        List<User> lu = userService.getUsersByProject(s.getProject());
-        lu.forEach(u -> scheduleService.clear(u));
-        scheduleService.save(s);
-        log.info("modifying schedule");
+    @PutMapping(value = "/schedule/{scheduleId}")
+    public ResponseEntity<Void> updateSchedule(
+            @PathVariable("scheduleId") Integer scheduleId,
+            @RequestBody @Valid ScheduleVO scheduleVO,
+            BindingResult result) {
+        if (result.hasErrors()) throw new IllegalArgumentException();
+        scheduleService.update(scheduleId, scheduleVO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/user/{userId}/schedule/{scheduleId}")
+    public ResponseEntity<Void> createAppointment(
+            @PathVariable("userId") Integer userId,
+            @PathVariable("scheduleId") Integer scheduleId) {
+        scheduleService.assignAppointment(scheduleId, userId);
+        return ResponseEntity.ok().build();
     }
 
 }
