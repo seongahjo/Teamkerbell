@@ -7,8 +7,8 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -37,10 +37,10 @@ public class User implements Serializable {
     private String img;
 
     @Column(name = "CREATEDAT")
-    private Date createdat;
+    private LocalDate createdat;
 
     @Column(name = "UPDATEDAT")
-    private Date updatedat;
+    private LocalDate updatedat;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
@@ -62,12 +62,12 @@ public class User implements Serializable {
 
     @PrePersist
     protected void onCreate() {
-        updatedat = createdat = new Date();
+        updatedat = createdat = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedat = new Date();
+        updatedat = LocalDate.now();
     }
 
 

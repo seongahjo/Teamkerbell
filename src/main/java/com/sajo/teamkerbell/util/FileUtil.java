@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,8 +43,8 @@ public class FileUtil {
         return name.substring(lastIndexOf);
     }
 
-    public static String getFoldername(final int projectId, final Date date) {
-        Date dates = date == null ? new Date() : date;
+    public static String getFoldername(final int projectId, final LocalDate date) {
+        LocalDate dates = date == null ? LocalDate.now() : date;
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
         StringBuilder sb = new StringBuilder();
         sb.append("team/");

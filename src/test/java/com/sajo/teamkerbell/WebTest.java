@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +34,7 @@ public class WebTest {
     @Test
     public void responseBodyHandler() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        TodoListVO mockTodoListVO = new TodoListVO("test", new Date(), new Date(), 1, 1);
+        TodoListVO mockTodoListVO = new TodoListVO("test", LocalDate.now(), LocalDate.now(), 1, 1);
         String value = objectMapper.writeValueAsString(mockTodoListVO);
         log.info(value);
         mockMvc.perform(post("/todoList")

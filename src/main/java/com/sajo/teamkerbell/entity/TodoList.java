@@ -4,13 +4,12 @@ import com.sajo.teamkerbell.vo.TodoListVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Data
@@ -46,47 +45,45 @@ public class TodoList implements Serializable {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "STARTDATE")
-    @Type(type = "date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "ENDDATE")
-    @Type(type = "date")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(name = "CREATEDAT")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "UPDATEDAT")
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
-    public TodoList(String content, Date startDate, Date endDate, Integer projectId, Integer userId) {
+    public TodoList(String content, LocalDate startDate, LocalDate endDate, Integer projectId, Integer userId) {
         this.content = content;
         this.startDate = startDate;
         this.endDate = endDate;
         this.projectId = projectId;
         this.userId = userId;
-        this.overdue(new Date());
+        this.overdue(LocalDate.now());
     }
 
     public void check() {
         this.finished = !this.finished;
     }
 
-    public void overdue(Date nowDate) {
-        if (nowDate.after(this.endDate))
+    public void overdue(LocalDate nowDate) {
+        if (nowDate.isAfter(this.endDate))
             this.overdue = true;
     }
 
     @PrePersist
     protected void onCreate() {
-        updatedAt = createdAt = new Date();
+        updatedAt = createdAt = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date();
+        updatedAt = LocalDate.now();
     }
 
     public static TodoList from(TodoListVO todoListVO) {
@@ -103,7 +100,7 @@ public class TodoList implements Serializable {
         this.content = todoListVO.getContent();
         this.startDate = todoListVO.getStartDate();
         this.endDate = todoListVO.getEndDate();
-        this.overdue(new Date());
+        this.overdue(LocalDate.now());
     }
 
 }

@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Data
@@ -51,19 +51,19 @@ public class FileDB implements Serializable {
     private String tag;
 
     @Column(name = "CREATEDAT")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "UPDATEDAT")
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        updatedAt = createdAt = new Date();
+        updatedAt = createdAt = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date();
+        updatedAt = LocalDate.now();
     }
 
     public enum FileType {

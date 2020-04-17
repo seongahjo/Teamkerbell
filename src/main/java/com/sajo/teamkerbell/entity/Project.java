@@ -9,8 +9,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -43,10 +43,10 @@ public class Project implements Serializable {
     private boolean deleted = false;
 
     @Column(name = "CREATEDAT")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "UPDATEDAT")
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
 
     @ManyToMany(mappedBy = "projects", fetch = FetchType.EAGER)
@@ -54,12 +54,12 @@ public class Project implements Serializable {
 
     @PrePersist
     protected void onCreate() {
-        updatedAt = createdAt = new Date();
+        updatedAt = createdAt = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date();
+        updatedAt = LocalDate.now();
     }
 
 
