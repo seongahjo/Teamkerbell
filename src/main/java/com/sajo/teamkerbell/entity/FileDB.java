@@ -41,7 +41,7 @@ public class FileDB implements Serializable {
     private String originalName;
 
     @Enumerated(EnumType.STRING)
-    private FileType type;
+    private FileType fileType;
 
     @Column
     private String path;
@@ -133,10 +133,10 @@ public class FileDB implements Serializable {
         this.projectId = project.getProjectId();
     }
 
-    private FileDB(String storedName, String originalName, FileType type, String path, String tag) {
+    private FileDB(String storedName, String originalName, FileType fileType, String path, String tag) {
         this.storedName = storedName;
         this.originalName = originalName;
-        this.type = type;
+        this.fileType = fileType;
         this.path = path;
         this.tag = tag;
     }
