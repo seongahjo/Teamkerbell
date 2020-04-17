@@ -2,56 +2,53 @@ package com.sajo.teamkerbell.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Entity
 @Table(name = "Minute")
 @Data
-@EqualsAndHashCode(exclude = {"project"})
+@EqualsAndHashCode
 public class Minute implements Serializable, Comparable<Minute> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
-    @Column(name = "MINUTEIDX")
-    private Integer minuteidx;
+    @Column(name = "MINUTEID")
+    private Integer minuteId;
 
-    @ManyToOne
-    @JoinColumn(name = "PROJECTIDX")
-    private Project project;
+    @Column(name = "PROJECTID")
+    private Integer projectId;
 
     @Column(name = "CONTENT")
     private String content;
 
     @Column(name = "DATE")
-    @Type(type = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "CREATEDAT")
-    private Date createdat;
+    private LocalDate createdAt;
 
     @Column(name = "UPDATEDAT")
-    private Date updatedat;
+    private LocalDate updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        updatedat = createdat = new Date();
+        updatedAt = createdAt = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedat = new Date();
+        updatedAt = LocalDate.now();
     }
 
     public Minute() {
     }
 
-
-    public Minute(String content, Date date) {
+    public Minute(Integer projectId, String content, LocalDate date) {
+        this.projectId = projectId;
         this.content = content;
         this.date = date;
     }
@@ -59,6 +56,6 @@ public class Minute implements Serializable, Comparable<Minute> {
 
     @Override
     public int compareTo(Minute m) {
-        return m.getDate().after(getDate()) ? 1 : -1;
+        return m.date.compareTo(date);
     }
 }

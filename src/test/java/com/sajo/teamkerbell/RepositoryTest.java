@@ -1,9 +1,11 @@
 package com.sajo.teamkerbell;
 
 import com.sajo.teamkerbell.configuration.JpaConfig;
+import com.sajo.teamkerbell.entity.Minute;
 import com.sajo.teamkerbell.entity.Project;
 import com.sajo.teamkerbell.entity.TodoList;
 import com.sajo.teamkerbell.entity.User;
+import com.sajo.teamkerbell.repository.MinuteRepository;
 import com.sajo.teamkerbell.repository.ProjectRepository;
 import com.sajo.teamkerbell.repository.TodoListRepository;
 import com.sajo.teamkerbell.repository.UserRepository;
@@ -17,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,7 +36,8 @@ public class RepositoryTest {
     private ProjectRepository projectRepository;
     @Autowired
     private TodoListRepository todoListRepository;
-
+    @Autowired
+    private MinuteRepository minuteRepository;
 
     private User u;
     private User u2;
@@ -80,9 +83,9 @@ public class RepositoryTest {
     @Test
     public void findUsersByProjectId() {
         // when
-        List<User> pListU = userRepository.findByProjectId(p.getProjectId(), new PageRequest(0, 5));
-        List<User> p2ListU = userRepository.findByProjectId(p2.getProjectId(), new PageRequest(0, 5));
-        List<User> p3ListU = userRepository.findByProjectId(p3.getProjectId(), new PageRequest(0, 5));
+        List<User> pListU = userRepository.findByProjectId(p.getProjectId(), PageRequest.of(0, 5));
+        List<User> p2ListU = userRepository.findByProjectId(p2.getProjectId(), PageRequest.of(0, 5));
+        List<User> p3ListU = userRepository.findByProjectId(p3.getProjectId(), PageRequest.of(0, 5));
 
         //then
         assertThat(p2ListU, hasSize(2));
@@ -96,8 +99,8 @@ public class RepositoryTest {
     @Test
     public void findProjectsByUserId() {
         // when
-        List<Project> uListP = projectRepository.findByUserId(u.getUserId(), new PageRequest(0, 5));
-        List<Project> u2ListP = projectRepository.findByUserId(u2.getUserId(), new PageRequest(0, 5));
+        List<Project> uListP = projectRepository.findByUserId(u.getUserId(), PageRequest.of(0, 5));
+        List<Project> u2ListP = projectRepository.findByUserId(u2.getUserId(), PageRequest.of(0, 5));
         assertThat(uListP, hasSize(2));
         assertThat(uListP, hasItems(p2, p));
 
@@ -108,13 +111,13 @@ public class RepositoryTest {
     @Test
     public void findTodoLists() {
         // given
-        TodoList t1 = new TodoList("FIRST", new Date(), new Date(), p.getProjectId(), u.getUserId());
-        TodoList t2 = new TodoList("SECOND", new Date(), new Date(), p3.getProjectId(), u2.getUserId());
+        TodoList t1 = new TodoList("FIRST", LocalDate.now(), LocalDate.now(), p.getProjectId(), u.getUserId());
+        TodoList t2 = new TodoList("SECOND", LocalDate.now(), LocalDate.now(), p3.getProjectId(), u2.getUserId());
         t1 = todoListRepository.save(t1);
         t2 = todoListRepository.save(t2);
 
         // when
-        List<TodoList> byUserId = todoListRepository.findByUserId(u.getUserId(), new PageRequest(0, 5));
+        List<TodoList> byUserId = todoListRepository.findByUserId(u.getUserId(), PageRequest.of(0, 5));
 
         // then
         assertThat(p.isFinished(), is(false));
@@ -124,15 +127,27 @@ public class RepositoryTest {
         p.finished();
 
         // when
-        byUserId = todoListRepository.findByUserId(u.getUserId(), new PageRequest(0, 5));
+        byUserId = todoListRepository.findByUserId(u.getUserId(), PageRequest.of(0, 5));
         List<TodoList> all = todoListRepository.findAll();
-        List<TodoList> byProjectId = todoListRepository.findByProjectId(p3.getProjectId(), new PageRequest(0, 5));
+        List<TodoList> byProjectId = todoListRepository.findByProjectId(p3.getProjectId(), PageRequest.of(0, 5));
 
         // then
         assertThat(all, hasSize(2));
         assertThat(byProjectId, hasItem(t2));
         assertThat(p.isFinished(), is(true));
         assertThat(byUserId, empty());
+    }
 
+    @Test
+    public void findMinute() {
+        // given
+        Minute minute = new Minute(1, "TEST", LocalDate.now());
+        minuteRepository.save(minute);
+
+        // when
+        Minute find = minuteRepository.findByProjectIdAndDate(1, LocalDate.now());
+
+        // then
+        assertThat(find, is(minute));
     }
 }
