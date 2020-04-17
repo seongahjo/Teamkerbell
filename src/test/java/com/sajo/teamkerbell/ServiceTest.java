@@ -21,8 +21,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -60,6 +59,22 @@ public class ServiceTest {
         User returnUser = registerService.registerUser(testFile, testUserVO);
         // then
         assertThat(returnUser.getImg(), is(notNullValue()));
+    }
+
+    @Test
+    public void registerUserWithoutImage() {
+        given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
+        UserService userService = new UserService(mockUserRepository);
+        FileDBService fileDBService = new FileDBService(mockFileRepository);
+        RegisterServiceFacade registerService = new RegisterServiceFacade(userService, fileDBService);
+        // given
+        UserVO testUserVO = new UserVO("seongahjo", "password", "seongah");
+        MockMultipartFile emptyFile = new MockMultipartFile("file", new byte[0]);
+        // when
+        User returnUser = registerService.registerUser(emptyFile, testUserVO);
+        // then
+        assertThat(emptyFile.isEmpty(), is(true));
+        assertThat(returnUser.getImg(), is(nullValue()));
     }
 
     @Test

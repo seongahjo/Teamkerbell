@@ -20,9 +20,11 @@ public class RegisterServiceFacade {
     @Transactional
     public User registerUser(MultipartFile file, UserVO userVo) {
         User user = User.from(userVo);
-        FileDB fileDB = fileDBService.upload(file, "img");
-        fileDB.assignTo(user);
-        fileDBService.save(fileDB);
+        if (!file.isEmpty()) {
+            FileDB fileDB = fileDBService.upload(file, "img");
+            fileDB.assignTo(user);
+            fileDBService.save(fileDB);
+        }
         return userService.save(user);
     }
 }
