@@ -17,7 +17,7 @@ public class FileDBService {
     private final FileDBRepository fileDBRepository;
 
     public FileDB upload(MultipartFile file, String filePath) {
-        return FileDB.upload(file, filePath);
+        return save(FileDB.upload(file, filePath));
     }
 
     public FileDB render(String name, HttpServletResponse response) {

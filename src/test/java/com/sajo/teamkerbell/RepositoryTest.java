@@ -39,6 +39,8 @@ public class RepositoryTest {
     private MinuteRepository minuteRepository;
     @Autowired
     private ScheduleRepository scheduleRepository;
+    @Autowired
+    private TimelineRepository timelineRepository;
 
     private User u;
     private User u2;
@@ -79,8 +81,9 @@ public class RepositoryTest {
         assertThat(userRepository.findById(u.getId()), is(u));
         assertThat(userRepository.findById(u2.getId()), is(u2));
         assertThat(projectRepository.findAll(), hasSize(3));
-        assertThat(userRepository.findById(u2.getId()), is(u2));
-        assertThat(userRepository.findById(u2.getId()), is(u2));
+        assertThat(projectRepository.findById(p.getProjectId()).orElseThrow(IllegalArgumentException::new), is(p));
+        assertThat(projectRepository.findById(p2.getProjectId()).orElseThrow(IllegalArgumentException::new), is(p2));
+        assertThat(projectRepository.findById(p3.getProjectId()).orElseThrow(IllegalArgumentException::new), is(p3));
     }
 
     @Test
@@ -148,8 +151,8 @@ public class RepositoryTest {
     @Test
     public void findMinute() {
         // given
-        Minute minute = Minute.from(1, new MinuteVO( "TEST", LocalDate.now()));
-        minuteRepository.save(minute);
+        Minute minute = Minute.from(1, new MinuteVO("TEST", LocalDate.now()));
+        minute = minuteRepository.save(minute);
 
         // when
         Minute find = minuteRepository.findByProjectIdAndDate(1, LocalDate.now());
@@ -163,12 +166,37 @@ public class RepositoryTest {
         // given
         ScheduleVO scheduleVO = new ScheduleVO("content", "place", new Time(1000), LocalDate.now(), LocalDate.now());
         Schedule schedule = Schedule.from(p.getProjectId(), scheduleVO);
+        schedule = scheduleRepository.save(schedule);
 
         // when
-        scheduleRepository.save(schedule);
         List<Schedule> find = scheduleRepository.findByUserId(u.getUserId(), PageRequest.of(0, 5));
 
         // then
         assertThat(find, hasItem(schedule));
+    }
+
+    @Test
+    public void findTimelines() {
+        // given
+        ScheduleVO scheduleVO = new ScheduleVO("content", "place", new Time(1000), LocalDate.now(), LocalDate.now());
+        Schedule schedule = Schedule.from(p.getProjectId(), scheduleVO);
+        scheduleRepository.save(schedule);
+
+        Minute minute = Minute.from(p.getProjectId(), new MinuteVO("TEST", LocalDate.now()));
+        minuteRepository.save(minute);
+
+        TodoListVO todoListVO = new TodoListVO("FIRST", LocalDate.now(), LocalDate.now(), u.getUserId());
+        TodoList todoList = TodoList.from(p.getProjectId(), todoListVO);
+        todoList = todoListRepository.save(todoList);
+
+        Timeline t1 = timelineRepository.save(Timeline.from(schedule));
+        Timeline t2 = timelineRepository.save(Timeline.from(minute));
+        Timeline t3 = timelineRepository.save(Timeline.from(todoList));
+
+        // when
+        List<Timeline> timelines = timelineRepository.findByUserId(u.getUserId(), PageRequest.of(0, 5));
+
+        // then
+        assertThat(timelines, hasItems(t1, t2, t3));
     }
 }
