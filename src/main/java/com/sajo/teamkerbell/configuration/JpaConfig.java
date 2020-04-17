@@ -22,11 +22,10 @@ import java.util.Properties;
  * Created by seongahjo on 2016. 7. 14..
  */
 @Configuration
-
 @EnableJpaRepositories(basePackages = "com.sajo.teamkerbell.repository")
 @EnableTransactionManagement
 @PropertySource("classpath:spring.properties")
-@ComponentScan({"com.sajo.teamkerbell.service", "com.sajo.teamkerbell.serviceImpl"})
+@ComponentScan({"com.sajo.teamkerbell.service"})
 public class JpaConfig {
 
     @Bean
@@ -52,7 +51,6 @@ public class JpaConfig {
         jpaProperties.put("hibernate.show_sql", true);
         jpaProperties.put("hibernate.hbm2ddl.auto", "update");
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-//        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         jpaProperties.put("hibernate.connection.characterEncoding", "utf8");
         jpaProperties.put("hibernate.connection.CharSet", "utf8");
         factory.setJpaProperties(jpaProperties);

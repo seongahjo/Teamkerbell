@@ -25,17 +25,17 @@ public class ProjectService {
     }
 
     public List<Project> getProjectByUserId(Integer userId, int page, int size) {
-        return projectRepository.findByUserId(userId, new PageRequest(page, size));
+        return projectRepository.findByUserId(userId, PageRequest.of(page, size));
     }
 
     public Project finish(Integer projectId) {
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findById(projectId).orElseThrow(IllegalArgumentException::new);
         project.finished();
         return project;
     }
 
     public Project delete(Integer projectId) {
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findById(projectId).orElseThrow(IllegalArgumentException::new);
         project.deleted();
         return project;
     }

@@ -28,7 +28,7 @@ public class UserService {
     }
 
     public User getUserByUserId(Integer userId) {
-        return userRepository.findOne(userId);
+        return userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
     }
 
     public User save(User u) {
@@ -36,11 +36,11 @@ public class UserService {
     }
 
     public List<User> getUsersFromProject(Integer projectId, int page, int size) {
-        return userRepository.findByProjectId(projectId, new PageRequest(page, size));
+        return userRepository.findByProjectId(projectId, PageRequest.of(page, size));
     }
 
     public User searchProjectCandidate(Integer userId, Integer projectId) {
-        User u = userRepository.findOne(userId);
+        User u = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
         boolean participated = u.getProjects().stream().map(Project::getProjectId).anyMatch(projectId::equals);
         return participated ? u : null;
     }

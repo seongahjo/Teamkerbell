@@ -1,8 +1,7 @@
 package com.sajo.teamkerbell.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import com.sajo.teamkerbell.interceptor.SessionInterceptor;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,7 +16,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ import java.util.List;
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.sajo.teamkerbell.controller"})
 
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
@@ -68,9 +67,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new Hibernate4Module());
+        objectMapper.registerModule(new Hibernate5Module());
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
-        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
         jackson2HttpMessageConverter.setPrettyPrint(true);
 
         converters.add(stringHttpMessageConverter);
@@ -79,17 +78,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.useJaf(false)
+        configurer.useRegisteredExtensionsOnly(true)
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .mediaType("json", MediaType.APPLICATION_JSON);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SessionInterceptor())
-                .addPathPatterns("/*")
-                .excludePathPatterns("/resources/*")
-                .excludePathPatterns("/login");
+//        registry.addInterceptor(new SessionInterceptor())
+//                .addPathPatterns("/*")
+//                .excludePathPatterns("/resources/*")
+//                .excludePathPatterns("/login");
     }
 
 

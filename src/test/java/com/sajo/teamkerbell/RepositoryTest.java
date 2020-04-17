@@ -2,31 +2,38 @@ package com.sajo.teamkerbell;
 
 import com.sajo.teamkerbell.configuration.JpaConfig;
 import com.sajo.teamkerbell.entity.Project;
+import com.sajo.teamkerbell.entity.TodoList;
 import com.sajo.teamkerbell.entity.User;
 import com.sajo.teamkerbell.repository.ProjectRepository;
+import com.sajo.teamkerbell.repository.TodoListRepository;
 import com.sajo.teamkerbell.repository.UserRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {JpaConfig.class})
+@Transactional
+@Slf4j
 public class RepositoryTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private TodoListRepository todoListRepository;
 
 
     private User u;
@@ -36,7 +43,7 @@ public class RepositoryTest {
     private Project p2;
     private Project p3;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         u = new User("user1", "user1Pw", "user1Name");
         u2 = new User("user2", "user2pw", "user2Name");
@@ -45,18 +52,20 @@ public class RepositoryTest {
         p2 = new Project("testRoom2", -1, "test2");
         p3 = new Project("testRoom3", -1, "test3");
 
+
         u.participateProject(p);
         u.participateProject(p2);
 
         u2.participateProject(p2);
         u2.participateProject(p3);
 
-        projectRepository.save(p);
-        projectRepository.save(p2);
-        projectRepository.save(p3);
+        p = projectRepository.save(p);
+        p2 = projectRepository.save(p2);
+        p3 = projectRepository.save(p3);
 
-        userRepository.save(u);
-        userRepository.save(u2);
+
+        u = userRepository.save(u);
+        u2 = userRepository.save(u2);
     }
 
     @Test
@@ -70,21 +79,23 @@ public class RepositoryTest {
 
     @Test
     public void findUsersByProjectId() {
+        // when
         List<User> pListU = userRepository.findByProjectId(p.getProjectId(), new PageRequest(0, 5));
         List<User> p2ListU = userRepository.findByProjectId(p2.getProjectId(), new PageRequest(0, 5));
         List<User> p3ListU = userRepository.findByProjectId(p3.getProjectId(), new PageRequest(0, 5));
+
+        //then
         assertThat(p2ListU, hasSize(2));
         assertThat(p2ListU, hasItems(u, u2));
-
         assertThat(pListU, hasSize(1));
         assertThat(pListU, hasItems(u));
-
         assertThat(p3ListU, hasSize(1));
         assertThat(p3ListU, hasItems(u2));
     }
 
     @Test
     public void findProjectsByUserId() {
+        // when
         List<Project> uListP = projectRepository.findByUserId(u.getUserId(), new PageRequest(0, 5));
         List<Project> u2ListP = projectRepository.findByUserId(u2.getUserId(), new PageRequest(0, 5));
         assertThat(uListP, hasSize(2));
@@ -92,5 +103,36 @@ public class RepositoryTest {
 
         assertThat(u2ListP, hasSize(2));
         assertThat(u2ListP, hasItems(p2, p3));
+    }
+
+    @Test
+    public void findTodoLists() {
+        // given
+        TodoList t1 = new TodoList("FIRST", new Date(), new Date(), p.getProjectId(), u.getUserId());
+        TodoList t2 = new TodoList("SECOND", new Date(), new Date(), p3.getProjectId(), u2.getUserId());
+        t1 = todoListRepository.save(t1);
+        t2 = todoListRepository.save(t2);
+
+        // when
+        List<TodoList> byUserId = todoListRepository.findByUserId(u.getUserId(), new PageRequest(0, 5));
+
+        // then
+        assertThat(p.isFinished(), is(false));
+        assertThat(byUserId, hasItem(t1));
+
+        // given
+        p.finished();
+
+        // when
+        byUserId = todoListRepository.findByUserId(u.getUserId(), new PageRequest(0, 5));
+        List<TodoList> all = todoListRepository.findAll();
+        List<TodoList> byProjectId = todoListRepository.findByProjectId(p3.getProjectId(), new PageRequest(0, 5));
+
+        // then
+        assertThat(all, hasSize(2));
+        assertThat(byProjectId, hasItem(t2));
+        assertThat(p.isFinished(), is(true));
+        assertThat(byUserId, empty());
+
     }
 }
