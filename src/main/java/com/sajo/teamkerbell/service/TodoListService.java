@@ -26,7 +26,7 @@ public class TodoListService {
         return todoList;
     }
 
-    public List<TodoList> getYetTodoListsFromUser(Integer userId, int page, int size) {
+    public List<TodoList> getYetTodoListsByUserId(Integer userId, int page, int size) {
         return todoListRepository
                 .findByUserId(userId, PageRequest.of(page, size)).stream()
                 .filter(t -> !t.isFinished()).collect(Collectors.toList());

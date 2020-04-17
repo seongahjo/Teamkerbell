@@ -26,7 +26,7 @@ public class TodoListController {
             @PathVariable("userId") Integer userId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        return ResponseEntity.ok(todoListService.getYetTodoListsFromUser(userId, page, size));
+        return ResponseEntity.ok(todoListService.getYetTodoListsByUserId(userId, page, size));
     }
 
     @GetMapping(value = "/project/{projectId}/todoList")
