@@ -1,7 +1,9 @@
 package com.sajo.teamkerbell.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -68,6 +70,8 @@ public class WebConfig implements WebMvcConfigurer {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new Hibernate5Module());
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
         StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
         jackson2HttpMessageConverter.setPrettyPrint(true);
@@ -82,22 +86,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .mediaType("json", MediaType.APPLICATION_JSON);
     }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new SessionInterceptor())
-//                .addPathPatterns("/*")
-//                .excludePathPatterns("/resources/*")
-//                .excludePathPatterns("/login");
-    }
-
-
-    /*
-    @Bean
-    VertxServer vertxServer() {
-        return new VertxServer();
-    }
-    */
-
-
 }
