@@ -85,4 +85,7 @@ public class Project implements Serializable {
         this.deleted = true;
     }
 
+    public void updateMinute(Minute minute) {
+        this.minute = minute != null ? minute.getContent() : " ";
+    }
 }
