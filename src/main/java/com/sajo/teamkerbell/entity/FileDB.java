@@ -96,7 +96,7 @@ public class FileDB implements Serializable {
             if (!folder.exists()) {
                 folder.mkdirs();
             }
-            File transFile = new File(directory + File.pathSeparator + storedFileName); // 전송된 파일
+            File transFile = new File(directory + File.separator + storedFileName); // 전송된 파일
             file.transferTo(transFile);
         } catch (IOException e) {
             log.error("Failed to upload", e);
