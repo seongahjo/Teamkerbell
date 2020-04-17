@@ -58,7 +58,7 @@ public class TodoList implements Serializable {
     @Column
     private LocalDate updatedAt;
 
-    public TodoList(String content, LocalDate startDate, LocalDate endDate, Integer projectId, Integer userId) {
+    private TodoList(String content, LocalDate startDate, LocalDate endDate, Integer projectId, Integer userId) {
         this.content = content;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -103,4 +103,7 @@ public class TodoList implements Serializable {
         this.overdue(LocalDate.now());
     }
 
+    public String toTimeline() {
+        return "";
+    }
 }

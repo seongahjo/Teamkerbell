@@ -31,7 +31,6 @@ public class FileDB implements Serializable {
     @Column
     private Integer userId;
 
-
     @Column
     private Integer projectId;
 
@@ -64,6 +63,10 @@ public class FileDB implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDate.now();
+    }
+
+    public String toTimeline() {
+        return "";
     }
 
     public enum FileType {
@@ -130,7 +133,7 @@ public class FileDB implements Serializable {
         this.projectId = project.getProjectId();
     }
 
-    public FileDB(String storedName, String originalName, FileType type, String path, String tag) {
+    private FileDB(String storedName, String originalName, FileType type, String path, String tag) {
         this.storedName = storedName;
         this.originalName = originalName;
         this.type = type;

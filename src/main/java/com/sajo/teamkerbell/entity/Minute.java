@@ -1,5 +1,6 @@
 package com.sajo.teamkerbell.entity;
 
+import com.sajo.teamkerbell.vo.MinuteVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,6 +35,10 @@ public class Minute implements Serializable, Comparable<Minute> {
     @Column
     private LocalDate updatedAt;
 
+    public static Minute from(int projectId, MinuteVO minuteVO) {
+        return new Minute(projectId, minuteVO.getContent(), minuteVO.getDate());
+    }
+
     @PrePersist
     protected void onCreate() {
         updatedAt = createdAt = LocalDate.now();
@@ -47,7 +52,7 @@ public class Minute implements Serializable, Comparable<Minute> {
     public Minute() {
     }
 
-    public Minute(Integer projectId, String content, LocalDate date) {
+    private Minute(Integer projectId, String content, LocalDate date) {
         this.projectId = projectId;
         this.content = content;
         this.date = date;
@@ -57,5 +62,9 @@ public class Minute implements Serializable, Comparable<Minute> {
     @Override
     public int compareTo(Minute m) {
         return m.date.compareTo(date);
+    }
+
+    public String toTimeline() {
+        return "";
     }
 }

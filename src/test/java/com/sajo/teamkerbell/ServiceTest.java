@@ -7,6 +7,7 @@ import com.sajo.teamkerbell.repository.ProjectRepository;
 import com.sajo.teamkerbell.repository.ScheduleRepository;
 import com.sajo.teamkerbell.repository.UserRepository;
 import com.sajo.teamkerbell.service.*;
+import com.sajo.teamkerbell.vo.ScheduleVO;
 import com.sajo.teamkerbell.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -88,14 +89,15 @@ public class ServiceTest {
 
     @Test
     public void makeSchedule() {
+        ScheduleVO scheduleVO = new ScheduleVO("content", "place", new Time(100), LocalDate.now(), LocalDate.now());
         given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
         given(mockScheduleRepository.findById(anyInt())).willReturn(
-                Optional.of(new Schedule(1, "content", "place", new Time(100), Schedule.ScheduleState.REGISTER, LocalDate.now(), LocalDate.now())
+                Optional.of(Schedule.from(1, scheduleVO)
                 ));
         // given
         UserService userService = new UserService(mockUserRepository);
         ScheduleService scheduleService = new ScheduleService(mockScheduleRepository);
-        User user = new User("testId", "testPw", "testName");
+        User user = User.from(new UserVO("testId", "testPw", "testName"));
         user = userService.save(user);
         Schedule schedule = scheduleService.assignAppointment(1, user.getUserId());
 

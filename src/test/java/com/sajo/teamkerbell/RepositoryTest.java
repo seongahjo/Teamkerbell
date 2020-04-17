@@ -3,6 +3,10 @@ package com.sajo.teamkerbell;
 import com.sajo.teamkerbell.configuration.JpaConfig;
 import com.sajo.teamkerbell.entity.*;
 import com.sajo.teamkerbell.repository.*;
+import com.sajo.teamkerbell.vo.MinuteVO;
+import com.sajo.teamkerbell.vo.ScheduleVO;
+import com.sajo.teamkerbell.vo.TodoListVO;
+import com.sajo.teamkerbell.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,13 +49,15 @@ public class RepositoryTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        u = new User("user1", "user1Pw", "user1Name");
-        u2 = new User("user2", "user2pw", "user2Name");
+        UserVO uVO = new UserVO("user1", "user1Pw", "user1Name");
+        UserVO u2VO = new UserVO("user2", "user2pw", "user2Name");
 
         p = new Project("testRoom", -1, "test");
         p2 = new Project("testRoom2", -1, "test2");
         p3 = new Project("testRoom3", -1, "test3");
 
+        u = User.from(uVO);
+        u2 = User.from(u2VO);
 
         u.participateProject(p);
         u.participateProject(p2);
@@ -108,8 +114,12 @@ public class RepositoryTest {
     @Test
     public void findTodoLists() {
         // given
-        TodoList t1 = new TodoList("FIRST", LocalDate.now(), LocalDate.now(), p.getProjectId(), u.getUserId());
-        TodoList t2 = new TodoList("SECOND", LocalDate.now(), LocalDate.now(), p3.getProjectId(), u2.getUserId());
+        TodoListVO todoListVO1 = new TodoListVO("FIRST", LocalDate.now(), LocalDate.now(), u.getUserId());
+        TodoListVO todoListVO2 = new TodoListVO("SECOND", LocalDate.now(), LocalDate.now(), u2.getUserId());
+
+        TodoList t1 = TodoList.from(p.getProjectId(), todoListVO1);
+        TodoList t2 = TodoList.from(p3.getProjectId(), todoListVO2);
+
         t1 = todoListRepository.save(t1);
         t2 = todoListRepository.save(t2);
 
@@ -138,7 +148,7 @@ public class RepositoryTest {
     @Test
     public void findMinute() {
         // given
-        Minute minute = new Minute(1, "TEST", LocalDate.now());
+        Minute minute = Minute.from(1, new MinuteVO( "TEST", LocalDate.now()));
         minuteRepository.save(minute);
 
         // when
@@ -151,7 +161,8 @@ public class RepositoryTest {
     @Test
     public void findSchedule() {
         // given
-        Schedule schedule = new Schedule(p.getProjectId(), "content", "place", new Time(1000), Schedule.ScheduleState.REGISTER, LocalDate.now(), LocalDate.now());
+        ScheduleVO scheduleVO = new ScheduleVO("content", "place", new Time(1000), LocalDate.now(), LocalDate.now());
+        Schedule schedule = Schedule.from(p.getProjectId(), scheduleVO);
 
         // when
         scheduleRepository.save(schedule);

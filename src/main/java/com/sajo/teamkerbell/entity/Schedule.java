@@ -69,7 +69,7 @@ public class Schedule implements Serializable {
         updatedAt = LocalDate.now();
     }
 
-    public Schedule(Integer projectId, String content, String place, Time time, ScheduleState state, LocalDate startDate, LocalDate endDate) {
+    private Schedule(Integer projectId, String content, String place, Time time, ScheduleState state, LocalDate startDate, LocalDate endDate) {
         this.projectId = projectId;
         this.content = content;
         this.place = place;
@@ -118,4 +118,7 @@ public class Schedule implements Serializable {
         this.appointments.add(appointment);
     }
 
+    public String toTimeline(){
+        return "";
+    }
 }
