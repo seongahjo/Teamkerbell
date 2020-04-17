@@ -27,7 +27,7 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public User getUserByUserId(Integer userId) {
+    public User getUserByUser(Integer userId) {
         return userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
     }
 
@@ -35,7 +35,7 @@ public class UserService {
         return userRepository.save(u);
     }
 
-    public List<User> getUsersFromProject(Integer projectId, int page, int size) {
+    public List<User> getUsersFromProjectId(Integer projectId, int page, int size) {
         return userRepository.findByProjectId(projectId, PageRequest.of(page, size));
     }
 

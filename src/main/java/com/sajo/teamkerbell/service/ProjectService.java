@@ -1,5 +1,6 @@
 package com.sajo.teamkerbell.service;
 
+import com.sajo.teamkerbell.entity.Minute;
 import com.sajo.teamkerbell.entity.Project;
 import com.sajo.teamkerbell.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,13 @@ public class ProjectService {
     public List<Project> getProjectByUserId(Integer userId, int page, int size) {
         return projectRepository.findByUserId(userId, PageRequest.of(page, size));
     }
+
+    public Project getCurrentProjectId(Integer projectId, Minute minute) {
+        Project project = projectRepository.findById(projectId).orElseThrow(IllegalStateException::new);
+        project.updateMinute(minute);
+        return project;
+    }
+
 
     public Project finish(Integer projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow(IllegalArgumentException::new);
