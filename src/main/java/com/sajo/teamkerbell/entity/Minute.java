@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Table
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "minuteId")
 public class Minute implements Serializable, Comparable<Minute> {
     private static final long serialVersionUID = 1L;
     @Id

@@ -11,6 +11,7 @@ import com.sajo.teamkerbell.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
@@ -50,13 +51,26 @@ public class ServiceTest {
     @Mock
     private AlarmRepository alarmRepository;
 
+    @InjectMocks
+    private UserService userService;
+
+    @InjectMocks
+    private FileDBService fileDBService;
+
+    @InjectMocks
+    private ScheduleService scheduleService;
+
+    @InjectMocks
+    private ProjectService projectService;
+
+    @InjectMocks
+    private AlarmService alarmService;
+
     @Test
     public void registerUser() {
         // given
         given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
         given(mockFileRepository.save(any(FileDB.class))).willAnswer(i -> i.getArguments()[0]);
-        UserService userService = new UserService(mockUserRepository);
-        FileDBService fileDBService = new FileDBService(mockFileRepository);
         RegisterServiceFacade registerService = new RegisterServiceFacade(userService, fileDBService);
         UserVO testUserVO = new UserVO("seongahjo", "password", "seongah");
         MockMultipartFile testFile = new MockMultipartFile("data", "mock_data.txt", "text/plain", "test".getBytes());
@@ -70,8 +84,6 @@ public class ServiceTest {
     public void registerUserWithoutImage() {
         // given
         given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
-        UserService userService = new UserService(mockUserRepository);
-        FileDBService fileDBService = new FileDBService(mockFileRepository);
         RegisterServiceFacade registerService = new RegisterServiceFacade(userService, fileDBService);
         UserVO testUserVO = new UserVO("seongahjo", "password", "seongah");
         MockMultipartFile emptyFile = new MockMultipartFile("file", new byte[0]);
@@ -87,7 +99,7 @@ public class ServiceTest {
         // given
         Project mockProject = new Project("testRoom", -1, "testRoomMinute");
         given(mockProjectRepository.findById(anyInt())).willReturn(Optional.of(mockProject));
-        ProjectService projectService = new ProjectService(mockProjectRepository);
+
 
         // when
         boolean deleted = projectService.delete(1).isDeleted();
@@ -106,8 +118,7 @@ public class ServiceTest {
         given(mockScheduleRepository.findById(anyInt())).willReturn(
                 Optional.of(Schedule.from(1, scheduleVO)
                 ));
-        UserService userService = new UserService(mockUserRepository);
-        ScheduleService scheduleService = new ScheduleService(mockScheduleRepository);
+
         User user = User.from(new UserVO("testId", "testPw", "testName"));
         user = userService.save(user);
         Schedule schedule = scheduleService.assignAppointment(1, user.getUserId());
@@ -125,7 +136,7 @@ public class ServiceTest {
         given(alarmRepository.save(any(Alarm.class))).willAnswer(i -> i.getArguments()[0]);
         AlarmVO alarmVO = new AlarmVO(1, 2, 3);
         given(alarmRepository.findByInviteeId(1, PageRequest.of(0, 5))).willReturn(Lists.newArrayList(Alarm.from(alarmVO)));
-        AlarmService alarmService = new AlarmService(alarmRepository);
+
 
         // when
         Alarm alarm = alarmService.invite(alarmVO);

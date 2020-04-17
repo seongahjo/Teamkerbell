@@ -3,6 +3,7 @@ package com.sajo.teamkerbell.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sajo.teamkerbell.vo.ScheduleVO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table
+@EqualsAndHashCode(of = "scheduleId")
 public class Schedule implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -118,7 +120,7 @@ public class Schedule implements Serializable {
         this.appointments.add(appointment);
     }
 
-    public String toTimeline(){
+    public String toTimeline() {
         return "";
     }
 }
