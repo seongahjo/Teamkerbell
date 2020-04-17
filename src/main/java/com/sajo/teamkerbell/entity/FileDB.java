@@ -18,42 +18,42 @@ import java.time.LocalDate;
 @Entity
 //@NamedNativeQuery(name = "FileDB.groupbytest",
 //        query = "select fd.originalname as Originalname, group_concat(distinct u.name) as Uploader, group_concat(distinct fd.tag) as tag from FileDB fd JOIN User u on fd.useridx=u.useridx JOIN Project p on fd.projectidx=p.projectidx where p.projectidx=?1 group by fd.originalname")
-@Table(name = "FileDB")
+@Table
 @EqualsAndHashCode
 @Slf4j
 public class FileDB implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
-    @Column(name = "FILEID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer fileId;
 
-    @Column(name = "USERID")
+    @Column
     private Integer userId;
 
 
-    @Column(name = "PROJECTID")
+    @Column
     private Integer projectId;
 
-    @Column(name = "STOREDNAME")
+    @Column
     private String storedName;
 
-    @Column(name = "ORIGINALNAME")
+    @Column
     private String originalName;
 
     @Enumerated(EnumType.STRING)
     private FileType type;
 
-    @Column(name = "PATH")
+    @Column
     private String path;
 
-    @Column(name = "TAG")
+    @Column
     private String tag;
 
-    @Column(name = "CREATEDAT")
+    @Column
     private LocalDate createdAt;
 
-    @Column(name = "UPDATEDAT")
+    @Column
     private LocalDate updatedAt;
 
     @PrePersist

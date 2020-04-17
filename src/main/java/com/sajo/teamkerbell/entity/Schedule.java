@@ -14,28 +14,28 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "Schedule")
+@Table
 public class Schedule implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    @Column(name = "SCHEDULEID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer scheduleId;
 
-    @Column(name = "CONTENT")
+    @Column
     private String content;
 
-    @Column(name = "PLACE")
+    @Column
     private String place;
 
-    @Column(name = "TIME")
+    @Column
     private Time time;
 
-    @Column(name = "PROJECTID")
+    @Column
     private Integer projectId;
 
-    @Column(name = "STATE")
+    @Column
     @Enumerated
     private ScheduleState state;
     // 0 register
@@ -43,17 +43,17 @@ public class Schedule implements Serializable {
     // 2 completion
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "STARTDATE")
+    @Column
     private LocalDate startDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "ENDDATE")
+    @Column
     private LocalDate endDate;
 
-    @Column(name = "CREATEDAT")
+    @Column
     private LocalDate createdAt;
 
-    @Column(name = "UPDATEDAT")
+    @Column
     private LocalDate updatedAt;
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

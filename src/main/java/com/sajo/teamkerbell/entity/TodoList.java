@@ -14,48 +14,48 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "TodoList")
+@Table
 @EqualsAndHashCode(of = "todoListId")
 @NoArgsConstructor
 public class TodoList implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
-    @Column(name = "TODOLISTID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer todoListId;
 
 
-    @Column(name = "USERID")
+    @Column
     private Integer userId;
 
-    @Column(name = "PROJECTID")
+    @Column
     private Integer projectId;
 
-    @Column(name = "FINISHED")
+    @Column
     private boolean finished = false;
 
-    @Column(name = "overdue")
+    @Column
     private boolean overdue = false;
 
 
     @NotNull
-    @Column(name = "CONTENT", columnDefinition = "TEXT")
+    @Column
     private String content;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "STARTDATE")
+    @Column
     private LocalDate startDate;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "ENDDATE")
+    @Column
     private LocalDate endDate;
 
-    @Column(name = "CREATEDAT")
+    @Column
     private LocalDate createdAt;
 
-    @Column(name = "UPDATEDAT")
+    @Column
     private LocalDate updatedAt;
 
     public TodoList(String content, LocalDate startDate, LocalDate endDate, Integer projectId, Integer userId) {

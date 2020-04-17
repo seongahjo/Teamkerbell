@@ -9,29 +9,29 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "Minute")
+@Table
 @Data
 @EqualsAndHashCode
 public class Minute implements Serializable, Comparable<Minute> {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
-    @Column(name = "MINUTEID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer minuteId;
 
-    @Column(name = "PROJECTID")
+    @Column
     private Integer projectId;
 
-    @Column(name = "CONTENT")
+    @Column
     private String content;
 
-    @Column(name = "DATE")
+    @Column
     private LocalDate date;
 
-    @Column(name = "CREATEDAT")
+    @Column
     private LocalDate createdAt;
 
-    @Column(name = "UPDATEDAT")
+    @Column
     private LocalDate updatedAt;
 
     @PrePersist

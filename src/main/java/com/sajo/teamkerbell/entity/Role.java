@@ -13,12 +13,12 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "roles")
+@Table
 @EqualsAndHashCode(exclude = {"userRoles"})
 public class Role implements Serializable {
     private static final long serialVersionUID = -24282248985360532L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String userRole;

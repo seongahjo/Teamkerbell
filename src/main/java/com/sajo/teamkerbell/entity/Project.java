@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Project")
+@Table
 @EqualsAndHashCode(of = {"projectId"})
 @Data
 @NoArgsConstructor
@@ -22,30 +22,30 @@ import java.util.List;
 public class Project implements Serializable {
     private static final long serialVersionUID = 7463383057597003838L;
     @Id
-    @GeneratedValue
-    @Column(name = "PROJECTID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer projectId;
 
     @NotNull
-    @Column(name = "NAME")
+    @Column
     private String name;
 
-    @Column(name = "LEADERID")
+    @Column
     private Integer leaderId;
 
-    @Column(name = "MINUTE")
+    @Column
     private String minute;
 
-    @Column(name = "FINISHED")
+    @Column
     private boolean finished = false;
 
-    @Column(name = "DELETED")
+    @Column
     private boolean deleted = false;
 
-    @Column(name = "CREATEDAT")
+    @Column
     private LocalDate createdAt;
 
-    @Column(name = "UPDATEDAT")
+    @Column
     private LocalDate updatedAt;
 
 
@@ -69,11 +69,11 @@ public class Project implements Serializable {
         this.minute = minute;
     }
 
-    public void addUser(User user) {
+    void addUser(User user) {
         this.users.add(user);
     }
 
-    public void removeUser(User user) {
+    void removeUser(User user) {
         this.users.remove(user);
     }
 

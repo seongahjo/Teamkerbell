@@ -13,33 +13,33 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "User")
+@Table
 @EqualsAndHashCode(of = {"userId"})
 public class User implements Serializable {
     private static final long serialVersionUID = 4870799528094495363L;
 
     @Id
-    @GeneratedValue
-    @Column(name = "USERID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer userId;
 
 
-    @Column(name = "ID")
+    @Column
     private String id;
 
-    @Column(name = "PW")
+    @Column
     private String pw;
 
-    @Column(name = "NAME")
+    @Column
     private String name;
 
-    @Column(name = "IMG")
+    @Column
     private String img;
 
-    @Column(name = "CREATEDAT")
+    @Column
     private LocalDate createdat;
 
-    @Column(name = "UPDATEDAT")
+    @Column
     private LocalDate updatedat;
 
     @JsonIgnore
@@ -96,5 +96,6 @@ public class User implements Serializable {
         u.role = new Role("user");
         return u;
     }
+
 
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "Appointment")
+@Table
 @Data
 @NoArgsConstructor
 @ToString(exclude = "schedule")
@@ -25,14 +25,14 @@ public class Appointment implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    @Column(name = "APPOINTMENTID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer appointmentId;
 
-    @Column(name = "USERID")
+    @Column
     private Integer userId;
 
-    @Column(name = "STATE")
+    @Column
     @Enumerated
     private AppointmentState state;
     // 0 등록
