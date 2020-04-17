@@ -16,13 +16,11 @@ public class TodoListVO {
     @NotNull
     private LocalDate endDate;
     private Integer userId;
-    private Integer projectId;
 
-    public TodoListVO(String content, LocalDate startDate, LocalDate endDate, Integer userId, Integer projectId) {
+    public TodoListVO(String content, LocalDate startDate, LocalDate endDate, Integer userId) {
         this.content = content;
         this.startDate = startDate;
         this.endDate = endDate;
         this.userId = userId;
-        this.projectId = projectId;
     }
 }

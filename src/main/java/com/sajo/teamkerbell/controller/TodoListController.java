@@ -29,7 +29,7 @@ public class TodoListController {
         return ResponseEntity.ok(todoListService.getYetTodoListsFromUser(userId, page, size));
     }
 
-    @GetMapping(value = "/todoList/{projectId}/project")
+    @GetMapping(value = "/project/{projectId}/todoList")
     public ResponseEntity<List<TodoList>> getTodoListFromProject(
             @PathVariable("projectId") Integer projectId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -37,13 +37,15 @@ public class TodoListController {
         return ResponseEntity.ok(todoListService.getAllTodoListsFromProjectId(projectId, page, size));
     }
 
-    @PostMapping(value = "/todoList")
-    public ResponseEntity<TodoList> makeTodoList(@RequestBody @Valid TodoListVO todoListVO,
-                                                 BindingResult result) {
+    @PostMapping(value = "/project/{projectId}/todoList")
+    public ResponseEntity<TodoList> makeTodoList(
+            @PathVariable("projectId") Integer projectId,
+            @RequestBody @Valid TodoListVO todoListVO,
+            BindingResult result) {
         if (result.hasErrors())
             throw new IllegalArgumentException();
 
-        return ResponseEntity.ok(todoListService.save(todoListVO));
+        return ResponseEntity.ok(todoListService.save(projectId, todoListVO));
     }
 
     @PutMapping(value = "/todoList/{todoListId}")

@@ -28,20 +28,20 @@ public class TodoListService {
 
     public List<TodoList> getYetTodoListsFromUser(Integer userId, int page, int size) {
         return todoListRepository
-                .findByUserId(userId, PageRequest.of(page,size)).stream()
+                .findByUserId(userId, PageRequest.of(page, size)).stream()
                 .filter(t -> !t.isFinished()).collect(Collectors.toList());
     }
 
     public List<TodoList> getAllTodoListsFromProjectId(Integer projectId, int page, int size) {
-        return todoListRepository.findByProjectId(projectId, PageRequest.of(page,size));
+        return todoListRepository.findByProjectId(projectId, PageRequest.of(page, size));
     }
 
     public TodoList getTodoListById(Integer id) {
         return todoListRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
-    public TodoList save(TodoListVO t) {
-        TodoList todoList = TodoList.from(t);
+    public TodoList save(Integer projectId, TodoListVO t) {
+        TodoList todoList = TodoList.from(projectId, t);
         return todoListRepository.save(todoList);
     }
 

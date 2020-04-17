@@ -86,12 +86,12 @@ public class TodoList implements Serializable {
         updatedAt = LocalDate.now();
     }
 
-    public static TodoList from(TodoListVO todoListVO) {
+    public static TodoList from(int projectId, TodoListVO todoListVO) {
         return new TodoList(
                 todoListVO.getContent(),
                 todoListVO.getStartDate(),
                 todoListVO.getEndDate(),
-                todoListVO.getProjectId(),
+                projectId,
                 todoListVO.getUserId());
     }
 
