@@ -134,25 +134,23 @@
                     <span class="sr-only">Info:</span>
                     Register Success
                 </div>
-                <form:form commandName="tempUser" action="user" method="post" id="registerForm"
+                <form action="user" method="post" id="registerForm"
                            enctype="multipart/form-data">
                     <!--onsubmit="register()"-->
 
                     <div class="form-group has-feedback">
-                        <form:input path="name" type="text" id="name" class="form-control" name="name"
-                                    placeholder="Full name"/>
-                        <form:errors path="name"/>
+                        <input type="text" id="name" class="form-control" name="name"
+                               placeholder="Full name"/>
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
 
                     </div>
                     <div class="form-group has-feedback">
-                        <form:input path="id" type="id" id="id" class="form-control" name="id" placeholder="ID"/>
-                        <form:errors path="id"/>
+                        <input type="id" id="id" class="form-control" name="id" placeholder="ID"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <form:input path="pw" type="password" class="form-control" id="pw" name="pw"
-                                    placeholder="Password"/>
+                        <input type="password" class="form-control" id="pw" name="pw"
+                               placeholder="Password"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -181,7 +179,7 @@
                         </div>
                         <!-- /.col -->
                     </div>
-                </form:form>
+                </form>
                 <div class="social-auth-links text-center">
 
                 </div>
@@ -299,7 +297,7 @@
 <script src="js/date.js"></script>
 <script src="js/previewimage.js"></script>
 <script>
-        //$("#signupModal").modal('show');
+    //$("#signupModal").modal('show');
     $('#signupModal').on('hidden.bs.modal', function (e) {
         $("#signupModal #id").val('');
         $("#signupModal #pw").val('');
@@ -321,12 +319,12 @@
                     url: "user",
                     type: "POST",
                     data: formData,
-                    dataType:'text',
+                    dataType: 'text',
                     processData: false,
                     contentType: false,
                     success: function (message) {
                         $("#error-message").hide();
-                        $("#success-message").fadeIn(1000,function () {
+                        $("#success-message").fadeIn(1000, function () {
                             $("#signupModal").modal('hide');
                         });
                     },
