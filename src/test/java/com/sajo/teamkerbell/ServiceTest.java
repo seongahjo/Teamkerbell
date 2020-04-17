@@ -1,12 +1,11 @@
 package com.sajo.teamkerbell;
 
+import com.google.common.collect.Lists;
 import com.sajo.teamkerbell.configuration.JpaConfig;
 import com.sajo.teamkerbell.entity.*;
-import com.sajo.teamkerbell.repository.FileDBRepository;
-import com.sajo.teamkerbell.repository.ProjectRepository;
-import com.sajo.teamkerbell.repository.ScheduleRepository;
-import com.sajo.teamkerbell.repository.UserRepository;
+import com.sajo.teamkerbell.repository.*;
 import com.sajo.teamkerbell.service.*;
+import com.sajo.teamkerbell.vo.AlarmVO;
 import com.sajo.teamkerbell.vo.ScheduleVO;
 import com.sajo.teamkerbell.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,14 +47,17 @@ public class ServiceTest {
     @Mock
     private FileDBRepository mockFileRepository;
 
+    @Mock
+    private AlarmRepository alarmRepository;
+
     @Test
     public void registerUser() {
+        // given
         given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
         given(mockFileRepository.save(any(FileDB.class))).willAnswer(i -> i.getArguments()[0]);
         UserService userService = new UserService(mockUserRepository);
         FileDBService fileDBService = new FileDBService(mockFileRepository);
         RegisterServiceFacade registerService = new RegisterServiceFacade(userService, fileDBService);
-        // given
         UserVO testUserVO = new UserVO("seongahjo", "password", "seongah");
         MockMultipartFile testFile = new MockMultipartFile("data", "mock_data.txt", "text/plain", "test".getBytes());
         // when
@@ -64,11 +68,11 @@ public class ServiceTest {
 
     @Test
     public void registerUserWithoutImage() {
+        // given
         given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
         UserService userService = new UserService(mockUserRepository);
         FileDBService fileDBService = new FileDBService(mockFileRepository);
         RegisterServiceFacade registerService = new RegisterServiceFacade(userService, fileDBService);
-        // given
         UserVO testUserVO = new UserVO("seongahjo", "password", "seongah");
         MockMultipartFile emptyFile = new MockMultipartFile("file", new byte[0]);
         // when
@@ -80,21 +84,28 @@ public class ServiceTest {
 
     @Test
     public void projectDeleteOrFinish() {
+        // given
         Project mockProject = new Project("testRoom", -1, "testRoomMinute");
         given(mockProjectRepository.findById(anyInt())).willReturn(Optional.of(mockProject));
         ProjectService projectService = new ProjectService(mockProjectRepository);
-        assertThat(projectService.delete(1).isDeleted(), is(true));
-        assertThat(projectService.finish(1).isFinished(), is(true));
+
+        // when
+        boolean deleted = projectService.delete(1).isDeleted();
+        boolean finished = projectService.finish(1).isFinished();
+
+        // then
+        assertThat(deleted, is(true));
+        assertThat(finished, is(true));
     }
 
     @Test
     public void makeSchedule() {
+        // given
         ScheduleVO scheduleVO = new ScheduleVO("content", "place", new Time(100), LocalDate.now(), LocalDate.now());
         given(mockUserRepository.save(any(User.class))).willAnswer(i -> i.getArguments()[0]);
         given(mockScheduleRepository.findById(anyInt())).willReturn(
                 Optional.of(Schedule.from(1, scheduleVO)
                 ));
-        // given
         UserService userService = new UserService(mockUserRepository);
         ScheduleService scheduleService = new ScheduleService(mockScheduleRepository);
         User user = User.from(new UserVO("testId", "testPw", "testName"));
@@ -103,8 +114,25 @@ public class ServiceTest {
 
         // when
         Set<Appointment> appointments = schedule.getAppointments();
+
         // then
         assertThat(appointments, hasSize(1));
+    }
+
+    @Test
+    public void inviteUser() {
+        // given
+        given(alarmRepository.save(any(Alarm.class))).willAnswer(i -> i.getArguments()[0]);
+        AlarmVO alarmVO = new AlarmVO(1, 2, 3);
+        given(alarmRepository.findByInviteeId(1, PageRequest.of(0, 5))).willReturn(Lists.newArrayList(Alarm.from(alarmVO)));
+        AlarmService alarmService = new AlarmService(alarmRepository);
+
+        // when
+        Alarm alarm = alarmService.invite(alarmVO);
+        List<Alarm> alarms = alarmService.getAlarmsByInviteeId(1, 0, 5);
+
+        // then
+        assertThat(alarms, hasItem(alarm));
     }
 }
 
