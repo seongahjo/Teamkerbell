@@ -1,4 +1,4 @@
-package com.sajo.teamkerbell.VO;
+package com.sajo.teamkerbell.vo;
 
 import lombok.Data;
 
