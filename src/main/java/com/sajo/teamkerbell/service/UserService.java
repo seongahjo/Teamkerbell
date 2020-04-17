@@ -47,7 +47,7 @@ public class UserService {
 
     public boolean isExist(UserVO u) {
         User user = userRepository.findById(u.getId());
-        return user == null;
+        return user != null;
     }
 
 

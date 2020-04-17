@@ -50,7 +50,7 @@ public class UserController {
         if (result.hasErrors())
             return ResponseEntity.badRequest().body("Error! ");
 
-        if (!userService.isExist(userVo))
+        if (userService.isExist(userVo))
             return ResponseEntity.badRequest().body("Already Used Id");
 
         User user = registerServiceFacade.registerUser(file, userVo);
