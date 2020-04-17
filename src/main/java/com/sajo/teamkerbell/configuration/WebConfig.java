@@ -29,7 +29,6 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.sajo.teamkerbell.controller"})
-
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
