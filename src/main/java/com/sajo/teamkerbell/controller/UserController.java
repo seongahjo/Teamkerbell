@@ -32,14 +32,14 @@ public class UserController {
 
     @GetMapping(value = "/user/{userId}")
     public User getUser(@PathVariable("userId") Integer userId) {
-        return userService.getUserByUserId(userId);
+        return userService.getUserByUser(userId);
     }
 
     @GetMapping(value = "/project/{projectId}/users")
     public List<User> getUsersFromProject(@PathVariable("projectId") Integer projectId,
                                           @RequestParam(value = "page", defaultValue = "0") Integer page,
                                           @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        return userService.getUsersFromProject(projectId, page, size);
+        return userService.getUsersFromProjectId(projectId, page, size);
     }
 
 
