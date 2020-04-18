@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Table
 @Data
 @EqualsAndHashCode(of = "minuteId")
-public class Minute implements Serializable, Comparable<Minute> {
+public class Minute implements TimelineAdapter, Serializable, Comparable<Minute> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +64,13 @@ public class Minute implements Serializable, Comparable<Minute> {
         return m.date.compareTo(date);
     }
 
+    @Override
     public String toTimeline() {
         return "";
+    }
+
+    @Override
+    public Integer toProjectId() {
+        return projectId;
     }
 }

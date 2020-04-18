@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table
 @EqualsAndHashCode(of = "scheduleId")
-public class Schedule implements Serializable {
+public class Schedule implements TimelineAdapter, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -120,7 +120,13 @@ public class Schedule implements Serializable {
         this.appointments.add(appointment);
     }
 
+    @Override
     public String toTimeline() {
         return "";
+    }
+
+    @Override
+    public Integer toProjectId() {
+        return projectId;
     }
 }

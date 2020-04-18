@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @Table
 @EqualsAndHashCode
 @Slf4j
-public class FileDB implements Serializable {
+public class FileDB implements TimelineAdapter, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,8 +65,14 @@ public class FileDB implements Serializable {
         updatedAt = LocalDate.now();
     }
 
+    @Override
     public String toTimeline() {
         return "";
+    }
+
+    @Override
+    public Integer toProjectId() {
+        return projectId;
     }
 
     public enum FileType {

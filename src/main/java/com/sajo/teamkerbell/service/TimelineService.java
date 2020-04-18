@@ -15,20 +15,8 @@ import java.util.List;
 public class TimelineService {
     private final TimelineRepository timelineRepository;
 
-    public Timeline append(Schedule schedule) {
-        return timelineRepository.save(Timeline.from(schedule));
-    }
-
-    public Timeline append(FileDB fileDB) {
-        return timelineRepository.save(Timeline.from(fileDB));
-    }
-
-    public Timeline append(TodoList todoList) {
-        return timelineRepository.save(Timeline.from(todoList));
-    }
-
-    public Timeline append(Minute minute) {
-        return timelineRepository.save(Timeline.from(minute));
+    public Timeline append(TimelineAdapter timeline) {
+        return timelineRepository.save(Timeline.from(timeline));
     }
 
     public List<Timeline> getTimelinesByUserId(Integer userId, int page, int size) {

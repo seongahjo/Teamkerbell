@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Table
 @EqualsAndHashCode(of = "todoListId")
 @NoArgsConstructor
-public class TodoList implements Serializable {
+public class TodoList implements TimelineAdapter, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -105,5 +105,10 @@ public class TodoList implements Serializable {
 
     public String toTimeline() {
         return "";
+    }
+
+    @Override
+    public Integer toProjectId() {
+        return projectId;
     }
 }

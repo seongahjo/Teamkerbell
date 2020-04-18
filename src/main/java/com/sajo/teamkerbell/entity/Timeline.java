@@ -25,20 +25,8 @@ public class Timeline {
         this.projectId = projectId;
     }
 
-    public static Timeline from(Schedule schedule) {
-        return new Timeline(schedule.toTimeline(), schedule.getProjectId());
-    }
-
-    public static Timeline from(TodoList todoList) {
-        return new Timeline(todoList.toTimeline(), todoList.getProjectId());
-    }
-
-    public static Timeline from(Minute minute) {
-        return new Timeline(minute.toTimeline(), minute.getProjectId());
-    }
-
-    public static Timeline from(FileDB fileDB) {
-        return new Timeline(fileDB.toTimeline(), fileDB.getProjectId());
+    public static Timeline from(TimelineAdapter timeline) {
+        return new Timeline(timeline.toTimeline(), timeline.toProjectId());
     }
 
 }
