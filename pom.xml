@@ -98,6 +98,11 @@
             <version>1.2.1.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>it.ozimov</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <version>0.7.2</version>
+        </dependency>
 
         <!-- mockito-->
         <dependency>
@@ -181,7 +186,6 @@
             <version>2.1</version>
             <scope>test</scope>
         </dependency>
-
 
 
         <!--vaildator -->
@@ -273,8 +277,6 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${com.fasterxml.jackson-version}</version>
         </dependency>
-
-
 
 
         <!--h2 -->

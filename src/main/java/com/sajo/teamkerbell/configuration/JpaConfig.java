@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -30,10 +29,10 @@ public class JpaConfig {
     @Bean
     public DataSource dataSource(Environment env) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("app.jdbc.driverClassName")));
-        dataSource.setUrl(env.getProperty("app.jdbc.url"));
-        dataSource.setUsername(env.getProperty("app.jdbc.username"));
-        dataSource.setPassword(env.getProperty("app.jdbc.password"));
+        dataSource.setDriverClassName(env.getProperty("app.jdbc.driverClassName", "org.h2.Driver"));
+        dataSource.setUrl(env.getProperty("app.jdbc.url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"));
+        dataSource.setUsername(env.getProperty("app.jdbc.username", "sa"));
+        dataSource.setPassword(env.getProperty("app.jdbc.password", ""));
         return dataSource;
     }
 
@@ -47,11 +46,11 @@ public class JpaConfig {
         factory.setPackagesToScan("com.sajo.teamkerbell.entity");
         factory.setDataSource(dataSource(env));
         Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.show_sql", true);
-        jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        jpaProperties.put("hibernate.connection.characterEncoding", "utf8");
-        jpaProperties.put("hibernate.connection.CharSet", "utf8");
+        jpaProperties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql", Boolean.class, false));
+        jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto", "create"));
+        jpaProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect"));
+        jpaProperties.put("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding", "utf8"));
+        jpaProperties.put("hibernate.connection.CharSet", env.getProperty("hibernate.connection.charset", "utf8"));
         factory.setJpaProperties(jpaProperties);
         factory.afterPropertiesSet();
         return factory.getObject();
