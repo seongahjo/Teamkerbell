@@ -16,8 +16,6 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-//@NamedNativeQuery(name = "FileDB.groupbytest",
-//        query = "select fd.originalname as Originalname, group_concat(distinct u.name) as Uploader, group_concat(distinct fd.tag) as tag from FileDB fd JOIN User u on fd.useridx=u.useridx JOIN Project p on fd.projectidx=p.projectidx where p.projectidx=?1 group by fd.originalname")
 @Table
 @EqualsAndHashCode
 @Slf4j
@@ -82,7 +80,7 @@ public class FileDB implements TimelineAdapter, Serializable {
 
     public void writeTo(HttpServletResponse response) {
         try (BufferedInputStream in = new BufferedInputStream(
-                new FileInputStream(this.path + "/" + this.originalName))) {
+                new FileInputStream(this.path + File.separator + this.storedName))) {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(512);
             int imageByte;
             while ((imageByte = in.read()) != -1)
@@ -132,7 +130,7 @@ public class FileDB implements TimelineAdapter, Serializable {
 
     public void assignTo(User user) {
         this.userId = user.getUserId();
-        user.setImg("loadImg?name=" + this.storedName);
+        user.setImg("render?name=" + this.storedName);
     }
 
     public void assignTo(Project project) {
