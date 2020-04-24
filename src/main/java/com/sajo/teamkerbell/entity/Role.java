@@ -2,6 +2,7 @@ package com.sajo.teamkerbell.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,13 +16,14 @@ import java.util.Set;
 @Entity
 @Table
 @EqualsAndHashCode(exclude = {"userRoles"})
-public class Role implements Serializable {
+public class Role implements Serializable, GrantedAuthority {
     private static final long serialVersionUID = -24282248985360532L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String userRole;
+    @Enumerated
+    private UserRole userRole;
 
     public Role() {
     }
@@ -33,7 +35,16 @@ public class Role implements Serializable {
     )
     private Set<User> userRoles;
 
-    public Role(String role) {
+    public Role(UserRole role) {
         this.userRole = role;
+    }
+
+    @Override
+    public String getAuthority() {
+        return userRole.name();
+    }
+
+    public enum UserRole {
+        ROLE_USER, ROLE_ADMIN
     }
 }

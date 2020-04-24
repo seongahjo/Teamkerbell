@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -56,8 +57,9 @@ public class HomeController {
     }
 
 
-    @GetMapping(value = "/dashboard/{userId}")
-    public ModelAndView dashboard(@PathVariable("userId") Integer userId) {
+    @GetMapping(value = "/dashboard")
+    public ModelAndView dashboard(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
         User user = userService.getUserByUser(userId);
         List<Project> lpj = projectService.getProjectByUserId(userId, 0, 5); // 프로젝트 리스트를 반환
         List<TodoList> lt = todoListService.getYetTodoListsByUserId(userId, 0, 5); // 투두리스트 리스트를 반환
@@ -75,11 +77,9 @@ public class HomeController {
     }
 
     @GetMapping(value = "/chat/{projectId}")
-    public ModelAndView chat(@PathVariable("projectId") Integer projectId) {
-        int userId = 1;
+    public ModelAndView chat(@PathVariable("projectId") Integer projectId, HttpSession session) {
+        int userId = (Integer) session.getAttribute("userId");
         User user = userService.getUserByUser(userId);
-
-
         List<Project> lpj = projectService.getProjectByUserId(userId, 0, 5); // 프로젝트 리스트 반환
         List<TodoList> lt = todoListService.getYetTodoListsByUserId(userId, 0, 5); // 투두리스트 리스트를 반환
         List<Alarm> la = alarmService.getAlarmsByInviteeId(userId, 0, 5); // 알람 리스트를 반환

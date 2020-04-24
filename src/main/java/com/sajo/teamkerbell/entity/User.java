@@ -1,9 +1,11 @@
 package com.sajo.teamkerbell.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 import com.sajo.teamkerbell.vo.UserVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,10 +39,20 @@ public class User implements Serializable {
     private String img;
 
     @Column
-    private LocalDate createdat;
+    private LocalDate createdAt;
 
     @Column
-    private LocalDate updatedat;
+    private LocalDate updatedAt;
+
+    @Column
+    private LocalDate lastLoginAt;
+
+    @Column
+    private LocalDate lastPwAt;
+
+    @Column
+    private boolean enabled;
+
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
@@ -62,12 +74,12 @@ public class User implements Serializable {
 
     @PrePersist
     protected void onCreate() {
-        updatedat = createdat = LocalDate.now();
+        updatedAt = createdAt = lastPwAt = lastLoginAt = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedat = LocalDate.now();
+        updatedAt = lastPwAt = LocalDate.now();
     }
 
 
@@ -79,6 +91,7 @@ public class User implements Serializable {
         this.id = id;
         this.pw = pw;
         this.name = name;
+        this.enabled = true;
     }
 
     public void participateProject(Project project) {
@@ -93,9 +106,25 @@ public class User implements Serializable {
 
     public static User from(UserVO vo) {
         User u = new User(vo.getId(), vo.getPw(), vo.getName());
-        u.role = new Role("user");
+        u.role = new Role(Role.UserRole.ROLE_USER);
         return u;
     }
 
 
+    public List<GrantedAuthority> grantAuthority() {
+        return Lists.newArrayList(role);
+    }
+
+
+    public boolean isExpired(LocalDate now) {
+        return lastLoginAt.plusYears(1L).isBefore(now);
+    }
+
+    public boolean isLocked(LocalDate now) {
+        return lastLoginAt.plusMonths(1L).isBefore(now);
+    }
+
+    public boolean isCredentialExpired(LocalDate now) {
+        return lastPwAt.plusMonths(1L).isBefore(now);
+    }
 }
