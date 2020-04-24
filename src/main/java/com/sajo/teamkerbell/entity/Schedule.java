@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sajo.teamkerbell.vo.ScheduleVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Entity
 @Table
 @EqualsAndHashCode(of = "scheduleId")
+@NoArgsConstructor
 public class Schedule implements TimelineAdapter, Serializable {
     private static final long serialVersionUID = 1L;
 
